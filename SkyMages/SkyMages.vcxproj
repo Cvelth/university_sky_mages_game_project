@@ -116,17 +116,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGLGameWindowControl.cpp" />
+    <ClCompile Include="Point.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractBlock.hpp" />
     <ClInclude Include="AbstractException.hpp" />
+    <ClInclude Include="GameCamera.hpp" />
     <ClInclude Include="GameMap.hpp" />
     <ClInclude Include="GameWindow.hpp" />
     <ClInclude Include="GLHeaders.hpp" />
+    <ClInclude Include="Point.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

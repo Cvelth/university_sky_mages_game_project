@@ -1,6 +1,8 @@
 #include "GameWindow.hpp"
 #include "glfw3.h"
 
+#include "GameCamera.hpp"
+
 void GameWindow::initializeGLFW() {
 	if (!glfwInit())
 		throw GLFWInitializationException();
@@ -12,7 +14,7 @@ void GameWindow::initializeWindow() {
 		throw WindowInitializationException();
 }
 
-GameWindow::GameWindow(char* name, size_t width, size_t height, bool insertDefaultCallback) {
+GameWindow::GameWindow(char* name, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) : camera(new GameCamera(map, float(width) / height)) {
 	initializeGLFW();
 
 	initializeWindow();
@@ -23,6 +25,8 @@ GameWindow::GameWindow(char* name, size_t width, size_t height, bool insertDefau
 }
 
 GameWindow::~GameWindow() {
+	if (camera) delete camera;
+	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 

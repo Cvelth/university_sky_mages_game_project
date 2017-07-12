@@ -10,6 +10,9 @@
     <Filter Include="Map and Camera">
       <UniqueIdentifier>{6c3bee23-8002-46cd-b0fb-c7063667c552}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GeometryAndPhysics">
+      <UniqueIdentifier>{5b8af197-abb9-4028-8ad6-26fb499c3bb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -23,6 +26,12 @@
     </ClCompile>
     <ClCompile Include="GameMap.cpp">
       <Filter>Map and Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>Map and Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>GeometryAndPhysics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="AbstractBlock.hpp">
       <Filter>Map and Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.hpp">
+      <Filter>Map and Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.hpp">
+      <Filter>GeometryAndPhysics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

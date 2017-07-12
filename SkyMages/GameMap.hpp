@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 class AbstractBlock;
+class GameCamera;
 
 enum DefaultMapFilling {
 	All_Empty, All_Walls, Borders, /*Random*/
@@ -8,6 +9,7 @@ enum DefaultMapFilling {
 };
 
 class GameMap {
+	friend GameCamera;
 private:
 	size_t width, height;
 	std::vector<std::vector<AbstractBlock*>> mapData;
