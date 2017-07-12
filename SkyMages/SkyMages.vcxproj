@@ -116,12 +116,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGLGameWindowControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractBlock.hpp" />
     <ClInclude Include="AbstractException.hpp" />
+    <ClInclude Include="GameMap.hpp" />
     <ClInclude Include="GameWindow.hpp" />
     <ClInclude Include="GLHeaders.hpp" />
   </ItemGroup>
