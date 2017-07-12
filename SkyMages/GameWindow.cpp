@@ -32,9 +32,8 @@ GameWindow::~GameWindow() {
 
 int GameWindow::loop() {
 	initializeGL();
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window))
 		updateGL();
-	}
 	clearGL();
 	return 0;
 }
