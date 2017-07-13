@@ -1,24 +1,27 @@
 #include "GameWindow.hpp"
-#include "glfw3.h"
-
 #include "GameCamera.hpp"
+#include "WindowExceptions.hpp"
+
+#include "glfw3.h"
 
 void GameWindow::initializeGLFW() {
 	if (!glfwInit())
-		throw GLFWInitializationException();
+		throw Exceptions::GLFWInitializationException();
 }
 
-void GameWindow::initializeWindow() {
-	window = glfwCreateWindow(1280, 1024, "SkyMages Dev", 0, 0);
-	if (!window)
-		throw WindowInitializationException();
+void GameWindow::cleanGLFW() {
+	glfwTerminate();
 }
 
-GameWindow::GameWindow(char* name, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) : camera(new GameCamera(map, float(width) / height)) {
+void GameWindow::cleanWindow() {
+	glfwDestroyWindow(window);
+}
+
+GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) 
+		: width(width), height(height), camera(new GameCamera(map, float(width) / height)) {
 	initializeGLFW();
-
-	initializeWindow();
-	makeCurrent();
+	initializeWindow(title);
+	initializeGraphics();
 
 	if (insertDefaultCallback)
 		glfwSetErrorCallback(GameWindow::errorCallback);
@@ -26,8 +29,10 @@ GameWindow::GameWindow(char* name, size_t width, size_t height, GameMap* map, bo
 
 GameWindow::~GameWindow() {
 	if (camera) delete camera;
-	glfwDestroyWindow(window);
-	glfwTerminate();
+
+	cleanGraphics();
+	cleanWindow();
+	cleanGLFW();
 }
 
 int GameWindow::loop() {
@@ -38,10 +43,6 @@ int GameWindow::loop() {
 	return 0;
 }
 
-void GameWindow::makeCurrent() {
-	glfwMakeContextCurrent(window);
-}
-
 void GameWindow::errorCallback(int errorCode, const char* description) {
-	throw GLFWCallBackException();
+	throw Exceptions::GLFWCallBackException(errorCode, description);
 }
