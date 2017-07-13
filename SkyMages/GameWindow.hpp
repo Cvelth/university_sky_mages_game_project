@@ -1,7 +1,9 @@
 #pragma once
 #include "AbstractException.hpp"
+#include <cstdint>
 
 struct GLFWwindow;
+typedef uint64_t VkSurfaceKHR;
 class GameCamera;
 class GameMap;
 
@@ -13,13 +15,14 @@ class GameWindow {
 private:
 	GLFWwindow* window;
 	GameCamera* camera;
+	VkSurfaceKHR* surface;
 protected:
 	void initializeGLFW();
 	void initializeWindow();
 
-	virtual void initializeGL();
-	virtual void updateGL();
-	virtual void clearGL();
+	virtual void initializeRenderProcess();
+	virtual void renderProcess();
+	virtual void clearRenderProcess();
 
 	static void errorCallback(int errorCode, const char* description);
 public:

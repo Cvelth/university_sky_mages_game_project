@@ -31,10 +31,10 @@ GameWindow::~GameWindow() {
 }
 
 int GameWindow::loop() {
-	initializeGL();
+	initializeRenderProcess();
 	while (!glfwWindowShouldClose(window))
-		updateGL();
-	clearGL();
+		renderProcess();
+	clearRenderProcess();
 	return 0;
 }
 

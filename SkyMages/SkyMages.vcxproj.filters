@@ -18,9 +18,6 @@
     <ClCompile Include="GameWindow.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLGameWindowControl.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Window</Filter>
     </ClCompile>
@@ -33,15 +30,15 @@
     <ClCompile Include="Point.cpp">
       <Filter>GeometryAndPhysics</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanGameWindowControl.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.hpp">
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="AbstractException.hpp">
-      <Filter>Abstract Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GLHeaders.hpp">
       <Filter>Abstract Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameMap.hpp">

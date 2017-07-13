@@ -79,7 +79,10 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\libs;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,8 +123,8 @@
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OpenGLGameWindowControl.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="VulkanGameWindowControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractBlock.hpp" />
@@ -129,7 +132,6 @@
     <ClInclude Include="GameCamera.hpp" />
     <ClInclude Include="GameMap.hpp" />
     <ClInclude Include="GameWindow.hpp" />
-    <ClInclude Include="GLHeaders.hpp" />
     <ClInclude Include="Point.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

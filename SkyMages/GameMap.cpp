@@ -2,14 +2,14 @@
 #include "AbstractBlock.hpp"
 
 void GameMap::fillEach(AbstractBlock * block) {
-	for (int i = 0; i < width; i++)
-		for (int j = 0; j < height; j++)
+	for (unsigned int i = 0; i < width; i++)
+		for (unsigned int j = 0; j < height; j++)
 			set(block, i, j);
 }
 
 void GameMap::borderFill(AbstractBlock* border, AbstractBlock* others) {
-	for (int i = 0; i < width; i++)
-		for (int j = 0; j < height; j++)
+	for (unsigned int i = 0; i < width; i++)
+		for (unsigned int j = 0; j < height; j++)
 			if (isBorder(i, j))
 				set(border, i, j);
 			else
@@ -17,16 +17,16 @@ void GameMap::borderFill(AbstractBlock* border, AbstractBlock* others) {
 }
 
 void GameMap::horizontalRowsFill(AbstractBlock * odd, AbstractBlock * even) {
-	for (int i = 0; i < width; i++)
-		for (int j = 0; j < height; j += 2) {
+	for (unsigned int i = 0; i < width; i++)
+		for (unsigned int j = 0; j < height; j += 2) {
 			set(odd, i, j);
 			set(even, i, j + 1);
 		}
 }
 
 void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
-	for (int j = 0; j < height; j++)
-		for (int i = 0; i < width; i += 2) {
+	for (unsigned int j = 0; j < height; j++)
+		for (unsigned int i = 0; i < width; i += 2) {
 			set(odd, i, j);
 			set(even, i + 1, j);
 		}
@@ -34,13 +34,13 @@ void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
 
 void GameMap::resize(size_t width, size_t height) {
 	mapData.resize(width);
-	for (int i = 0; i < width; i++)
+	for (unsigned int i = 0; i < width; i++)
 		mapData.at(i).resize(height);
 }
 
 void GameMap::clear() {
-	for (int i = 0; i < width; i++)
-		for (int j = 0; j < height; j++) {
+	for (unsigned int i = 0; i < width; i++)
+		for (unsigned int j = 0; j < height; j++) {
 			auto t = get(i, j);
 			if (t)
 				delete t;

@@ -20,8 +20,8 @@ void GameCamera::correct() {
 	float y = corner->y();
 	if (x < 0) corner->x(0);
 	if (y < 0) corner->y(0);
-	if (x > map->width) corner->x(map->width);
-	if (y > map->height) corner->y(map->height);
+	if (x > map->width) corner->x(float(map->width));
+	if (y > map->height) corner->y(float(map->height));
 
 	if (x + horizontalBlocks > map->width)
 		corner->x(map->width - horizontalBlocks);
