@@ -1,27 +1,25 @@
 #include "GameWindow.hpp"
 #include "GameCamera.hpp"
 #include "WindowExceptions.hpp"
+#include "VulkanGraphicsEngine.hpp"
 
 #include "glfw3.h"
 
-void GameWindow::initializeGLFW() {
+void GameWindow::initialize() {
 	if (!glfwInit())
 		throw Exceptions::GLFWInitializationException();
 }
 
-void GameWindow::cleanGLFW() {
+void GameWindow::clean() {
 	glfwTerminate();
-}
-
-void GameWindow::cleanWindow() {
-	glfwDestroyWindow(window);
 }
 
 GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) 
 		: width(width), height(height), camera(new GameCamera(map, float(width) / height)) {
-	initializeGLFW();
-	initializeWindow(title);
-	initializeGraphics();
+	graphics = new VulkanGraphicsEngine();
+	initialize();
+	window = graphics->createWindow(title, width, height);
+	graphics->initialize();
 
 	if (insertDefaultCallback)
 		glfwSetErrorCallback(GameWindow::errorCallback);
@@ -30,16 +28,16 @@ GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, b
 GameWindow::~GameWindow() {
 	if (camera) delete camera;
 
-	cleanGraphics();
-	cleanWindow();
-	cleanGLFW();
+	graphics->clean();
+	graphics->destroyWindow();
+	clean();
 }
 
 int GameWindow::loop() {
-	initializeRenderProcess();
+	graphics->initializeRenderProcess();
 	while (!glfwWindowShouldClose(window))
-		renderProcess();
-	clearRenderProcess();
+		graphics->renderProcess();
+	graphics->clearRenderProcess();
 	return 0;
 }
 

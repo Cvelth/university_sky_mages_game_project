@@ -44,4 +44,8 @@ namespace Exceptions {
 	public: LogicalGraphicalDeviceGenerationException(int code)
 		: AbstractVulkanErrorException("LogicalGraphicalDeviceGenerationException", code) {}
 	};
+	class SurfaceInitializationException : public AbstractVulkanErrorException {
+	public: SurfaceInitializationException(int code)
+		: AbstractVulkanErrorException("SurfaceInitializationException", code) {}
+	};
 }

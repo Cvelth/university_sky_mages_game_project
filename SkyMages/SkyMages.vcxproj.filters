@@ -16,6 +16,15 @@
     <Filter Include="Exceptions">
       <UniqueIdentifier>{dfd4481c-7c5c-45a6-bb8a-6289e95d4243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{6eb27011-fdb7-4562-9fa7-21bef73665dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL">
+      <UniqueIdentifier>{3686eb69-9612-488f-97f8-bfb93f359783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Vulkan">
+      <UniqueIdentifier>{ecf23cdb-699f-4b07-924a-a01410a60f62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -33,14 +42,23 @@
     <ClCompile Include="Point.cpp">
       <Filter>GeometryAndPhysics</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanGameWindowControl.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="AbstractException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="WindowExceptions.cpp">
       <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractGraphicsEngine.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLGraphicsEngine.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanGraphicsEngine.cpp">
+      <Filter>Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanGraphicsEngineCallback.cpp">
+      <Filter>Graphics\Vulkan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="AbstractExceptions.hpp">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractGraphicsEngine.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLGraphicsEngine.hpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanGraphicsEngine.hpp">
+      <Filter>Graphics\Vulkan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
