@@ -2,9 +2,11 @@
 #include <cstdint>
 
 struct GLFWwindow;
-typedef uint64_t VkSurfaceKHR;
 typedef struct VkInstance_T* VkInstance;
 typedef struct VkPhysicalDevice_T* VkPhysicalDevice;
+typedef struct VkDevice_T* VkDevice;
+typedef struct VkQueue_T* VkQueue;
+typedef uint64_t VkSurfaceKHR;
 class GameCamera;
 class GameMap;
 
@@ -14,6 +16,8 @@ private:
 	GameCamera* camera;
 	VkInstance* instance;
 	VkPhysicalDevice* physicalDevice;
+	VkDevice* device;
+	VkQueue* queue;
 	VkSurfaceKHR* surface;
 
 	size_t width;

@@ -23,12 +23,10 @@ std::vector<const char*> getRequiredExtensions() {
 	unsigned int glfwExtensionCount = 0;
 	const char** glfwExtensions;
 	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-	for (unsigned int i = 0; i < glfwExtensionCount; i++) {
+	for (unsigned int i = 0; i < glfwExtensionCount; i++)
 		extensions.push_back(glfwExtensions[i]);
-	}
-	if (validationEnabledLocal) {
+	if (validationEnabledLocal)
 		extensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-	}
 	return extensions;
 }
 
@@ -99,12 +97,11 @@ VkResult CreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCa
 }
 void DestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator) {
 	auto func = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
-	if (func != nullptr) {
+	if (func != nullptr)
 		func(instance, callback, pAllocator);
-	}
 }
 
-void insertCallback(VkInstance* instance) {
+void insertCallbacks(VkInstance* instance) {
 	if (!validationEnabledLocal) return;
 
 	VkDebugReportCallbackCreateInfoEXT createInfo = {};
@@ -113,9 +110,8 @@ void insertCallback(VkInstance* instance) {
 	createInfo.pfnCallback = debugCallback;
 
 	auto error = CreateDebugReportCallbackEXT(*instance, &createInfo, nullptr, &callback);
-	if (error != VK_SUCCESS) {
+	if (error != VK_SUCCESS)
 		throw Exceptions::VulkanDebugCallbackInitializationException(error);
-	}
 }
 
 bool isDeviceSuitable(VkPhysicalDevice device) {
@@ -123,12 +119,14 @@ bool isDeviceSuitable(VkPhysicalDevice device) {
 	VkPhysicalDeviceFeatures deviceFeatures;
 	vkGetPhysicalDeviceProperties(device, &deviceProperties);
 	vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
-	return //deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader;
+	
+	size_t queueFamilies = findQueueFamilies(device);
+
+	return deviceFeatures.geometryShader && queueFamilies > 0;
 }
 
-VkPhysicalDevice pickGraphicalDevice(VkInstance* instance) {
-	VkPhysicalDevice ret = VK_NULL_HANDLE;
+VkPhysicalDevice* pickGraphicalDevice(VkInstance* instance) {
+	VkPhysicalDevice* ret = new VkPhysicalDevice(VK_NULL_HANDLE);
 
 	uint32_t deviceCount = 0;
 	vkEnumeratePhysicalDevices(*instance, &deviceCount, nullptr);
@@ -139,16 +137,72 @@ VkPhysicalDevice pickGraphicalDevice(VkInstance* instance) {
 	std::vector<VkPhysicalDevice> devices(deviceCount);
 	vkEnumeratePhysicalDevices(*instance, &deviceCount, devices.data());
 
-	for (const auto& device : devices) {
+	for (const auto& device : devices)
 		if (isDeviceSuitable(device)) {
-			ret = device;
+			*ret = device;
 			break;
 		}
-	}
-	if (ret == VK_NULL_HANDLE) {
+	if (ret == VK_NULL_HANDLE)
 		throw Exceptions::NoSupportedGPUException();
+
+	return ret;
+}
+
+size_t findQueueFamilies(VkPhysicalDevice device) {
+	size_t familiesCount = 0;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies) {
+		if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			familiesCount = i;
+		if (familiesCount != 0)
+			break;
+		i++;
 	}
 
+	return familiesCount;
+}
+
+VkDevice* generateLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*> validationLayers = std::vector<const char*>()) {
+	size_t indices = findQueueFamilies(physicalDevice);
+
+	VkPhysicalDeviceFeatures deviceFeatures = {};
+
+	float queuePriority = 1.0f;
+	VkDeviceQueueCreateInfo queueCreateInfo = {};
+	queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queueCreateInfo.queueFamilyIndex = indices;
+	queueCreateInfo.queueCount = 1;
+	queueCreateInfo.pQueuePriorities = &queuePriority;
+
+	VkDeviceCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	createInfo.pQueueCreateInfos = &queueCreateInfo;
+	createInfo.queueCreateInfoCount = 1;
+	createInfo.pEnabledFeatures = &deviceFeatures;
+	createInfo.enabledExtensionCount = 0;
+	if (validationEnabledLocal) {
+		createInfo.enabledLayerCount = validationLayers.size();
+		createInfo.ppEnabledLayerNames = validationLayers.data();
+	} else
+		createInfo.enabledLayerCount = 0;
+
+	VkDevice* ret = new VkDevice();
+	auto error = vkCreateDevice(physicalDevice, &createInfo, nullptr, ret);
+	if (error != VK_SUCCESS)
+		throw Exceptions::LogicalGraphicalDeviceGenerationException(error);
+	return ret;
+}
+
+VkQueue* getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice logicalDevice) {
+	size_t indices = findQueueFamilies(physicalDevice);
+	VkQueue* ret = new VkQueue();
+	vkGetDeviceQueue(logicalDevice, indices, 0, ret);
 	return ret;
 }
 
@@ -167,13 +221,21 @@ void GameWindow::initializeGraphics() {
 		throw Exceptions::LayersNotAvailableException();
 
 	instance = generateVulkanInstance(validationLayers);
-	insertCallback(instance);
-	pickGraphicalDevice(instance);
+	insertCallbacks(instance);
+	physicalDevice = pickGraphicalDevice(instance);
+	device = generateLogicalDevice(*physicalDevice, validationLayers);
+	queue = getDeviceQueue(*physicalDevice, *device);
 }
 
 void GameWindow::cleanGraphics() {
 	DestroyDebugReportCallbackEXT(*instance, callback, nullptr);
-	vkDestroyInstance(*instance, nullptr);
+	vkDestroyInstance(*instance, nullptr); //Destroys VkPhysicalDevice as well.
+	vkDestroyDevice(*device, nullptr); //Destroys VkQueue as well.
+
+	if (queue) delete queue;
+	if (device) delete device;
+	if (physicalDevice) delete physicalDevice;
+	if (instance) delete instance;
 }
 
 void GameWindow::initializeRenderProcess() {

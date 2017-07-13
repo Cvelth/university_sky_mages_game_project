@@ -40,4 +40,8 @@ namespace Exceptions {
 	public: NoSupportedGPUException()
 		: AbstractStringException("NoSupportedGPUException", "No GPU with Vulkan support was found.") {}
 	};
+	class LogicalGraphicalDeviceGenerationException : public AbstractVulkanErrorException {
+	public: LogicalGraphicalDeviceGenerationException(int code)
+		: AbstractVulkanErrorException("LogicalGraphicalDeviceGenerationException", code) {}
+	};
 }
