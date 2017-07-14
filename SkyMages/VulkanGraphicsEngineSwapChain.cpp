@@ -34,7 +34,7 @@ VkExtent2D VulkanGraphicsEngine::chooseSwapExtent(const VkSurfaceCapabilitiesKHR
 	}
 }
 
-VkSwapchainKHR VulkanGraphicsEngine::generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface) {
+SwapChainHandle VulkanGraphicsEngine::generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface) {
 	SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice, surface);
 	VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
@@ -75,8 +75,45 @@ VkSwapchainKHR VulkanGraphicsEngine::generateSwapChain(GLFWwindow* window, VkPhy
 	createInfo.clipped = VK_TRUE;
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-	VkSwapchainKHR ret;
-	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &ret) != VK_SUCCESS)
+	SwapChainHandle ret;
+	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &ret.swapChain) != VK_SUCCESS)
 		throw Exceptions::SwapChainCreationException();
+
+	vkGetSwapchainImagesKHR(device, *ret, &imageCount, nullptr);
+	ret.images.resize(imageCount);
+	vkGetSwapchainImagesKHR(device, *ret, &imageCount, ret.images.data());
+
+	ret.imageFormat = surfaceFormat.format;
+	ret.extent = extent;
+
+	return ret;
+}
+
+std::vector<VkImageView> VulkanGraphicsEngine::getSwapChainImages(SwapChainHandle swapChain, VkDevice device) {
+	std::vector<VkImageView> ret;
+	ret.resize(swapChain.images.size());
+
+	for (uint32_t i = 0; i < swapChain.images.size(); i++) {
+		VkImageViewCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.image = swapChain.images[i];
+		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		createInfo.format = swapChain.imageFormat;
+
+		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+
+		createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		createInfo.subresourceRange.baseMipLevel = 0;
+		createInfo.subresourceRange.levelCount = 1;
+		createInfo.subresourceRange.baseArrayLayer = 0;
+		createInfo.subresourceRange.layerCount = 1;
+
+		if (vkCreateImageView(device, &createInfo, nullptr, &ret.at(i)) != VK_SUCCESS)
+			throw Exceptions::SwapChainCreationException();
+	}
+
 	return ret;
 }

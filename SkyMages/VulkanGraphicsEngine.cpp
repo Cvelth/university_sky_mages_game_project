@@ -36,13 +36,16 @@ void VulkanGraphicsEngine::initialize() {
 	device = generateLogicalDevice(physicalDevice, surface, queue, deviceExtensions);
 	queue = getDeviceQueue(physicalDevice, device, surface);
 	swapChain = generateSwapChain(window, physicalDevice, device, surface);
+	images = getSwapChainImages(swapChain, device);
 
 	isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
 	if (isInitialized) {
-		vkDestroySwapchainKHR(device, swapChain, nullptr);
+		for (auto it : images)
+			vkDestroyImageView(device, it, nullptr);
+		vkDestroySwapchainKHR(device, *swapChain, nullptr);
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyDevice(device, nullptr); //Destroys VkQueue as well.
 		destroyCallbacks(instance);

@@ -24,6 +24,18 @@ struct SwapChainSupportDetails {
 	}
 };
 
+struct SwapChainHandle {
+	VkSwapchainKHR swapChain;
+	std::vector<VkImage> images;
+
+	VkFormat imageFormat;
+	VkExtent2D extent;
+
+	VkSwapchainKHR& operator*() {
+		return swapChain;
+	}
+};
+
 class VulkanGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	static bool isValidationEnabled;
@@ -37,7 +49,8 @@ private:
 	VkDevice device;
 	VkQueue queue;
 	VkSurfaceKHR surface;
-	VkSwapchainKHR swapChain;
+	SwapChainHandle swapChain;
+	std::vector<VkImageView> images;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -47,7 +60,8 @@ protected:
 	static VkPhysicalDevice pickGraphicalDevice(VkInstance instance, VkSurfaceKHR surface, std::vector<const char*> deviceExtensions);
 	static VkDevice generateLogicalDevice(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface, VkQueue queue, std::vector<const char*> deviceExtensions);
 	static VkQueue getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
-	static VkSwapchainKHR generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
+	static SwapChainHandle generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
+	static std::vector<VkImageView> getSwapChainImages(SwapChainHandle swapChain, VkDevice device);
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);
