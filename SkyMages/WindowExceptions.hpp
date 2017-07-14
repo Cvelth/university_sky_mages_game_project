@@ -48,4 +48,8 @@ namespace Exceptions {
 	public: SurfaceInitializationException(int code)
 		: AbstractVulkanErrorException("SurfaceInitializationException", code) {}
 	};
+	class SwapChainCreationException : public AbstractStringException {
+	public: SwapChainCreationException()
+		: AbstractStringException("SwapChainCreationException", "Some error has occured during SwapChain intialization.") {}
+	};
 }

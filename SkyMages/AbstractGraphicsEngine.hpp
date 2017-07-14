@@ -4,6 +4,8 @@ struct GLFWwindow;
 class AbstractGraphicsEngine {
 protected:
 	GLFWwindow* window;
+	size_t window_width;
+	size_t window_height;
 protected:
 	virtual void setWindowSettings() abstract;
 public:
@@ -11,7 +13,7 @@ public:
 	virtual void clean() abstract;
 
 	GLFWwindow* createWindow(char* title, size_t width, size_t height);
-	virtual void destroyWindow() abstract;
+	void destroyWindow();
 
 	virtual void initializeRenderProcess() abstract;
 	virtual void renderProcess() abstract;

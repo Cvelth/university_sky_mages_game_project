@@ -27,7 +27,7 @@ void DestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT
 		func(instance, callback, pAllocator);
 }
 
-void VulkanGraphicsEngine::insertCallbacks() {
+void VulkanGraphicsEngine::insertCallbacks(VkInstance instance) {
 	if (!isValidationEnabled) return;
 
 	VkDebugReportCallbackCreateInfoEXT createInfo = {};
@@ -40,6 +40,6 @@ void VulkanGraphicsEngine::insertCallbacks() {
 		throw Exceptions::VulkanDebugCallbackInitializationException(error);
 }
 
-void VulkanGraphicsEngine::destroyCallbacks() {
+void VulkanGraphicsEngine::destroyCallbacks(VkInstance instance) {
 	DestroyDebugReportCallbackEXT(instance, callback, nullptr);
 }

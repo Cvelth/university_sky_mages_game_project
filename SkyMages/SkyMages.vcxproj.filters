@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Window">
-      <UniqueIdentifier>{48c15bd3-db42-44f1-acf7-3c77cd35e1cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Abstract Headers">
       <UniqueIdentifier>{dbf02bb3-7b32-4ab1-91ae-1c68da35012f}</UniqueIdentifier>
     </Filter>
@@ -25,13 +22,13 @@
     <Filter Include="Graphics\Vulkan">
       <UniqueIdentifier>{ecf23cdb-699f-4b07-924a-a01410a60f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Window">
+      <UniqueIdentifier>{48c15bd3-db42-44f1-acf7-3c77cd35e1cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Window</Filter>
+      <Filter>Graphics\Window</Filter>
     </ClCompile>
     <ClCompile Include="GameMap.cpp">
       <Filter>Map and Camera</Filter>
@@ -63,10 +60,17 @@
     <ClCompile Include="VulkanGraphicsEngineQueues.cpp">
       <Filter>Graphics\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanGraphicsEngineSwapChain.cpp">
+      <Filter>Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="VulkanGraphicsEngineRenderProcess.cpp">
+      <Filter>Graphics\Vulkan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.hpp">
-      <Filter>Window</Filter>
+      <Filter>Graphics\Window</Filter>
     </ClInclude>
     <ClInclude Include="GameMap.hpp">
       <Filter>Map and Camera</Filter>

@@ -16,3 +16,7 @@ GLFWwindow * AbstractGraphicsEngine::createWindow(char* title, size_t width, siz
 		throw Exceptions::WindowInitializationException();
 	return window;
 }
+
+void AbstractGraphicsEngine::destroyWindow() {
+	glfwDestroyWindow(window);
+}

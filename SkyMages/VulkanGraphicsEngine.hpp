@@ -15,38 +15,56 @@ struct QueueFamilyIndices {
 	}
 };
 
+struct SwapChainSupportDetails {
+	VkSurfaceCapabilitiesKHR capabilities;
+	std::vector<VkSurfaceFormatKHR> formats;
+	std::vector<VkPresentModeKHR> presentModes;
+	inline bool isSuported() {
+		return !formats.empty() && !presentModes.empty();
+	}
+};
+
 class VulkanGraphicsEngine : public AbstractGraphicsEngine {
 private:
-	bool isValidationEnabled;
-	std::vector<const char*> validationLayers;
+	static bool isValidationEnabled;
+	static std::vector<const char*> validationLayers;
+
+	bool isInitialized;
+	std::vector<const char*> deviceExtensions;
 
 	VkInstance instance;
 	VkPhysicalDevice physicalDevice;
 	VkDevice device;
 	VkQueue queue;
 	VkSurfaceKHR surface;
+	VkSwapchainKHR swapChain;
 protected:
-	VkInstance generateVulkanInstance(); 
-	std::vector<const char*> getRequiredGLFWExtensions();
-	void insertCallbacks();
-	void destroyCallbacks();
-	VkSurfaceKHR generateSurface();
-	VkPhysicalDevice pickGraphicalDevice();
-	VkDevice generateLogicalDevice();
-	VkQueue getDeviceQueue();
+	static VkInstance generateVulkanInstance();
+	static std::vector<const char*> getRequiredGLFWExtensions(); 
+	static void insertCallbacks(VkInstance instance);
+	static void destroyCallbacks(VkInstance instance);
+	static VkSurfaceKHR generateSurface(VkInstance instance, GLFWwindow* window);
+	static VkPhysicalDevice pickGraphicalDevice(VkInstance instance, VkSurfaceKHR surface, std::vector<const char*> deviceExtensions);
+	static VkDevice generateLogicalDevice(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface, VkQueue queue, std::vector<const char*> deviceExtensions);
+	static VkQueue getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
+	static VkSwapchainKHR generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 
-	static bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers);
-	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface);
+	static bool checkValidationLayersSupport();
+	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);
 	static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
+	static bool checkDeviceExtentionSupport(VkPhysicalDevice physicalDevice, const std::vector<const char*> deviceExtensions);
+	static SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
+	static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+	static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
+	static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, size_t width, size_t height);
 
 	virtual void setWindowSettings() override;
 public:
+	VulkanGraphicsEngine();
 	~VulkanGraphicsEngine();
 
 	virtual void initialize() override;
 	virtual void clean() override;
-
-	virtual void destroyWindow() override;
 
 	virtual void initializeRenderProcess() override;
 	virtual void renderProcess() override;
