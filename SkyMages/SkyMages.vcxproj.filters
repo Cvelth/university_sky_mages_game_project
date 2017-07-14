@@ -60,6 +60,9 @@
     <ClCompile Include="VulkanGraphicsEngineCallback.cpp">
       <Filter>Graphics\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanGraphicsEngineQueues.cpp">
+      <Filter>Graphics\Vulkan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.hpp">

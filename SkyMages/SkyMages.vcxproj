@@ -134,6 +134,7 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="VulkanGraphicsEngine.cpp" />
     <ClCompile Include="VulkanGraphicsEngineCallback.cpp" />
+    <ClCompile Include="VulkanGraphicsEngineQueues.cpp" />
     <ClCompile Include="WindowExceptions.cpp" />
   </ItemGroup>
   <ItemGroup>
