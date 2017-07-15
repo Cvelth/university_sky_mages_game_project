@@ -1,8 +1,7 @@
 #include "AbstractGraphicsEngine.hpp"
-#include "WindowExceptions.hpp"
+#include "Exceptions\WindowExceptions.hpp"
 
-#include "vulkan.h"
-#include "glfw3.h"
+#include "glfw\glfw3.h"
 
 AbstractGraphicsEngine::AbstractGraphicsEngine() {}
 

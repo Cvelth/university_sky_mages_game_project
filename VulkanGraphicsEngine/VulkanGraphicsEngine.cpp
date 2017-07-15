@@ -1,6 +1,5 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "WindowExceptions.hpp"
-
+#include "Exceptions\WindowExceptions.hpp"
 
 #ifdef _DEBUG
 bool VulkanGraphicsEngine::isValidationEnabled = true;

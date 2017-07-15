@@ -1,5 +1,5 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "WindowExceptions.hpp"
+#include "Exceptions\WindowExceptions.hpp"
 #include <algorithm>
 
 VkSurfaceFormatKHR VulkanGraphicsEngine::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {

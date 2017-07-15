@@ -1,6 +1,6 @@
 #include "GameCamera.hpp"
 #include "GameMap.hpp"
-#include "Point.hpp"
+#include "GeometryAndPhysics\Point.hpp"
 
 bool GameCamera::check() {
 	float x = corner->x();

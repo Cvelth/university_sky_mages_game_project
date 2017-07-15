@@ -1,7 +1,6 @@
-#include "GameWindow.hpp"
-#include "GameMap.hpp"
-#include "AbstractExceptions.hpp"
-#include "WindowExceptions.hpp"
+#include "GameWindow\GameWindow.hpp"
+#include "GameLogicEngine\GameMap.hpp"
+#include "Exceptions\AbstractExceptions.hpp"
 
 int main() {
 	try {

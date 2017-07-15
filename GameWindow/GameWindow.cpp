@@ -1,9 +1,9 @@
 #include "GameWindow.hpp"
-#include "GameCamera.hpp"
-#include "WindowExceptions.hpp"
-#include "VulkanGraphicsEngine.hpp"
+#include "GameLogicEngine\GameCamera.hpp"
+#include "Exceptions\WindowExceptions.hpp"
+#include "VulkanGraphicsEngine\VulkanGraphicsEngine.hpp"
 
-#include "glfw3.h"
+#include "glfw\glfw3.h"
 
 void GameWindow::initialize() {
 	if (!glfwInit())

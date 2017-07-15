@@ -1,8 +1,8 @@
 #pragma once
-#include "AbstractGraphicsEngine.hpp"
+#include "AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
 
-#include "vulkan.h"
-#include "glfw3.h"
+#include "vulkan\vulkan.h"
+#include "glfw\glfw3.h"
 
 #include <cstdint>
 #include <vector>
