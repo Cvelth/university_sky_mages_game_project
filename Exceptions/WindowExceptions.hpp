@@ -64,4 +64,8 @@ namespace Exceptions {
 	public: ShaderFileException()
 		: AbstractStringException("ShaderFileException", "The program can't access the shader file.") {}
 	};
+	class RenderPassCreationException : public AbstractVulkanErrorException {
+	public: RenderPassCreationException(int code)
+		: AbstractVulkanErrorException("RenderPassCreationException", code) {}
+	};
 }

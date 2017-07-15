@@ -1,8 +1,7 @@
 #include "VulkanGraphicsEngine.hpp"
 #include "Exceptions\WindowExceptions.hpp"
-#include <fstream>
 
-VkPipelineLayout VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain) {
+PipelineHandle VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass) {
 	auto vertexShader = generateShaderModule(readFile("shaders\\CircleShader.vk.vert.spv"), device);
 	auto fragmentShader = generateShaderModule(readFile("shaders\\CoordinateColorShader.vk.frag.spv"), device);
 
@@ -86,36 +85,41 @@ VkPipelineLayout VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device,
 	pipelineLayoutInfo.setLayoutCount = 0;
 	pipelineLayoutInfo.pushConstantRangeCount = 0;
 
-	VkPipelineLayout ret;
-	auto error = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &ret);
-	if (error != VK_SUCCESS) {
-		throw Exceptions::PipelineCreationException(error);
+	PipelineHandle ret;
+	{
+		auto error = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &ret.layout);
+		if (error != VK_SUCCESS) {
+			throw Exceptions::PipelineCreationException(error);
+		}
 	}
+	
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
+	pipelineInfo.pStages = shaderStages;
+	pipelineInfo.pVertexInputState = &vertexInputInfo;
+	pipelineInfo.pInputAssemblyState = &inputAssembly;
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &rasterizer;
+	pipelineInfo.pMultisampleState = &multisampling;
+	pipelineInfo.pDepthStencilState = nullptr; // Optional
+	pipelineInfo.pColorBlendState = &colorBlending;
+	pipelineInfo.pDynamicState = nullptr; // Optional
+	pipelineInfo.layout = ret.layout;
+	pipelineInfo.renderPass = renderPass;
+	pipelineInfo.subpass = 0;
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+	pipelineInfo.basePipelineIndex = -1; // Optional
 
+	{
+		auto error = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &*ret);
+		if (error != VK_SUCCESS)
+			throw Exceptions::PipelineCreationException(error);
+	}
+	
 	vkDestroyShaderModule(device, fragmentShader, nullptr);
 	vkDestroyShaderModule(device, vertexShader, nullptr);
-
 	return ret;
-}
-
-std::vector<char> VulkanGraphicsEngine::readFile(const std::string& filename) {
-	std::ifstream file;
-	file.open(filename, std::ios::ate | std::ios::binary);
-
-	if (!file.is_open()) {
-		file.open("..\\" + filename, std::ios::ate | std::ios::binary);
-		if (!file.is_open())
-			throw Exceptions::ShaderFileException();
-	}
-
-	size_t fileSize = (size_t) file.tellg();
-	std::vector<char> buffer(fileSize);
-
-	file.seekg(0);
-	file.read(buffer.data(), fileSize);
-
-	file.close();
-	return buffer;
 }
 
 VkShaderModule VulkanGraphicsEngine::generateShaderModule(const std::vector<char>& code, VkDevice device) {
@@ -130,6 +134,41 @@ VkShaderModule VulkanGraphicsEngine::generateShaderModule(const std::vector<char
 	auto error = vkCreateShaderModule(device, &createInfo, nullptr, &ret);
 	if (error != VK_SUCCESS) 
 		throw Exceptions::ShaderCreationException(error);
+
+	return ret;
+}
+
+VkRenderPass VulkanGraphicsEngine::generateRenderPass(VkDevice device, SwapChainHandle swapChain) {
+	VkAttachmentDescription colorAttachment = {};
+	colorAttachment.format = swapChain.imageFormat;
+	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+	VkAttachmentReference colorAttachmentRef = {};
+	colorAttachmentRef.attachment = 0;
+	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+	VkSubpassDescription subpass = {};
+	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subpass.colorAttachmentCount = 1;
+	subpass.pColorAttachments = &colorAttachmentRef;
+
+	VkRenderPassCreateInfo renderPassInfo = {};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	renderPassInfo.attachmentCount = 1;
+	renderPassInfo.pAttachments = &colorAttachment;
+	renderPassInfo.subpassCount = 1;
+	renderPassInfo.pSubpasses = &subpass;
+
+	VkRenderPass ret;
+	auto error = vkCreateRenderPass(device, &renderPassInfo, nullptr, &ret);
+	if (error != VK_SUCCESS)
+		throw Exceptions::RenderPassCreationException(error);
 
 	return ret;
 }

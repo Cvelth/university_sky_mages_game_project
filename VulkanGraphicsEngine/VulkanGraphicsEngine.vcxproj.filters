@@ -29,6 +29,9 @@
     <ClCompile Include="VulkanGraphicsEnginePipeLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanGraphicsEngineFileAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VulkanGraphicsEngine.hpp">
