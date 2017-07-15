@@ -36,12 +36,14 @@ void VulkanGraphicsEngine::initialize() {
 	queue = getDeviceQueue(physicalDevice, device, surface);
 	swapChain = generateSwapChain(window, physicalDevice, device, surface);
 	images = getSwapChainImages(swapChain, device);
+	pipelineLayout = generateGraphicsPipeline(device, swapChain);
 
 	isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
 	if (isInitialized) {
+		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		for (auto it : images)
 			vkDestroyImageView(device, it, nullptr);
 		vkDestroySwapchainKHR(device, *swapChain, nullptr);

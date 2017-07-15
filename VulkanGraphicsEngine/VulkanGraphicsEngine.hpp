@@ -51,6 +51,7 @@ private:
 	VkSurfaceKHR surface;
 	SwapChainHandle swapChain;
 	std::vector<VkImageView> images;
+	VkPipelineLayout pipelineLayout;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -62,6 +63,7 @@ protected:
 	static VkQueue getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static SwapChainHandle generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static std::vector<VkImageView> getSwapChainImages(SwapChainHandle swapChain, VkDevice device);
+	static VkPipelineLayout generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain);
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);
@@ -71,6 +73,9 @@ protected:
 	static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 	static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
 	static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, size_t width, size_t height);
+	static std::vector<char> readFile(const std::string& filename);
+	static VkShaderModule generateShaderModule(const std::vector<char>& code, VkDevice device);
+
 
 	virtual void setWindowSettings() override;
 public:

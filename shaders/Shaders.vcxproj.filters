@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Build Tools">
+      <UniqueIdentifier>{2bb7dc95-1c65-4879-8505-8c03c87f5d00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CircleShader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="CoordinateColorShader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="LinkShaders.bat">
+      <Filter>Build Tools</Filter>
+    </None>
+    <None Include="CleanBuild.bat">
+      <Filter>Build Tools</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="CompileShaders.bat">
+      <Filter>Build Tools</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

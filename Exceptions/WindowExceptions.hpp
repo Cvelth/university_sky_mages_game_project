@@ -52,4 +52,16 @@ namespace Exceptions {
 	public: SwapChainCreationException()
 		: AbstractStringException("SwapChainCreationException", "Some error has occured during SwapChain intialization.") {}
 	};
+	class ShaderCreationException : public AbstractVulkanErrorException {
+	public: ShaderCreationException(int code)
+		: AbstractVulkanErrorException("ShaderCreationException", code) {}
+	};
+	class PipelineCreationException : public AbstractVulkanErrorException {
+	public: PipelineCreationException(int code)
+		: AbstractVulkanErrorException("PipelineCreationException", code) {}
+	};
+	class ShaderFileException : public AbstractStringException {
+	public: ShaderFileException()
+		: AbstractStringException("ShaderFileException", "The program can't access the shader file.") {}
+	};
 }

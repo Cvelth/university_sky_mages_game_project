@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLogicEngine", "GameLogi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntryPoint", "EntryPoint\EntryPoint.vcxproj", "{C1110F89-0B60-42C5-B6B2-B7571D6FB743}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders", "shaders\Shaders.vcxproj", "{9314AAEE-7B6B-42DF-819F-CD64D973807E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -93,6 +95,14 @@ Global
 		{C1110F89-0B60-42C5-B6B2-B7571D6FB743}.Release|x64.Build.0 = Release|x64
 		{C1110F89-0B60-42C5-B6B2-B7571D6FB743}.Release|x86.ActiveCfg = Release|Win32
 		{C1110F89-0B60-42C5-B6B2-B7571D6FB743}.Release|x86.Build.0 = Release|Win32
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Debug|x64.ActiveCfg = Debug|x64
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Debug|x64.Build.0 = Debug|x64
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Debug|x86.Build.0 = Debug|Win32
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Release|x64.ActiveCfg = Release|x64
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Release|x64.Build.0 = Release|x64
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Release|x86.ActiveCfg = Release|Win32
+		{9314AAEE-7B6B-42DF-819F-CD64D973807E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
