@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Exceptions.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="AbstractExceptions.hpp" />
     <ClInclude Include="WindowExceptions.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Exceptions.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
