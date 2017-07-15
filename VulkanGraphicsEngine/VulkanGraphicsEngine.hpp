@@ -36,6 +36,15 @@ struct SwapChainHandle {
 	}
 };
 
+struct PipelineHandle {
+	VkPipelineLayout layout;
+	VkPipeline pipeline;
+
+	VkPipeline& operator*() {
+		return pipeline;
+	}
+};
+
 class VulkanGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	static bool isValidationEnabled;
@@ -51,7 +60,8 @@ private:
 	VkSurfaceKHR surface;
 	SwapChainHandle swapChain;
 	std::vector<VkImageView> images;
-	VkPipelineLayout pipelineLayout;
+	VkRenderPass renderPass;
+	PipelineHandle pipeline;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -62,8 +72,9 @@ protected:
 	static VkDevice generateLogicalDevice(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface, VkQueue queue, std::vector<const char*> deviceExtensions);
 	static VkQueue getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static SwapChainHandle generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
-	static std::vector<VkImageView> getSwapChainImages(SwapChainHandle swapChain, VkDevice device);
-	static VkPipelineLayout generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain);
+	static std::vector<VkImageView> getSwapChainImages(VkDevice device, SwapChainHandle swapChain);
+	static PipelineHandle generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass);
+	static VkRenderPass generateRenderPass(VkDevice device, SwapChainHandle swapChain);
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);

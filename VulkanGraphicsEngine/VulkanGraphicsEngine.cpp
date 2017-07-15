@@ -35,15 +35,18 @@ void VulkanGraphicsEngine::initialize() {
 	device = generateLogicalDevice(physicalDevice, surface, queue, deviceExtensions);
 	queue = getDeviceQueue(physicalDevice, device, surface);
 	swapChain = generateSwapChain(window, physicalDevice, device, surface);
-	images = getSwapChainImages(swapChain, device);
-	pipelineLayout = generateGraphicsPipeline(device, swapChain);
+	images = getSwapChainImages(device, swapChain);
+	renderPass = generateRenderPass(device, swapChain);
+	pipeline = generateGraphicsPipeline(device, swapChain, renderPass);
 
 	isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
 	if (isInitialized) {
-		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+		vkDestroyPipeline(device, *pipeline, nullptr);
+		vkDestroyRenderPass(device, renderPass, nullptr);
+		vkDestroyPipelineLayout(device, pipeline.layout, nullptr);
 		for (auto it : images)
 			vkDestroyImageView(device, it, nullptr);
 		vkDestroySwapchainKHR(device, *swapChain, nullptr);

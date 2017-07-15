@@ -89,7 +89,7 @@ SwapChainHandle VulkanGraphicsEngine::generateSwapChain(GLFWwindow* window, VkPh
 	return ret;
 }
 
-std::vector<VkImageView> VulkanGraphicsEngine::getSwapChainImages(SwapChainHandle swapChain, VkDevice device) {
+std::vector<VkImageView> VulkanGraphicsEngine::getSwapChainImages(VkDevice device, SwapChainHandle swapChain) {
 	std::vector<VkImageView> ret;
 	ret.resize(swapChain.images.size());
 
