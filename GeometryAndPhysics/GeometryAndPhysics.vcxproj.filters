@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
+    <Filter Include="Headers">
       <UniqueIdentifier>{4aa36cc8-25ed-42dc-9e73-34e9690b1311}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files">
+    <Filter Include="Source">
       <UniqueIdentifier>{73624caa-8a70-45a1-98d5-801e8d8d92f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Point.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
