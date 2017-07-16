@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
+#include "Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
 
 class OpenGLGraphicsEngine : AbstractGraphicsEngine {
 public:
