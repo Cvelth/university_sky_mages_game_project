@@ -2,8 +2,8 @@
 #include "Exceptions\WindowExceptions.hpp"
 
 PipelineHandle VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass) {
-	auto vertexShader = generateShaderModule(readFile("shaders\\CircleShader.vk.vert.spv"), device);
-	auto fragmentShader = generateShaderModule(readFile("shaders\\CoordinateColorShader.vk.frag.spv"), device);
+	auto vertexShader = generateShaderModule(readFile("CircleShader.vk.vert.spv"), device);
+	auto fragmentShader = generateShaderModule(readFile("CoordinateColorShader.vk.frag.spv"), device);
 
 	VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
 	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
