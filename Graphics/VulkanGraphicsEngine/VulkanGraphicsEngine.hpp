@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
+#include "Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
 
 #include "vulkan\vulkan.h"
 #include "glfw\glfw3.h"
