@@ -25,7 +25,7 @@
     <ClInclude Include="AbstractGraphicsEngine.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Exceptions\Exceptions.vcxproj">
+    <ProjectReference Include="..\..\Exceptions\Exceptions.vcxproj">
       <Project>{d93084b9-fc49-48d7-9336-8d45a0911fd3}</Project>
     </ProjectReference>
   </ItemGroup>
