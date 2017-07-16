@@ -4,10 +4,10 @@
 
 std::vector<char> VulkanGraphicsEngine::readFile(const std::string& filename) {
 	std::ifstream file;
-	file.open(filename, std::ios::ate | std::ios::binary);
+	file.open("Shaders\\" + filename, std::ios::ate | std::ios::binary);
 
 	if (!file.is_open()) {
-		file.open("..\\" + filename, std::ios::ate | std::ios::binary);
+		file.open("..\\Graphics\\Shaders\\Output\\" + filename, std::ios::ate | std::ios::binary);
 		if (!file.is_open())
 			throw Exceptions::ShaderFileException();
 	}
