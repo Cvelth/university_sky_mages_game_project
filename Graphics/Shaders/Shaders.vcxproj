@@ -87,13 +87,13 @@
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>call "$(ProjectDir)compileshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\compileshaders.bat"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linkshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)cleanbuild.bat"</Command>
+      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -107,13 +107,13 @@
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>call "$(ProjectDir)compileshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\compileshaders.bat"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linkshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)cleanbuild.bat"</Command>
+      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,13 +127,13 @@
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>call "$(ProjectDir)compileshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\compileshaders.bat"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linkshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)cleanbuild.bat"</Command>
+      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,38 +153,24 @@
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>call "$(ProjectDir)compileshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\compileshaders.bat"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linkshaders.bat"</Command>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)cleanbuild.bat"</Command>
+      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="CircleShader.vert">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
-      <FileType>Document</FileType>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
-    </None>
-    <CustomBuild Include="CompileShaders.bat">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <None Include="CleanBuild.bat" />
-    <None Include="CoordinateColorShader.frag">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
-      <FileType>Document</FileType>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
-    </None>
-    <None Include="LinkShaders.bat" />
+    <None Include="Build\CleanBuild.bat" />
+    <None Include="Build\CompileShaders.bat" />
+    <None Include="Build\LinkShaders.bat" />
+    <None Include="Source\CircleShader.vert" />
+    <None Include="Source\CoordinateColorShader.frag" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lib.cpp" />
+    <ClCompile Include="Source\lib.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

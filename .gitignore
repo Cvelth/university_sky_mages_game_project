@@ -1,7 +1,8 @@
 ##Custom filters
 #Ignore Libs
-include/
-libs/
+[Ii]nclude/
+[Ll]ibs/
+[Oo]utput/
 #Ignore files
 *.spv
 
