@@ -1,7 +1,7 @@
 #include "GameWindow.hpp"
 #include "GameLogicEngine\GameCamera.hpp"
 #include "Exceptions\WindowExceptions.hpp"
-#include "VulkanGraphicsEngine\VulkanGraphicsEngine.hpp"
+#include "Graphics\VulkanGraphicsEngine\VulkanGraphicsEngine.hpp"
 
 #include "glfw\glfw3.h"
 
