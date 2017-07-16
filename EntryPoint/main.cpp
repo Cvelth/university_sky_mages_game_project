@@ -1,4 +1,4 @@
-#include "GameWindow\GameWindow.hpp"
+#include "Graphics\GameWindow\GameWindow.hpp"
 #include "GameLogicEngine\GameMap.hpp"
 #include "Exceptions\AbstractExceptions.hpp"
 

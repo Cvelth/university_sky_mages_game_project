@@ -135,6 +135,9 @@
     <ProjectReference Include="..\GameLogicEngine\GameLogicEngine.vcxproj">
       <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Graphics\GameWindow\GameWindow.vcxproj">
+      <Project>{51ace45f-329d-405e-9ae8-913a942c997c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
