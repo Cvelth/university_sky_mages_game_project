@@ -11,7 +11,7 @@ std::vector<const char*> VulkanGraphicsEngine::validationLayers = {
 	"VK_LAYER_LUNARG_standard_validation"
 };
 
-VulkanGraphicsEngine::VulkanGraphicsEngine() : isInitialized(false) {}
+VulkanGraphicsEngine::VulkanGraphicsEngine() : m_isInitialized(false) {}
 
 VulkanGraphicsEngine::~VulkanGraphicsEngine() {}
 
@@ -21,39 +21,39 @@ void VulkanGraphicsEngine::setWindowSettings() {
 }
 
 void VulkanGraphicsEngine::initialize() {
-	deviceExtensions = {
+	m_deviceExtensions = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME
 	};
 
 	if (isValidationEnabled && !checkValidationLayersSupport())
 		throw Exceptions::LayersNotAvailableException();
 
-	instance = generateVulkanInstance();
-	insertCallbacks(instance);
-	surface = generateSurface(instance, window);
-	physicalDevice = pickGraphicalDevice(instance, surface, deviceExtensions);
-	device = generateLogicalDevice(physicalDevice, surface, queue, deviceExtensions);
-	queue = getDeviceQueue(physicalDevice, device, surface);
-	swapChain = generateSwapChain(window, physicalDevice, device, surface);
-	images = getSwapChainImages(device, swapChain);
-	renderPass = generateRenderPass(device, swapChain);
-	pipeline = generateGraphicsPipeline(device, swapChain, renderPass);
+	m_instance = generateVulkanInstance();
+	insertCallbacks(m_instance);
+	m_surface = generateSurface(m_instance, m_window);
+	m_physicalDevice = pickGraphicalDevice(m_instance, m_surface, m_deviceExtensions);
+	m_device = generateLogicalDevice(m_physicalDevice, m_surface, m_queue, m_deviceExtensions);
+	m_queue = getDeviceQueue(m_physicalDevice, m_device, m_surface);
+	m_swapChain = generateSwapChain(m_window, m_physicalDevice, m_device, m_surface);
+	m_images = getSwapChainImages(m_device, m_swapChain);
+	m_renderPass = generateRenderPass(m_device, m_swapChain);
+	m_pipeline = generateGraphicsPipeline(m_device, m_swapChain, m_renderPass);
 
-	isInitialized = true;
+	m_isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
-	if (isInitialized) {
-		vkDestroyPipeline(device, *pipeline, nullptr);
-		vkDestroyRenderPass(device, renderPass, nullptr);
-		vkDestroyPipelineLayout(device, pipeline.layout, nullptr);
-		for (auto it : images)
-			vkDestroyImageView(device, it, nullptr);
-		vkDestroySwapchainKHR(device, *swapChain, nullptr);
-		vkDestroySurfaceKHR(instance, surface, nullptr);
-		vkDestroyDevice(device, nullptr); //Destroys VkQueue as well.
-		destroyCallbacks(instance);
-		vkDestroyInstance(instance, nullptr); //Destroys VkPhysicalDevice as well.
+	if (m_isInitialized) {
+		vkDestroyPipeline(m_device, *m_pipeline, nullptr);
+		vkDestroyRenderPass(m_device, m_renderPass, nullptr);
+		vkDestroyPipelineLayout(m_device, m_pipeline.layout, nullptr);
+		for (auto it : m_images)
+			vkDestroyImageView(m_device, it, nullptr);
+		vkDestroySwapchainKHR(m_device, *m_swapChain, nullptr);
+		vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
+		vkDestroyDevice(m_device, nullptr); //Destroys VkQueue as well.
+		destroyCallbacks(m_instance);
+		vkDestroyInstance(m_instance, nullptr); //Destroys VkPhysicalDevice as well.
 	}
 }
 
