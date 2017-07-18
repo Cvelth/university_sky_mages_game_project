@@ -6,18 +6,18 @@ void Exceptions::AbstractException::print() {
 }
 
 void Exceptions::AbstractStringException::print() {
-	std::cerr << name << " was thrown.\n";
-	std::cerr << desc << std::endl;
+	std::cerr << m_name << " was thrown.\n";
+	std::cerr << m_desc << std::endl;
 }
 
 void Exceptions::AbstractIntegerErrorException::print() {
-	std::cerr << name << " was thrown with code " << error_code << std::endl;
-	std::cerr << desc << std::endl;
+	std::cerr << m_name << " was thrown with code " << m_error_code << std::endl;
+	std::cerr << m_desc << std::endl;
 }
 
 void Exceptions::AbstractVulkanErrorException::print() {
-	std::cerr << name << " was thrown with code " << error_code << std::endl;
-	switch (error_code) {
+	std::cerr << m_name << " was thrown with code " << m_error_code << std::endl;
+	switch (m_error_code) {
 		case 0:
 			std::cerr << "No error." << std::endl;
 			break;

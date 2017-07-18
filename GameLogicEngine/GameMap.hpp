@@ -8,11 +8,16 @@ enum DefaultMapFilling {
 	HorizontalRows, VerticalRows,
 };
 
+namespace Exceptions {
+	class NonExistingCoordinateException {};
+}
+
 class GameMap {
 	friend GameCamera;
 private:
-	size_t width, height;
-	std::vector<std::vector<AbstractBlock*>> mapData;
+	size_t m_width;
+	size_t m_height;
+	std::vector<std::vector<AbstractBlock*>> m_mapData;
 protected:
 	void fillEach(AbstractBlock* block);
 	void borderFill(AbstractBlock* border, AbstractBlock* others);
@@ -24,7 +29,9 @@ protected:
 	void clear();
 
 	inline void set(AbstractBlock* block, size_t width, size_t height) {
-		mapData.at(width).at(height) = block;
+		if (width >= m_width || height >= m_height)
+			throw Exceptions::NonExistingCoordinateException();
+		m_mapData.at(width).at(height) = block;
 	}
 
 	bool isBorder(size_t w, size_t h) const;
@@ -33,7 +40,7 @@ public:
 	~GameMap();
 
 	inline AbstractBlock* get(size_t w, size_t h) const {
-		return mapData.at(w).at(h);
+		return m_mapData.at(w).at(h);
 	}
 	inline AbstractBlock* operator()(size_t w, size_t h) const {
 		return get(w, h);

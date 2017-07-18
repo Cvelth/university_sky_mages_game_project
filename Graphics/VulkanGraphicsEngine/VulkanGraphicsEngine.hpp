@@ -50,18 +50,18 @@ private:
 	static bool isValidationEnabled;
 	static std::vector<const char*> validationLayers;
 
-	bool isInitialized;
-	std::vector<const char*> deviceExtensions;
+	bool m_isInitialized;
+	std::vector<const char*> m_deviceExtensions;
 
-	VkInstance instance;
-	VkPhysicalDevice physicalDevice;
-	VkDevice device;
-	VkQueue queue;
-	VkSurfaceKHR surface;
-	SwapChainHandle swapChain;
-	std::vector<VkImageView> images;
-	VkRenderPass renderPass;
-	PipelineHandle pipeline;
+	VkInstance m_instance;
+	VkPhysicalDevice m_physicalDevice;
+	VkDevice m_device;
+	VkQueue m_queue;
+	VkSurfaceKHR m_surface;
+	SwapChainHandle m_swapChain;
+	std::vector<VkImageView> m_images;
+	VkRenderPass m_renderPass;
+	PipelineHandle m_pipeline;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 

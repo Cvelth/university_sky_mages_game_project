@@ -3,50 +3,50 @@
 #include "GeometryAndPhysics\Point.hpp"
 
 bool GameCamera::check() {
-	float x = corner->x();
-	float y = corner->y();
-	if (x < 0 || y < 0 || x > map->width || y > map->height)
+	float x = m_corner->x();
+	float y = m_corner->y();
+	if (x < 0 || y < 0 || x > m_map->m_width || y > m_map->m_height)
 		return false;
-	if (x + horizontalBlocks > map->width)
+	if (x + m_horizontalBlocks > m_map->m_width)
 		return false;
-	if (y + horizontalBlocks * aspectRatio > map->height)
+	if (y + m_horizontalBlocks * m_aspectRatio > m_map->m_height)
 		return false;
 
 	return true;
 }
 
 void GameCamera::correct() {
-	float x = corner->x();
-	float y = corner->y();
-	if (x < 0) corner->x(0);
-	if (y < 0) corner->y(0);
-	if (x > map->width) corner->x(float(map->width));
-	if (y > map->height) corner->y(float(map->height));
+	float x = m_corner->x();
+	float y = m_corner->y();
+	if (x < 0) m_corner->x(0);
+	if (y < 0) m_corner->y(0);
+	if (x > m_map->m_width) m_corner->x(float(m_map->m_width));
+	if (y > m_map->m_height) m_corner->y(float(m_map->m_height));
 
-	if (x + horizontalBlocks > map->width)
-		corner->x(map->width - horizontalBlocks);
-	if (y + horizontalBlocks * aspectRatio > map->height)
-		corner->y(map->height - horizontalBlocks * aspectRatio);
+	if (x + m_horizontalBlocks > m_map->m_width)
+		m_corner->x(m_map->m_width - m_horizontalBlocks);
+	if (y + m_horizontalBlocks * m_aspectRatio > m_map->m_height)
+		m_corner->y(m_map->m_height - m_horizontalBlocks * m_aspectRatio);
 }
 
-GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : corner(new Point(0, 0)), map(map), aspectRatio(aspectRatio), horizontalBlocks(blocks) {}
+GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new Point(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {}
 
 void GameCamera::changeAspectRatio(float aspectRatio) {
-	this->aspectRatio = aspectRatio;
+	this->m_aspectRatio = aspectRatio;
 	correct();
 }
 
 void GameCamera::changeZoom(float magnifier) {
-	horizontalBlocks *= magnifier;
+	m_horizontalBlocks *= magnifier;
 	correct();
 }
 
 void GameCamera::move(float x, float y) {
-	*corner += Point(x, y);
+	*m_corner += Point(x, y);
 	correct();
 }
 
 GameCamera::~GameCamera() {
-	if (corner)
-		delete corner;
+	if (m_corner)
+		delete m_corner;
 }

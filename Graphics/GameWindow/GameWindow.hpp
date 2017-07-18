@@ -6,12 +6,12 @@ class GameMap;
 
 class GameWindow {
 private:
-	GLFWwindow* window;
-	AbstractGraphicsEngine* graphics;
-	GameCamera* camera;
+	GLFWwindow* m_window;
+	AbstractGraphicsEngine* m_graphics;
+	GameCamera* m_camera;
 
-	size_t width;
-	size_t height;
+	size_t m_width;
+	size_t m_height;
 protected:
 	void initialize();
 	void clean();
