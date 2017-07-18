@@ -15,29 +15,29 @@ void GameWindow::clean() {
 }
 
 GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) 
-		: width(width), height(height), camera(new GameCamera(map, float(width) / height)) {
-	graphics = new VulkanGraphicsEngine();
+		: m_width(width), m_height(height), m_camera(new GameCamera(map, float(width) / height)) {
+	m_graphics = new VulkanGraphicsEngine();
 	initialize();
-	window = graphics->createWindow(title, width, height);
-	graphics->initialize();
+	m_window = m_graphics->createWindow(title, width, height);
+	m_graphics->initialize();
 
 	if (insertDefaultCallback)
 		glfwSetErrorCallback(GameWindow::errorCallback);
 }
 
 GameWindow::~GameWindow() {
-	if (camera) delete camera;
+	if (m_camera) delete m_camera;
 
-	graphics->clean();
-	graphics->destroyWindow();
+	m_graphics->clean();
+	m_graphics->destroyWindow();
 	clean();
 }
 
 int GameWindow::loop() {
-	graphics->initializeRenderProcess();
-	while (!glfwWindowShouldClose(window))
-		graphics->renderProcess();
-	graphics->clearRenderProcess();
+	m_graphics->initializeRenderProcess();
+	while (!glfwWindowShouldClose(m_window))
+		m_graphics->renderProcess();
+	m_graphics->clearRenderProcess();
 	return 0;
 }
 
