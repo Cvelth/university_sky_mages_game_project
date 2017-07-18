@@ -7,19 +7,19 @@ namespace Exceptions {
 	};
 	class AbstractStringException : public AbstractException {
 	protected:
-		const char* name;
-		const char* desc;
+		const char* m_name;
+		const char* m_desc;
 	public:
-		AbstractStringException(const char* name, const char* desc) : AbstractException(), name(name), desc(desc) {}
+		AbstractStringException(const char* name, const char* desc) : AbstractException(), m_name(name), m_desc(desc) {}
 		virtual void print() override;
 	};
 
 	class AbstractIntegerErrorException : public AbstractStringException {
 	protected:
-		int error_code;
+		int m_error_code;
 	public:
 		AbstractIntegerErrorException(const char* name, int code, const char* desc)
-			: AbstractStringException(name, desc), error_code(code) {}
+			: AbstractStringException(name, desc), m_error_code(code) {}
 		virtual void print() override;
 	};
 }
