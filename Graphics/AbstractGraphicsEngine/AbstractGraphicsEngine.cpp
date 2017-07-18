@@ -10,12 +10,14 @@ AbstractGraphicsEngine::~AbstractGraphicsEngine() {}
 GLFWwindow * AbstractGraphicsEngine::createWindow(char* title, size_t width, size_t height) {
 	setWindowSettings();
 
-	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	if (!window)
+	m_window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	if (!m_window)
 		throw Exceptions::WindowInitializationException();
-	return window;
+	m_window_width = width;
+	m_window_height = height;
+	return m_window;
 }
 
 void AbstractGraphicsEngine::destroyWindow() {
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(m_window);
 }

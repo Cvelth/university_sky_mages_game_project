@@ -3,9 +3,9 @@ struct GLFWwindow;
 
 class AbstractGraphicsEngine {
 protected:
-	GLFWwindow* window;
-	size_t window_width;
-	size_t window_height;
+	GLFWwindow* m_window;
+	size_t m_window_width;
+	size_t m_window_height;
 protected:
 	virtual void setWindowSettings() abstract;
 public:
