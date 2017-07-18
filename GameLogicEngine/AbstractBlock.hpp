@@ -1,11 +1,11 @@
 #pragma once
 class AbstractBlock {
 private:
-	float speedMultiplier;
+	float m_speedMultiplier;
 public:
-	AbstractBlock(float multiplier) : speedMultiplier(multiplier) {};
+	AbstractBlock(float multiplier) : m_speedMultiplier(multiplier) {};
 	float get() {
-		return speedMultiplier;
+		return m_speedMultiplier;
 	}
 };
 

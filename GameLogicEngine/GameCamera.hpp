@@ -4,10 +4,10 @@ class GameMap;
 
 class GameCamera {
 private:
-	Point *corner;
-	float aspectRatio;
-	float horizontalBlocks;
-	GameMap* map;
+	Point *m_corner;
+	float m_aspectRatio;
+	float m_horizontalBlocks;
+	GameMap* m_map;
 protected:
 	bool check();
 	void correct();
