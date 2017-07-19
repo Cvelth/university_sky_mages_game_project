@@ -9,20 +9,17 @@
 #include "Graphics\VulkanGraphicsEngine\VulkanGraphicsEngine.hpp"
 #endif
 
-#include "glfw\glfw3.h"
-
 void GameWindow::initialize() {
-	if (!glfwInit())
-		throw Exceptions::GLFWInitializationException();
+	//Does nothing.
 }
 
 void GameWindow::clean() {
-	glfwTerminate();
+	//Does nothing.
 }
 
 GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) 
 		: m_width(width), m_height(height), m_camera(new GameCamera(map, float(width) / height)) {
-
+	
 #ifdef OPENGL_ENGINE_USED
 	m_graphics = new OpenGLGraphicsEngine();
 #endif
@@ -33,9 +30,6 @@ GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, b
 	initialize();
 	m_window = m_graphics->createWindow(title, width, height);
 	m_graphics->initialize();
-
-	if (insertDefaultCallback)
-		glfwSetErrorCallback(GameWindow::errorCallback);
 }
 
 GameWindow::~GameWindow() {
@@ -48,12 +42,8 @@ GameWindow::~GameWindow() {
 
 int GameWindow::loop() {
 	m_graphics->initializeRenderProcess();
-	while (!glfwWindowShouldClose(m_window))
+	while (!m_graphics->isWindowClosed())
 		m_graphics->renderProcess();
 	m_graphics->clearRenderProcess();
 	return 0;
-}
-
-void GameWindow::errorCallback(int errorCode, const char* description) {
-	throw Exceptions::GLFWCallBackException(errorCode, description);
 }
