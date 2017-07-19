@@ -76,12 +76,12 @@ VkDevice VulkanGraphicsEngine::generateLogicalDevice(VkPhysicalDevice physicalDe
 	VkDeviceCreateInfo createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	createInfo.pQueueCreateInfos = queueCreateInfos.data();
-	createInfo.queueCreateInfoCount = queueCreateInfos.size();
+	createInfo.queueCreateInfoCount = (uint32_t) queueCreateInfos.size();
 	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = deviceExtensions.size();
+	createInfo.enabledExtensionCount = (uint32_t) deviceExtensions.size();
 	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 	if (isValidationEnabled) {
-		createInfo.enabledLayerCount = validationLayers.size();
+		createInfo.enabledLayerCount = (uint32_t) validationLayers.size();
 		createInfo.ppEnabledLayerNames = validationLayers.data();
 	} else
 		createInfo.enabledLayerCount = 0;

@@ -90,10 +90,10 @@ VkInstance VulkanGraphicsEngine::generateVulkanInstance() {
 	instInfo.pApplicationInfo = &appInfo;
 
 	auto extensions = getRequiredGLFWExtensions();
-	instInfo.enabledExtensionCount = extensions.size();
+	instInfo.enabledExtensionCount = (uint32_t) extensions.size();
 	instInfo.ppEnabledExtensionNames = extensions.data();
 	if (isValidationEnabled) {
-		instInfo.enabledLayerCount = validationLayers.size();
+		instInfo.enabledLayerCount = (uint32_t) validationLayers.size();
 		instInfo.ppEnabledLayerNames = validationLayers.data();
 	} else
 		instInfo.enabledLayerCount = 0;
