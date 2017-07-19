@@ -1,4 +1,16 @@
 #pragma once
+
+//The engine to handle this window is chosen here:
+/* Variants of engines to chose from:
+	* USE_DEFAULT_ENGINE
+	* USE_VULKAN_ENGINE
+	* USE_OPENGL_ENGINE
+Just #define the one you want the window to use.
+	USE_DEFAULT_ENGINE is recommended.
+*/
+#define USE_DEFAULT_ENGINE
+#include "EngineUsage.hpp"
+
 struct GLFWwindow;
 class AbstractGraphicsEngine;
 class GameCamera;
@@ -12,6 +24,15 @@ private:
 
 	size_t m_width;
 	size_t m_height;
+
+	inline void initializeEngine() {
+		#ifdef OPENGL_ENGINE_USED
+			m_graphics = new OpenGLGraphicsEngine();
+		#endif
+		#ifdef VULKAN_ENGINE_USED
+			m_graphics = new VulkanGraphicsEngine();
+		#endif
+	}
 protected:
 	void initialize();
 	void clean();

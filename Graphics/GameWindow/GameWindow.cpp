@@ -1,7 +1,13 @@
 #include "GameWindow.hpp"
 #include "GameLogicEngine\GameCamera.hpp"
 #include "Exceptions\WindowExceptions.hpp"
+
+#ifdef OPENGL_ENGINE_USED
+#include "Graphics\OpenGLGraphicsEngine\OpenGLGraphicsEngine.hpp"
+#endif
+#ifdef VULKAN_ENGINE_USED
 #include "Graphics\VulkanGraphicsEngine\VulkanGraphicsEngine.hpp"
+#endif
 
 #include "glfw\glfw3.h"
 
@@ -16,7 +22,7 @@ void GameWindow::clean() {
 
 GameWindow::GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback) 
 		: m_width(width), m_height(height), m_camera(new GameCamera(map, float(width) / height)) {
-	m_graphics = new VulkanGraphicsEngine();
+	initializeEngine();
 	initialize();
 	m_window = m_graphics->createWindow(title, width, height);
 	m_graphics->initialize();
