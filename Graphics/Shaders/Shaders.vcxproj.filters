@@ -33,6 +33,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\lib.cpp" />
+    <ClCompile Include="lib.cpp" />
   </ItemGroup>
 </Project>

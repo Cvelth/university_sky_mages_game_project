@@ -172,7 +172,7 @@
     <None Include="Source\Triangle.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\lib.cpp" />
+    <ClCompile Include="lib.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

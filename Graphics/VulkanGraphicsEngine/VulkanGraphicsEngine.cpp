@@ -29,7 +29,7 @@ void VulkanGraphicsEngine::initialize() {
 		throw Exceptions::LayersNotAvailableException();
 
 	//m_shaderFilenames = ShaderFilenames("Circle.vk.vert.spv", "CoordinateColor.vk.frag.spv");
-	m_shaderFilenames = ShaderFilenames("Triangle.vk.vert.spv", "Triangle.vk.frag.spv");
+	m_shaderFilenames = ShaderFilenames("Triangle.vert.vk.spv", "Triangle.frag.vk.spv");
 
 	m_instance = generateVulkanInstance();
 	insertCallbacks(m_instance);
