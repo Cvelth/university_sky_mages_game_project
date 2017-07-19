@@ -1,5 +1,5 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "Exceptions\WindowExceptions.hpp"
+#include "Exceptions\VulkanExceptions.hpp"
 
 #include <functional>
 

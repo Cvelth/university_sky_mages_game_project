@@ -1,5 +1,6 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "Exceptions\WindowExceptions.hpp"
+#include "Exceptions\VulkanExceptions.hpp"
+
 #include <algorithm>
 
 VkSurfaceFormatKHR VulkanGraphicsEngine::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
@@ -141,6 +142,22 @@ std::vector<VkFramebuffer> VulkanGraphicsEngine::generateFramebuffers(VkDevice d
 		if (error != VK_SUCCESS)
 			throw Exceptions::FramebufferGenerationException(error);
 	}
+
+	return ret;
+}
+
+VkCommandPool VulkanGraphicsEngine::generateCommandPool(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface) {
+	VkCommandPool ret;
+
+	QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice, surface);
+	VkCommandPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily;
+	poolInfo.flags = 0; // Optional
+
+	auto error = vkCreateCommandPool(device, &poolInfo, nullptr, &ret);
+	if (error != VK_SUCCESS)
+		throw Exceptions::CommandPoolGenerationException(error);
 
 	return ret;
 }

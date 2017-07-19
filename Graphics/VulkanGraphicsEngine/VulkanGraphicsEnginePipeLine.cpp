@@ -1,5 +1,5 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "Exceptions\WindowExceptions.hpp"
+#include "Exceptions\VulkanExceptions.hpp"
 
 PipelineHandle VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass) {
 	auto vertexShader = generateShaderModule(readFile("CircleShader.vk.vert.spv"), device);

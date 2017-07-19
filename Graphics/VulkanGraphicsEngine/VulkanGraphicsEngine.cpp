@@ -1,5 +1,5 @@
 #include "VulkanGraphicsEngine.hpp"
-#include "Exceptions\WindowExceptions.hpp"
+#include "Exceptions\VulkanExceptions.hpp"
 
 #ifdef _DEBUG
 bool VulkanGraphicsEngine::isValidationEnabled = true;
@@ -45,6 +45,7 @@ void VulkanGraphicsEngine::initialize() {
 
 void VulkanGraphicsEngine::clean() {
 	if (m_isInitialized) {
+		vkDestroyCommandPool(m_device, m_commandPool, nullptr);
 		for (auto it : m_framebuffers)
 			vkDestroyFramebuffer(m_device, it, nullptr);
 		vkDestroyPipeline(m_device, *m_pipeline, nullptr);
