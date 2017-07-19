@@ -48,9 +48,9 @@ namespace Exceptions {
 	public: SurfaceInitializationException(int code)
 		: AbstractVulkanErrorException("SurfaceInitializationException", code) {}
 	};
-	class SwapChainCreationException : public AbstractStringException {
-	public: SwapChainCreationException()
-		: AbstractStringException("SwapChainCreationException", "Some error has occured during SwapChain intialization.") {}
+	class SwapChainCreationException : public AbstractVulkanErrorException {
+	public: SwapChainCreationException(int code)
+		: AbstractVulkanErrorException("SwapChainCreationException", code) {}
 	};
 	class ShaderCreationException : public AbstractVulkanErrorException {
 	public: ShaderCreationException(int code)
@@ -67,5 +67,9 @@ namespace Exceptions {
 	class RenderPassCreationException : public AbstractVulkanErrorException {
 	public: RenderPassCreationException(int code)
 		: AbstractVulkanErrorException("RenderPassCreationException", code) {}
+	};
+	class FramebufferGenerationException : public AbstractVulkanErrorException {
+	public: FramebufferGenerationException(int code)
+		: AbstractVulkanErrorException("FramebufferGenerationException", code) {}
 	};
 }

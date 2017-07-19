@@ -76,8 +76,9 @@ SwapChainHandle VulkanGraphicsEngine::generateSwapChain(GLFWwindow* window, VkPh
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 	SwapChainHandle ret;
-	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &ret.swapChain) != VK_SUCCESS)
-		throw Exceptions::SwapChainCreationException();
+	auto error = vkCreateSwapchainKHR(device, &createInfo, nullptr, &ret.swapChain);
+	if (error != VK_SUCCESS)
+		throw Exceptions::SwapChainCreationException(error);
 
 	vkGetSwapchainImagesKHR(device, *ret, &imageCount, nullptr);
 	ret.images.resize(imageCount);
@@ -111,8 +112,34 @@ std::vector<VkImageView> VulkanGraphicsEngine::getSwapChainImages(VkDevice devic
 		createInfo.subresourceRange.baseArrayLayer = 0;
 		createInfo.subresourceRange.layerCount = 1;
 
-		if (vkCreateImageView(device, &createInfo, nullptr, &ret.at(i)) != VK_SUCCESS)
-			throw Exceptions::SwapChainCreationException();
+		auto error = vkCreateImageView(device, &createInfo, nullptr, &ret.at(i));
+		if (error != VK_SUCCESS)
+			throw Exceptions::SwapChainCreationException(error);
+	}
+
+	return ret;
+}
+
+std::vector<VkFramebuffer> VulkanGraphicsEngine::generateFramebuffers(VkDevice device, SwapChainHandle swapChain, std::vector<VkImageView> images, VkRenderPass renderPass) {
+	std::vector<VkFramebuffer> ret;
+	ret.resize(images.size());
+
+	for (size_t i = 0; i < ret.size(); i++) {
+		VkImageView attachments[] = {
+			images.at(i)
+		};
+		VkFramebufferCreateInfo framebufferInfo = {};
+		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		framebufferInfo.renderPass = renderPass;
+		framebufferInfo.attachmentCount = 1;
+		framebufferInfo.pAttachments = attachments;
+		framebufferInfo.width = swapChain.extent.width;
+		framebufferInfo.height = swapChain.extent.height;
+		framebufferInfo.layers = 1;
+
+		auto error = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &ret.at(i));
+		if (error != VK_SUCCESS)
+			throw Exceptions::FramebufferGenerationException(error);
 	}
 
 	return ret;

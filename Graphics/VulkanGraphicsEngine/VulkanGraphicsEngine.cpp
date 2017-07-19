@@ -38,12 +38,15 @@ void VulkanGraphicsEngine::initialize() {
 	m_images = getSwapChainImages(m_device, m_swapChain);
 	m_renderPass = generateRenderPass(m_device, m_swapChain);
 	m_pipeline = generateGraphicsPipeline(m_device, m_swapChain, m_renderPass);
+	m_framebuffers = generateFramebuffers(m_device, m_swapChain, m_images, m_renderPass);
 
 	m_isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
 	if (m_isInitialized) {
+		for (auto it : m_framebuffers)
+			vkDestroyFramebuffer(m_device, it, nullptr);
 		vkDestroyPipeline(m_device, *m_pipeline, nullptr);
 		vkDestroyRenderPass(m_device, m_renderPass, nullptr);
 		vkDestroyPipelineLayout(m_device, m_pipeline.layout, nullptr);

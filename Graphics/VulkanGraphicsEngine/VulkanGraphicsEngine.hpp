@@ -62,6 +62,7 @@ private:
 	std::vector<VkImageView> m_images;
 	VkRenderPass m_renderPass;
 	PipelineHandle m_pipeline;
+	std::vector<VkFramebuffer> m_framebuffers;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -75,6 +76,7 @@ protected:
 	static std::vector<VkImageView> getSwapChainImages(VkDevice device, SwapChainHandle swapChain);
 	static PipelineHandle generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass);
 	static VkRenderPass generateRenderPass(VkDevice device, SwapChainHandle swapChain);
+	static std::vector<VkFramebuffer> generateFramebuffers(VkDevice device, SwapChainHandle swapChain, std::vector<VkImageView> images, VkRenderPass renderPass);
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);
@@ -86,7 +88,6 @@ protected:
 	static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, size_t width, size_t height);
 	static std::vector<char> readFile(const std::string& filename);
 	static VkShaderModule generateShaderModule(const std::vector<char>& code, VkDevice device);
-
 
 	virtual void setWindowSettings() override;
 public:
