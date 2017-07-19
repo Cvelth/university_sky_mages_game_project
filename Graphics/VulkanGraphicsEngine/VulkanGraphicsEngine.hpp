@@ -64,6 +64,7 @@ private:
 	PipelineHandle m_pipeline;
 	std::vector<VkFramebuffer> m_framebuffers;
 	VkCommandPool m_commandPool;
+	std::vector<VkCommandBuffer> m_commandBuffers;
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -79,6 +80,7 @@ protected:
 	static VkRenderPass generateRenderPass(VkDevice device, SwapChainHandle swapChain);
 	static std::vector<VkFramebuffer> generateFramebuffers(VkDevice device, SwapChainHandle swapChain, std::vector<VkImageView> images, VkRenderPass renderPass);
 	static VkCommandPool generateCommandPool(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
+	static std::vector<VkCommandBuffer> generateCommandBuffers(VkDevice device, std::vector<VkFramebuffer> framebuffers, VkCommandPool commandPool);
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);

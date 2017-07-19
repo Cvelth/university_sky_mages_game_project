@@ -161,3 +161,28 @@ VkCommandPool VulkanGraphicsEngine::generateCommandPool(VkPhysicalDevice physica
 
 	return ret;
 }
+
+std::vector<VkCommandBuffer> VulkanGraphicsEngine::generateCommandBuffers(VkDevice device, std::vector<VkFramebuffer> framebuffers, VkCommandPool commandPool) {
+	std::vector<VkCommandBuffer> ret;
+	ret.resize(framebuffers.size());
+
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.commandPool = commandPool;
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandBufferCount = (uint32_t) ret.size();
+
+	auto error = vkAllocateCommandBuffers(device, &allocInfo, ret.data());
+	if (error != VK_SUCCESS)
+		throw Exceptions::CommandPoolGenerationException(error);
+
+	for (size_t i = 0; i < ret.size(); i++) {
+		VkCommandBufferBeginInfo beginInfo = {};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+		beginInfo.pInheritanceInfo = nullptr; // Optional
+		vkBeginCommandBuffer(ret.at(i), &beginInfo);
+	}
+
+	return ret;
+}

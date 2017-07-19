@@ -39,13 +39,15 @@ void VulkanGraphicsEngine::initialize() {
 	m_renderPass = generateRenderPass(m_device, m_swapChain);
 	m_pipeline = generateGraphicsPipeline(m_device, m_swapChain, m_renderPass);
 	m_framebuffers = generateFramebuffers(m_device, m_swapChain, m_images, m_renderPass);
+	m_commandPool = generateCommandPool(m_physicalDevice, m_device, m_surface);
+	m_commandBuffers = generateCommandBuffers(m_device, m_framebuffers, m_commandPool);
 
 	m_isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
 	if (m_isInitialized) {
-		vkDestroyCommandPool(m_device, m_commandPool, nullptr);
+		vkDestroyCommandPool(m_device, m_commandPool, nullptr); //Destroys all the VkCommandBuffer's as well.
 		for (auto it : m_framebuffers)
 			vkDestroyFramebuffer(m_device, it, nullptr);
 		vkDestroyPipeline(m_device, *m_pipeline, nullptr);
