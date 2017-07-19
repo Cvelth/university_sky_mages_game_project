@@ -24,15 +24,6 @@ private:
 
 	size_t m_width;
 	size_t m_height;
-
-	inline void initializeEngine() {
-		#ifdef OPENGL_ENGINE_USED
-			m_graphics = new OpenGLGraphicsEngine();
-		#endif
-		#ifdef VULKAN_ENGINE_USED
-			m_graphics = new VulkanGraphicsEngine();
-		#endif
-	}
 protected:
 	void initialize();
 	void clean();
