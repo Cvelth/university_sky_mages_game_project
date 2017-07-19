@@ -19,16 +19,20 @@
     <None Include="Build\LinkShaders.bat">
       <Filter>Build</Filter>
     </None>
-    <None Include="Source\CircleShader.vert">
+    <None Include="Source\Triangle.frag">
       <Filter>Source</Filter>
     </None>
-    <None Include="Source\CoordinateColorShader.frag">
+    <None Include="Source\CoordinateColor.frag">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Source\Circle.vert">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Source\Triangle.vert">
       <Filter>Source</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\lib.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
+    <ClCompile Include="Source\lib.cpp" />
   </ItemGroup>
 </Project>

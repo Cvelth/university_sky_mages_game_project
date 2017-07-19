@@ -11,7 +11,7 @@ std::vector<const char*> VulkanGraphicsEngine::validationLayers = {
 	"VK_LAYER_LUNARG_standard_validation"
 };
 
-VulkanGraphicsEngine::VulkanGraphicsEngine() : m_isInitialized(false) {}
+VulkanGraphicsEngine::VulkanGraphicsEngine() : m_isInitialized(false), m_semaforesWereCreated(false) {}
 
 VulkanGraphicsEngine::~VulkanGraphicsEngine() {}
 
@@ -28,6 +28,9 @@ void VulkanGraphicsEngine::initialize() {
 	if (isValidationEnabled && !checkValidationLayersSupport())
 		throw Exceptions::LayersNotAvailableException();
 
+	//m_shaderFilenames = ShaderFilenames("Circle.vk.vert.spv", "CoordinateColor.vk.frag.spv");
+	m_shaderFilenames = ShaderFilenames("Triangle.vk.vert.spv", "Triangle.vk.frag.spv");
+
 	m_instance = generateVulkanInstance();
 	insertCallbacks(m_instance);
 	m_surface = generateSurface(m_instance, m_window);
@@ -37,16 +40,22 @@ void VulkanGraphicsEngine::initialize() {
 	m_swapChain = generateSwapChain(m_window, m_physicalDevice, m_device, m_surface);
 	m_images = getSwapChainImages(m_device, m_swapChain);
 	m_renderPass = generateRenderPass(m_device, m_swapChain);
-	m_pipeline = generateGraphicsPipeline(m_device, m_swapChain, m_renderPass);
+	m_pipeline = generateGraphicsPipeline(m_device, m_swapChain, m_renderPass, m_shaderFilenames);
 	m_framebuffers = generateFramebuffers(m_device, m_swapChain, m_images, m_renderPass);
 	m_commandPool = generateCommandPool(m_physicalDevice, m_device, m_surface);
 	m_commandBuffers = generateCommandBuffers(m_device, m_framebuffers, m_commandPool);
+	generateSemaphores();
 
 	m_isInitialized = true;
 }
 
 void VulkanGraphicsEngine::clean() {
+
 	if (m_isInitialized) {
+		if (m_semaforesWereCreated) {
+			vkDestroySemaphore(m_device, m_imageAvailableSemaphore, nullptr);
+			vkDestroySemaphore(m_device, m_renderFinishedSemaphore, nullptr);
+		}
 		vkDestroyCommandPool(m_device, m_commandPool, nullptr); //Destroys all the VkCommandBuffer's as well.
 		for (auto it : m_framebuffers)
 			vkDestroyFramebuffer(m_device, it, nullptr);
@@ -175,4 +184,16 @@ bool VulkanGraphicsEngine::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKH
 		return false;
 
 	return true;
+}
+
+VkSemaphore VulkanGraphicsEngine::generateSemaphore(VkDevice device) {
+	VkSemaphoreCreateInfo semaphoreInfo = {};
+	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+	VkSemaphore ret;
+	auto error = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &ret);
+	if (error != VK_SUCCESS)
+		throw Exceptions::SemaphoreGenerationException(error);
+
+	return ret;
 }

@@ -45,12 +45,21 @@ struct PipelineHandle {
 	}
 };
 
+struct ShaderFilenames {
+	char* vertex;
+	char* fragment;
+	ShaderFilenames() {}
+	ShaderFilenames(char* vertex, char* fragment) : vertex(vertex), fragment(fragment) {}
+};
+
 class VulkanGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	static bool isValidationEnabled;
 	static std::vector<const char*> validationLayers;
 
+	ShaderFilenames m_shaderFilenames;
 	bool m_isInitialized;
+	bool m_semaforesWereCreated;
 	std::vector<const char*> m_deviceExtensions;
 
 	VkInstance m_instance;
@@ -65,6 +74,9 @@ private:
 	std::vector<VkFramebuffer> m_framebuffers;
 	VkCommandPool m_commandPool;
 	std::vector<VkCommandBuffer> m_commandBuffers;
+
+	VkSemaphore m_imageAvailableSemaphore;
+	VkSemaphore m_renderFinishedSemaphore; 
 protected:
 	static VkInstance generateVulkanInstance();
 	static std::vector<const char*> getRequiredGLFWExtensions(); 
@@ -76,11 +88,12 @@ protected:
 	static VkQueue getDeviceQueue(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static SwapChainHandle generateSwapChain(GLFWwindow* window, VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static std::vector<VkImageView> getSwapChainImages(VkDevice device, SwapChainHandle swapChain);
-	static PipelineHandle generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass);
+	static PipelineHandle generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass, ShaderFilenames shaderFilenames);
 	static VkRenderPass generateRenderPass(VkDevice device, SwapChainHandle swapChain);
 	static std::vector<VkFramebuffer> generateFramebuffers(VkDevice device, SwapChainHandle swapChain, std::vector<VkImageView> images, VkRenderPass renderPass);
 	static VkCommandPool generateCommandPool(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface);
 	static std::vector<VkCommandBuffer> generateCommandBuffers(VkDevice device, std::vector<VkFramebuffer> framebuffers, VkCommandPool commandPool);
+	void generateSemaphores();
 
 	static bool checkValidationLayersSupport();
 	static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface, const std::vector<const char*> deviceExtensions);
@@ -92,6 +105,8 @@ protected:
 	static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, size_t width, size_t height);
 	static std::vector<char> readFile(const std::string& filename);
 	static VkShaderModule generateShaderModule(const std::vector<char>& code, VkDevice device);
+	static VkSemaphore generateSemaphore(VkDevice device);
+
 
 	virtual void setWindowSettings() override;
 public:

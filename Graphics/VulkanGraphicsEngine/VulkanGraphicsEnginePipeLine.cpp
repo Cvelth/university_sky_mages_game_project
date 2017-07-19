@@ -1,9 +1,9 @@
 #include "VulkanGraphicsEngine.hpp"
 #include "Exceptions\VulkanExceptions.hpp"
 
-PipelineHandle VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass) {
-	auto vertexShader = generateShaderModule(readFile("CircleShader.vk.vert.spv"), device);
-	auto fragmentShader = generateShaderModule(readFile("CoordinateColorShader.vk.frag.spv"), device);
+PipelineHandle VulkanGraphicsEngine::generateGraphicsPipeline(VkDevice device, SwapChainHandle swapChain, VkRenderPass renderPass, ShaderFilenames shaderFilenames) {
+	auto vertexShader = generateShaderModule(readFile(shaderFilenames.vertex), device);
+	auto fragmentShader = generateShaderModule(readFile(shaderFilenames.fragment), device);
 
 	VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
 	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -157,6 +157,14 @@ VkRenderPass VulkanGraphicsEngine::generateRenderPass(VkDevice device, SwapChain
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = 1;
 	subpass.pColorAttachments = &colorAttachmentRef;
+	
+	VkSubpassDependency dependency = {};
+	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	dependency.dstSubpass = 0;
+	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.srcAccessMask = 0;
+	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
 	VkRenderPassCreateInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -164,6 +172,8 @@ VkRenderPass VulkanGraphicsEngine::generateRenderPass(VkDevice device, SwapChain
 	renderPassInfo.pAttachments = &colorAttachment;
 	renderPassInfo.subpassCount = 1;
 	renderPassInfo.pSubpasses = &subpass;
+	renderPassInfo.dependencyCount = 1;
+	renderPassInfo.pDependencies = &dependency;
 
 	VkRenderPass ret;
 	auto error = vkCreateRenderPass(device, &renderPassInfo, nullptr, &ret);

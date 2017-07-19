@@ -166,8 +166,10 @@
     <None Include="Build\CleanBuild.bat" />
     <None Include="Build\CompileShaders.bat" />
     <None Include="Build\LinkShaders.bat" />
-    <None Include="Source\CircleShader.vert" />
-    <None Include="Source\CoordinateColorShader.frag" />
+    <None Include="Source\Circle.vert" />
+    <None Include="Source\CoordinateColor.frag" />
+    <None Include="Source\Triangle.frag" />
+    <None Include="Source\Triangle.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\lib.cpp" />

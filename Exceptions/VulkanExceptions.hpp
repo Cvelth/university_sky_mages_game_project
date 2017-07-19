@@ -60,4 +60,16 @@ namespace Exceptions {
 	public: CommandPoolGenerationException(int code)
 		: AbstractVulkanErrorException("CommandPoolGenerationException", code) {}
 	};
+	class RenderInitializationException : public AbstractVulkanErrorException {
+	public: RenderInitializationException(int code)
+		: AbstractVulkanErrorException("RenderInitializationException", code) {}
+	};
+	class SemaphoreGenerationException : public AbstractVulkanErrorException {
+	public: SemaphoreGenerationException(int code)
+		: AbstractVulkanErrorException("SemaphoreGenerationException", code) {}
+	};
+	class VulkanRenderException : public AbstractVulkanErrorException {
+	public: VulkanRenderException(int code)
+		: AbstractVulkanErrorException("VulkanRenderException", code) {}
+	};
 }
