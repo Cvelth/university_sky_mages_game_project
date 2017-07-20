@@ -14,27 +14,18 @@
     <ClCompile Include="VulkanGraphicsEngine.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanGraphicsEngineCallback.cpp">
+    <ClCompile Include="InnerVulkanGraphicsEngine.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanGraphicsEngineQueues.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VulkanGraphicsEngineRenderProcess.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VulkanGraphicsEngineSwapChain.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VulkanGraphicsEnginePipeLine.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VulkanGraphicsEngineFileAccess.cpp">
+    <ClCompile Include="InnerVulkanGraphicsEngineRenderProcess.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VulkanGraphicsEngine.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="InnerVulkanGraphicsEngine.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -147,15 +147,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InnerVulkanGraphicsEngine.cpp" />
     <ClCompile Include="VulkanGraphicsEngine.cpp" />
-    <ClCompile Include="VulkanGraphicsEngineCallback.cpp" />
-    <ClCompile Include="VulkanGraphicsEngineFileAccess.cpp" />
-    <ClCompile Include="VulkanGraphicsEngineQueues.cpp" />
-    <ClCompile Include="VulkanGraphicsEngineRenderProcess.cpp" />
-    <ClCompile Include="VulkanGraphicsEnginePipeLine.cpp" />
-    <ClCompile Include="VulkanGraphicsEngineSwapChain.cpp" />
+    <ClCompile Include="InnerVulkanGraphicsEngineRenderProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InnerVulkanGraphicsEngine.hpp" />
     <ClInclude Include="VulkanGraphicsEngine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

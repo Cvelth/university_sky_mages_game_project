@@ -1,7 +1,7 @@
-#include "VulkanGraphicsEngine.hpp"
+#include "InnerVulkanGraphicsEngine.hpp"
 #include "Exceptions\VulkanExceptions.hpp"
 
-void VulkanGraphicsEngine::initializeRenderProcess() {
+void InnerVulkanGraphicsEngine::initializeRenderProcess() {
 	for (size_t i = 0; i < m_commandBuffers.size(); i++) {
 		VkCommandBufferBeginInfo beginInfo = {};
 		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -33,7 +33,7 @@ void VulkanGraphicsEngine::initializeRenderProcess() {
 	}
 }
 
-void VulkanGraphicsEngine::renderProcess() {
+void InnerVulkanGraphicsEngine::renderProcess() {
 	uint32_t imageIndex;
 	vkAcquireNextImageKHR(m_device, *m_swapChain, std::numeric_limits<uint64_t>::max(), m_imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
 
@@ -70,6 +70,6 @@ void VulkanGraphicsEngine::renderProcess() {
 	glfwPollEvents();
 }
 
-void VulkanGraphicsEngine::clearRenderProcess() {
+void InnerVulkanGraphicsEngine::clearRenderProcess() {
 	vkDeviceWaitIdle(m_device);
 }
