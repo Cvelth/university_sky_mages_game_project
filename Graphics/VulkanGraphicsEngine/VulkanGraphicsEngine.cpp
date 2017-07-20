@@ -15,11 +15,6 @@ VulkanGraphicsEngine::VulkanGraphicsEngine() : m_isInitialized(false), m_semafor
 
 VulkanGraphicsEngine::~VulkanGraphicsEngine() {}
 
-void VulkanGraphicsEngine::setWindowSettings() {
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-}
-
 void VulkanGraphicsEngine::initialize() {
 	m_deviceExtensions = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME
@@ -50,7 +45,6 @@ void VulkanGraphicsEngine::initialize() {
 }
 
 void VulkanGraphicsEngine::clean() {
-
 	if (m_isInitialized) {
 		if (m_semaforesWereCreated) {
 			vkDestroySemaphore(m_device, m_imageAvailableSemaphore, nullptr);
@@ -70,6 +64,23 @@ void VulkanGraphicsEngine::clean() {
 		destroyCallbacks(m_instance);
 		vkDestroyInstance(m_instance, nullptr); //Destroys VkPhysicalDevice as well.
 	}
+}
+
+void VulkanGraphicsEngine::initializeWindow(char * title, size_t width, size_t height, bool isFullscreen) {
+	if (!glfwInit())
+		throw Exceptions::GLFWInitializationException();
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	m_window = glfwCreateWindow((int) width, (int) height, title, nullptr, nullptr);
+}
+
+void VulkanGraphicsEngine::destroyWindow() {
+	glfwDestroyWindow(m_window);
+	glfwTerminate();
+}
+
+bool VulkanGraphicsEngine::isWindowClosed() {
+	return glfwWindowShouldClose(m_window);
 }
 
 bool VulkanGraphicsEngine::checkValidationLayersSupport() {

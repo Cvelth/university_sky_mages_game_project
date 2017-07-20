@@ -5,7 +5,6 @@ class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
 
 protected:
-	virtual void setWindowSettings() override;
 public:
 	virtual void initialize() override;
 	virtual void clean() override;

@@ -1,6 +1,5 @@
 #include "OpenGLGraphicsEngine.hpp"
 
-void OpenGLGraphicsEngine::setWindowSettings() {}
 
 void OpenGLGraphicsEngine::initialize() {}
 
