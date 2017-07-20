@@ -75,16 +75,28 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\MyOpenGL_Lib;</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\MyOpenGL_Lib;</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -93,12 +105,18 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\MyOpenGL_Lib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -107,12 +125,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\MyOpenGL_Lib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\MyOpenGL_Lib\x64\Release;</AdditionalLibraryDirectories>
+    </Lib>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractGraphicsEngine\AbstractGraphicsEngine.vcxproj">
@@ -120,9 +143,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InnerOpenGLGraphicsEngine.cpp" />
     <ClCompile Include="OpenGLGraphicsEngine.cpp" />
+    <ClCompile Include="OpenGLGraphicsEngineRenderingProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InnerOpenGLGraphicsEngine.hpp" />
     <ClInclude Include="OpenGLGraphicsEngine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
