@@ -20,12 +20,9 @@ class GameMap;
 //It stores and handles connection between the window handler(GLFWwindow struct) and chosen Engine.
 class GameWindow {
 private:
-	GLFWwindow* m_window;
 	AbstractGraphicsEngine* m_graphics;
 	GameCamera* m_camera;
 
-	size_t m_width;
-	size_t m_height;
 protected:
 
 	//Creates engine instance, shows a window and initializes the connection between them.
@@ -39,7 +36,7 @@ public:
 
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
-	GameWindow(char* title, size_t width, size_t height, GameMap* map, bool insertDefaultCallback = true);
+	GameWindow(char* title, size_t width, size_t height, bool isFullscreen, GameMap* map);
 
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();

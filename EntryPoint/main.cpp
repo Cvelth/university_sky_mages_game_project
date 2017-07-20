@@ -5,7 +5,7 @@
 int main() {
 	try {
 		GameMap *map = new GameMap(500, 500, DefaultMapFilling::HorizontalRows);
-		GameWindow window("SkyMages Dev", 1280, 1024, map);
+		GameWindow window("SkyMages Dev", 1280, 1024, false, map);
 		return window.loop();
 	} catch (Exceptions::AbstractException& e) {
 		e.print();
