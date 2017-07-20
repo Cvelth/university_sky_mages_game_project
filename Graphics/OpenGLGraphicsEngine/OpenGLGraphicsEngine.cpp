@@ -15,14 +15,20 @@ void OpenGLGraphicsEngine::destroyWindow() {
 }
 
 bool OpenGLGraphicsEngine::isWindowClosed() {
-	return false;
+	return m_engine->isWindowClosed();
 }
 
-void OpenGLGraphicsEngine::initializeRenderProcess() {}
+void OpenGLGraphicsEngine::initializeRenderProcess() {
+	m_engine->initializeRenderProcess();
+}
 
-void OpenGLGraphicsEngine::renderProcess() {}
+void OpenGLGraphicsEngine::renderProcess() {
+	m_engine->renderProcess();
+}
 
-void OpenGLGraphicsEngine::clearRenderProcess() {}
+void OpenGLGraphicsEngine::clearRenderProcess() {
+	m_engine->clearRenderProcess();
+}
 
 OpenGLGraphicsEngine::OpenGLGraphicsEngine() {
 	m_engine = new InnerOpenGLGraphicsEngine();

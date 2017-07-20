@@ -79,6 +79,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\MyOpenGL_Lib\x86\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -93,6 +94,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\MyOpenGL_Lib\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -113,6 +115,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>MyOpenGL.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\MyOpenGL_Lib\x86\Release;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
