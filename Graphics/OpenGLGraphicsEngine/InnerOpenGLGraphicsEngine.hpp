@@ -1,8 +1,10 @@
 #pragma once
 #include "OpenGLGraphicsEngine.hpp"
-#include "MyOpenGL\AbstractWindow.hpp"
 
-class InnerOpenGLGraphicsEngine : public mgl::AbstractWindow {
+#define MGL_DEFAULT_INCLUDE
+#include "MyOpenGL.hpp"
+
+class InnerOpenGLGraphicsEngine : public mgl::Window {
 	friend OpenGLGraphicsEngine;
 public:
 	InnerOpenGLGraphicsEngine();
@@ -12,4 +14,3 @@ public:
 	virtual void renderProcess() override;
 	virtual void clearRenderProcess() override;
 };
-
