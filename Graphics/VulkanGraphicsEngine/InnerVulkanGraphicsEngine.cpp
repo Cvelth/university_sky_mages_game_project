@@ -2,7 +2,7 @@
 #include "Exceptions\VulkanExceptions.hpp"
 
 #ifdef _DEBUG
-bool VulkanGraphicsEngine::isValidationEnabled = true;
+bool InnerVulkanGraphicsEngine::isValidationEnabled = true;
 #else
 bool InnerVulkanGraphicsEngine::isValidationEnabled = false;
 #endif
