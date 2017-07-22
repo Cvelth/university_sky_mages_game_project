@@ -1,10 +1,14 @@
 #pragma once
-class Point;
+namespace mgl {
+	namespace math {
+		class Vector;
+	}
+}
 class GameMap;
 
 class GameCamera {
 private:
-	Point *m_corner;
+	mgl::math::Vector *m_corner;
 	float m_aspectRatio;
 	float m_horizontalBlocks;
 	GameMap* m_map;

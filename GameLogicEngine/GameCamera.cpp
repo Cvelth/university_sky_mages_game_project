@@ -1,6 +1,6 @@
 #include "GameCamera.hpp"
 #include "GameMap.hpp"
-#include "GeometryAndPhysics\Point.hpp"
+#include "..\MyOpenGL_Lib\Math\Vector.hpp"
 
 bool GameCamera::check() {
 	float x = m_corner->x();
@@ -29,7 +29,7 @@ void GameCamera::correct() {
 		m_corner->y(m_map->m_height - m_horizontalBlocks * m_aspectRatio);
 }
 
-GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new Point(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {}
+GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {}
 
 void GameCamera::changeAspectRatio(float aspectRatio) {
 	this->m_aspectRatio = aspectRatio;
@@ -42,7 +42,7 @@ void GameCamera::changeZoom(float magnifier) {
 }
 
 void GameCamera::move(float x, float y) {
-	*m_corner += Point(x, y);
+	*m_corner += mgl::math::Vector(x, y);
 	correct();
 }
 

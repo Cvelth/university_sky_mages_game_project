@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeometryAndPhysics", "GeometryAndPhysics\GeometryAndPhysics.vcxproj", "{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{C2CC0351-A630-4978-90C6-3F5CFDCCC093}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exceptions", "Exceptions\Exceptions.vcxproj", "{D93084B9-FC49-48D7-9336-8D45A0911FD3}"
@@ -31,14 +29,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Debug|x64.ActiveCfg = Debug|x64
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Debug|x64.Build.0 = Debug|x64
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Debug|x86.ActiveCfg = Debug|Win32
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Debug|x86.Build.0 = Debug|Win32
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Release|x64.ActiveCfg = Release|x64
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Release|x64.Build.0 = Release|x64
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Release|x86.ActiveCfg = Release|Win32
-		{7FB4C7F2-2DEA-40D1-9B0A-947ADB8CBB0D}.Release|x86.Build.0 = Release|Win32
 		{D93084B9-FC49-48D7-9336-8D45A0911FD3}.Debug|x64.ActiveCfg = Debug|x64
 		{D93084B9-FC49-48D7-9336-8D45A0911FD3}.Debug|x64.Build.0 = Debug|x64
 		{D93084B9-FC49-48D7-9336-8D45A0911FD3}.Debug|x86.ActiveCfg = Debug|Win32
