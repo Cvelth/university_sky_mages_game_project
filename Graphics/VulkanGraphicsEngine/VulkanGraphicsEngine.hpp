@@ -18,8 +18,4 @@ public:
 	virtual void initializeWindow(char* title, size_t width, size_t height, bool isFullscreen) override;
 	virtual void destroyWindow() override;
 	virtual bool isWindowClosed() override;
-
-	virtual void initializeRenderProcess() override;
-	virtual void renderProcess() override;
-	virtual void clearRenderProcess() override;
 };

@@ -46,6 +46,10 @@ void GameCamera::move(float x, float y) {
 	correct();
 }
 
+GameMap * GameCamera::map() {
+	return m_map;
+}
+
 GameCamera::~GameCamera() {
 	if (m_corner)
 		delete m_corner;

@@ -41,9 +41,14 @@ GameWindow::~GameWindow() {
 }
 
 int GameWindow::loop() {
-	m_graphics->initializeRenderProcess();
-	while (!m_graphics->isWindowClosed())
-		m_graphics->renderProcess();
-	m_graphics->clearRenderProcess();
+	m_graphics->initializeMapRendering(m_camera->map());
+	//m_graphics->initializeRenderProcess();
+	while (!m_graphics->isWindowClosed()) {
+		m_graphics->renderMap(m_camera);
+		//m_graphics->renderProcess();
+		m_graphics->update();
+	}
+	m_graphics->cleanMapRendering();
+	//m_graphics->clearRenderProcess();
 	return 0;
 }

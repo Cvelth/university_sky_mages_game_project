@@ -22,6 +22,8 @@ public:
 	void changeZoom(float magnifier);
 	void move(float x, float y);
 
+	GameMap* map();
+
 	~GameCamera();
 };
 

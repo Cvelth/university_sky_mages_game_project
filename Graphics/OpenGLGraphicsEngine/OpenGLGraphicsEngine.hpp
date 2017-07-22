@@ -18,7 +18,9 @@ public:
 	virtual void destroyWindow() override;
 	virtual bool isWindowClosed() override;
 
-	virtual void initializeRenderProcess() override;
-	virtual void renderProcess() override;
-	virtual void clearRenderProcess() override;
+	virtual void update() override;
+
+	virtual void initializeMapRendering(GameMap* map) override;
+	virtual void renderMap(GameCamera* camera) override;
+	virtual void cleanMapRendering() override;
 };

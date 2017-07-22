@@ -1,5 +1,7 @@
 #pragma once
 struct GLFWwindow;
+class GameMap;
+class GameCamera;
 
 //Abtract engine. Used for defining of the base structure of all the other engines,
 //being inherited by them. Stores window-data(pointer to them).
@@ -27,12 +29,24 @@ public:
 	//Window destruction and cleaning handling.
 	virtual void destroyWindow() abstract;
 
-	//Creates rendering system and sends data to GPU device.
-	virtual void initializeRenderProcess() abstract;
-	//Updates screen, using data send with initializeRenderProcess.
-	virtual void renderProcess() abstract;
-	//Cleans data after the rendering is no longer needed.
-	virtual void clearRenderProcess() abstract;
+	////Creates rendering system and sends data to GPU device.
+	//virtual void initializeRenderProcess() abstract;
+	////Updates screen, using data send with initializeRenderProcess.
+	//virtual void renderProcess() abstract;
+	////Cleans data after the rendering is no longer needed.
+	//virtual void clearRenderProcess() abstract;
+
+	//Updates screen accordingly to last rendered data.
+	//Swaps buffers and polls events.
+	virtual void update() abstract;
+
+	//Puts all the objects/textures/rendering data for all the map blocks into graphical memory.
+	//Gets ready for map rendering.
+	virtual void initializeMapRendering(GameMap* map) abstract;
+	//Shows part of the map which is determined by current camera position.
+	virtual void renderMap(GameCamera* camera) abstract;
+	//Clears data after map and all its blocks.
+	virtual void cleanMapRendering() abstract;
 
 	//Returns true if window was manually closed by user and expects to be cleaned. False otherwise.
 	virtual bool isWindowClosed() abstract;

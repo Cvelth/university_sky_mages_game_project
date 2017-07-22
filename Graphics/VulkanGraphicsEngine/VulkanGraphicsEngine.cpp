@@ -34,15 +34,3 @@ void VulkanGraphicsEngine::destroyWindow() {
 bool VulkanGraphicsEngine::isWindowClosed() {
 	return glfwWindowShouldClose(m_window);
 }
-
-void VulkanGraphicsEngine::initializeRenderProcess() {
-	m_engine->initializeRenderProcess();
-}
-
-void VulkanGraphicsEngine::renderProcess() {
-	m_engine->renderProcess();
-}
-
-void VulkanGraphicsEngine::clearRenderProcess() {
-	m_engine->clearRenderProcess();
-}
