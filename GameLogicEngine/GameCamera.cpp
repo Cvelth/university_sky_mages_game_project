@@ -46,6 +46,22 @@ void GameCamera::move(float x, float y) {
 	correct();
 }
 
+int GameCamera::beginX() const {
+	return int(m_corner->at(0));
+}
+
+int GameCamera::beginY() const {
+	return int(m_corner->at(1));
+}
+
+int GameCamera::endX() const {
+	return int(m_corner->at(0) + m_horizontalBlocks);
+}
+
+int GameCamera::endY() const {
+	return int(m_corner->at(0) + m_horizontalBlocks * m_aspectRatio);
+}
+
 GameMap * GameCamera::map() {
 	return m_map;
 }

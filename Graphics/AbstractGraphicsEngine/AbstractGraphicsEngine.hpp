@@ -46,7 +46,7 @@ public:
 	//Shows part of the map which is determined by current camera position.
 	virtual void renderMap(GameCamera* camera) abstract;
 	//Clears data after map and all its blocks.
-	virtual void cleanMapRendering() abstract;
+	virtual void cleanMapRendering(GameMap* map) abstract;
 
 	//Returns true if window was manually closed by user and expects to be cleaned. False otherwise.
 	virtual bool isWindowClosed() abstract;

@@ -141,6 +141,9 @@
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GameLogicEngine\GameLogicEngine.vcxproj">
+      <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AbstractGraphicsEngine\AbstractGraphicsEngine.vcxproj">
       <Project>{fab43db9-b048-43d6-9893-b089a958a213}</Project>
     </ProjectReference>

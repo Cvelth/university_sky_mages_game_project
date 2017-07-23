@@ -53,7 +53,7 @@ int GameWindow::loop() {
 		//m_graphics->renderProcess();
 		m_graphics->update();
 	}
-	m_graphics->cleanMapRendering();
+	m_graphics->cleanMapRendering(m_camera->map());
 	//m_graphics->clearRenderProcess();
 	return 0;
 } 

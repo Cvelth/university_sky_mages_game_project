@@ -22,5 +22,5 @@ public:
 
 	virtual void initializeMapRendering(GameMap* map) override;
 	virtual void renderMap(GameCamera* camera) override;
-	virtual void cleanMapRendering() override;
+	virtual void cleanMapRendering(GameMap* map) override;
 };

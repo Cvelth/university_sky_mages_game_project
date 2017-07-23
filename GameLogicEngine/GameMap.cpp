@@ -33,18 +33,15 @@ void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
 }
 
 void GameMap::resize(size_t width, size_t height) {
+	m_width = width;
+	m_height = height;
 	m_mapData.resize(width);
 	for (unsigned int i = 0; i < width; i++)
 		m_mapData.at(i).resize(height);
 }
 
 void GameMap::clear() {
-	for (unsigned int i = 0; i < m_width; i++)
-		for (unsigned int j = 0; j < m_height; j++) {
-			auto t = get(i, j);
-			if (t)
-				delete t;
-		}
+	//TO DO
 }
 
 bool GameMap::isBorder(size_t w, size_t h) const {

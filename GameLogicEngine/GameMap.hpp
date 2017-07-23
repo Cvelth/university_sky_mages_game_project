@@ -40,6 +40,9 @@ public:
 	GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, DefaultMapFilling mapFilling = DefaultMapFilling::All_Empty);
 	~GameMap();
 
+	inline size_t width() const { return m_width; }
+	inline size_t height() const { return m_height; }
+
 	inline AbstractBlock* get(size_t w, size_t h) const {
 		return m_mapData.at(w).at(h);
 	}

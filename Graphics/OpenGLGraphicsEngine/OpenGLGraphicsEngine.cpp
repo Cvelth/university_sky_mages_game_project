@@ -1,7 +1,9 @@
 #include "OpenGLGraphicsEngine.hpp"
 #include "InnerOpenGLGraphicsEngine.hpp"
 
-void OpenGLGraphicsEngine::initialize() {}
+void OpenGLGraphicsEngine::initialize() {
+	m_engine->linkDefaultProgram(mgl::DefaulProgramType::VertexNoMatrices);
+}
 
 void OpenGLGraphicsEngine::clean() {}
 
@@ -23,16 +25,32 @@ void OpenGLGraphicsEngine::update() {
 	m_engine->update();
 }
 
-void OpenGLGraphicsEngine::initializeMapRendering(GameMap * map) {}
-
-void OpenGLGraphicsEngine::renderMap(GameCamera * camera) {}
-
-void OpenGLGraphicsEngine::cleanMapRendering() {}
-
 OpenGLGraphicsEngine::OpenGLGraphicsEngine() {
 	m_engine = new InnerOpenGLGraphicsEngine();
 }
 
 OpenGLGraphicsEngine::~OpenGLGraphicsEngine() {
 	delete m_engine;
+}
+
+#include "GameLogicEngine\GameMap.hpp"
+#include "GameLogicEngine\GameCamera.hpp"
+#include "GameLogicEngine\AbstractBlock.hpp"
+#include "Graphics\RenderInfo\RenderInfo.hpp"
+void OpenGLGraphicsEngine::initializeMapRendering(GameMap* map) {
+	for (int i = 0; i < map->width(); i++)
+		for (int j = 0; j < map->height(); j++)
+			map->get(i, j)->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+}
+
+void OpenGLGraphicsEngine::renderMap(GameCamera* camera) {
+	for (int i = camera->beginX(); i < camera->endX(); i++)
+		for (int j = camera->beginY(); j < camera->endY(); j++)
+			camera->map()->get(i, j)->renderInfo()->get()->draw();
+}
+
+void OpenGLGraphicsEngine::cleanMapRendering(GameMap* map) {
+	for (int i = 0; i < map->width(); i++)
+		for (int j = 0; j < map->height(); j++)
+			map->get(i, j)->renderInfo()->get()->clean();
 }

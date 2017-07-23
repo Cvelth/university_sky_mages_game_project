@@ -11,7 +11,7 @@ public:
 	float get() {
 		return m_speedMultiplier;
 	}
-	RenderInfo* drawable() { return m_renderInfo; }
+	RenderInfo* renderInfo() { return m_renderInfo; }
 };
 
 class EmptyBlock : public AbstractBlock {
