@@ -50,24 +50,23 @@ void GameMap::clear() {
 bool GameMap::isBorder(size_t w, size_t h) const {
 	return w == 0 || w == m_width - 1 || h == 0 || h == m_height - 1;
 }
-
-GameMap::GameMap(size_t width, size_t height, DefaultMapFilling mapFilling) : m_width(width), m_height(height) {
+GameMap::GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, DefaultMapFilling mapFilling) {
 	resize(width, height);
 	switch (mapFilling) {
 		case DefaultMapFilling::All_Empty:
-			fillEach(new EmptyBlock());
+			fillEach(new EmptyBlock(renderInfo));
 			break;
 		case DefaultMapFilling::All_Walls:
-			fillEach(new WallBlock());
+			fillEach(new WallBlock(renderInfo));
 			break;
 		case DefaultMapFilling::Borders:
-			borderFill(new WallBlock(), new EmptyBlock());
+			borderFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
 		case DefaultMapFilling::HorizontalRows:
-			horizontalRowsFill(new WallBlock(), new EmptyBlock());
+			horizontalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
 		case DefaultMapFilling::VerticalRows:
-			verticalRowsFill(new WallBlock(), new EmptyBlock());
+			verticalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
 	}
 }

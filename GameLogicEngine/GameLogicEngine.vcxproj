@@ -115,11 +115,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeometryAndPhysics\GeometryAndPhysics.vcxproj">
-      <Project>{7fb4c7f2-2dea-40d1-9b0a-947adb8cbb0d}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="AbstractBlock.hpp" />
     <ClInclude Include="GameCamera.hpp" />
     <ClInclude Include="GameMap.hpp" />
@@ -127,6 +122,11 @@
   <ItemGroup>
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Graphics\RenderInfo\RenderInfo.vcxproj">
+      <Project>{406c4003-3705-4bd0-b84e-4832ca9bdfca}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

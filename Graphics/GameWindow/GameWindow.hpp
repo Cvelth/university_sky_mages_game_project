@@ -22,6 +22,7 @@ class GameWindow {
 private:
 	AbstractGraphicsEngine* m_graphics;
 	GameCamera* m_camera;
+	bool isMapInserted;
 
 protected:
 
@@ -36,7 +37,10 @@ public:
 
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
-	GameWindow(char* title, size_t width, size_t height, bool isFullscreen, GameMap* map);
+	GameWindow(char* title, size_t width, size_t height, bool isFullscreen);
+
+	//Adds map in the window to be shown using GameCamera.
+	void insertMap(GameMap* map);
 
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();
