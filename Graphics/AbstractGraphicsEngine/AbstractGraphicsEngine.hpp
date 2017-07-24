@@ -37,8 +37,10 @@ public:
 	//virtual void clearRenderProcess() abstract;
 
 	//Updates screen accordingly to last rendered data.
-	//Swaps buffers and polls events.
 	virtual void update() abstract;
+
+	//Processes events which have happened since last call of this function.
+	virtual void pollEvents() abstract;
 
 	//Puts all the objects/textures/rendering data for all the map blocks into graphical memory.
 	//Gets ready for map rendering.

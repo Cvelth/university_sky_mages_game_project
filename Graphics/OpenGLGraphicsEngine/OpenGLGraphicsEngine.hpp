@@ -2,10 +2,14 @@
 #include "Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
 
 class InnerOpenGLGraphicsEngine;
+namespace mgl {
+	class Program;
+}
 
 class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	InnerOpenGLGraphicsEngine* m_engine;
+	mgl::Program* m_program;
 protected:
 public:
 	OpenGLGraphicsEngine();
@@ -19,6 +23,7 @@ public:
 	virtual bool isWindowClosed() override;
 
 	virtual void update() override;
+	virtual void pollEvents() override;
 
 	virtual void initializeMapRendering(GameMap* map) override;
 	virtual void renderMap(GameCamera* camera) override;

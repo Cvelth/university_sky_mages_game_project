@@ -18,7 +18,7 @@ void GameWindow::clean() {
 }
 
 GameWindow::GameWindow(char* title, size_t width, size_t height, bool isFullscreen)
-		: isMapInserted(false){
+		: isMapInserted(false), m_update_interval(16666) {
 	
 #ifdef OPENGL_ENGINE_USED
 	m_graphics = new OpenGLGraphicsEngine();
@@ -37,6 +37,14 @@ void GameWindow::insertMap(GameMap* map) {
 	isMapInserted = true;
 }
 
+void GameWindow::changeUpdateInterval(size_t microseconds) {
+	m_update_interval = microseconds;
+}
+
+size_t GameWindow::getUpdateInterval() {
+	return m_update_interval;
+}
+
 GameWindow::~GameWindow() {
 	if (isMapInserted && m_camera) delete m_camera;
 
@@ -45,15 +53,23 @@ GameWindow::~GameWindow() {
 	clean();
 }
 
-int GameWindow::loop() {
+#include <chrono>
+#include <thread>
+void GameWindow::loop() {
 	m_graphics->initializeMapRendering(m_camera->map());
 	//m_graphics->initializeRenderProcess();
+
 	while (!m_graphics->isWindowClosed()) {
+		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
 		m_graphics->renderMap(m_camera);
 		//m_graphics->renderProcess();
 		m_graphics->update();
+		//if (std::chrono::steady_clock::now() > next_tick)
+		//	throw Exceptions::RenderingIsTooSlowException();
+		std::this_thread::sleep_until(next_tick);
+		m_graphics->pollEvents();
 	}
+
 	m_graphics->cleanMapRendering(m_camera->map());
 	//m_graphics->clearRenderProcess();
-	return 0;
 } 

@@ -23,6 +23,7 @@ private:
 	AbstractGraphicsEngine* m_graphics;
 	GameCamera* m_camera;
 	bool isMapInserted;
+	size_t m_update_interval;
 
 protected:
 
@@ -42,6 +43,11 @@ public:
 	//Adds map in the window to be shown using GameCamera.
 	void insertMap(GameMap* map);
 
+	//Changes loop's run interval
+	void changeUpdateInterval(size_t microseconds);
+	//Returns loop's run interval
+	size_t getUpdateInterval();
+
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();
 
@@ -49,6 +55,6 @@ public:
 	//Initializes engine rendering state (sends data to graphical device).
 	//In loop uses the redrawing in order to update the view and polls new events in order for engines to handle them.
 	//After window is manually closed by the user, it cleans rendering data using engine and finishes executing.
-	int loop();
+	void loop();
 };
 
