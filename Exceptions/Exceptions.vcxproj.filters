@@ -18,6 +18,9 @@
     <ClInclude Include="VulkanExceptions.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGLExceptions.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exceptions.cpp">

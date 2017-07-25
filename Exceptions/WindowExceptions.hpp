@@ -23,7 +23,7 @@ namespace Exceptions {
 		: AbstractStringException("ShaderFileException", "The program can't access the shader file.") {}
 	};
 	class RenderingIsTooSlowException : public AbstractStringException {
-	public: RenderingIsTooSlowException()
-		: AbstractStringException("RenderingIsTooSlowException", "It seems like you PC isn't capable of mantaining 60 updates per second.") {}
+	public: 
+		RenderingIsTooSlowException(float seconds);
 	};
 }

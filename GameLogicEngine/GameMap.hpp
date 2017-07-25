@@ -45,6 +45,7 @@ public:
 
 	inline size_t width() const { return m_width; }
 	inline size_t height() const { return m_height; }
+	inline size_t getSize() const { return m_width * m_height; }
 
 	inline AbstractBlock* get(size_t w, size_t h) const {
 		return m_cells.at(w).at(h);

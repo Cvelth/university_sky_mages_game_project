@@ -4,12 +4,15 @@
 class InnerOpenGLGraphicsEngine;
 namespace mgl {
 	class Program;
+	class UniformVariable;
 }
 
 class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	InnerOpenGLGraphicsEngine* m_engine;
-	mgl::Program* m_program;
+
+	mgl::Program* m_map_program;
+	mgl::UniformVariable* m_map_offsets;
 protected:
 public:
 	OpenGLGraphicsEngine();

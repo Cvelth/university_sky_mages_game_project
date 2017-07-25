@@ -88,3 +88,7 @@ void Exceptions::AbstractVulkanErrorException::print() {
 	}
 
 }
+
+#include <string>
+Exceptions::RenderingIsTooSlowException::RenderingIsTooSlowException(float seconds)
+	: AbstractStringException("RenderingIsTooSlowException", ("It seems like you PC isn't capable of mantaining 60 updates per second.\t It took " + std::to_string(seconds) + " of a second to render a frame.").c_str()) {}
