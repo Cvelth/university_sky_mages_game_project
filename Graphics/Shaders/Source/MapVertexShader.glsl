@@ -4,10 +4,11 @@ attribute vec4 position;
 attribute vec4 color;
 varying vec4 theColor;
 
-uniform vec2 offsets[@];
+uniform vec4 translation;
+uniform vec4 scaling;
+uniform mat4 projection;
 
 void main() {
-	vec2 offset = offsets[gl_InstanceID];
-	gl_Position = position + vec4(offset, 0.f, 1.f);
+	gl_Position = position;//projection * (position * scaling + translation);
 	theColor = color;
 }

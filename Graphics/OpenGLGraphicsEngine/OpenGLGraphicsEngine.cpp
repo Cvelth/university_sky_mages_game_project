@@ -45,16 +45,18 @@ OpenGLGraphicsEngine::~OpenGLGraphicsEngine() {
 #include "GameLogicEngine\AbstractBlock.hpp"
 #include "Graphics\RenderInfo\RenderInfo.hpp"
 std::string readShader(std::string name);
+mgl::Primitive* p; 
 void OpenGLGraphicsEngine::initializeMapRendering(GameMap* map) {
-	std::string source = readShader("MapVertexShader.glsl");
-	auto index = source.find("@");
-	if (index == -1)
-		throw Exceptions::MapShaderCompilationException();
-	source.erase(index, 1);
-	source.insert(index, std::to_string(map->getSize()));
-	auto map_shader = mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, source);
-	m_map_program = m_engine->linkProgramWithDefaultFragmentShader(map_shader);
-
+	m_engine->test();
+	//std::string source = readShader("MapVertexShader.glsl");
+	//auto index = source.find("@");
+	//if (index == -1)
+	//	throw Exceptions::MapShaderCompilationException();
+	//source.erase(index, 1);
+	//source.insert(index, std::to_string(map->getSize()));
+	//auto map_shader = mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, source);
+	//m_map_program = m_engine->linkProgramWithDefaultFragmentShader(map_shader);
+	
 	//m_program = m_engine->linkDefaultProgram(mgl::DefaulProgramType::VertexNoMatrices);
 	//m_program->use();
 	//m_program->enableAttrib("position", 8, false, 4, 0);
@@ -64,26 +66,55 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameMap* map) {
 	//m_program->sendUniform(m_translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
 	//m_program->sendUniform(m_scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
 
+	///std::string source = readShader("MapVertexShader.glsl");
+	///auto map_shader = mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, source);
+	///m_program = m_engine->linkProgramWithDefaultFragmentShader(map_shader);
+	///m_program->use();
+
+	//m_translation = m_program->getUniform("translation");
+	//m_scaling = m_program->getUniform("scaling");
+	//auto prg = m_program->getUniform("projection");
+	//m_program->sendUniform(m_translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
+	//m_program->sendUniform(m_scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
+	//m_program->sendUniform(prg, *m_engine->projection());
+	
 	m_engine->setClearColor(0.6f, 0.85f, 0.9f);
-	for (auto it : map->get_blocks_data())
-		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+	//for (auto it : map->get_blocks_data())
+	//	it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+	//map->get(0, 0)->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+	
+	//p = new mgl::Primitive(mgl::Colors::Red(), mgl::VertexConnectionType::Triangles);
+	p = new mgl::Primitive(mgl::Colors::Red(), mgl::VertexConnectionType::LineLoop);
+	p->insert(new mgl::math::Vector(0, 0, 0));
+	p->insert(new mgl::math::Vector(0.5, 0, 0));
+	p->insert(new mgl::math::Vector(0, 0.5, 0));
+	p->send(mgl::DataUsage::StaticDraw);
+
+	///m_program->enableAttrib("position", 4, 8, 0);
+	///m_program->enableAttrib("color", 4, 8, 4);
+	///m_program->use();
 }
 
 void OpenGLGraphicsEngine::renderMap(GameCamera* camera) {
+	m_engine->testD();
 	m_engine->clearWindow();
-	for (int i = camera->beginX(); i < camera->endX(); i++)
-		for (int j = camera->beginY(); j < camera->endY(); j++) {
-			//m_program->sendUniform(m_translation, mgl::math::Vector(float(i), float(j), -1.f, 0.f));
-			camera->map()->get(i, j)->renderInfo()->get()->draw();
-		}
+	//camera->map()->get(0, 0)->renderInfo()->get()->draw();
+	///m_program->use();
+	p->draw();
+
+	//for (int i = camera->beginX(); i < camera->endX(); i++)
+	//	for (int j = camera->beginY(); j < camera->endY(); j++) {
+	//		m_program->sendUniform(m_translation, mgl::math::Vector(float(i), float(j), 0.f, 0.f));
+	//		camera->map()->get(i, j)->renderInfo()->get()->draw();
+	//	}
 }
 
 void OpenGLGraphicsEngine::cleanMapRendering(GameMap* map) {
-	for (auto it : map->get_blocks_data())
-		it->renderInfo()->get()->clean();
+	//for (auto it : map->get_blocks_data())
+	//	it->renderInfo()->get()->clean();
 
-	if (m_map_offsets) delete m_map_offsets;
-	if (m_map_program) delete m_map_program;
+	//if (m_map_offsets) delete m_map_offsets;
+	//if (m_map_program) delete m_map_program;
 }
 
 #include <fstream>
