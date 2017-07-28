@@ -19,8 +19,4 @@ public:
 	inline mgl::math::Matrix* projection() {
 		return m_projection;
 	}
-
-	unsigned int a;
-	void test();
-	void testD();
 };
