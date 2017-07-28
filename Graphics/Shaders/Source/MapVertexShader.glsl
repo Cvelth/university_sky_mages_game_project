@@ -9,6 +9,9 @@ uniform vec4 scaling;
 uniform mat4 projection;
 
 void main() {
-	gl_Position = projection * (position * scaling + translation);
+	vec4 scaled = position * scaling;
+	vec4 translated = scaled + translation;
+	vec4 projected = projection * translated;
+	gl_Position = projected;
 	outColor = color;
 }

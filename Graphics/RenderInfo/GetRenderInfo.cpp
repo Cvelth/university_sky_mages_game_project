@@ -8,7 +8,7 @@
 void RenderInfoStorage::generateRenderInfo() {
 	EmptyBlock = new RenderInfo();
 	WallBlock = new RenderInfo();
-	WallBlock->get()->addPrimitive(mgl::generateRectangle(1.f, mgl::Colors::Grey(0.3f), true));
+	WallBlock->get()->addPrimitive(mgl::generateRectangle(1.f, mgl::Colors::Grey(0.3f), mgl::PoligonPlacing::zero_TopLeftCorner, true));
 
 	isRenderInfoGenerated = true;
 }

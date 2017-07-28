@@ -10,6 +10,8 @@ protected:
 	GLFWwindow* m_window;
 	size_t m_window_width;
 	size_t m_window_height;
+
+	GameCamera *m_camera;
 protected:
 	//Inner initialization of window, specific to engine.
 	virtual void initializeWindow(char* title, size_t width, size_t height, bool isFullscreen) abstract;
@@ -44,11 +46,11 @@ public:
 
 	//Puts all the objects/textures/rendering data for all the map blocks into graphical memory.
 	//Gets ready for map rendering.
-	virtual void initializeMapRendering(GameMap* map) abstract;
+	virtual void initializeMapRendering(GameCamera* camera) abstract;
 	//Shows part of the map which is determined by current camera position.
-	virtual void renderMap(GameCamera* camera) abstract;
+	virtual void renderMap() abstract;
 	//Clears data after map and all its blocks.
-	virtual void cleanMapRendering(GameMap* map) abstract;
+	virtual void cleanMapRendering() abstract;
 
 	//Returns true if window was manually closed by user and expects to be cleaned. False otherwise.
 	virtual bool isWindowClosed() abstract;

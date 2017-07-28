@@ -57,13 +57,13 @@ GameWindow::~GameWindow() {
 #include <thread>
 #include <iostream>
 void GameWindow::loop() {
-	m_graphics->initializeMapRendering(m_camera->map());
+	m_graphics->initializeMapRendering(m_camera);
 	//m_graphics->initializeRenderProcess();
 
 	while (!m_graphics->isWindowClosed()) {
 		auto begin_time = std::chrono::steady_clock::now();
 		auto next_tick = begin_time + std::chrono::microseconds(getUpdateInterval());
-		m_graphics->renderMap(m_camera);
+		m_graphics->renderMap();
 		//m_graphics->renderProcess();
 		m_graphics->update();
 		auto end_time = std::chrono::steady_clock::now();
@@ -74,6 +74,6 @@ void GameWindow::loop() {
 		m_graphics->pollEvents();
 	}
 
-	m_graphics->cleanMapRendering(m_camera->map());
+	m_graphics->cleanMapRendering();
 	//m_graphics->clearRenderProcess();
 } 

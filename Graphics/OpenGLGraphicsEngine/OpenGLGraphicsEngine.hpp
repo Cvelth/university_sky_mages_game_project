@@ -9,7 +9,7 @@ namespace mgl {
 
 class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
-	InnerOpenGLGraphicsEngine* m_engine;
+	InnerOpenGLGraphicsEngine *m_engine;
 
 	mgl::Program *m_map_program;
 	mgl::ShaderVariable *m_translation, *m_scaling, *m_projection;
@@ -28,7 +28,7 @@ public:
 	virtual void update() override;
 	virtual void pollEvents() override;
 
-	virtual void initializeMapRendering(GameMap* map) override;
-	virtual void renderMap(GameCamera* camera) override;
-	virtual void cleanMapRendering(GameMap* map) override;
+	virtual void initializeMapRendering(GameCamera* camera) override;
+	virtual void renderMap() override;
+	virtual void cleanMapRendering() override;
 };
