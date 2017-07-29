@@ -1,6 +1,7 @@
 #include "OpenGLGraphicsEngine.hpp"
 #include "InnerOpenGLGraphicsEngine.hpp"
 #include "Exceptions\OpenGLExceptions.hpp"
+MGL_FORCE_NVIDIA_GPU_USAGE
 
 void OpenGLGraphicsEngine::initialize() {
 

@@ -59,7 +59,7 @@ int GameCamera::endX() const {
 }
 
 int GameCamera::endY() const {
-	return int(m_corner->at(0) + m_horizontalBlocks * m_aspectRatio) + 1;
+	return int(m_corner->at(0) + m_horizontalBlocks / m_aspectRatio) + 1;
 }
 
 GameMap * GameCamera::map() {

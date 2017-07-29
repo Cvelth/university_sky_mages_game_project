@@ -17,9 +17,6 @@
     <ClCompile Include="InnerOpenGLGraphicsEngine.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLGraphicsEngineRenderingProcess.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLGraphicsEngine.hpp">
