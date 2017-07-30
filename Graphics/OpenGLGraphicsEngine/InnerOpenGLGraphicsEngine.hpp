@@ -6,8 +6,6 @@
 
 class InnerOpenGLGraphicsEngine : public mgl::Window {
 	friend OpenGLGraphicsEngine;
-protected:
-	virtual void resize(int width, int height) override;
 public:
 	InnerOpenGLGraphicsEngine();
 	~InnerOpenGLGraphicsEngine();

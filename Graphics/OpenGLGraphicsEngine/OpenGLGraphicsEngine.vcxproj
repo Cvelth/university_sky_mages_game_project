@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="InnerOpenGLGraphicsEngine.cpp" />
     <ClCompile Include="OpenGLGraphicsEngine.cpp" />
+    <ClCompile Include="OpenGLGraphicsEngineMapRenderProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InnerOpenGLGraphicsEngine.hpp" />
