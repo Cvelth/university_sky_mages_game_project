@@ -1,5 +1,6 @@
 #pragma once
 struct GLFWwindow;
+class GameControllerInterface;
 class GameMap;
 class GameCamera;
 
@@ -43,6 +44,9 @@ public:
 
 	//Processes events which have happened since last call of this function.
 	virtual void pollEvents() abstract;
+
+	//Initializes event handling. All future events will be redirected to *controler*.
+	virtual void insertController(GameControllerInterface* controller) abstract;
 
 	//Puts all the objects/textures/rendering data for all the map blocks into graphical memory.
 	//Gets ready for map rendering.

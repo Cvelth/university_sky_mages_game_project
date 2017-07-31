@@ -32,11 +32,17 @@ void OpenGLGraphicsEngine::update() {
 void OpenGLGraphicsEngine::pollEvents() {
 	m_engine->pollEvents();
 }
-
 OpenGLGraphicsEngine::OpenGLGraphicsEngine() {
 	m_engine = new InnerOpenGLGraphicsEngine();
 }
 
 OpenGLGraphicsEngine::~OpenGLGraphicsEngine() {
+	destroyWindow();
 	clean();
+}
+
+#include "Controller\GameControllerInterface.hpp"
+#include "Controller\GameController.hpp"
+void OpenGLGraphicsEngine::insertController(GameControllerInterface* controller) {
+	m_engine->initializeEventHandling(controller->controller());
 }

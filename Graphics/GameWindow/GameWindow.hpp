@@ -13,6 +13,7 @@ Just #define the one you want the window to use.
 
 struct GLFWwindow;
 class AbstractGraphicsEngine;
+class GameControllerInterface;
 class GameCamera;
 class GameMap;
 
@@ -39,6 +40,9 @@ public:
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
 	GameWindow(char* title, size_t width, size_t height, bool isFullscreen);
+
+	//Initialiazes window event handling. Redirects all future events to controller.
+	void insertController(GameControllerInterface* controller);
 
 	//Adds map in the window to be shown using GameCamera.
 	void insertMap(GameMap* map);

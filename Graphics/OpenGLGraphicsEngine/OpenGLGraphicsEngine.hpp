@@ -28,6 +28,8 @@ public:
 	virtual void update() override;
 	virtual void pollEvents() override;
 
+	virtual void insertController(GameControllerInterface* controller) override;
+
 	virtual void initializeMapRendering(GameCamera* camera) override;
 	virtual void renderMap() override;
 	virtual void cleanMapRendering() override;

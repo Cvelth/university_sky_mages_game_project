@@ -32,6 +32,10 @@ GameWindow::GameWindow(char* title, size_t width, size_t height, bool isFullscre
 	m_graphics->initialize();
 }
 
+void GameWindow::insertController(GameControllerInterface* controller) {
+	m_graphics->insertController(controller);
+}
+
 void GameWindow::insertMap(GameMap* map) {
 	m_camera = new GameCamera(map, float(m_graphics->width()) / m_graphics->height());
 	isMapInserted = true;
@@ -49,7 +53,6 @@ GameWindow::~GameWindow() {
 	if (isMapInserted && m_camera) delete m_camera;
 
 	m_graphics->clean();
-	m_graphics->destroyWindow();
 	clean();
 }
 

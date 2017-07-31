@@ -62,8 +62,8 @@ void OpenGLGraphicsEngine::renderMap() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	for (int x = minX; x < maxX; x++)
-		for (int y = minY; y < maxY; y++) {
+	for (unsigned int x = minX; x < maxX; x++)
+		for (unsigned int y = minY; y < maxY; y++) {
 			m_map_program->sendUniform(m_translation, mgl::math::Vector(float(x), float(y), 0.f, 0.f));
 			m_camera->map()->get(x, y)->renderInfo()->get()->draw();
 		}
