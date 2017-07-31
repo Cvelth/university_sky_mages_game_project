@@ -7,7 +7,7 @@ class RenderInfoStorage;
 
 enum DefaultMapFilling {
 	All_Empty, All_Walls, Borders, Random,
-	HorizontalRows, VerticalRows,
+	HorizontalRows, VerticalRows, Continious,
 };
 
 namespace Exceptions {
@@ -25,6 +25,8 @@ protected:
 	void fillEach(AbstractBlock* block);
 	void borderFill(AbstractBlock* border, AbstractBlock* others);
 	void randomFill(size_t number_of_types, AbstractBlock* types[]);
+	void continiousFill(AbstractBlock* free, AbstractBlock* ceiling, AbstractBlock* floor,
+						size_t max_step, size_t ceiling_start, size_t floor_start, size_t min_height);
 	void horizontalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 	void verticalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 

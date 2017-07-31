@@ -14,13 +14,16 @@ void InnerOpenGLGraphicsEngine::resize(GameCamera* camera) {
 void InnerOpenGLGraphicsEngine::resize(int width, int height, GameCamera* camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
-
+	auto t1 = camera->minX_f();
+	auto t2 = camera->maxX_f();
+	auto t3 = camera->maxY_f();
+	auto t4 = camera->minY_f();
 	if (m_projection) delete m_projection;
 	m_projection = new mgl::math::Matrix(mgl::math::Matrix::orthographicMatrix(
-		camera->minX_f() * (m_aspectRatio < 1.f ? m_aspectRatio : 1.f),
-		camera->maxX_f() * (m_aspectRatio < 1.f ? m_aspectRatio : 1.f),
-		camera->maxY_f() * (1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
-		camera->minY_f() * (1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
+		camera->minX_f() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
+		camera->maxX_f() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
+		camera->maxY_f() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
+		camera->minY_f() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
 		-1.f,
 		+1.f
 	));

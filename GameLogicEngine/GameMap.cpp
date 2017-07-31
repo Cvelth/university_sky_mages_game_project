@@ -69,8 +69,12 @@ GameMap::GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, Def
 			borderFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
 		case DefaultMapFilling::Random:	{
-			AbstractBlock* blocks[] = {new WallBlock(renderInfo), new EmptyBlock(renderInfo)};
-			randomFill(2, blocks);
+				AbstractBlock* blocks[] = {new WallBlock(renderInfo), new EmptyBlock(renderInfo)};
+				randomFill(2, blocks);
+			} break;
+		case DefaultMapFilling::Continious: {
+				AbstractBlock* wall = new WallBlock(renderInfo);
+				continiousFill(new EmptyBlock(renderInfo), wall, wall, 3, height / 5, height - height / 5, 5);
 			} break;
 		case DefaultMapFilling::HorizontalRows:
 			horizontalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
@@ -96,4 +100,39 @@ void GameMap::randomFill(size_t number_of_types, AbstractBlock* types[]) {
 	for (unsigned int i = 0; i < m_width; i++)
 		for (unsigned int j = 0; j < m_height; j++)
 			set(types[d(g)], i, j);
+}
+
+void GameMap::continiousFill(AbstractBlock* free, AbstractBlock* ceiling, AbstractBlock* floor, size_t max_step, size_t ceiling_start, size_t floor_start, size_t min_height) {
+	std::random_device rd;
+	std::mt19937 g(rd());
+	std::uniform_int_distribution<int> d(-int(max_step), max_step);
+
+	m_blocks.insert(free);
+	m_blocks.insert(ceiling);
+	m_blocks.insert(floor);
+
+	size_t current_ceiling = ceiling_start;
+	size_t current_floor = floor_start;
+	for (unsigned int i = 0; i < m_width; i++) {
+		unsigned int j = 0;
+		for (; j < current_ceiling; j++)
+			set(ceiling, i, j);
+		for (; j < current_floor; j++)
+			set(free, i, j);
+		for (; j < m_height; j++)
+			set(floor, i, j);
+
+		current_ceiling += d(g);
+		current_floor += d(g);
+		int diff = int(current_floor) - int(current_ceiling);
+		if (diff < 5) {
+			size_t center = (current_floor + current_ceiling) / 2;
+			current_floor = center + 3;
+			current_ceiling = center - 2;
+		}
+		if (current_ceiling < min_height)
+			current_ceiling = min_height;
+		if (current_floor > m_height - min_height)
+			current_floor = m_height - min_height;
+	}
 }

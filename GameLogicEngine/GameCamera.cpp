@@ -35,13 +35,13 @@ void GameCamera::correct() {
 		m_wasCameraChanged = true;
 	}
 
-	if (x + m_horizontalBlocks > m_map->m_width) {
-		m_horizontalBlocks = float(m_map->m_width);
+	if (x + m_horizontalBlocks >= m_map->m_width) {
+		m_horizontalBlocks = float(m_map->m_width) - 1;
 		m_corner->x(0);
 		m_wasCameraChanged = true;
 	}
-	if (y + m_horizontalBlocks / m_aspectRatio > m_map->m_height) {
-		m_horizontalBlocks = float(m_map->m_width) * m_aspectRatio;
+	if (y + m_horizontalBlocks / m_aspectRatio >= m_map->m_height) {
+		m_horizontalBlocks = float(m_map->m_height) * m_aspectRatio - 1;
 		m_corner->y(0);
 		m_wasCameraChanged = true;
 	}
