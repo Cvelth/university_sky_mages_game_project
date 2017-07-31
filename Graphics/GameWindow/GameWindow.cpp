@@ -61,6 +61,10 @@ size_t GameWindow::getUpdateInterval() {
 	return m_update_interval;
 }
 
+bool GameWindow::isWindowClosed() {
+	return m_graphics->isWindowClosed();
+}
+
 GameWindow::~GameWindow() {
 	if (isMapInserted && m_camera) {
 		m_controller->stopCameraControl();

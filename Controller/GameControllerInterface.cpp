@@ -16,3 +16,10 @@ void GameControllerInterface::startCameraControl(GameCamera* camera) {
 void GameControllerInterface::stopCameraControl() {
 	m_controller->stopCameraControl();
 }
+
+void GameControllerInterface::setMainActor(ControllableActor* actor) {
+	m_controller->setMainActor(actor);
+}
+void GameControllerInterface::removeMainActor() {
+	m_controller->removeMainActor();
+}

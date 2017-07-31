@@ -1,5 +1,6 @@
 #include "GameController.hpp"
 #include "GameLogicEngine\GameCamera.hpp"
+#include "GameObjects\ControllableActor.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}
 
@@ -16,4 +17,11 @@ void GameController::startCameraControl(GameCamera* camera) {
 
 void GameController::stopCameraControl() {
 	m_controlledCamera = nullptr;
+}
+
+void GameController::setMainActor(ControllableActor* actor) {
+	m_actor = actor;
+}
+void GameController::removeMainActor() {
+	m_actor = nullptr;
 }

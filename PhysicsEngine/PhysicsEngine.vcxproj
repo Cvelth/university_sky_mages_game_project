@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F6A0FEE2-0F72-44E2-9ABC-FA1CF8BA6D4B}</ProjectGuid>
-    <RootNamespace>GameObjects</RootNamespace>
+    <ProjectGuid>{CB82332B-74C2-4C23-9760-385CADE2CE6A}</ProjectGuid>
+    <RootNamespace>PhysicsEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -111,14 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractActor.hpp" />
-    <ClInclude Include="AbstractGameObject.hpp" />
-    <ClInclude Include="ControllableActor.hpp" />
+    <ClCompile Include="PhysicalObjectsQueue.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractActor.cpp" />
-    <ClCompile Include="AbstractGameObject.cpp" />
-    <ClCompile Include="ControllableActor.cpp" />
+    <ClInclude Include="PhysicalObjectsQueue.hpp" />
+    <ClInclude Include="PhysicsEngine.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">
+      <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

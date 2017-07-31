@@ -1,5 +1,7 @@
 #pragma once
-class AbstractActor {
+#include "AbstractGameObject.hpp"
+
+class AbstractActor : public AbstractGameObject {
 public:
 	AbstractActor();
 	~AbstractActor();

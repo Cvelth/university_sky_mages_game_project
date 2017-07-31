@@ -1,6 +1,7 @@
 #pragma once
 class GameController;
 class GameCamera;
+class ControllableActor;
 
 class GameControllerInterface {
 	GameController* m_controller;
@@ -17,5 +18,8 @@ public:
 
 	void startCameraControl(GameCamera* camera);
 	void stopCameraControl();
+
+	void setMainActor(ControllableActor* actor);
+	void removeMainActor();
 };
 

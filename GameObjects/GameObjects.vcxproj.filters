@@ -17,7 +17,7 @@
     <ClInclude Include="AbstractActor.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ControllableActor.h">
+    <ClInclude Include="ControllableActor.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

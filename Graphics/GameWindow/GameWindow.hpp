@@ -56,6 +56,9 @@ public:
 	//Returns loop's run interval
 	size_t getUpdateInterval();
 
+	//Returns true if window is closed or would be closed soon.
+	bool isWindowClosed();
+
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();
 
