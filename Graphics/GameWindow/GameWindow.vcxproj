@@ -166,6 +166,12 @@
     <ClInclude Include="GameWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Controller\Controller.vcxproj">
+      <Project>{c5c17a7e-3702-464b-a46a-39679106b95b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GameLogicEngine\GameLogicEngine.vcxproj">
+      <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\OpenGLGraphicsEngine\OpenGLGraphicsEngine.vcxproj">
       <Project>{a8d942c8-5405-4cf9-98d2-9a65735cc427}</Project>
     </ProjectReference>

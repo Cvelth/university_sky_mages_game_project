@@ -22,12 +22,13 @@ class GameMap;
 class GameWindow {
 private:
 	AbstractGraphicsEngine* m_graphics;
+	GameControllerInterface* m_controller;
 	GameCamera* m_camera;
 	bool isMapInserted;
+	bool isControllerInserted;
 	size_t m_update_interval;
 
 protected:
-
 	//Creates engine instance, shows a window and initializes the connection between them.
 	void initialize();
 
@@ -43,6 +44,9 @@ public:
 
 	//Initialiazes window event handling. Redirects all future events to controller.
 	void insertController(GameControllerInterface* controller);
+
+	//Changes controller for events to be redirected to.
+	void changeController(GameControllerInterface* controller, bool deleteOldOne = true);
 
 	//Adds map in the window to be shown using GameCamera.
 	void insertMap(GameMap* map);

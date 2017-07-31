@@ -1,5 +1,6 @@
 #pragma once
 class GameController;
+class GameCamera;
 
 class GameControllerInterface {
 	GameController* m_controller;
@@ -13,5 +14,8 @@ public:
 	inline GameController* operator*() {
 		return controller();
 	}
+
+	void startCameraControl(GameCamera* camera);
+	void stopCameraControl();
 };
 

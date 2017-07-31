@@ -138,6 +138,11 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameControllerInterface.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameLogicEngine\GameLogicEngine.vcxproj">
+      <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
