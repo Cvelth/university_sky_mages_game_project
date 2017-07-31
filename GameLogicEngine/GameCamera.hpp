@@ -12,6 +12,8 @@ private:
 	float m_aspectRatio;
 	float m_horizontalBlocks;
 	GameMap* m_map;
+
+	bool m_wasCameraChanged;
 protected:
 	bool check();
 	void correct();
@@ -32,6 +34,13 @@ public:
 	unsigned int maxX_i() const;
 	unsigned int maxY_i() const;
 	GameMap* map();
+
+	inline bool wasCameraChanged() const {
+		return m_wasCameraChanged;
+	}
+	inline void cameraChangeWasHandled() {
+		m_wasCameraChanged = false;
+	}
 
 	~GameCamera();
 };

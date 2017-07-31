@@ -46,24 +46,30 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 	m_scaling = m_map_program->getUniform("scaling");
 	m_projection = m_map_program->getUniform("projection");
 
-	m_engine->resize(m_camera);
-
 	m_map_program->sendUniform(m_translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
 	m_map_program->sendUniform(m_scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
+
+	m_engine->resize(m_camera);
 	m_map_program->sendUniform(m_projection, *m_engine->projection());
 
 	m_engine->setClearColor(0.6f, 0.85f, 0.9f);
 }
 
 void OpenGLGraphicsEngine::renderMap() {
+	if (m_camera->wasCameraChanged()) {
+		m_engine->resize(m_camera);
+		m_map_program->sendUniform(m_projection, *m_engine->projection());
+		m_camera->cameraChangeWasHandled();
+	}
+
 	m_engine->clearWindow();
 
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	for (unsigned int x = minX; x < maxX; x++)
-		for (unsigned int y = minY; y < maxY; y++) {
+	for (unsigned int x = minX; x <= maxX; x++)
+		for (unsigned int y = minY; y <= maxY; y++) {
 			m_map_program->sendUniform(m_translation, mgl::math::Vector(float(x), float(y), 0.f, 0.f));
 			m_camera->map()->get(x, y)->renderInfo()->get()->draw();
 		}

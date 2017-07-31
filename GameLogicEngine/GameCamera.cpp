@@ -18,37 +18,57 @@ bool GameCamera::check() {
 void GameCamera::correct() {
 	float x = m_corner->x();
 	float y = m_corner->y();
-	if (x < 0) m_corner->x(0);
-	if (y < 0) m_corner->y(0);
-	if (x > m_map->m_width) m_corner->x(float(m_map->m_width));
-	if (y > m_map->m_height) m_corner->y(float(m_map->m_height));
+	if (x < 0) {
+		m_corner->x(0);
+		m_wasCameraChanged = true;
+	}
+	if (y < 0) {
+		m_corner->y(0);
+		m_wasCameraChanged = true;
+	}
+	if (x > m_map->m_width) {
+		m_corner->x(float(m_map->m_width));
+		m_wasCameraChanged = true;
+	}
+	if (y > m_map->m_height) {
+		m_corner->y(float(m_map->m_height));
+		m_wasCameraChanged = true;
+	}
 
 	if (x + m_horizontalBlocks > m_map->m_width) {
 		m_horizontalBlocks = float(m_map->m_width);
 		m_corner->x(0);
+		m_wasCameraChanged = true;
 	}
 	if (y + m_horizontalBlocks / m_aspectRatio > m_map->m_height) {
 		m_horizontalBlocks = float(m_map->m_width) * m_aspectRatio;
 		m_corner->y(0);
+		m_wasCameraChanged = true;
 	}
 }
 
-GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {
+GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) 
+	: m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), 
+		m_horizontalBlocks(blocks), m_wasCameraChanged(true) {
+
 	correct();
 }
 
 void GameCamera::changeAspectRatio(float aspectRatio) {
 	this->m_aspectRatio = aspectRatio;
+	m_wasCameraChanged = true;
 	correct();
 }
 
 void GameCamera::changeZoom(float magnifier) {
 	m_horizontalBlocks *= magnifier;
+	m_wasCameraChanged = true;
 	correct();
 }
 
 void GameCamera::move(float x, float y) {
 	*m_corner += mgl::math::Vector(x, y);
+	m_wasCameraChanged = true;
 	correct();
 }
 

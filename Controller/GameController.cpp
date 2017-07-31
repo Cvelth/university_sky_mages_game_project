@@ -7,7 +7,7 @@ GameController::~GameController() {}
 
 void GameController::mouseScrollEvent(GLFWwindow* w, double x, double y) {
 	if (m_controlledCamera)
-		m_controlledCamera->changeZoom(1.0 + float(y) / 10.0);
+		m_controlledCamera->changeZoom(1.f + float(y) / 10.f);
 }
 
 void GameController::startCameraControl(GameCamera* camera) {
