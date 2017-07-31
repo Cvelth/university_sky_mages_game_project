@@ -23,13 +23,19 @@ void GameCamera::correct() {
 	if (x > m_map->m_width) m_corner->x(float(m_map->m_width));
 	if (y > m_map->m_height) m_corner->y(float(m_map->m_height));
 
-	if (x + m_horizontalBlocks > m_map->m_width)
-		m_corner->x(m_map->m_width - m_horizontalBlocks);
-	if (y + m_horizontalBlocks * m_aspectRatio > m_map->m_height)
-		m_corner->y(m_map->m_height - m_horizontalBlocks * m_aspectRatio);
+	if (x + m_horizontalBlocks > m_map->m_width) {
+		m_horizontalBlocks = m_map->m_width;
+		m_corner->x(0);
+	}
+	if (y + m_horizontalBlocks / m_aspectRatio > m_map->m_height) {
+		m_horizontalBlocks = m_map->m_width * m_aspectRatio;
+		m_corner->y(0);
+	}
 }
 
-GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {}
+GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) : m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), m_horizontalBlocks(blocks) {
+	correct();
+}
 
 void GameCamera::changeAspectRatio(float aspectRatio) {
 	this->m_aspectRatio = aspectRatio;
@@ -46,20 +52,29 @@ void GameCamera::move(float x, float y) {
 	correct();
 }
 
-int GameCamera::beginX() const {
-	return int(m_corner->at(0));
+float GameCamera::minX_f() const {
+	return m_corner->x();
+}								 
+float GameCamera::minY_f() const {
+	return m_corner->y();
 }
-
-int GameCamera::beginY() const {
-	return int(m_corner->at(1));
+float GameCamera::maxX_f() const {
+	return m_corner->x() + m_horizontalBlocks;
 }
-
-int GameCamera::endX() const {
-	return int(m_corner->at(0) + m_horizontalBlocks) + 1;
+float GameCamera::maxY_f() const {
+	return m_corner->y() + m_horizontalBlocks / m_aspectRatio;
 }
-
-int GameCamera::endY() const {
-	return int(m_corner->at(0) + m_horizontalBlocks / m_aspectRatio) + 1;
+unsigned int GameCamera::minX_i() const {
+	return (unsigned int) minX_f();
+}
+unsigned int GameCamera::minY_i() const {
+	return (unsigned int) minY_f();
+}
+unsigned int GameCamera::maxX_i() const {
+	return (unsigned int) maxX_f();
+}
+unsigned int GameCamera::maxY_i() const {
+	return (unsigned int) maxY_f();
 }
 
 GameMap * GameCamera::map() {

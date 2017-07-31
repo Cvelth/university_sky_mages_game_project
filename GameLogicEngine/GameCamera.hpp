@@ -22,10 +22,15 @@ public:
 	void changeZoom(float magnifier);
 	void move(float x, float y);
 
-	int beginX() const;
-	int beginY() const;
-	int endX() const;
-	int endY() const;
+	float minX_f() const;
+	float minY_f() const;
+	float maxX_f() const;
+	float maxY_f() const;
+
+	unsigned int minX_i() const;
+	unsigned int minY_i() const;
+	unsigned int maxX_i() const;
+	unsigned int maxY_i() const;
 	GameMap* map();
 
 	~GameCamera();

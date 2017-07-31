@@ -17,12 +17,12 @@ void InnerOpenGLGraphicsEngine::resize(int width, int height, GameCamera* camera
 
 	if (m_projection) delete m_projection;
 	m_projection = new mgl::math::Matrix(mgl::math::Matrix::orthographicMatrix(
-		camera->beginX() * (m_aspectRatio < 1.f ? -m_aspectRatio : -1.f),
-		camera->endX()   * (m_aspectRatio < 1.f ? m_aspectRatio : 1.f),
-		camera->endY()   * (-1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
-		camera->beginY() * (+1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
-		1.f * (+1.f),
-		1.f * (-1.f)
+		camera->minX_f() * (m_aspectRatio < 1.f ? m_aspectRatio : 1.f),
+		camera->maxX_f() * (m_aspectRatio < 1.f ? m_aspectRatio : 1.f),
+		camera->maxY_f() * (1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
+		camera->minY_f() * (1.f / (m_aspectRatio < 1.f ? 1.f : m_aspectRatio)),
+		-1.f,
+		+1.f
 	));
 }
 
@@ -58,13 +58,13 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 void OpenGLGraphicsEngine::renderMap() {
 	m_engine->clearWindow();
 
-	auto minX = m_camera->beginX();
-	auto minY = m_camera->beginY();
-	auto maxX = m_camera->endX();
-	auto maxY = m_camera->endY();
-	for (int x = minX; x <= maxX; x++)
-		for (int y = minY; y <= maxY; y++) {
-			m_map_program->sendUniform(m_translation, mgl::math::Vector(float(x), -float(y), 0.f, 0.f));
+	auto minX = m_camera->minX_i();
+	auto maxX = m_camera->maxX_i();
+	auto minY = m_camera->minY_i();
+	auto maxY = m_camera->maxY_i();
+	for (int x = minX; x < maxX; x++)
+		for (int y = minY; y < maxY; y++) {
+			m_map_program->sendUniform(m_translation, mgl::math::Vector(float(x), float(y), 0.f, 0.f));
 			m_camera->map()->get(x, y)->renderInfo()->get()->draw();
 		}
 }
