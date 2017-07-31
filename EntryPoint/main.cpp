@@ -14,7 +14,7 @@ int main() {
 		RenderInfoStorage* renderInfo = new RenderInfoStorage; 
 		renderInfo->generateRenderInfo();
 
-		GameMap *map = new GameMap(500, 500, renderInfo, DefaultMapFilling::HorizontalRows);
+		GameMap *map = new GameMap(500, 500, renderInfo, DefaultMapFilling::Random);
 		window->insertMap(map);
 
 		window->loop();

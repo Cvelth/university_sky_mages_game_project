@@ -30,6 +30,8 @@ void GameMap::horizontalRowsFill(AbstractBlock * odd, AbstractBlock * even) {
 }
 
 void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
+	m_blocks.insert(odd);
+	m_blocks.insert(even);
 	for (unsigned int j = 0; j < m_height; j++)
 		for (unsigned int i = 0; i < m_width; i += 2) {
 			set(odd, i, j);
@@ -66,6 +68,10 @@ GameMap::GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, Def
 		case DefaultMapFilling::Borders:
 			borderFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
+		case DefaultMapFilling::Random:	{
+			AbstractBlock* blocks[] = {new WallBlock(renderInfo), new EmptyBlock(renderInfo)};
+			randomFill(2, blocks);
+			} break;
 		case DefaultMapFilling::HorizontalRows:
 			horizontalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
 			break;
@@ -77,4 +83,17 @@ GameMap::GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, Def
 
 GameMap::~GameMap() {
 	clear();
+}
+
+#include <random>
+void GameMap::randomFill(size_t number_of_types, AbstractBlock* types[]) {
+	std::random_device rd;
+	std::mt19937 g(rd());
+	std::uniform_int_distribution<size_t> d(0, number_of_types != 0 ? number_of_types - 1 : number_of_types);
+
+	for (size_t i = 0; i < number_of_types; i++)
+		m_blocks.insert(types[i]);
+	for (unsigned int i = 0; i < m_width; i++)
+		for (unsigned int j = 0; j < m_height; j++)
+			set(types[d(g)], i, j);
 }

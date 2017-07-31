@@ -6,7 +6,7 @@ class GameCamera;
 class RenderInfoStorage;
 
 enum DefaultMapFilling {
-	All_Empty, All_Walls, Borders, /*Random*/
+	All_Empty, All_Walls, Borders, Random,
 	HorizontalRows, VerticalRows,
 };
 
@@ -24,7 +24,7 @@ private:
 protected:
 	void fillEach(AbstractBlock* block);
 	void borderFill(AbstractBlock* border, AbstractBlock* others);
-	//void randomFill(size_t number_of_types, AbstractBlock** types);
+	void randomFill(size_t number_of_types, AbstractBlock* types[]);
 	void horizontalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 	void verticalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 
@@ -57,4 +57,3 @@ public:
 		return m_blocks;
 	}
 };
-
