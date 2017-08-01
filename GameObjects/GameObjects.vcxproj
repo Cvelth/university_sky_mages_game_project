@@ -113,12 +113,10 @@
   <ItemGroup>
     <ClInclude Include="AbstractActor.hpp" />
     <ClInclude Include="AbstractGameObject.hpp" />
-    <ClInclude Include="ControllableActor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractActor.cpp" />
     <ClCompile Include="AbstractGameObject.cpp" />
-    <ClCompile Include="ControllableActor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

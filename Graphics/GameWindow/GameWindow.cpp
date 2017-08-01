@@ -31,6 +31,7 @@ GameWindow::GameWindow(char* title, size_t width, size_t height, bool isFullscre
 	initialize();
 	m_graphics->initialize();
 	m_graphics->createWindow(title, width, height, isFullscreen);
+	m_graphics->initializeQueue();
 }
 
 void GameWindow::insertController(GameControllerInterface* controller) {
@@ -65,6 +66,10 @@ bool GameWindow::isWindowClosed() {
 	return m_graphics->isWindowClosed();
 }
 
+RenderQueue* GameWindow::getRenderQueue() {
+	return m_graphics->getRenderQueue();
+}
+
 GameWindow::~GameWindow() {
 	if (isMapInserted && m_camera) {
 		m_controller->stopCameraControl();
@@ -83,22 +88,25 @@ GameWindow::~GameWindow() {
 #include <iostream>
 void GameWindow::loop() {
 	m_graphics->initializeMapRendering(m_camera);
-	//m_graphics->initializeRenderProcess();
+	m_graphics->initializeQueueRendering();
 
 	while (!m_graphics->isWindowClosed()) {
 		auto begin_time = std::chrono::steady_clock::now();
 		auto next_tick = begin_time + std::chrono::microseconds(getUpdateInterval());
+
 		m_graphics->renderMap();
-		//m_graphics->renderProcess();
+		m_graphics->renderQueue();
 		m_graphics->update();
+
 		auto end_time = std::chrono::steady_clock::now();
 		std::cout << "Rendering of a frame took " << float((end_time - begin_time).count()) / 1.e+9f << " of a second.\n";
 		//if (end_time > next_tick)
 		//	throw Exceptions::RenderingIsTooSlowException(float((end_time - begin_time).count()) / 1.e+9f);
 		std::this_thread::sleep_until(next_tick);
+
 		m_graphics->pollEvents();
 	}
 
 	m_graphics->cleanMapRendering();
-	//m_graphics->clearRenderProcess();
+	m_graphics->cleanQueueRendering();
 } 

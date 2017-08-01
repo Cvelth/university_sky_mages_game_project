@@ -14,6 +14,7 @@ private:
 protected:
 	RenderInfo* EmptyBlock;
 	RenderInfo* WallBlock;
+	RenderInfo* MainActor;
 public:
 	~RenderInfoStorage() { cleanRenderInfo(); }
 	void generateRenderInfo();
@@ -22,4 +23,5 @@ public:
 	inline void check() { if (!isRenderInfoGenerated) throw Exceptions::RenderInfoException("Render info was never generated, so it cannot be accessed. Call generateRenderInfo() first."); }
 	inline RenderInfo* getEmptyBlockRenderInfo() { check(); return EmptyBlock; }
 	inline RenderInfo* getWallBlockRenderInfo() { check(); return WallBlock; }
+	inline RenderInfo* getMainActorRenderInfo() { check(); return MainActor; }
 };

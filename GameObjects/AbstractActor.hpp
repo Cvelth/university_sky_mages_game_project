@@ -3,6 +3,12 @@
 
 class AbstractActor : public AbstractGameObject {
 public:
-	AbstractActor();
+	using AbstractGameObject::AbstractGameObject;
 	~AbstractActor();
+};
+
+class ControllableActor : public AbstractActor {
+public:
+	using AbstractActor::AbstractActor;
+	~ControllableActor();
 };

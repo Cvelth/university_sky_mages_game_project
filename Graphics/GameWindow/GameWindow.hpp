@@ -16,6 +16,7 @@ class AbstractGraphicsEngine;
 class GameControllerInterface;
 class GameCamera;
 class GameMap;
+class RenderQueue;
 
 //Class to store game window.
 //It stores and handles connection between the window handler(GLFWwindow struct) and chosen Engine.
@@ -58,6 +59,9 @@ public:
 
 	//Returns true if window is closed or would be closed soon.
 	bool isWindowClosed();
+
+	//Returns RenderQueue* to a entity defining objects to be rendered.
+	RenderQueue* getRenderQueue();
 
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();

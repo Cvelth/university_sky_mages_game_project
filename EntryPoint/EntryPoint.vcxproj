@@ -149,6 +149,9 @@
     <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">
       <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.vcxproj">
+      <Project>{fab43db9-b048-43d6-9893-b089a958a213}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics\GameWindow\GameWindow.vcxproj">
       <Project>{51ace45f-329d-405e-9ae8-913a942c997c}</Project>
     </ProjectReference>

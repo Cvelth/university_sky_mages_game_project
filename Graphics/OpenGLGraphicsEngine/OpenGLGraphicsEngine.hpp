@@ -33,4 +33,8 @@ public:
 	virtual void initializeMapRendering(GameCamera* camera) override;
 	virtual void renderMap() override;
 	virtual void cleanMapRendering() override;
+
+	virtual void initializeQueueRendering() override;
+	virtual void renderQueue() override;
+	virtual void cleanQueueRendering() override;
 };

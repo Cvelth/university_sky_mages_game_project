@@ -1,4 +1,4 @@
 #include "AbstractActor.hpp"
 
-AbstractActor::AbstractActor() {}
 AbstractActor::~AbstractActor() {}
+ControllableActor::~ControllableActor() {}

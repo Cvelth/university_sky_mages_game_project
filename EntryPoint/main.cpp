@@ -3,8 +3,9 @@
 #include "GameLogicEngine\GameMap.hpp"
 #include "Graphics\RenderInfo\GetRenderInfo.hpp"
 #include "Exceptions\AbstractExceptions.hpp"
-#include "GameObjects\ControllableActor.hpp"
+#include "GameObjects\AbstractActor.hpp"
 #include "PhysicsEngine\PhysicsEngine.hpp"
+#include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp"
 
 #include <thread>
 int main() {
@@ -18,15 +19,17 @@ int main() {
 			return window->isWindowClosed();
 		});
 
-		RenderInfoStorage* renderInfo = new RenderInfoStorage; 
-		renderInfo->generateRenderInfo();
+		RenderInfoStorage* renderInfoStorage = new RenderInfoStorage;
+		renderInfoStorage->generateRenderInfo();
 
-		GameMap *map = new GameMap(100, 80, renderInfo, DefaultMapFilling::Continious);
+		GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
 		window->insertMap(map);
 
-		ControllableActor* main_actor = new ControllableActor();//(renderInfo, 50.f, 30.f, 0.f, 0.f, 0.f, 0.f);
+		ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(), 50.f, 30.f);
 		controller->setMainActor(main_actor);
 		physics_engine->addObject(main_actor);
+
+		window->getRenderQueue()->add(main_actor);
 
 		std::thread physics_thread(&PhysicsEngine::loop, physics_engine, true);
 		physics_thread.detach();
@@ -34,7 +37,7 @@ int main() {
 
 		delete main_actor;
 		delete map;
-		delete renderInfo;
+		delete renderInfoStorage;
 		delete window;
 
 		return EXIT_SUCCESS;

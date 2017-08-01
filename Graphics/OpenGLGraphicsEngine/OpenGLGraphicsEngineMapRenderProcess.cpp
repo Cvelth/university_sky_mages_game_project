@@ -88,6 +88,12 @@ void OpenGLGraphicsEngine::cleanMapRendering() {
 	if (m_map_program) delete m_map_program;
 }
 
+void OpenGLGraphicsEngine::initializeQueueRendering() {}
+
+void OpenGLGraphicsEngine::renderQueue() {}
+
+void OpenGLGraphicsEngine::cleanQueueRendering() {}
+
 #include "Exceptions\OpenGLExceptions.hpp"
 #include <fstream>
 std::string readShader(std::string filename) {

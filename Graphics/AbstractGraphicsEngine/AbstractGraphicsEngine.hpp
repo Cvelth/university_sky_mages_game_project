@@ -3,6 +3,7 @@ struct GLFWwindow;
 class GameControllerInterface;
 class GameMap;
 class GameCamera;
+class RenderQueue;
 
 //Abtract engine. Used for defining of the base structure of all the other engines,
 //being inherited by them. Stores window-data(pointer to them).
@@ -13,14 +14,15 @@ protected:
 	size_t m_window_height;
 
 	GameCamera *m_camera;
+	RenderQueue *m_queue;
 protected:
 	//Inner initialization of window, specific to engine.
 	virtual void initializeWindow(char* title, size_t width, size_t height, bool isFullscreen) abstract;
 public:
 	//Empty constructor. Initialize needs to be called manually.
 	AbstractGraphicsEngine();
-	//Empty destructor. Clean needs to be called manually.
-	~AbstractGraphicsEngine();
+	//Virtual destructor.
+	virtual ~AbstractGraphicsEngine();
 
 	//Initializes engine.
 	virtual void initialize() abstract;
@@ -32,12 +34,8 @@ public:
 	//Window destruction and cleaning handling.
 	virtual void destroyWindow() abstract;
 
-	////Creates rendering system and sends data to GPU device.
-	//virtual void initializeRenderProcess() abstract;
-	////Updates screen, using data send with initializeRenderProcess.
-	//virtual void renderProcess() abstract;
-	////Cleans data after the rendering is no longer needed.
-	//virtual void clearRenderProcess() abstract;
+	//Initialization of Queue.
+	virtual void initializeQueue();
 
 	//Updates screen accordingly to last rendered data.
 	virtual void update() abstract;
@@ -51,14 +49,24 @@ public:
 	//Puts all the objects/textures/rendering data for all the map blocks into graphical memory.
 	//Gets ready for map rendering.
 	virtual void initializeMapRendering(GameCamera* camera) abstract;
-	//Shows part of the map which is determined by current camera position.
+	//Shows part of the map which are in the frame of current camera position.
 	virtual void renderMap() abstract;
 	//Clears data after map and all its blocks.
 	virtual void cleanMapRendering() abstract;
 
+	//Puts all the objects/textures/rendering data for all the queue elements into graphical memory.
+	//Gets ready for queue rendering.
+	virtual void initializeQueueRendering() abstract;
+	//Shows elements of the queue which are in the frame of current camera position.
+	virtual void renderQueue() abstract;
+	//Clears data after queue and all its elements.
+	virtual void cleanQueueRendering() abstract;
+	
 	//Returns true if window was manually closed by user and expects to be cleaned. False otherwise.
 	virtual bool isWindowClosed() abstract;
 
+	//Returns RenderQueue handle;
+	inline RenderQueue* getRenderQueue() { return m_queue; }
 	//Returns window handle.
 	inline GLFWwindow* window() { return m_window; }
 	//Returns width of the window as an unsigned int

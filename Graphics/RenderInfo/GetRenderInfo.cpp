@@ -8,7 +8,11 @@
 void RenderInfoStorage::generateRenderInfo() {
 	EmptyBlock = new RenderInfo();
 	WallBlock = new RenderInfo();
+
 	WallBlock->get()->addPrimitive(mgl::generateRectangle(1.f, mgl::Colors::Grey(0.3f), mgl::PoligonPlacing::zero_TopLeftCorner, true));
+
+	MainActor = new RenderInfo();
+	MainActor->get()->addPrimitive(mgl::generateCircle(60, mgl::Colors::White(), mgl::PoligonPlacing::zero_TopLeftCorner, true));
 
 	isRenderInfoGenerated = true;
 }
@@ -16,4 +20,5 @@ void RenderInfoStorage::generateRenderInfo() {
 void RenderInfoStorage::cleanRenderInfo() {
 	delete EmptyBlock;
 	delete WallBlock;
+	delete MainActor;
 }
