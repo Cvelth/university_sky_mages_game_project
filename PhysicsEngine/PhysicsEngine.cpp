@@ -1,8 +1,6 @@
 #include "PhysicsEngine.hpp"
 
-void PhysicsEngine::processQueue() {
-	//To process Queue.
-}
+size_t PhysicsEngine::UpdateInterval = 16667ul;
 
 PhysicsEngine::PhysicsEngine() : m_is_initialized(false) {}
 
@@ -14,11 +12,11 @@ PhysicsEngine::~PhysicsEngine() {
 }
 
 size_t PhysicsEngine::getUpdateInterval() {
-	return m_update_interval;
+	return UpdateInterval;
 }
 
 void PhysicsEngine::changeUpdateInterval(size_t microseconds) {
-	m_update_interval = microseconds;
+	UpdateInterval = microseconds;
 }
 
 #include "PhysicalObjectsQueue.hpp"
@@ -39,6 +37,14 @@ void PhysicsEngine::clean() {
 	m_is_initialized = false;
 }
 
+void PhysicsEngine::processQueue() {
+	m_queue->for_each([](AbstractGameObject* go) {
+		processGravity(go);
+
+		processAcceleration(go);
+		processMovement(go);
+	});
+}
 #include <chrono>
 #include <thread>
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
@@ -47,7 +53,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 
 	while (!m_finish_flag_access()) {
 		auto begin_time = std::chrono::steady_clock::now();
-		auto next_tick = begin_time + std::chrono::microseconds(m_update_interval);
+		auto next_tick = begin_time + std::chrono::microseconds(UpdateInterval);
 
 		processQueue();
 

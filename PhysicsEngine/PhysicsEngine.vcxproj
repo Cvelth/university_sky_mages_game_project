@@ -117,8 +117,10 @@
   <ItemGroup>
     <ClCompile Include="PhysicalObjectsQueue.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PhysicsProcessingFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PhysicalConstants.hpp" />
     <ClInclude Include="PhysicalObjectsQueue.hpp" />
     <ClInclude Include="PhysicsEngine.hpp" />
   </ItemGroup>

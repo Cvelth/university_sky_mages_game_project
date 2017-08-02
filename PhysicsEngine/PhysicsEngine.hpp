@@ -5,21 +5,24 @@ class AbstractGameObject;
 
 class PhysicsEngine {
 private:
-	size_t m_update_interval;
+	static size_t UpdateInterval;
 	PhysicalObjectsQueue* m_queue;
 
 	bool m_is_initialized;
 protected:
 	std::function<bool(void)> m_finish_flag_access;
 
+	static void processGravity(AbstractGameObject* go);
+	static void processAcceleration(AbstractGameObject* go);
+	static void processMovement(AbstractGameObject* go);
 	void processQueue();
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess);
 	~PhysicsEngine();
 
-	size_t getUpdateInterval();
-	void changeUpdateInterval(size_t microseconds);
+	static size_t getUpdateInterval();
+	static void changeUpdateInterval(size_t microseconds);
 
 	void initialize(std::function<bool(void)> const& finishFlagAccess);
 	void addObject(AbstractGameObject* object);

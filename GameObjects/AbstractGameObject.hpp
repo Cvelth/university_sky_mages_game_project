@@ -5,17 +5,24 @@ struct Vector {
 	float v;
 
 	Vector(float h, float v) : h(h), v(v) {}
+	inline Vector& operator+=(Vector& p) {
+		h += p.h;
+		v += p.v;
+		return *this;
+	}
 };
 
 struct ObjectState {
+	float mass;
 	Vector position;
 	Vector speed;
 	Vector acceleration;
 
-	ObjectState(float position_h = 0.f, float position_v = 0.f,
+	ObjectState(float mass, 
+				float position_h = 0.f, float position_v = 0.f,
 				float speed_h = 0.f, float speed_v = 0.f,
 				float m_acceleration_h = 0.f, float m_acceleration_v = 0.f)
-						: position(position_h, position_v), speed(speed_h, speed_v),
+						: mass(mass), position(position_h, position_v), speed(speed_h, speed_v),
 						acceleration(m_acceleration_h, m_acceleration_v) {
 	
 	}
@@ -42,16 +49,16 @@ protected:
 		if (m_queue_counter--)
 			delete this;
 	}
-	inline const size_t getQueuesCount() {
+	inline const size_t getQueuesCount() const {
 		return m_queue_counter;
 	}
 public:
-	AbstractGameObject(RenderInfo* render_info, float position_h, float position_v) 
-		: m_render_info(render_info), m_state(position_h, position_v), 
+	AbstractGameObject(RenderInfo* render_info, float mass, float position_h, float position_v) 
+		: m_render_info(render_info), m_state(mass, position_h, position_v), 
 		m_waiting_to_be_initilized(true), m_waiting_to_be_destroyed(false) {}
 	virtual ~AbstractGameObject() {}
 
-	inline bool isWaitingToBeInitilized() {
+	inline bool isWaitingToBeInitilized() const {
 		return m_waiting_to_be_initilized;
 	}
 	inline void initializeWasSuccessfull() {
@@ -60,7 +67,7 @@ public:
 	inline void reinitialize() {
 		m_waiting_to_be_initilized = true;
 	}
-	inline bool isWaitingToBeDestroyed() {
+	inline bool isWaitingToBeDestroyed() const {
 		return m_waiting_to_be_destroyed;
 	}
 	inline void destructionWasSuccessfull() {
@@ -74,7 +81,20 @@ public:
 		return m_render_info;
 	}
 
-	inline Vector& position() {
+	inline const Vector& position() const {
 		return m_state.position;
+	}
+	inline const float mass() const {
+		return m_state.mass;
+	}
+
+	inline void accelerate(float h, float v) {
+		m_state.acceleration += Vector(h, v);
+	}
+	inline void updateSpeed() {
+		m_state.speed += m_state.acceleration;
+	}
+	inline void updatePosition() {
+		m_state.position += m_state.speed;
 	}
 };
