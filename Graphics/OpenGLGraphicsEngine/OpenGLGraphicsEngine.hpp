@@ -6,14 +6,36 @@ namespace mgl {
 	class ShaderProgram;
 	class ShaderVariable;
 }
+struct AbstractProgramStruct {
+	mgl::ShaderProgram *program;
+	bool operator!() const {
+		return program != nullptr;
+	}
+	mgl::ShaderProgram* operator*() {
+		return program;
+	}
+	const mgl::ShaderProgram* operator*() const {
+		return program;
+	}
+	mgl::ShaderProgram* operator->() {
+		return program;
+	}
+	mgl::ShaderProgram* operator->() const {
+		return program;
+	}
+};
+struct MapProgram : public AbstractProgramStruct {	
+	mgl::ShaderVariable *translation, *scaling, *projection;
+};
+struct QueueProgram : public AbstractProgramStruct {
+	mgl::ShaderVariable *translation, *scaling, *projection;
+};
 
 class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	InnerOpenGLGraphicsEngine *m_engine;
-
-	mgl::ShaderProgram *m_map_program, *m_queue_program;
-	mgl::ShaderVariable *m_translation, *m_scaling, *m_projection;
-protected:
+	MapProgram m_map_program;
+	QueueProgram m_queue_program;
 public:
 	OpenGLGraphicsEngine();
 	~OpenGLGraphicsEngine();

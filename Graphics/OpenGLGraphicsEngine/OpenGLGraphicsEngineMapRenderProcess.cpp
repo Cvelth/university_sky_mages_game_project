@@ -30,7 +30,7 @@ void InnerOpenGLGraphicsEngine::resize(int width, int height, GameCamera* camera
 }
 
 void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
-	m_map_program = m_engine->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("MapVertexShader.glsl").c_str()));
+	m_map_program.program = m_engine->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("MapVertexShader.glsl").c_str()));
 	m_map_program->use();
 
 	m_camera = camera;
@@ -41,15 +41,15 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);
 
-	m_translation = m_map_program->getUniform("translation");
-	m_scaling = m_map_program->getUniform("scaling");
-	m_projection = m_map_program->getUniform("projection");
+	m_map_program.translation = m_map_program->getUniform("translation");
+	m_map_program.scaling = m_map_program->getUniform("scaling");
+	m_map_program.projection = m_map_program->getUniform("projection");
 
-	m_map_program->sendUniform(m_translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
-	m_map_program->sendUniform(m_scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
-
+	m_map_program->sendUniform(m_map_program.translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
+	m_map_program->sendUniform(m_map_program.scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
+							   
 	m_engine->resize(m_camera);
-	m_map_program->sendUniform(m_projection, *m_engine->projection());
+	m_map_program->sendUniform(m_map_program.projection, *m_engine->projection());
 
 	m_engine->setClearColor(0.6f, 0.85f, 0.9f);
 }
@@ -57,10 +57,10 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 void OpenGLGraphicsEngine::renderMap() {
 	if (m_camera->wasCameraChanged()) {
 		m_engine->resize(m_camera);
-		if (m_map_program && m_map_program->isLinked())
-			m_map_program->sendUniform(m_projection, *m_engine->projection());
-		if (m_queue_program && m_queue_program->isLinked())
-			m_queue_program->sendUniform(m_projection, *m_engine->projection());
+		if (!m_map_program && m_map_program->isLinked())
+			m_map_program->sendUniform(m_map_program.projection, *m_engine->projection());
+		if (!m_queue_program && m_queue_program->isLinked())
+			m_queue_program->sendUniform(m_map_program.projection, *m_engine->projection());
 		m_camera->cameraChangeWasHandled();
 	}
 
@@ -73,7 +73,7 @@ void OpenGLGraphicsEngine::renderMap() {
 	auto maxY = m_camera->maxY_i();
 	for (unsigned int x = minX; x <= maxX; x++)
 		for (unsigned int y = minY; y <= maxY; y++) {
-			m_map_program->sendUniform(m_translation, mgl::math::Vector(float(x), float(y), 0.f, 0.f));
+			m_map_program->sendUniform(m_map_program.translation, mgl::math::Vector(float(x), float(y), 0.f, 0.f));
 			m_camera->map()->get(x, y)->renderInfo()->get()->draw();
 		}
 }
@@ -82,8 +82,8 @@ void OpenGLGraphicsEngine::cleanMapRendering() {
 	for (auto it : m_camera->map()->get_blocks_data())
 		it->renderInfo()->get()->clean();
 
-	if (m_translation) delete m_translation;
-	if (m_scaling) delete m_scaling;
-	if (m_projection) delete m_projection;
-	if (m_map_program) delete m_map_program;
+	if (m_map_program.translation) delete m_map_program.translation;
+	if (m_map_program.scaling) delete m_map_program.scaling;
+	if (m_map_program.projection) delete m_map_program.projection;
+	if (!m_map_program) delete *m_map_program;
 }
