@@ -8,7 +8,7 @@
 #include "GameLogicEngine\GameCamera.hpp"
 
 void OpenGLGraphicsEngine::initializeQueueRendering() {
-	m_queue_program.program = m_engine->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("MapVertexShader.glsl").c_str()));
+	m_queue_program.program = m_engine->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("QueueVertexShader.glsl").c_str()));
 	m_queue_program->use();
 
 	m_queue->for_each([](AbstractGameObject* go) {

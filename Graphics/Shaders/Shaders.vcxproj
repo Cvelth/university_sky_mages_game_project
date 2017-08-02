@@ -169,6 +169,7 @@
     <None Include="Source\Circle.vert" />
     <None Include="Source\CoordinateColor.frag" />
     <None Include="Source\MapVertexShader.glsl" />
+    <None Include="Source\QueueVertexShader.glsl" />
     <None Include="Source\Triangle.frag" />
     <None Include="Source\Triangle.vert" />
   </ItemGroup>
