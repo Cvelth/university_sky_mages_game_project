@@ -31,20 +31,10 @@ void OpenGLGraphicsEngine::initializeQueueRendering() {
 
 	m_queue_program->sendUniform(m_queue_program.translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
 	m_queue_program->sendUniform(m_queue_program.scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
-								 
-	m_engine->resize(m_camera);	 
-	m_queue_program->sendUniform(m_queue_program.projection, *m_engine->projection());
 }
 
 void OpenGLGraphicsEngine::renderQueue() {
-	if (m_camera->wasCameraChanged()) {
-		m_engine->resize(m_camera);
-		if (!m_map_program && m_map_program->isLinked())
-			m_map_program->sendUniform(m_map_program.projection, *m_engine->projection());
-		if (!m_queue_program && m_queue_program->isLinked())
-			m_queue_program->sendUniform(m_queue_program.projection, *m_engine->projection());
-		m_camera->cameraChangeWasHandled();
-	}
+	recalculateCamera();
 
 	m_queue_program->use();
 
@@ -68,4 +58,9 @@ void OpenGLGraphicsEngine::cleanQueueRendering() {
 		go->getRenderInto()->get()->clean();
 		go->destructionWasSuccessfull();
 	});
+
+	if (m_queue_program.translation) delete m_queue_program.translation;
+	if (m_queue_program.scaling) delete m_queue_program.scaling;
+	if (m_queue_program.projection) delete m_queue_program.projection;
+	if (!m_queue_program) delete *m_queue_program;
 }

@@ -1,10 +1,13 @@
 #pragma once
 #include "Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
+#include <map>
 
 class InnerOpenGLGraphicsEngine;
+class AbstractBlock;
 namespace mgl {
 	class ShaderProgram;
 	class ShaderVariable;
+	class InstancingArray;
 }
 struct AbstractProgramStruct {
 	mgl::ShaderProgram *program;
@@ -25,7 +28,9 @@ struct AbstractProgramStruct {
 	}
 };
 struct MapProgram : public AbstractProgramStruct {	
-	mgl::ShaderVariable *translation, *scaling, *projection;
+	mgl::ShaderVariable *projection;
+	std::map<AbstractBlock*, mgl::InstancingArray*> translationInstances;
+	mgl::ShaderVariable *translation;
 };
 struct QueueProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *translation, *scaling, *projection;
@@ -51,6 +56,10 @@ public:
 	virtual void pollEvents() override;
 
 	virtual void insertController(GameControllerInterface* controller) override;
+
+	virtual void recalculateCamera();
+	virtual void recalculateProjection();
+	virtual void recalculateInstancing();
 
 	virtual void initializeMapRendering(GameCamera* camera) override;
 	virtual void renderMap() override;
