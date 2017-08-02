@@ -4,11 +4,11 @@
 class AbstractActor : public AbstractGameObject {
 public:
 	using AbstractGameObject::AbstractGameObject;
-	~AbstractActor();
+	~AbstractActor() {}
 };
 
 class ControllableActor : public AbstractActor {
 public:
 	using AbstractActor::AbstractActor;
-	~ControllableActor();
+	~ControllableActor() {}
 };

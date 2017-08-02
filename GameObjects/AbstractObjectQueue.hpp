@@ -1,5 +1,6 @@
 #pragma once
 #include <set>
+#include <functional>
 class AbstractGameObject;
 
 class AbstractObjectQueue {
@@ -12,7 +13,5 @@ public:
 	void add(AbstractGameObject* object);
 	void remove(AbstractGameObject* object);
 
-	inline std::set<AbstractGameObject*>& get() {
-		return m_queue;
-	}
+	void for_each(const std::function<void(AbstractGameObject*)>& lambda);
 };

@@ -116,8 +116,6 @@
     <ClInclude Include="AbstractObjectQueue.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractActor.cpp" />
-    <ClCompile Include="AbstractGameObject.cpp" />
     <ClCompile Include="AbstractObjectQueue.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
