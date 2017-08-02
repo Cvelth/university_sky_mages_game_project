@@ -17,12 +17,18 @@
     <ClInclude Include="AbstractActor.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractObjectQueue.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractGameObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="AbstractActor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractObjectQueue.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

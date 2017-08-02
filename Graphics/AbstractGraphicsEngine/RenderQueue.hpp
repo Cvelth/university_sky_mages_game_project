@@ -1,18 +1,8 @@
 #pragma once
-#include "GameObjects\AbstractGameObject.hpp"
-#include <set>
+#include "GameObjects\AbstractObjectQueue.hpp"
 
-class RenderQueue {
-private:
-	std::set<AbstractGameObject*> m_queue;
+class RenderQueue : public AbstractObjectQueue {
 public:
 	RenderQueue();
 	~RenderQueue();
-
-	void add(AbstractGameObject* object);
-	void remove(AbstractGameObject* object);
-
-	inline std::set<AbstractGameObject*>& get() {
-		return m_queue;
-	}
 };

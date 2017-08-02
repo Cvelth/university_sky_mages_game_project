@@ -2,6 +2,7 @@
 #include "InnerOpenGLGraphicsEngine.hpp"
 #include "OpenGL_Mirror\FunctionsMirror\FunctionsMirror.hpp"
 
+#include "GameObjects\AbstractGameObject.hpp"
 #include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp"
 #include "Graphics\RenderInfo\RenderInfo.hpp"
 #include "GameLogicEngine\GameCamera.hpp"

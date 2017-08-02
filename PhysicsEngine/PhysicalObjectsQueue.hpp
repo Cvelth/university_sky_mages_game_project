@@ -1,14 +1,8 @@
 #pragma once
-#include <set>
-class AbstractGameObject;
+#include "GameObjects\AbstractObjectQueue.hpp"
 
-class PhysicalObjectsQueue {
-private:
-	std::set<AbstractGameObject*> m_queue;
+class PhysicalObjectsQueue : public AbstractObjectQueue {
 public:
 	PhysicalObjectsQueue();
 	~PhysicalObjectsQueue();
-
-	void add(AbstractGameObject* object);
-	void remove(AbstractGameObject* object);
 };
