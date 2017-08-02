@@ -25,7 +25,7 @@ int main() {
 		GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
 		window->insertMap(map);
 
-		ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(), 75.f, 50.f, 30.f);
+		ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(), 75.f, 5.f, 0.f);
 		controller->setMainActor(main_actor);
 		physics_engine->addObject(main_actor);
 		window->getRenderQueue()->add(main_actor);
