@@ -61,9 +61,11 @@ void GameCamera::changeAspectRatio(float aspectRatio) {
 }
 
 void GameCamera::changeZoom(float magnifier) {
-	m_horizontalBlocks *= magnifier;
-	m_wasCameraChanged = true;
-	correct();
+	if (magnifier > 0.f) {
+		m_horizontalBlocks *= magnifier;
+		m_wasCameraChanged = true;
+		correct();
+	}
 }
 
 void GameCamera::move(float x, float y) {
