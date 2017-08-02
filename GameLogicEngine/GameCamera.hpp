@@ -18,7 +18,7 @@ protected:
 	bool check();
 	void correct();
 public:
-	GameCamera(GameMap* map, float aspectRatio, float blocks = 50);
+	GameCamera(GameMap* map, float aspectRatio, float blocks = 100);
 
 	void changeAspectRatio(float aspectRatio);
 	void changeZoom(float magnifier);
