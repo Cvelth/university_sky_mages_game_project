@@ -1,19 +1,22 @@
 #pragma once
 
+struct Vector {
+	float h;
+	float v;
+
+	Vector(float h, float v) : h(h), v(v) {}
+};
+
 struct ObjectState {
-	float m_position_h;
-	float m_position_v;
-	float m_speed_h;
-	float m_speed_v;
-	float m_acceleration_h;
-	float m_acceleration_v;
+	Vector position;
+	Vector speed;
+	Vector acceleration;
 
 	ObjectState(float position_h = 0.f, float position_v = 0.f,
 				float speed_h = 0.f, float speed_v = 0.f,
 				float m_acceleration_h = 0.f, float m_acceleration_v = 0.f)
-						: m_position_h(position_h), m_position_v(position_v), 
-						m_speed_h(speed_h), m_speed_v(speed_v),
-						m_acceleration_h(m_acceleration_h), m_acceleration_v(m_acceleration_v) {
+						: position(position_h, position_v), speed(speed_h, speed_v),
+						acceleration(m_acceleration_h, m_acceleration_v) {
 	
 	}
 };
@@ -54,5 +57,9 @@ public:
 
 	inline RenderInfo* getRenderInto() {
 		return m_render_info;
+	}
+
+	inline Vector& position() {
+		return m_state.position;
 	}
 };

@@ -21,3 +21,6 @@ public:
 		return m_projection;
 	}
 };
+
+#include <string>
+std::string readShader(std::string filename);

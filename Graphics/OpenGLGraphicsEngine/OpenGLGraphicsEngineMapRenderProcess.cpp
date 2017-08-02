@@ -29,19 +29,15 @@ void InnerOpenGLGraphicsEngine::resize(int width, int height, GameCamera* camera
 	));
 }
 
-std::string readShader(std::string name);
 void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
+	m_map_program = m_engine->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("MapVertexShader.glsl").c_str()));
+	m_map_program->use();
+
 	m_camera = camera;
 	for (auto it : m_camera->map()->get_blocks_data())
 		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
 	m_camera->map()->get(0, 0)->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
 
-	std::string source = readShader("MapVertexShader.glsl");
-	auto map_shader = mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, source);
-	m_map_program = m_engine->linkProgramWithDefaultFragmentShader(map_shader);
-	delete map_shader;
-
-	m_map_program->use();
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);
 
@@ -61,11 +57,15 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 void OpenGLGraphicsEngine::renderMap() {
 	if (m_camera->wasCameraChanged()) {
 		m_engine->resize(m_camera);
-		m_map_program->sendUniform(m_projection, *m_engine->projection());
+		if (m_map_program && m_map_program->isLinked())
+			m_map_program->sendUniform(m_projection, *m_engine->projection());
+		if (m_queue_program && m_queue_program->isLinked())
+			m_queue_program->sendUniform(m_projection, *m_engine->projection());
 		m_camera->cameraChangeWasHandled();
 	}
 
 	m_engine->clearWindow();
+	m_map_program->use();
 
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();
@@ -86,24 +86,4 @@ void OpenGLGraphicsEngine::cleanMapRendering() {
 	if (m_scaling) delete m_scaling;
 	if (m_projection) delete m_projection;
 	if (m_map_program) delete m_map_program;
-}
-
-void OpenGLGraphicsEngine::initializeQueueRendering() {}
-
-void OpenGLGraphicsEngine::renderQueue() {}
-
-void OpenGLGraphicsEngine::cleanQueueRendering() {}
-
-#include "Exceptions\OpenGLExceptions.hpp"
-#include <fstream>
-std::string readShader(std::string filename) {
-	std::ifstream file;
-	file.open("Shaders\\" + filename, std::ios::ate | std::ios::binary);
-	if (!file.is_open()) {
-		file.open("..\\Graphics\\Shaders\\Source\\" + filename, std::ios::ate | std::ios::binary);
-		if (!file.is_open())
-			throw Exceptions::ShaderFileException();
-		return std::string(std::istreambuf_iterator<char>(std::ifstream("..\\Graphics\\Shaders\\Source\\" + filename)), std::istreambuf_iterator<char>());
-	}
-	return std::string(std::istreambuf_iterator<char>(std::ifstream("Shaders\\" + filename)), std::istreambuf_iterator<char>());
 }

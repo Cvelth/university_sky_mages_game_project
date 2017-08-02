@@ -13,3 +13,17 @@ void InnerOpenGLGraphicsEngine::renderProcess() {
 void InnerOpenGLGraphicsEngine::clearRenderProcess() {
 
 }
+
+#include "Exceptions\OpenGLExceptions.hpp"
+#include <fstream>
+std::string readShader(std::string filename) {
+	std::ifstream file;
+	file.open("Shaders\\" + filename, std::ios::ate | std::ios::binary);
+	if (!file.is_open()) {
+		file.open("..\\Graphics\\Shaders\\Source\\" + filename, std::ios::ate | std::ios::binary);
+		if (!file.is_open())
+			throw Exceptions::ShaderFileException();
+		return std::string(std::istreambuf_iterator<char>(std::ifstream("..\\Graphics\\Shaders\\Source\\" + filename)), std::istreambuf_iterator<char>());
+	}
+	return std::string(std::istreambuf_iterator<char>(std::ifstream("Shaders\\" + filename)), std::istreambuf_iterator<char>());
+}

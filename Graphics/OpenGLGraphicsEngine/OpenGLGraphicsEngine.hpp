@@ -3,7 +3,7 @@
 
 class InnerOpenGLGraphicsEngine;
 namespace mgl {
-	class Program;
+	class ShaderProgram;
 	class ShaderVariable;
 }
 
@@ -11,7 +11,7 @@ class OpenGLGraphicsEngine : public AbstractGraphicsEngine {
 private:
 	InnerOpenGLGraphicsEngine *m_engine;
 
-	mgl::Program *m_map_program;
+	mgl::ShaderProgram *m_map_program, *m_queue_program;
 	mgl::ShaderVariable *m_translation, *m_scaling, *m_projection;
 protected:
 public:

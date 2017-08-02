@@ -20,6 +20,9 @@
     <ClCompile Include="OpenGLGraphicsEngineMapRenderProcess.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="OpenGLGraphicsEngineQueueRenderProcess.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLGraphicsEngine.hpp">
