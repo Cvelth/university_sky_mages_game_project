@@ -8,12 +8,36 @@
 #include "GameLogicEngine\AbstractBlock.hpp"
 #include "Graphics\RenderInfo\RenderInfo.hpp"
 
+void OpenGLGraphicsEngine::recalculateCamera() {
+	if (m_camera->wasCameraChanged()) {
+		recalculateProjection();
+		recalculateInstancing();
+		m_camera->cameraChangeWasHandled();
+	}
+}
 void OpenGLGraphicsEngine::recalculateProjection() {
 	m_engine->resize(m_camera);
 	if (!m_map_program && m_map_program->isLinked())
 		m_map_program->sendUniform(m_map_program.projection, *m_engine->projection());
 	if (!m_queue_program && m_queue_program->isLinked())
 		m_queue_program->sendUniform(m_map_program.projection, *m_engine->projection());
+}
+void OpenGLGraphicsEngine::recalculateInstancing() {
+	auto minX = m_camera->minX_i();
+	auto maxX = m_camera->maxX_i();
+	auto minY = m_camera->minY_i();
+	auto maxY = m_camera->maxY_i();
+	m_map_program->use();
+	for (auto p : m_map_program.translationInstances) {
+		p.second->deleteAll();
+		for (size_t x = minX; x <= maxX; x++)
+			for (size_t y = minY; y <= maxY; y++)
+				if (m_camera->map()->get(x, y) == p.first)
+					p.second->insert(new mgl::math::Vector(float(x), float(y), 0.f, 0.f));
+		p.second->send(mgl::DataUsage::StaticDraw);
+		m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
+		m_map_program->initializeInstancing(m_map_program.translation, 1);
+	}
 }
 
 void InnerOpenGLGraphicsEngine::resize(GameCamera* camera) {
@@ -74,31 +98,4 @@ void OpenGLGraphicsEngine::cleanMapRendering() {
 	if (m_map_program.translation) delete m_map_program.translation;
 	if (m_map_program.projection) delete m_map_program.projection;
 	if (!m_map_program) delete *m_map_program;
-}
-
-#include <thread>
-void OpenGLGraphicsEngine::recalculateCamera() {
-	if (m_camera->wasCameraChanged()) {
-		recalculateProjection();
-		recalculateInstancing();
-		m_camera->cameraChangeWasHandled();
-	}
-}
-
-void OpenGLGraphicsEngine::recalculateInstancing() {
-	auto minX = m_camera->minX_i();
-	auto maxX = m_camera->maxX_i();
-	auto minY = m_camera->minY_i();
-	auto maxY = m_camera->maxY_i();
-	m_map_program->use();
-	for (auto p : m_map_program.translationInstances) {
-		p.second->deleteAll();
-		for (size_t x = minX; x <= maxX; x++)
-			for (size_t y = minY; y <= maxY; y++)
-				if (m_camera->map()->get(x, y) == p.first)
-					p.second->insert(new mgl::math::Vector(float(x), float(y), 0.f, 0.f));
-		p.second->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
-		m_map_program->initializeInstancing(m_map_program.translation, 1);
-	}
 }
