@@ -2,14 +2,21 @@
 #include "DefaultSettings.hpp"
 #include "..\Exceptions\OtherExceptions.hpp"
 
+#define addDefaultSetting(name) addSetting(#name, name)
+
 Settings::Settings(std::string filename) : SettingFileName(filename) {
-	addSetting("Program_Name", Program_Name);
-	addSetting("Program_Major_Version", Program_Major_Version);
-	addSetting("Program_Minor_Version", Program_Minor_Version);
-	addSetting("Program_Build_Version", Program_Build_Version);
-	addSetting("Program_Version_Suffix", Program_Version_Suffix);
-	addSetting("Settings_Syntax_Major_Version", Settings_Syntax_Major_Version);
-	addSetting("Settings_Syntax_Minor_Version", Settings_Syntax_Minor_Version);
+	addDefaultSetting(Program_Name);
+	addDefaultSetting(Program_Major_Version);
+	addDefaultSetting(Program_Minor_Version);
+	addDefaultSetting(Program_Build_Version);
+	addDefaultSetting(Program_Version_Suffix);
+	addDefaultSetting(Settings_Syntax_Major_Version);
+	addDefaultSetting(Settings_Syntax_Minor_Version);
+}
+void Settings::default() {
+	addDefaultSetting(Screen_Width);
+	addDefaultSetting(Screen_Height);
+	addDefaultSetting(Fullscreen_Window);
 }
 Settings::~Settings() {}
 
@@ -109,12 +116,6 @@ void Settings::addSetting(std::string name, std::string value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
-}
-
-void Settings::default() {
-	addSetting("Screen_Width", Screen_Width);
-	addSetting("Screen_Height", Screen_Height);
-	addSetting("Fullscreen_Window", Fullscreen_Window);
 }
 
 #include <fstream>
