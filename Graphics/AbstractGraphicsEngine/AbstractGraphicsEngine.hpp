@@ -17,7 +17,7 @@ protected:
 	RenderQueue *m_queue;
 protected:
 	//Inner initialization of window, specific to engine.
-	virtual void initializeWindow(char* title, size_t width, size_t height, bool isFullscreen) abstract;
+	virtual void initializeWindow(const char* title, size_t width, size_t height, bool isFullscreen) abstract;
 public:
 	//Empty constructor. Initialize needs to be called manually.
 	AbstractGraphicsEngine();
@@ -30,7 +30,7 @@ public:
 	virtual void clean() abstract;
 
 	//Outter initilization of window. Uses initializeWindow.
-	void createWindow(char* title, size_t width, size_t height, bool isFullscreen = false);
+	void createWindow(const char* title, size_t width, size_t height, bool isFullscreen = false);
 	//Window destruction and cleaning handling.
 	virtual void destroyWindow() abstract;
 

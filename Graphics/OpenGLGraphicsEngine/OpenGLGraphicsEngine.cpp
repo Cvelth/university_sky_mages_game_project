@@ -11,7 +11,7 @@ void OpenGLGraphicsEngine::clean() {
 	delete m_engine;
 }
 
-void OpenGLGraphicsEngine::initializeWindow(char * title, size_t width, size_t height, bool isFullscreen) {
+void OpenGLGraphicsEngine::initializeWindow(const char * title, size_t width, size_t height, bool isFullscreen) {
 	m_engine->initialize(title, (int) width, (int) height,
 							   isFullscreen ? mgl::DefaultWindowMode::Fullscreen : mgl::DefaultWindowMode::Windowed);
 	m_window = m_engine->window();

@@ -18,7 +18,7 @@ void GameWindow::clean() {
 	//Does nothing.
 }
 
-GameWindow::GameWindow(char* title, size_t width, size_t height, bool isFullscreen)
+GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFullscreen)
 		: isMapInserted(false), isControllerInserted(false), m_update_interval(16666) {
 	
 #ifdef OPENGL_ENGINE_USED

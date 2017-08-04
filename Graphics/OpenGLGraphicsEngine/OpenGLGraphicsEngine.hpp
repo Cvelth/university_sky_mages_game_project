@@ -48,7 +48,7 @@ public:
 	virtual void initialize() override;
 	virtual void clean() override;
 
-	virtual void initializeWindow(char* title, size_t width, size_t height, bool isFullscreen) override;
+	virtual void initializeWindow(const char* title, size_t width, size_t height, bool isFullscreen) override;
 	virtual void destroyWindow() override;
 	virtual bool isWindowClosed() override;
 

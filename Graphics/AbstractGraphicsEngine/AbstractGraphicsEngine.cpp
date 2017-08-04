@@ -3,11 +3,7 @@
 
 AbstractGraphicsEngine::AbstractGraphicsEngine() : m_queue(nullptr) {}
 
-AbstractGraphicsEngine::~AbstractGraphicsEngine() {
-	if (m_queue) delete m_queue;
-}
-
-void AbstractGraphicsEngine::createWindow(char* title, size_t width, size_t height, bool isFullscreen) {
+void AbstractGraphicsEngine::createWindow(const char* title, size_t width, size_t height, bool isFullscreen) {
 	initializeWindow(title, width, height, isFullscreen);
 	if (!m_window)
 		throw Exceptions::WindowInitializationException();
@@ -18,4 +14,8 @@ void AbstractGraphicsEngine::createWindow(char* title, size_t width, size_t heig
 #include "RenderQueue.hpp"
 void AbstractGraphicsEngine::initializeQueue() {
 	m_queue = new RenderQueue;
+}
+
+AbstractGraphicsEngine::~AbstractGraphicsEngine() {
+	if (m_queue) delete m_queue;
 }

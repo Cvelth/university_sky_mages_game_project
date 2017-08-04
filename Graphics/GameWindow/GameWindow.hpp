@@ -41,7 +41,7 @@ public:
 
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
-	GameWindow(char* title, size_t width, size_t height, bool isFullscreen);
+	GameWindow(const char* title, size_t width, size_t height, bool isFullscreen);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
 	void insertController(GameControllerInterface* controller);

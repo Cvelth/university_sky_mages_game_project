@@ -26,7 +26,7 @@ int main() {
 	}
 
 	try {
-		GameWindow* window = new GameWindow("SkyMages Dev", 1280, 1024, false);
+		GameWindow* window = new GameWindow(s.getProgramVersionInfo().c_str(), s.getUintValue("Screen_Width"), s.getUintValue("Screen_Height"), s.getBoolValue("Fullscreen_Window"));
 
 		GameControllerInterface* controller = new GameControllerInterface();
 		window->insertController(controller);

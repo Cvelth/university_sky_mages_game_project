@@ -12,7 +12,14 @@ Settings::Settings(std::string filename) : SettingFileName(filename) {
 	addSetting("Settings_Syntax_Minor_Version", Settings_Syntax_Minor_Version);
 }
 Settings::~Settings() {}
-SettingValue& Settings::getValue(std::string name) {
+
+SettingValue & Settings::operator[](std::string  name) {
+	return getValue(name);
+}
+const SettingValue & Settings::operator[](std::string  name) const {
+	return getValue(name);
+}
+SettingValue & Settings::getValue(std::string  name) {
 	try {
 		return m_data.at(name);
 	} catch (std::out_of_range&) {
@@ -21,16 +28,42 @@ SettingValue& Settings::getValue(std::string name) {
 }
 const SettingValue & Settings::getValue(std::string  name) const {
 	try {
+		auto t = m_data.at(name);
 		return m_data.at(name);
 	} catch (std::out_of_range&) {
 		throw Exceptions::NonExistingSettingException();
 	}
 }
-SettingValue& Settings::operator[](std::string  name) {
-	return getValue(name);
+const bool& Settings::getValue(std::string name, bool & value_reference) const {
+	return value_reference = getBoolValue(name);
 }
-const SettingValue & Settings::operator[](std::string  name) const {
-	return getValue(name);
+const signed& Settings::getValue(std::string name, signed & value_reference) const {
+	return value_reference = getSintValue(name);
+}
+const unsigned& Settings::getValue(std::string name, unsigned & value_reference) const {
+	return value_reference = getUintValue(name);
+}
+const float& Settings::getValue(std::string name, float & value_reference) const {
+	return value_reference = getFloatValue(name);
+}
+const std::string& Settings::getValue(std::string name, std::string & value_reference) const {
+	return value_reference = getStringValue(name);
+}
+const bool Settings::getBoolValue(std::string name) const {
+	return std::get<bool>(getValue(name));
+}
+const signed int Settings::getSintValue(std::string name) const {
+	return std::get<signed>(getValue(name));
+}
+const unsigned int Settings::getUintValue(std::string name) const {
+	auto t = std::get<unsigned>(getValue(name));
+	return t;
+}
+const float Settings::getFloatValue(std::string name) const {
+	return std::get<float>(getValue(name));
+}
+const std::string Settings::getStringValue(std::string name) const {
+	return std::get<std::string>(getValue(name));
 }
 const std::string Settings::getType(SettingValue value) const {
 	return std::visit([](auto&& arg) {
@@ -135,7 +168,7 @@ void Settings::unbackup() {
 
 template <class... Ts> struct overloaded : Ts... { overloaded(Ts... f) : Ts(f)... {} };
 template <class... Ts> auto overload(Ts... f) { return overloaded<Ts...>(f...); }
-std::ostream& operator<<(std::ostream &stream, SettingValue &value) {
+std::ostream& operator<<(std::ostream &stream, const SettingValue &value) {
 	std::visit(overload(
 		[&stream](bool arg) {
 			if (arg)
@@ -164,6 +197,14 @@ void Settings::copy_file(std::string from, std::string to) {
 	if (!fi.is_open() || !fo.is_open())
 		throw Exceptions::FileAccessException();
 	fo << fi.rdbuf();
+}
+
+std::string Settings::getProgramVersionInfo() {
+	return std::get<std::string>(getValue("Program_Name")) + " " +
+		std::to_string(std::get<unsigned int>(getValue("Program_Major_Version"))) + "." +
+		std::to_string(std::get<unsigned int>(getValue("Program_Minor_Version"))) + "." +
+		std::to_string(std::get<unsigned int>(getValue("Program_Build_Version"))) + " " +
+		std::get<std::string>(getValue("Program_Version_Suffix"));
 }
 
 #include <sstream>
@@ -201,25 +242,26 @@ void Settings::loadLine(std::string line) {
 	std::stringstream iss(line);
 	std::string s;
 	iss >> s;
+	char c;
 	if (s == "boolean") {
 		std::string v;
-		iss >> s >> v;
+		iss >> s >> c >> v;
 		addSetting(s, (v == "true") ? true : false);
 	} else if (s == "s_int") {
 		signed int v;
-		iss >> s >> v;
+		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else if (s == "u_int") {
 		unsigned int v;
-		iss >> s >> v;
+		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else if (s == "float") {
 		float v;
-		iss >> s >> v;
+		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else if (s == "string") {
 		std::string v;
-		iss >> s >> v;
+		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else
 		throw Exceptions::UnsupportedSettingTypeException();

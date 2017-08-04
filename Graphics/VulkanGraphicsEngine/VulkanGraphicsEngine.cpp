@@ -16,7 +16,7 @@ void VulkanGraphicsEngine::clean() {
 	m_engine->clean();
 }
 
-void VulkanGraphicsEngine::initializeWindow(char * title, size_t width, size_t height, bool isFullscreen) {
+void VulkanGraphicsEngine::initializeWindow(const char * title, size_t width, size_t height, bool isFullscreen) {
 	if (!glfwInit())
 		throw Exceptions::GLFWInitializationException();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

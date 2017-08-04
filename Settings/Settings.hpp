@@ -15,10 +15,20 @@ public:
 	Settings(std::string filename = "Settings.ini");
 	~Settings();
 
-	SettingValue& getValue(std::string name);
-	const SettingValue& getValue(std::string name) const;
 	SettingValue& operator[](std::string name);
 	const SettingValue& operator[](std::string name) const;
+	SettingValue& getValue(std::string name);
+	const SettingValue& getValue(std::string name) const;
+	const bool& getValue(std::string name, bool& value_reference) const;
+	const signed& getValue(std::string name, signed& value_reference) const;
+	const unsigned& getValue(std::string name, unsigned& value_reference) const;
+	const float& getValue(std::string name, float& value_reference) const;
+	const std::string& getValue(std::string name, std::string& value_reference) const;
+	const bool getBoolValue(std::string name) const;
+	const signed int getSintValue(std::string name) const;
+	const unsigned int getUintValue(std::string name) const;
+	const float getFloatValue(std::string name) const;
+	const std::string getStringValue(std::string name) const;
 	const std::string getType(SettingValue value) const;
 	const std::string getType(std::string name) const;
 protected:
@@ -37,7 +47,9 @@ protected:
 	void loadFirstLine(std::string line);
 	void loadLine(std::string line);
 	void copy_file(std::string from, std::string to);
+public:
+	std::string getProgramVersionInfo();
 };
 
-std::ostream& operator<<(std::ostream &stream, SettingValue &value);
+std::ostream& operator<<(std::ostream &stream, const SettingValue &value);
 std::istream& operator>>(std::istream &stream, SettingValue &value);
