@@ -6,5 +6,6 @@
   <ItemGroup>
     <None Include="Settings.ini" />
     <None Include="Settings.ini.backup" />
+    <None Include="LinkSettings.bat" />
   </ItemGroup>
 </Project>
