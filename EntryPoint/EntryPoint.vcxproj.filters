@@ -3,4 +3,8 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.ini" />
+    <None Include="Settings.ini.backup" />
+  </ItemGroup>
 </Project>

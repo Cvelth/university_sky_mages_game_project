@@ -166,6 +166,10 @@
       <Project>{0dfe8e10-1f21-496b-897a-08d62d4611b3}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.ini" />
+    <None Include="Settings.ini.backup" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
