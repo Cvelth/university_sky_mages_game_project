@@ -180,7 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LinkSettings.bat" />
-    <None Include="Settings.ini" />
+    <CustomBuild Include="Settings.ini">
+      <FileType>Document</FileType>
+    </CustomBuild>
     <None Include="Settings.ini.backup" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

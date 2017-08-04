@@ -10,31 +10,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Build\CleanBuild.bat">
-      <Filter>Build</Filter>
-    </None>
     <None Include="Build\CompileShaders.bat">
       <Filter>Build</Filter>
     </None>
     <None Include="Build\LinkShaders.bat">
       <Filter>Build</Filter>
     </None>
-    <None Include="Source\Triangle.frag">
+    <None Include="Source\MapVertexShader.glsl">
       <Filter>Source</Filter>
     </None>
-    <None Include="Source\CoordinateColor.frag">
+    <None Include="Source\QueueVertexShader.glsl">
       <Filter>Source</Filter>
     </None>
     <None Include="Source\Circle.vert">
       <Filter>Source</Filter>
     </None>
+    <None Include="Source\CoordinateColor.frag">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Source\Triangle.frag">
+      <Filter>Source</Filter>
+    </None>
     <None Include="Source\Triangle.vert">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="Source\MapVertexShader.glsl">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="Source\QueueVertexShader.glsl">
       <Filter>Source</Filter>
     </None>
   </ItemGroup>

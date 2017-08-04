@@ -93,7 +93,8 @@
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,7 +114,8 @@
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +135,8 @@
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,17 +162,29 @@
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>call "$(ProjectDir)build\cleanbuild.bat"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Build\CleanBuild.bat" />
     <None Include="Build\CompileShaders.bat" />
     <None Include="Build\LinkShaders.bat" />
+    <CustomBuild Include="Source\MapVertexShader.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders are being compiled.</Message>
+    </CustomBuild>
+    <CustomBuild Include="Source\QueueVertexShader.glsl">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders are being compiled.</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders are being compiled.</Message>
+    </CustomBuild>
     <None Include="Source\Circle.vert" />
     <None Include="Source\CoordinateColor.frag" />
-    <None Include="Source\MapVertexShader.glsl" />
-    <None Include="Source\QueueVertexShader.glsl" />
     <None Include="Source\Triangle.frag" />
     <None Include="Source\Triangle.vert" />
   </ItemGroup>
