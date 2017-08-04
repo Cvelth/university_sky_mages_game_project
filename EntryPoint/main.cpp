@@ -3,12 +3,28 @@
 #include "GameLogicEngine\GameMap.hpp"
 #include "Graphics\RenderInfo\GetRenderInfo.hpp"
 #include "Exceptions\AbstractExceptions.hpp"
+#include "Exceptions\OtherExceptions.hpp"
 #include "GameObjects\AbstractActor.hpp"
 #include "PhysicsEngine\PhysicsEngine.hpp"
 #include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp"
+#include "Settings\Settings.hpp"
 
 #include <thread>
 int main() {
+	Settings s;
+	try {
+		s.load();
+	} catch (Exceptions::DifferentSettingFileVersionException& e) {
+		e.print();
+	} catch (Exceptions::DifferentProgramVersionException& e) {
+		e.print();
+	} catch (Exceptions::SettingsException& e) {
+		s.backup();
+		s.default();
+		s.save();
+		e.print();
+	}
+
 	try {
 		GameWindow* window = new GameWindow("SkyMages Dev", 1280, 1024, false);
 
@@ -25,7 +41,8 @@ int main() {
 		GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
 		window->insertMap(map);
 
-		ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(), 75.f, 5.f, 0.f);
+		ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(), 
+															  75.f, 5.f, 0.f);
 		controller->setMainActor(main_actor);
 		physics_engine->addObject(main_actor);
 		window->getRenderQueue()->add(main_actor);
