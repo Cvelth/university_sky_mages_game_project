@@ -1,10 +1,9 @@
-#include "Graphics\GameWindow\GameWindow.hpp"
+#include "GameWindow\GameWindow.hpp"
 #include "Controller\GameControllerInterface.hpp"
 #include "PhysicsEngine\PhysicsEngine.hpp"
-#include "Graphics\RenderInfo\GetRenderInfo.hpp"
-#include "GameLogicEngine\GameMap.hpp"
+#include "RenderTools\RenderInfoStorage.hpp"
+#include "LogicEngine\GameMap.hpp"
 #include "GameObjects\AbstractActor.hpp"
-#include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp" //To be removed.
 #include "Settings\Settings.hpp"
 #include "Shared\AbstractException.hpp"
 
@@ -35,7 +34,7 @@ void game_process(Settings& s) {
 														  75.f, 1.f, 4.f, 10.5f, 30.5f);
 	controller->setMainActor(main_actor);
 	physics_engine->addObject(main_actor);
-	window->getRenderQueue()->add(main_actor);
+	window->addToRenderQueue(main_actor);
 
 	std::thread physics_thread(&PhysicsEngine::loop, physics_engine, false);
 	window->loop(false);

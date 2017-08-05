@@ -10,7 +10,7 @@ void PhysicsEngine::processGravity(ObjectState &os) {
 	os.acceleration.v = os.mass * Constants::g * time_correction;
 }
 
-#include "GameLogicEngine\GameMap.hpp"
+#include "LogicEngine\GameMap.hpp"
 void PhysicsEngine::processMovement(ObjectState &os, GameMap *map) {
 	os.speed += os.acceleration * time_correction;
 

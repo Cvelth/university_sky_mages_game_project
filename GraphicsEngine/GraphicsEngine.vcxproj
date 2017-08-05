@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C5C17A7E-3702-464B-A46A-39679106B95B}</ProjectGuid>
-    <RootNamespace>Controller</RootNamespace>
+    <ProjectGuid>{2D7A80F7-CB5D-4515-8789-5F84E6C14627}</ProjectGuid>
+    <RootNamespace>GraphicsEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -78,7 +78,7 @@
       <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>Events.lib;</AdditionalDependencies>
+      <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -90,7 +90,7 @@
       <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>Events.lib;</AdditionalDependencies>
+      <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -108,7 +108,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>Events.lib;</AdditionalDependencies>
+      <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Release;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -126,22 +126,19 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>Events.lib;</AdditionalDependencies>
+      <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\x64\Release;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GameController.hpp" />
-    <ClInclude Include="GameControllerInterface.hpp" />
+    <ClInclude Include="MGL_AdditionalStructures.hpp" />
+    <ClInclude Include="MGL_Window.hpp" />
+    <ClInclude Include="MyGraphicsLibraryEngine.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameController.cpp" />
-    <ClCompile Include="GameControllerInterface.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameLogicEngine\GameLogicEngine.vcxproj">
-      <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
-    </ProjectReference>
+    <ClCompile Include="MGL_MapRender.cpp" />
+    <ClCompile Include="MGL_QueueRender.cpp" />
+    <ClCompile Include="MyGraphicsLibraryEngine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
