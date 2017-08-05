@@ -11,6 +11,9 @@
 
 void game_process(Settings& s) {
 	GameControllerInterface* controller = new GameControllerInterface();
+	auto keys = s.getKeysValue("Keys_Layout");
+	controller->startKeyControl(&keys);
+
 	GameWindow* window = new GameWindow(s.getProgramVersionInfo().c_str(),
 										s.getUintValue("Screen_Width"),
 										s.getUintValue("Screen_Height"),
@@ -47,7 +50,6 @@ void game_process(Settings& s) {
 	delete window;
 	delete controller;
 }
-
 
 int main() {
 	Settings s;

@@ -23,3 +23,10 @@ void GameControllerInterface::setMainActor(ControllableActor* actor) {
 void GameControllerInterface::removeMainActor() {
 	m_controller->removeMainActor();
 }
+
+void GameControllerInterface::startKeyControl(KeyLayout const *keys) {
+	m_controller->startKeyControl(keys);
+}
+void GameControllerInterface::stopKeyControl() {
+	m_controller->stopKeyControl();
+}

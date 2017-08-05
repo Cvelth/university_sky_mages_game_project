@@ -17,18 +17,12 @@
     <ClInclude Include="GameControllerInterface.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="KeyLayout.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameController.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="GameControllerInterface.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyLayout.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

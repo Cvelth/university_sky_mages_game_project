@@ -1,4 +1,4 @@
-Sgs.ini v0.0 for SkyMages v0.0.1dev
+Settings.ini v0.1 for SkyMages v0.0.1dev
 # Use '#' at the beginning of the string to make a commentary.
 # Structure of a line : "- field_type field-name = field_value"
 
@@ -12,3 +12,6 @@ u_int Program_Build_Version = 1
 string Program_Version_Suffix = dev
 u_int Screen_Height = 1024
 boolean Fullscreen_Window = false
+u_int Graphical_Updates_Per_Second = 60
+u_int Physical_Updates_Per_Second = 60
+Keys Keys_Layout = 41 37 19 22

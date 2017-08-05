@@ -17,9 +17,15 @@
     <ClInclude Include="DefaultSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyLayout.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

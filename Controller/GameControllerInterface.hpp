@@ -2,6 +2,7 @@
 class GameController;
 class GameCamera;
 class ControllableActor;
+struct KeyLayout;
 
 class GameControllerInterface {
 	GameController* m_controller;
@@ -21,5 +22,8 @@ public:
 
 	void setMainActor(ControllableActor* actor);
 	void removeMainActor();
+
+	void startKeyControl(KeyLayout const *keys);
+	void stopKeyControl();
 };
 

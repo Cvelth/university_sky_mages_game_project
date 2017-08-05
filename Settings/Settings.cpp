@@ -3,6 +3,8 @@
 
 #define addDefaultSetting(name) addSetting(#name, name)
 
+#include "..\MyGraphicsLibrary\Events\EventEnums.hpp"
+
 Settings::Settings(std::string filename) : SettingFileName(filename) {
 	addDefaultSetting(Program_Name);
 	addDefaultSetting(Program_Major_Version);
@@ -18,23 +20,24 @@ void Settings::default() {
 	addDefaultSetting(Fullscreen_Window);
 	addDefaultSetting(Graphical_Updates_Per_Second);
 	addDefaultSetting(Physical_Updates_Per_Second);
+	addDefaultSetting(Keys_Layout);
 }
 Settings::~Settings() {}
 
-SettingValue & Settings::operator[](std::string name) {
+SettingValue & Settings::operator[](const std::string &name) {
 	return getValue(name);
 }
-const SettingValue & Settings::operator[](std::string name) const {
+const SettingValue & Settings::operator[](const std::string &name) const {
 	return getValue(name);
 }
-SettingValue & Settings::getValue(std::string name) {
+SettingValue & Settings::getValue(const std::string &name) {
 	try {
 		return m_data.at(name);
 	} catch (std::out_of_range&) {
 		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
-const SettingValue & Settings::getValue(std::string name) const {
+const SettingValue & Settings::getValue(const std::string &name) const {
 	try {
 		auto t = m_data.at(name);
 		return m_data.at(name);
@@ -42,35 +45,41 @@ const SettingValue & Settings::getValue(std::string name) const {
 		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
-const bool& Settings::getValue(std::string name, bool & value_reference) const {
+const bool& Settings::getValue(const std::string &name, bool & value_reference) const {
 	return value_reference = getBoolValue(name);
 }
-const signed& Settings::getValue(std::string name, signed & value_reference) const {
+const signed& Settings::getValue(const std::string &name, signed & value_reference) const {
 	return value_reference = getSintValue(name);
 }
-const unsigned& Settings::getValue(std::string name, unsigned & value_reference) const {
+const unsigned& Settings::getValue(const std::string &name, unsigned & value_reference) const {
 	return value_reference = getUintValue(name);
 }
-const float& Settings::getValue(std::string name, float & value_reference) const {
+const float& Settings::getValue(const std::string &name, float & value_reference) const {
 	return value_reference = getFloatValue(name);
 }
-const std::string& Settings::getValue(std::string name, std::string & value_reference) const {
+const std::string& Settings::getValue(const std::string &name, std::string & value_reference) const {
 	return value_reference = getStringValue(name);
 }
-const bool Settings::getBoolValue(std::string name) const {
+const KeyLayout& Settings::getValue(std::string const & name, KeyLayout & value_reference) const {
+	return value_reference = getKeysValue(name);
+}
+const bool Settings::getBoolValue(const std::string &name) const {
 	return std::get<bool>(getValue(name));
 }
-const signed int Settings::getSintValue(std::string name) const {
+const signed int Settings::getSintValue(const std::string &name) const {
 	return std::get<signed>(getValue(name));
 }
-const unsigned int Settings::getUintValue(std::string name) const {
+const unsigned int Settings::getUintValue(const std::string &name) const {
 	auto t = std::get<unsigned>(getValue(name));
 	return t;
 }
-const float Settings::getFloatValue(std::string name) const {
+const float Settings::getFloatValue(const std::string &name) const {
 	return std::get<float>(getValue(name));
 }
-const std::string Settings::getStringValue(std::string name) const {
+const KeyLayout Settings::getKeysValue(std::string const & name) const {
+	return std::get<KeyLayout>(getValue(name));
+}
+const std::string Settings::getStringValue(const std::string &name) const {
 	return std::get<std::string>(getValue(name));
 }
 const std::string Settings::getType(SettingValue value) const {
@@ -86,34 +95,42 @@ const std::string Settings::getType(SettingValue value) const {
 			return "float";
 		else if (std::is_same_v<Type, std::string>)
 			return "string";
+		else if (std::is_same_v<Type,  KeyLayout>)
+			return "Keys";
 		else
 			throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
 	}, value);
 }
-const std::string Settings::getType(std::string name) const {
+const std::string Settings::getType(const std::string &name) const {
 	return getType(getValue(name));
 }
-void Settings::addSetting(std::string name, bool value) {
+void Settings::addSetting(const std::string &name, bool value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
 }
-void Settings::addSetting(std::string name, int value) {
+void Settings::addSetting(const std::string &name, int value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
 }
-void Settings::addSetting(std::string name, unsigned value) {
+void Settings::addSetting(const std::string &name, unsigned value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
 }
-void Settings::addSetting(std::string name, float value) {
+void Settings::addSetting(const std::string &name, float value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
 }
-void Settings::addSetting(std::string name, std::string value) {
+void Settings::addSetting(const std::string &name, const std::string &value) {
+	SettingValue t;
+	t = value;
+	m_data.insert(Setting(name, t));
+}
+
+void Settings::addSetting(std::string const & name, const KeyLayout & value) {
 	SettingValue t;
 	t = value;
 	m_data.insert(Setting(name, t));
@@ -191,7 +208,7 @@ std::istream & operator>>(std::istream & stream, SettingValue & value) {
 	return stream;
 }
 
-void Settings::copy_file(std::string from, std::string to) {
+void Settings::copy_file(std::string const &from, std::string const &to) {
 	std::ifstream fi;
 	std::ofstream fo;
 	fi.open(from);
@@ -210,7 +227,7 @@ std::string Settings::getProgramVersionInfo() {
 }
 
 #include <sstream>
-void Settings::loadFirstLine(std::string line) {
+void Settings::loadFirstLine(std::string const &line) {
 	std::stringstream iss(line);
 	std::string s;
 	iss >> s;
@@ -240,7 +257,7 @@ void Settings::loadFirstLine(std::string line) {
 	}
 }
 
-void Settings::loadLine(std::string line) {
+void Settings::loadLine(std::string const &line) {
 	std::stringstream iss(line);
 	std::string s;
 	iss >> s;
@@ -263,6 +280,10 @@ void Settings::loadLine(std::string line) {
 		addSetting(s, v);
 	} else if (s == "string") {
 		std::string v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	} else if (s == "Keys") {
+		KeyLayout v;
 		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else

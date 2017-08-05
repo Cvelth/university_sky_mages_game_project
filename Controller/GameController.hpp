@@ -3,11 +3,13 @@
 
 class GameCamera;
 class ControllableActor;
+struct KeyLayout;
 
 class GameController : public mgl::EmptyEventHandler {
 protected:
 	GameCamera* m_controlledCamera;
 	ControllableActor* m_actor;
+	KeyLayout const *m_keys;
 
 	int current_screen_width;
 public:
@@ -24,5 +26,8 @@ public:
 
 	void setMainActor(ControllableActor* actor);
 	void removeMainActor();
+
+	void startKeyControl(KeyLayout const *keys);
+	void stopKeyControl();
 };
 

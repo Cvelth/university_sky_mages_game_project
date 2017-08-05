@@ -1,6 +1,7 @@
 #include "GameController.hpp"
 #include "LogicEngine\GameCamera.hpp"
 #include "GameObjects\AbstractActor.hpp"
+#include "Settings\KeyLayout.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}
 
@@ -20,8 +21,19 @@ void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
 	}
 }
 
-void GameController::keyEvent(GLFWwindow * w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
-	
+
+void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
+	if (m_keys) {
+		if (key == *m_keys->move_up && action == mgl::KeyAction::press) {
+			return;
+		} else if (key == *m_keys->move_down && action == mgl::KeyAction::press) {
+			return;
+		} else if (key == *m_keys->move_left && action == mgl::KeyAction::press) {
+			return;
+		} else if (key == *m_keys->move_right && action == mgl::KeyAction::press) {
+			return;
+		}
+	}
 }
 
 void GameController::startCameraControl(GameCamera* camera) {
@@ -37,4 +49,12 @@ void GameController::setMainActor(ControllableActor* actor) {
 }
 void GameController::removeMainActor() {
 	m_actor = nullptr;
+}
+
+void GameController::startKeyControl(KeyLayout const *keys) {
+	m_keys = keys;
+}
+
+void GameController::stopKeyControl() {
+	m_keys = nullptr;
 }

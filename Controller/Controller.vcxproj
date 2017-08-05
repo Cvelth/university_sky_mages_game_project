@@ -133,12 +133,10 @@
   <ItemGroup>
     <ClInclude Include="GameController.hpp" />
     <ClInclude Include="GameControllerInterface.hpp" />
-    <ClInclude Include="KeyLayout.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameControllerInterface.cpp" />
-    <ClCompile Include="KeyLayout.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
