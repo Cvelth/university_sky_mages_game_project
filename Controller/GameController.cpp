@@ -11,6 +11,15 @@ void GameController::mouseScrollEvent(GLFWwindow* w, double x, double y) {
 		m_controlledCamera->changeZoom(1.f + float(y) / 10.f);
 }
 
+void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
+	if (m_controlledCamera) {
+		auto newAR = float(x) / y;
+		float mgn = newAR / m_controlledCamera->aspectRatio();
+		m_controlledCamera->changeZoom(mgn);
+		m_controlledCamera->changeAspectRatio(newAR);
+	}
+}
+
 void GameController::startCameraControl(GameCamera* camera) {
 	m_controlledCamera = camera;
 }

@@ -24,6 +24,10 @@ public:
 	void changeZoom(float magnifier);
 	void move(float x, float y);
 
+	inline float aspectRatio() const {
+		return m_aspectRatio;
+	}
+
 	float minX_f() const;
 	float minY_f() const;
 	float maxX_f() const;

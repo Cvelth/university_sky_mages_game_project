@@ -12,6 +12,10 @@ public:
 		return m_speedMultiplier;
 	}
 	RenderInfo* renderInfo() { return m_renderInfo; }
+
+	bool operator==(AbstractBlock const& b) {
+		return m_renderInfo == b.m_renderInfo;
+	}
 };
 
 class EmptyBlock : public AbstractBlock {
