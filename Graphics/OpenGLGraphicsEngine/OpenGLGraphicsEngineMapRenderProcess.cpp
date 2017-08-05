@@ -32,7 +32,7 @@ void OpenGLGraphicsEngine::recalculateInstancing() {
 		p.second->deleteAll();
 		for (size_t x = minX; x <= maxX; x++)
 			for (size_t y = minY; y <= maxY; y++)
-				if (m_camera->map()->get(x, y) == p.first)
+				if (*m_camera->map()->get(x, y) == *p.first)
 					p.second->insert(new mgl::math::Vector(float(x), float(y), 0.f, 0.f));
 		p.second->send(mgl::DataUsage::StaticDraw);
 		m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
@@ -69,7 +69,7 @@ void OpenGLGraphicsEngine::initializeMapRendering(GameCamera* camera) {
 	m_camera = camera;
 	for (auto it : m_camera->map()->get_blocks_data()) {
 		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translationInstances.insert(std::pair<AbstractBlock*, mgl::InstancingArray*>(it, new mgl::InstancingArray()));
+		m_map_program.translationInstances.push_back(std::pair<AbstractBlock*, mgl::InstancingArray*>(it, new mgl::InstancingArray()));
 	}
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);

@@ -1,5 +1,4 @@
 #pragma once
-#include <set>
 #include <vector>
 class AbstractBlock;
 class GameCamera;
@@ -19,7 +18,7 @@ class GameMap {
 private:
 	size_t m_width;
 	size_t m_height;
-	std::set<AbstractBlock*> m_blocks;
+	std::vector<AbstractBlock*> m_blocks;
 	std::vector<std::vector<AbstractBlock*>> m_cells;
 protected:
 	void fillEach(AbstractBlock* block);
@@ -33,10 +32,11 @@ protected:
 	void resize(size_t width, size_t height);
 	void clear();
 
+	void addNewBlock(AbstractBlock* block);
 	inline void set(AbstractBlock* block, size_t width, size_t height) {
 		if (width >= m_width || height >= m_height)
 			throw Exceptions::NonExistingCoordinateException();
-		m_blocks.insert(block);
+		addNewBlock(block);
 		m_cells.at(width).at(height) = block;
 	}
 
@@ -55,7 +55,7 @@ public:
 	inline AbstractBlock* operator()(size_t w, size_t h) const {
 		return get(w, h);
 	}
-	inline std::set<AbstractBlock*>& get_blocks_data() {
+	inline std::vector<AbstractBlock*>& get_blocks_data() {
 		return m_blocks;
 	}
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Graphics\AbstractGraphicsEngine\AbstractGraphicsEngine.hpp"
-#include <map>
+#include <list>
+#include <utility>
 
 class InnerOpenGLGraphicsEngine;
 class AbstractBlock;
@@ -29,7 +30,7 @@ struct AbstractProgramStruct {
 };
 struct MapProgram : public AbstractProgramStruct {	
 	mgl::ShaderVariable *projection;
-	std::map<AbstractBlock*, mgl::InstancingArray*> translationInstances;
+	std::list<std::pair<AbstractBlock*, mgl::InstancingArray*>> translationInstances;
 	mgl::ShaderVariable *translation;
 };
 struct QueueProgram : public AbstractProgramStruct {

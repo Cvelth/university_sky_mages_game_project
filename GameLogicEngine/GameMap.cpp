@@ -2,15 +2,15 @@
 #include "AbstractBlock.hpp"
 
 void GameMap::fillEach(AbstractBlock* block) {
-	m_blocks.insert(block);
+	addNewBlock(block);
 	for (unsigned int i = 0; i < m_width; i++)
 		for (unsigned int j = 0; j < m_height; j++)
 			set(block, i, j);
 }
 
 void GameMap::borderFill(AbstractBlock* border, AbstractBlock* others) {
-	m_blocks.insert(border);
-	m_blocks.insert(others);
+	addNewBlock(border);
+	addNewBlock(others);
 	for (unsigned int i = 0; i < m_width; i++)
 		for (unsigned int j = 0; j < m_height; j++)
 			if (isBorder(i, j))
@@ -20,8 +20,8 @@ void GameMap::borderFill(AbstractBlock* border, AbstractBlock* others) {
 }
 
 void GameMap::horizontalRowsFill(AbstractBlock * odd, AbstractBlock * even) {
-	m_blocks.insert(odd);
-	m_blocks.insert(even);
+	addNewBlock(odd);
+	addNewBlock(even);
 	for (unsigned int i = 0; i < m_width; i++)
 		for (unsigned int j = 0; j < m_height; j += 2) {
 			set(odd, i, j);
@@ -30,8 +30,8 @@ void GameMap::horizontalRowsFill(AbstractBlock * odd, AbstractBlock * even) {
 }
 
 void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
-	m_blocks.insert(odd);
-	m_blocks.insert(even);
+	addNewBlock(odd);
+	addNewBlock(even);
 	for (unsigned int j = 0; j < m_height; j++)
 		for (unsigned int i = 0; i < m_width; i += 2) {
 			set(odd, i, j);
@@ -89,6 +89,11 @@ GameMap::~GameMap() {
 	clear();
 }
 
+#include <algorithm>
+void GameMap::addNewBlock(AbstractBlock * block) {
+	if (std::find(m_blocks.begin(), m_blocks.end(), block) == m_blocks.end()) m_blocks.push_back(block);
+}
+
 #include <random>
 void GameMap::randomFill(size_t number_of_types, AbstractBlock* types[]) {
 	std::random_device rd;
@@ -96,7 +101,7 @@ void GameMap::randomFill(size_t number_of_types, AbstractBlock* types[]) {
 	std::uniform_int_distribution<size_t> d(0, number_of_types != 0 ? number_of_types - 1 : number_of_types);
 
 	for (size_t i = 0; i < number_of_types; i++)
-		m_blocks.insert(types[i]);
+		addNewBlock(types[i]);
 	for (unsigned int i = 0; i < m_width; i++)
 		for (unsigned int j = 0; j < m_height; j++)
 			set(types[d(g)], i, j);
@@ -105,11 +110,11 @@ void GameMap::randomFill(size_t number_of_types, AbstractBlock* types[]) {
 void GameMap::continiousFill(AbstractBlock* free, AbstractBlock* ceiling, AbstractBlock* floor, size_t max_step, size_t ceiling_start, size_t floor_start, size_t min_height) {
 	std::random_device rd;
 	std::mt19937 g(rd());
-	std::uniform_int_distribution<int> d(-int(max_step), max_step);
+	std::uniform_int_distribution<int> d(-int(max_step), int(max_step));
 
-	m_blocks.insert(free);
-	m_blocks.insert(ceiling);
-	m_blocks.insert(floor);
+	addNewBlock(free);
+	addNewBlock(ceiling);
+	addNewBlock(floor);
 
 	size_t current_ceiling = ceiling_start;
 	size_t current_floor = floor_start;
