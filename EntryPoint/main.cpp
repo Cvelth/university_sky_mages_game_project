@@ -1,13 +1,12 @@
 #include "Graphics\GameWindow\GameWindow.hpp"
 #include "Controller\GameControllerInterface.hpp"
-#include "GameLogicEngine\GameMap.hpp"
-#include "Graphics\RenderInfo\GetRenderInfo.hpp"
-#include "Exceptions\AbstractExceptions.hpp"
-#include "Exceptions\OtherExceptions.hpp"
-#include "GameObjects\AbstractActor.hpp"
 #include "PhysicsEngine\PhysicsEngine.hpp"
-#include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp"
+#include "Graphics\RenderInfo\GetRenderInfo.hpp"
+#include "GameLogicEngine\GameMap.hpp"
+#include "GameObjects\AbstractActor.hpp"
+#include "Graphics\AbstractGraphicsEngine\RenderQueue.hpp" //To be removed.
 #include "Settings\Settings.hpp"
+#include "Shared\AbstractException.hpp"
 
 #include <thread>
 
@@ -55,11 +54,9 @@ int main() {
 	Settings s;
 	try {
 		s.load();
-	} catch (Exceptions::DifferentSettingFileVersionException& e) {
+	} catch (Exceptions::SettingsVersionException& e) {
 		e.print();
-	} catch (Exceptions::DifferentProgramVersionException& e) {
-		e.print();
-	} catch (Exceptions::SettingsException& e) {
+	} catch (Exceptions::SettingsAccessException& e) {
 		s.backup();
 		s.default();
 		s.save();

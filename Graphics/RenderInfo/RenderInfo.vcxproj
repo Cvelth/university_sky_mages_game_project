@@ -123,8 +123,8 @@
     <ClCompile Include="RenderInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Exceptions\Exceptions.vcxproj">
-      <Project>{d93084b9-fc49-48d7-9336-8d45a0911fd3}</Project>
+    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,12 +1,6 @@
 #pragma once
-#include "Exceptions\AbstractExceptions.hpp"
-
-namespace Exceptions {
-	class RenderInfoException : public Exceptions::AbstractStringException {
-	public:
-		RenderInfoException(char* error) : AbstractStringException("RenderInfoException", error) {}
-	};
-}
+#include "Shared\AbstractException.hpp"
+DefineNewException(RenderInfoException);
 class RenderInfo;
 class RenderInfoStorage {
 private:

@@ -27,11 +27,11 @@
     <ClInclude Include="RenderQueue.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Exceptions\Exceptions.vcxproj">
-      <Project>{d93084b9-fc49-48d7-9336-8d45a0911fd3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\GameObjects\GameObjects.vcxproj">
       <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Shaders\Shaders.vcxproj">
+      <Project>{9314aaee-7b6b-42df-819f-cd64d973807e}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -4,8 +4,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Settings.ini" />
     <None Include="Settings.ini.backup" />
     <None Include="LinkSettings.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Settings.ini" />
   </ItemGroup>
 </Project>

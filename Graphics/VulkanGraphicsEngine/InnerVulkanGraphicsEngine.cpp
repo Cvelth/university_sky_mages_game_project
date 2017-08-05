@@ -1,5 +1,5 @@
 #include "InnerVulkanGraphicsEngine.hpp"
-#include "Exceptions\VulkanExceptions.hpp"
+#include "VulkanExceptions.hpp"
 
 #ifdef _DEBUG
 bool InnerVulkanGraphicsEngine::isValidationEnabled = true;
@@ -23,7 +23,7 @@ void InnerVulkanGraphicsEngine::initialize() {
 	};
 
 	if (isValidationEnabled && !checkValidationLayersSupport())
-		throw Exceptions::LayersNotAvailableException();
+		throw Exceptions::GraphicEngineInitializationException("Some of the Vulkan validation layers can't be accessed.\nTry using release build or reinstalling VulkanSDK.");
 
 	//m_shaderFilenames = ShaderFilenames("Circle.vk.vert.spv", "CoordinateColor.vk.frag.spv");
 	m_shaderFilenames = ShaderFilenames("Triangle.vert.vk.spv", "Triangle.frag.vk.spv");
@@ -112,7 +112,7 @@ VkInstance InnerVulkanGraphicsEngine::generateVulkanInstance() {
 	VkInstance ret;
 	auto error = vkCreateInstance(&instInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::InstanceGenerationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -133,7 +133,7 @@ VkSurfaceKHR InnerVulkanGraphicsEngine::generateSurface(VkInstance instance, GLF
 	VkSurfaceKHR ret;
 	auto error = glfwCreateWindowSurface(instance, window, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::SurfaceInitializationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 	return ret;
 }
 
@@ -144,7 +144,7 @@ VkPhysicalDevice InnerVulkanGraphicsEngine::pickGraphicalDevice(VkInstance insta
 	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
 	if (deviceCount == 0)
-		throw Exceptions::NoSupportedGPUException();
+		throw Exceptions::GraphicEngineInitializationException("There are no supported GPU in the system.");
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
 	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
@@ -155,7 +155,7 @@ VkPhysicalDevice InnerVulkanGraphicsEngine::pickGraphicalDevice(VkInstance insta
 			break;
 		}
 	if (ret == VK_NULL_HANDLE)
-		throw Exceptions::NoSupportedGPUException();
+		throw Exceptions::GraphicEngineInitializationException("There are no supported GPU in the system.");
 
 	return ret;
 }
@@ -189,7 +189,7 @@ VkSemaphore InnerVulkanGraphicsEngine::generateSemaphore(VkDevice device) {
 	VkSemaphore ret;
 	auto error = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::SemaphoreGenerationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -282,7 +282,7 @@ PipelineHandle InnerVulkanGraphicsEngine::generateGraphicsPipeline(VkDevice devi
 	{
 		auto error = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &ret.layout);
 		if (error != VK_SUCCESS) {
-			throw Exceptions::PipelineCreationException(error);
+			throw Exceptions::VulkanInitializationException(error);
 		}
 	}
 
@@ -307,7 +307,7 @@ PipelineHandle InnerVulkanGraphicsEngine::generateGraphicsPipeline(VkDevice devi
 	{
 		auto error = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &*ret);
 		if (error != VK_SUCCESS)
-			throw Exceptions::PipelineCreationException(error);
+			throw Exceptions::VulkanInitializationException(error);
 	}
 
 	vkDestroyShaderModule(device, fragmentShader, nullptr);
@@ -326,7 +326,7 @@ VkShaderModule InnerVulkanGraphicsEngine::generateShaderModule(const std::vector
 	VkShaderModule ret;
 	auto error = vkCreateShaderModule(device, &createInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::ShaderCreationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -371,7 +371,7 @@ VkRenderPass InnerVulkanGraphicsEngine::generateRenderPass(VkDevice device, Swap
 	VkRenderPass ret;
 	auto error = vkCreateRenderPass(device, &renderPassInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::RenderPassCreationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -464,7 +464,7 @@ VkDevice InnerVulkanGraphicsEngine::generateLogicalDevice(VkPhysicalDevice physi
 	VkDevice ret;
 	auto error = vkCreateDevice(physicalDevice, &createInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::LogicalGraphicalDeviceGenerationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	vkGetDeviceQueue(ret, indices.presentFamily, 0, &queue);
 
@@ -560,7 +560,7 @@ SwapChainHandle InnerVulkanGraphicsEngine::generateSwapChain(GLFWwindow* window,
 	SwapChainHandle ret;
 	auto error = vkCreateSwapchainKHR(device, &createInfo, nullptr, &ret.swapChain);
 	if (error != VK_SUCCESS)
-		throw Exceptions::SwapChainCreationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	vkGetSwapchainImagesKHR(device, *ret, &imageCount, nullptr);
 	ret.images.resize(imageCount);
@@ -596,7 +596,7 @@ std::vector<VkImageView> InnerVulkanGraphicsEngine::getSwapChainImages(VkDevice 
 
 		auto error = vkCreateImageView(device, &createInfo, nullptr, &ret.at(i));
 		if (error != VK_SUCCESS)
-			throw Exceptions::SwapChainCreationException(error);
+			throw Exceptions::VulkanInitializationException(error);
 	}
 
 	return ret;
@@ -621,7 +621,7 @@ std::vector<VkFramebuffer> InnerVulkanGraphicsEngine::generateFramebuffers(VkDev
 
 		auto error = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &ret.at(i));
 		if (error != VK_SUCCESS)
-			throw Exceptions::FramebufferGenerationException(error);
+			throw Exceptions::VulkanInitializationException(error);
 	}
 
 	return ret;
@@ -638,7 +638,7 @@ VkCommandPool InnerVulkanGraphicsEngine::generateCommandPool(VkPhysicalDevice ph
 
 	auto error = vkCreateCommandPool(device, &poolInfo, nullptr, &ret);
 	if (error != VK_SUCCESS)
-		throw Exceptions::CommandPoolGenerationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -655,7 +655,7 @@ std::vector<VkCommandBuffer> InnerVulkanGraphicsEngine::generateCommandBuffers(V
 
 	auto error = vkAllocateCommandBuffers(device, &allocInfo, ret.data());
 	if (error != VK_SUCCESS)
-		throw Exceptions::CommandPoolGenerationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 
 	return ret;
 }
@@ -674,7 +674,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objType, uint64_t obj,
 	size_t location, int32_t code, const char* layerPrefix, const char* msg,
 	void* userData) {
-	throw Exceptions::VulkanDebugCallbackException(code, msg);
+	throw Exceptions::VulkanCallBackException(code, msg);
 	return VK_FALSE;
 }
 
@@ -702,7 +702,7 @@ void InnerVulkanGraphicsEngine::insertCallbacks(VkInstance instance) {
 
 	auto error = CreateDebugReportCallbackEXT(instance, &createInfo, nullptr, &callback);
 	if (error != VK_SUCCESS)
-		throw Exceptions::VulkanDebugCallbackInitializationException(error);
+		throw Exceptions::VulkanInitializationException(error);
 }
 
 void InnerVulkanGraphicsEngine::destroyCallbacks(VkInstance instance) {
@@ -718,7 +718,7 @@ std::vector<char> InnerVulkanGraphicsEngine::readFile(const std::string& filenam
 	if (!file.is_open()) {
 		file.open("..\\Graphics\\Shaders\\Output\\" + filename, std::ios::ate | std::ios::binary);
 		if (!file.is_open())
-			throw Exceptions::ShaderFileException();
+			throw Exceptions::GraphicEngineInitializationException("The program can't access the shader file.");
 	}
 
 	size_t fileSize = (size_t) file.tellg();

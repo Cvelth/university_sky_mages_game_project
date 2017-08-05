@@ -1,6 +1,5 @@
 #include "Settings.hpp"
 #include "DefaultSettings.hpp"
-#include "..\Exceptions\OtherExceptions.hpp"
 
 #define addDefaultSetting(name) addSetting(#name, name)
 
@@ -22,25 +21,25 @@ void Settings::default() {
 }
 Settings::~Settings() {}
 
-SettingValue & Settings::operator[](std::string  name) {
+SettingValue & Settings::operator[](std::string name) {
 	return getValue(name);
 }
-const SettingValue & Settings::operator[](std::string  name) const {
+const SettingValue & Settings::operator[](std::string name) const {
 	return getValue(name);
 }
-SettingValue & Settings::getValue(std::string  name) {
+SettingValue & Settings::getValue(std::string name) {
 	try {
 		return m_data.at(name);
 	} catch (std::out_of_range&) {
-		throw Exceptions::NonExistingSettingException();
+		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
-const SettingValue & Settings::getValue(std::string  name) const {
+const SettingValue & Settings::getValue(std::string name) const {
 	try {
 		auto t = m_data.at(name);
 		return m_data.at(name);
 	} catch (std::out_of_range&) {
-		throw Exceptions::NonExistingSettingException();
+		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
 const bool& Settings::getValue(std::string name, bool & value_reference) const {
@@ -88,7 +87,7 @@ const std::string Settings::getType(SettingValue value) const {
 		else if (std::is_same_v<Type, std::string>)
 			return "string";
 		else
-			throw Exceptions::UnsupportedSettingTypeException();
+			throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
 	}, value);
 }
 const std::string Settings::getType(std::string name) const {
@@ -125,7 +124,7 @@ void Settings::load() {
 	std::ifstream f;
 	f.open(SettingFileName);
 	if (!f.is_open())
-		throw Exceptions::FileAccessException();
+		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
 
 	bool first = true;
 	std::string line;
@@ -144,7 +143,7 @@ void Settings::save() {
 	std::ofstream f;
 	f.open(SettingFileName);
 	if (!f.is_open())
-		throw Exceptions::FileAccessException();
+		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
 	
 	f << SettingFileName << " v"
 		<< getValue("Settings_Syntax_Major_Version") << "."
@@ -198,7 +197,7 @@ void Settings::copy_file(std::string from, std::string to) {
 	fi.open(from);
 	fo.open(to);
 	if (!fi.is_open() || !fo.is_open())
-		throw Exceptions::FileAccessException();
+		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
 	fo << fi.rdbuf();
 }
 
@@ -216,7 +215,7 @@ void Settings::loadFirstLine(std::string line) {
 	std::string s;
 	iss >> s;
 	if (s != "Settings.ini")
-		throw Exceptions::UnsupportedSettingFileException();
+		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
 
 	char c;
 	unsigned int maj, min, bld;
@@ -224,12 +223,12 @@ void Settings::loadFirstLine(std::string line) {
 	if (maj != std::get<unsigned int>(getValue("Settings_Syntax_Major_Version"))
 		|| min != std::get<unsigned int>(getValue("Settings_Syntax_Minor_Version"))) {
 
-		throw Exceptions::DifferentSettingFileVersionException();
+		throw Exceptions::SettingsVersionException("Settings version is different from the expected one.");
 	}
 
 	iss >> s >> s; 
 	if (s != std::get<std::string>(getValue("Program_Name")))
-		throw Exceptions::UnsupportedSettingFileException();
+		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
 	
 	iss >> c >> maj >> c >> min >> c >> bld >> s;
 	if (maj != std::get<unsigned int>(getValue("Program_Major_Version"))
@@ -237,7 +236,7 @@ void Settings::loadFirstLine(std::string line) {
 		|| bld != std::get<unsigned int>(getValue("Program_Build_Version"))
 		|| s != std::get<std::string>(getValue("Program_Version_Suffix"))) {
 
-		throw Exceptions::DifferentProgramVersionException();
+		throw Exceptions::SettingsVersionException("Program version is different from the expected one.");
 	}
 }
 
@@ -267,5 +266,5 @@ void Settings::loadLine(std::string line) {
 		iss >> s >> c >> v;
 		addSetting(s, v);
 	} else
-		throw Exceptions::UnsupportedSettingTypeException();
+		throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
 }

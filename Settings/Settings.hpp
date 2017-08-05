@@ -53,3 +53,8 @@ public:
 
 std::ostream& operator<<(std::ostream &stream, const SettingValue &value);
 std::istream& operator>>(std::istream &stream, SettingValue &value);
+
+#include "Shared\AbstractException.hpp"
+DefineNewException(SettingsAccessException);
+DefineNewException(SettingsVersionException);
+DefineNewException(SettingsUsageException);

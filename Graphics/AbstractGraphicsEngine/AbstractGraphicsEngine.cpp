@@ -1,12 +1,13 @@
 #include "AbstractGraphicsEngine.hpp"
-#include "Exceptions\WindowExceptions.hpp"
+#include "Shared\AbstractException.hpp"
+DefineNewException(GraphicEngineInitializationException);
 
 AbstractGraphicsEngine::AbstractGraphicsEngine() : m_queue(nullptr) {}
 
 void AbstractGraphicsEngine::createWindow(const char* title, size_t width, size_t height, bool isFullscreen) {
 	initializeWindow(title, width, height, isFullscreen);
 	if (!m_window)
-		throw Exceptions::WindowInitializationException();
+		throw Exceptions::GraphicEngineInitializationException("Window cannot be created.");
 	m_window_width = width;
 	m_window_height = height;
 }

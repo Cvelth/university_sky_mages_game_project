@@ -1,5 +1,5 @@
 #include "InnerVulkanGraphicsEngine.hpp"
-#include "Exceptions\VulkanExceptions.hpp"
+#include "VulkanExceptions.hpp"
 
 VulkanGraphicsEngine::VulkanGraphicsEngine() : m_isInnerEngineInitialized(false) {}
 
@@ -18,7 +18,7 @@ void VulkanGraphicsEngine::clean() {
 
 void VulkanGraphicsEngine::initializeWindow(const char * title, size_t width, size_t height, bool isFullscreen) {
 	if (!glfwInit())
-		throw Exceptions::GLFWInitializationException();
+		throw Exceptions::GraphicEngineInitializationException("Window cannot be created.");
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	m_window = glfwCreateWindow((int) width, (int) height, title, nullptr, nullptr);

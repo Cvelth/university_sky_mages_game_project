@@ -1,5 +1,5 @@
 #include "InnerVulkanGraphicsEngine.hpp"
-#include "Exceptions\VulkanExceptions.hpp"
+#include "VulkanExceptions.hpp"
 
 void InnerVulkanGraphicsEngine::initializeRenderProcess() {
 	for (size_t i = 0; i < m_commandBuffers.size(); i++) {
@@ -27,7 +27,7 @@ void InnerVulkanGraphicsEngine::initializeRenderProcess() {
 		vkCmdEndRenderPass(m_commandBuffers[i]);
 		auto error = vkEndCommandBuffer(m_commandBuffers[i]);
 		if (error != VK_SUCCESS)
-			throw Exceptions::RenderInitializationException(error);
+			throw Exceptions::VulkanInitializationException(error);
 
 		glfwPollEvents();
 	}

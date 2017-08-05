@@ -1,7 +1,6 @@
 #include "GameWindow.hpp"
 #include "GameLogicEngine\GameCamera.hpp"
 #include "Controller\GameControllerInterface.hpp"
-#include "Exceptions\WindowExceptions.hpp"
 
 #ifdef OPENGL_ENGINE_USED
 #include "Graphics\OpenGLGraphicsEngine\OpenGLGraphicsEngine.hpp"
