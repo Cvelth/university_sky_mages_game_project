@@ -28,5 +28,8 @@
     <ClCompile Include="AbstractObjectQueue.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractGameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

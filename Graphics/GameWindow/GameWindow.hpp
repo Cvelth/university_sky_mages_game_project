@@ -70,6 +70,6 @@ public:
 	//Initializes engine rendering state (sends data to graphical device).
 	//In loop uses the redrawing in order to update the view and polls new events in order for engines to handle them.
 	//After window is manually closed by the user, it cleans rendering data using engine and finishes executing.
-	void loop();
+	void loop(bool destroy_window_after_exit);
 };
 

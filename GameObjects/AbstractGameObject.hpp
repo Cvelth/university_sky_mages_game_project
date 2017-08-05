@@ -1,38 +1,48 @@
 #pragma once
 
-struct Vector {
-	float h;
-	float v;
+using scalar = float;
+struct vector {
+	scalar h;
+	scalar v;
 
-	Vector(float h, float v) : h(h), v(v) {}
-	inline Vector& operator+=(Vector& p) {
+	vector(scalar h, scalar v) : h(h), v(v) {}
+	inline vector& operator+=(vector const& p) {
 		h += p.h;
 		v += p.v;
 		return *this;
 	}
+	inline vector& operator*=(scalar const m) {
+		h *= m;
+		v *= m;
+		return *this;
+	}
+	friend vector const operator+(vector const& a, vector const& b);
+	friend vector const operator-(vector const& a, vector const& b);
+	friend vector const operator*(vector const& a, scalar b);
 };
 
 struct ObjectState {
 	float mass;
-	Vector position;
-	Vector speed;
-	Vector acceleration;
+	vector size;
+	vector position;
+	vector speed;
+	vector acceleration;
 
-	ObjectState(float mass, 
+	ObjectState(float mass, float size_h, float size_v,
 				float position_h = 0.f, float position_v = 0.f,
 				float speed_h = 0.f, float speed_v = 0.f,
 				float m_acceleration_h = 0.f, float m_acceleration_v = 0.f)
-						: mass(mass), position(position_h, position_v), speed(speed_h, speed_v),
-						acceleration(m_acceleration_h, m_acceleration_v) {
-	
-	}
+		: mass(mass), size(size_h, size_v), position(position_h, position_v),
+		speed(speed_h, speed_v), acceleration(m_acceleration_h, m_acceleration_v) {}
 };
 
 class AbstractObjectQueue;
 class RenderInfo;
+class PhysicsEngine;
 
 class AbstractGameObject {
 	friend AbstractObjectQueue;
+	friend PhysicsEngine;
 protected:
 	ObjectState m_state;
 	RenderInfo* m_render_info;
@@ -53,8 +63,9 @@ protected:
 		return m_queue_counter;
 	}
 public:
-	AbstractGameObject(RenderInfo* render_info, float mass, float position_h, float position_v) 
-		: m_render_info(render_info), m_state(mass, position_h, position_v), 
+	AbstractGameObject(RenderInfo* render_info, float mass, float size_h, 
+					   float size_v, float position_h, float position_v) 
+		: m_render_info(render_info), m_state(mass, size_h, size_v, position_h, position_v), 
 		m_waiting_to_be_initilized(true), m_waiting_to_be_destroyed(false) {}
 	virtual ~AbstractGameObject() {}
 
@@ -81,20 +92,7 @@ public:
 		return m_render_info;
 	}
 
-	inline const Vector& position() const {
+	inline const vector& position() const {
 		return m_state.position;
-	}
-	inline const float mass() const {
-		return m_state.mass;
-	}
-
-	inline void accelerate(float h, float v) {
-		m_state.acceleration += Vector(h, v);
-	}
-	inline void updateSpeed() {
-		m_state.speed += m_state.acceleration;
-	}
-	inline void updatePosition() {
-		m_state.position += m_state.speed;
 	}
 };

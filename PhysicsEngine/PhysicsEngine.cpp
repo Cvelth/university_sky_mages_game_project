@@ -25,6 +25,9 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess) {
 	m_queue = new PhysicalObjectsQueue();
 	m_is_initialized = true;
 }
+void PhysicsEngine::initializeCollisionSystem(GameMap *map) {
+	m_map = map;
+}
 void PhysicsEngine::addObject(AbstractGameObject * object) {
 	m_queue->add(object);
 }
@@ -37,16 +40,9 @@ void PhysicsEngine::clean() {
 	m_is_initialized = false;
 }
 
-void PhysicsEngine::processQueue() {
-	m_queue->for_each([](AbstractGameObject* go) {
-		processGravity(go);
-
-		processAcceleration(go);
-		processMovement(go);
-	});
-}
 #include <chrono>
 #include <thread>
+#include "GameObjects\AbstractGameObject.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 
 	//Initialiation
@@ -55,7 +51,11 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 		auto begin_time = std::chrono::steady_clock::now();
 		auto next_tick = begin_time + std::chrono::microseconds(UpdateInterval);
 
-		processQueue();
+		m_queue->for_each([this](AbstractGameObject* go) {
+			processGravity(go->m_state);
+
+			processMovement(go->m_state, m_map);
+		});
 
 		auto end_time = std::chrono::steady_clock::now();
 		//if (end_time > next_tick)

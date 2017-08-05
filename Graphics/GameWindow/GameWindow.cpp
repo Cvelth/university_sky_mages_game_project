@@ -76,9 +76,6 @@ GameWindow::~GameWindow() {
 		delete m_camera;
 	}
 
-	if (isControllerInserted && m_controller)
-		delete m_controller;
-
 	m_graphics->clean();
 	clean();
 }
@@ -86,7 +83,7 @@ GameWindow::~GameWindow() {
 #include <chrono>
 #include <thread>
 #include <iostream>
-void GameWindow::loop() {
+void GameWindow::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();
 
@@ -109,4 +106,6 @@ void GameWindow::loop() {
 
 	m_graphics->cleanMapRendering();
 	m_graphics->cleanQueueRendering();
+	if (destroy_window_after_exit)
+		delete this;
 } 

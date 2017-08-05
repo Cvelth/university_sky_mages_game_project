@@ -89,6 +89,14 @@ GameMap::~GameMap() {
 	clear();
 }
 
+float GameMap::getSpeedMultiplier(size_t w, size_t h) const {
+	return get(w, h)->get();
+}
+
+RenderInfo const* GameMap::getRenderInfo(size_t w, size_t h) const {
+	return get(w, h)->renderInfo();
+}
+
 #include <algorithm>
 void GameMap::addNewBlock(AbstractBlock * block) {
 	if (std::find(m_blocks.begin(), m_blocks.end(), block) == m_blocks.end()) m_blocks.push_back(block);

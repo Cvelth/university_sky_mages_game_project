@@ -3,6 +3,7 @@
 class AbstractBlock;
 class GameCamera;
 class RenderInfoStorage;
+class RenderInfo;
 
 enum DefaultMapFilling {
 	All_Empty, All_Walls, Borders, Random,
@@ -58,4 +59,6 @@ public:
 	inline std::vector<AbstractBlock*>& get_blocks_data() {
 		return m_blocks;
 	}
+	float getSpeedMultiplier(size_t w, size_t h) const;
+	RenderInfo const* getRenderInfo(size_t w, size_t h) const;
 };
