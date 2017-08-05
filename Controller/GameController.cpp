@@ -20,6 +20,10 @@ void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
 	}
 }
 
+void GameController::keyEvent(GLFWwindow * w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
+	
+}
+
 void GameController::startCameraControl(GameCamera* camera) {
 	m_controlledCamera = camera;
 }

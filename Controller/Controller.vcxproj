@@ -133,15 +133,12 @@
   <ItemGroup>
     <ClInclude Include="GameController.hpp" />
     <ClInclude Include="GameControllerInterface.hpp" />
+    <ClInclude Include="KeyLayout.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameControllerInterface.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameLogicEngine\GameLogicEngine.vcxproj">
-      <Project>{e8017529-cae2-4ad7-8207-fc9a91849b91}</Project>
-    </ProjectReference>
+    <ClCompile Include="KeyLayout.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,8 @@ public:
 
 	virtual void mouseScrollEvent(GLFWwindow* w, double x, double y) override;
 	virtual void resizeEvent(GLFWwindow* w, int x, int y) override;
+	virtual void keyEvent(GLFWwindow* w, mgl::Key key, int scancode,
+						  mgl::KeyAction action, mgl::Mods mods) override;
 
 	void startCameraControl(GameCamera* camera);
 	void stopCameraControl();
