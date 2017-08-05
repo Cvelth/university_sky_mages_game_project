@@ -17,6 +17,8 @@ void Settings::default() {
 	addDefaultSetting(Screen_Width);
 	addDefaultSetting(Screen_Height);
 	addDefaultSetting(Fullscreen_Window);
+	addDefaultSetting(Graphical_Updates_Per_Second);
+	addDefaultSetting(Physical_Updates_Per_Second);
 }
 Settings::~Settings() {}
 

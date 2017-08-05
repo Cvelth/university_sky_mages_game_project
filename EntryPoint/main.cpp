@@ -18,10 +18,12 @@ void game_process(Settings& s) {
 										s.getUintValue("Screen_Height"),
 										s.getBoolValue("Fullscreen_Window"));
 	window->insertController(controller);
+	window->changeUpdateInterval(1'000'000 / s.getUintValue("Graphical_Updates_Per_Second"));
 
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
 	});
+	physics_engine->changeUpdateInterval(1'000'000 / s.getUintValue("Physical_Updates_Per_Second"));
 
 	RenderInfoStorage* renderInfoStorage = new RenderInfoStorage;
 	renderInfoStorage->generateRenderInfo();
@@ -68,5 +70,6 @@ int main() {
 		game_process(s);
 	} catch (Exceptions::AbstractException& e) {
 		e.print();
+		getchar(); // Prevents Program from closing.
 	}
 }
