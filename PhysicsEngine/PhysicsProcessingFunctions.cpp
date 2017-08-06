@@ -7,12 +7,14 @@
 #define speed_test(test, result) (test > 0.f ? result : -result)
 
 #include "LogicEngine\GameMap.hpp"
-void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
-	auto gravity = os->mass() * Constants::g;
-	os->accelerate_v(gravity);
+void PhysicsEngine::processGravity(IndependentObjectState *os) {
+	auto gravity_acceleration = os->mass() * Constants::g;
+	os->accelerate_v(gravity_acceleration);
 	os->speed_up(os->acceleration() * time_correction);
-	os->accelerate_v(-gravity);
+	os->accelerate_v(-gravity_acceleration);
+}
 
+void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;
 		auto half_size = os->size() * 0.5f;
