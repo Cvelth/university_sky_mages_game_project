@@ -1,16 +1,13 @@
 #pragma once
-struct vector;
-
+#include "ObjectState.hpp"
 class AbstractObjectQueue;
-class RenderInfo;
 class PhysicsEngine;
-class IndependentObjectState;
+class RenderInfo;
 
-class AbstractGameObject {
+class AbstractGameObject : protected IndependentObjectState {
 	friend AbstractObjectQueue;
 	friend PhysicsEngine;
 protected:
-	IndependentObjectState* m_state;
 	RenderInfo* m_render_info;
 
 	size_t m_queue_counter;
@@ -30,7 +27,9 @@ protected:
 	}
 public:
 	AbstractGameObject(RenderInfo* render_info, float mass, float size_h,
-					   float size_v, float position_h, float position_v);
+					   float size_v, float position_h, float position_v)
+		: IndependentObjectState(mass, size_h, size_v, position_h, position_v), m_render_info(render_info),
+		m_waiting_to_be_initilized(true), m_waiting_to_be_destroyed(false) {}
 		
 	virtual ~AbstractGameObject() {}
 
@@ -57,5 +56,5 @@ public:
 		return m_render_info;
 	}
 
-	vector position() const;
+	using IndependentObjectState::position;
 };

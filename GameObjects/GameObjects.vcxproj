@@ -119,7 +119,6 @@
     <ClInclude Include="ObjectState.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractGameObject.cpp" />
     <ClCompile Include="AbstractObjectQueue.cpp" />
     <ClCompile Include="MainActor.cpp" />
     <ClCompile Include="ObjectState.cpp" />

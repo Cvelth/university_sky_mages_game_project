@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractActors.hpp"
+#include "ObjectState.hpp"
 
 class AbstractEnergyStorage;
 class AbstractFlyEngine;
@@ -17,4 +18,7 @@ public:
 	inline void giveFlyEngine(AbstractFlyEngine *fe) {
 		m_engine = fe;
 	}
+
+public:
+	virtual scalar mass() const override;
 };
