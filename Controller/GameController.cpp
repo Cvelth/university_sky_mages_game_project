@@ -34,6 +34,11 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 				m_actor->m_engine->accelerate_left();
 			else if (key == *m_keys->move_right)
 				m_actor->m_engine->accelerate_right();
+			else if (key == *m_keys->anti_gravity)
+				if (m_actor->m_engine->is_auti_gravity_turned_on())
+					m_actor->m_engine->turn_off_anti_gravity();
+				else
+					m_actor->m_engine->turn_on_anti_gravity(m_actor->mass());
 		} else if (action == mgl::KeyAction::release) {
 			if (key == *m_keys->move_up)
 				m_actor->m_engine->stopAcceleration_v();

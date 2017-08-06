@@ -3,7 +3,7 @@
 #include "PhysicalConstants.hpp"
 #include "GameObjects\ObjectState.hpp"
 
-#define time_correction 1e-6f * float(UpdateInterval)
+#define time_correction 0.5e-6f * float(UpdateInterval)
 #define speed_test(test, result) (test > 0.f ? result : -result)
 
 #include "LogicEngine\GameMap.hpp"

@@ -7,9 +7,10 @@ struct KeyLayout {
 	mgl::Key *move_down;
 	mgl::Key *move_left;
 	mgl::Key *move_right;
+	mgl::Key *anti_gravity;
 
 	KeyLayout(const KeyLayout &other);
-	KeyLayout(const size_t up, const size_t down, const size_t left, const size_t right);
+	KeyLayout(const size_t up, const size_t down, const size_t left, const size_t right, const size_t antiGravity);
 	KeyLayout();
 	~KeyLayout();
 };

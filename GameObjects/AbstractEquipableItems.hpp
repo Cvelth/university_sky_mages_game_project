@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjectState.hpp"
+#include "PhysicsEngine\PhysicalConstants.hpp"
 #include "Shared\AbstractException.hpp"
 DefineNewException(IncorrectInitializationVariableWasPassedException);
 
@@ -79,13 +80,16 @@ protected:
 	float m_down_acceleration_percent;
 	float m_left_acceleration_percent;
 	float m_right_acceleration_percent;
+
+	float anti_gravity_expected_mass; //0.f for turned off.
 public:
 	AbstractFlyEngine(float energy_usage, float max_acceleration, float mass,
 					  float up_percent, float down_percent, float left_percent, float right_percent)
 		: AbstractEquipableItem(EquipmentType::Fly_engine, mass), DependedAcceleratableObjectState(mass),
 		m_maximum_acceleration(max_acceleration), m_energy_usage(energy_usage),
 		m_up_acceleration_percent(up_percent), m_down_acceleration_percent(down_percent),
-		m_left_acceleration_percent(left_percent), m_right_acceleration_percent(right_percent) {
+		m_left_acceleration_percent(left_percent), m_right_acceleration_percent(right_percent), 
+		anti_gravity_expected_mass(0.f) {
 	
 		if ((m_up_acceleration_percent > 1.f || m_up_acceleration_percent < 0.f) &&
 			(m_down_acceleration_percent > 1.f || m_down_acceleration_percent < 0.f) &&
@@ -112,6 +116,21 @@ public:
 	}
 	virtual void accelerate_right() {
 		accelerate_h(m_maximum_acceleration * m_right_acceleration_percent);
+	}
+	void turn_on_anti_gravity(float expected_mass) {
+		anti_gravity_expected_mass = expected_mass;
+	}
+	void turn_off_anti_gravity() {
+		anti_gravity_expected_mass = 0.f;
+	}
+	bool is_auti_gravity_turned_on() {
+		return anti_gravity_expected_mass != 0.f;
+	}
+
+	virtual vector acceleration() const {
+		auto ret = DependedAcceleratableObjectState::acceleration();
+		ret.v -= anti_gravity_expected_mass * Constants::g;
+		return ret;
 	}
 
 };
