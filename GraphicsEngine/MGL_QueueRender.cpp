@@ -3,6 +3,7 @@
 #include "OpenGL\FunctionsMirror\FunctionsMirror.hpp"
 
 #include "GameObjects\AbstractGameObject.hpp"
+#include "GameObjects\ObjectState.hpp"
 #include "RenderTools\RenderQueue.hpp"
 #include "RenderTools\RenderInfo.hpp"
 #include "LogicEngine\GameCamera.hpp"

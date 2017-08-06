@@ -111,14 +111,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractActor.hpp" />
+    <ClInclude Include="AbstractActors.hpp" />
     <ClInclude Include="AbstractEquipableItems.hpp" />
     <ClInclude Include="AbstractGameObject.hpp" />
     <ClInclude Include="AbstractObjectQueue.hpp" />
+    <ClInclude Include="MainActor.hpp" />
+    <ClInclude Include="ObjectState.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractGameObject.cpp" />
     <ClCompile Include="AbstractObjectQueue.cpp" />
+    <ClCompile Include="MainActor.cpp" />
+    <ClCompile Include="ObjectState.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,7 +3,8 @@
 #include "PhysicsEngine\PhysicsEngine.hpp"
 #include "RenderTools\RenderInfoStorage.hpp"
 #include "LogicEngine\GameMap.hpp"
-#include "GameObjects\AbstractActor.hpp"
+#include "GameObjects\MainActor.hpp"
+#include "GameObjects\AbstractEquipableItems.hpp"
 #include "Settings\Settings.hpp"
 #include "Shared\AbstractException.hpp"
 
@@ -33,8 +34,11 @@ void game_process(Settings& s) {
 	window->insertMap(map);
 	physics_engine->initializeCollisionSystem(map);
 
-	ControllableActor* main_actor = new ControllableActor(renderInfoStorage->getMainActorRenderInfo(),
-														  75.f, 1.f, 4.f, 10.5f, 30.5f);
+	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
+										  75.f, 1.f, 4.f, 10.5f, 30.5f);
+	main_actor->giveEnergyStorage(new AbstractEnergyStorage(1000.f, 15.f));
+	main_actor->giveFlyEngine(new AbstractFlyEngine(10.f, 15.f, 8.f));
+
 	controller->setMainActor(main_actor);
 	physics_engine->addObject(main_actor);
 	window->addToRenderQueue(main_actor);

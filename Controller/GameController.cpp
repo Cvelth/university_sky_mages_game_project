@@ -1,6 +1,6 @@
 #include "GameController.hpp"
 #include "LogicEngine\GameCamera.hpp"
-#include "GameObjects\AbstractActor.hpp"
+#include "GameObjects\AbstractActors.hpp"
 #include "Settings\KeyLayout.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}

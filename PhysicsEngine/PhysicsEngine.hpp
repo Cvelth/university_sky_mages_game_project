@@ -3,7 +3,7 @@
 class PhysicalObjectsQueue;
 class AbstractGameObject;
 class GameMap;
-struct ObjectState;
+class IndependentObjectState;
 
 class PhysicsEngine {
 private:
@@ -15,8 +15,8 @@ private:
 protected:
 	std::function<bool(void)> m_finish_flag_access;
 
-	static void processGravity(ObjectState &go);
-	static void processMovement(ObjectState &go, GameMap *map);
+	static void processGravity(IndependentObjectState *go);
+	static void processMovement(IndependentObjectState *go, GameMap *map);
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess);

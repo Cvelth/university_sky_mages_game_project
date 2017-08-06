@@ -14,18 +14,30 @@
     <ClInclude Include="AbstractGameObject.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractActor.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="AbstractObjectQueue.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="AbstractEquipableItems.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractActors.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainActor.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectState.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractObjectQueue.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainActor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectState.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="AbstractGameObject.cpp">
