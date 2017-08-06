@@ -1,23 +1,19 @@
 #pragma once
+#include "ObjectState.hpp"
 enum class EquipmentType {
 	Weapon, Shield_generator, Energy_storage, 
 	Fly_engine, Trinket
 };
-class AbstractEquipableItem {
+class AbstractEquipableItem : public DependentObjectState {
 private:
 	EquipmentType m_type;
-protected:
-	float m_mass;
 public:
 	AbstractEquipableItem(EquipmentType type, float mass)
-		: m_type(type), m_mass(mass) {}
+		: DependentObjectState(mass), m_type(type) {}
 	~AbstractEquipableItem() {}
 
 	inline EquipmentType type() {
 		return m_type;
-	}
-	inline float mass() {
-		return m_mass;
 	}
 };
 
@@ -69,7 +65,7 @@ public:
 	~AbstractEnergyStorage() {}
 };
 
-class AbstractFlyEngine : public AbstractEquipableItem {
+class AbstractFlyEngine : public AbstractEquipableItem, public DependedAcceleratableObjectState {
 private:
 
 protected:
@@ -77,9 +73,34 @@ protected:
 	float m_energy_usage;
 public:
 	AbstractFlyEngine(float energy_usage, float max_acceleration, float mass)
-		: AbstractEquipableItem(EquipmentType::Fly_engine, mass), 
+		: AbstractEquipableItem(EquipmentType::Fly_engine, mass), DependedAcceleratableObjectState(mass),
 		m_maximum_acceleration(max_acceleration), m_energy_usage(energy_usage) {}
 	~AbstractFlyEngine() {}
+
+	using AbstractEquipableItem::mass;
+	using AbstractEquipableItem::addMass;
+	using AbstractEquipableItem::mulMass;
+
+	virtual void accelerate_max(vector const& direction) {
+		vector temp(0.f, 0.f);
+		if (direction.h != 0.f)
+			temp.h = direction.h > 0.f ? 1.f : -1.f;
+		if (direction.v != 0.f)
+			temp.v = direction.v > 0.f ? 1.f : -1.f;
+		m_acceleration = direction * m_maximum_acceleration;
+	}
+	virtual void accelerate_h_max(bool sign = true) {
+		if (sign)
+			accelerate_h(+m_maximum_acceleration);
+		else
+			accelerate_h(-m_maximum_acceleration);
+	}
+	virtual void accelerate_v_max(bool sign = true) {
+		if (sign)
+			accelerate_v(+m_maximum_acceleration);
+		else
+			accelerate_v(-m_maximum_acceleration);
+	}
 };
 
 class AbstractTrinket : public AbstractEquipableItem {

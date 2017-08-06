@@ -2,10 +2,17 @@
 #include "AbstractEquipableItems.hpp"
 
 MainActor::~MainActor() {
-	delete m_energy_storage;
-	delete m_engine;
+	if (m_energy_storage) delete m_energy_storage;
+	if (m_engine) delete m_engine;
 }
 
 scalar MainActor::mass() const {
-	return m_mass + m_engine->mass() + m_energy_storage->mass();
+	return m_mass + 
+		(m_engine ? m_engine->mass() : 0.f) + 
+		(m_energy_storage ? m_energy_storage->mass() : 0.f);
+}
+
+vector MainActor::acceleration() const {
+	return m_acceleration +
+		(m_engine ? m_engine->acceleration() : vector(0.f, 0.f));
 }

@@ -15,7 +15,6 @@ private:
 protected:
 	std::function<bool(void)> m_finish_flag_access;
 
-	static void processGravity(IndependentObjectState *go);
 	static void processMovement(IndependentObjectState *go, GameMap *map);
 public:
 	PhysicsEngine();

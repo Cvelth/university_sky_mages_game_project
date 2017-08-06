@@ -29,10 +29,8 @@ struct vector {
 class DependentObjectState {
 protected:
 	scalar m_mass;
-	vector m_acceleration;
 public:
-	DependentObjectState(scalar mass, scalar m_acceleration_h = 0.f, scalar m_acceleration_v = 0.f)
-		: m_mass(mass), m_acceleration(m_acceleration_h, m_acceleration_v) {}
+	DependentObjectState(scalar mass) : m_mass(mass) {}
 
 	virtual scalar mass() const {
 		return m_mass;
@@ -43,12 +41,26 @@ public:
 	virtual void mulMass(scalar const& mass) {
 		m_mass *= mass;
 	}
+};
+
+class DependedAcceleratableObjectState : public DependentObjectState {
+protected:
+	vector m_acceleration;
+public:
+	DependedAcceleratableObjectState(scalar mass, scalar m_acceleration_h = 0.f, scalar m_acceleration_v = 0.f)
+		: DependentObjectState(mass), m_acceleration(m_acceleration_h, m_acceleration_v) {}
 
 	virtual vector acceleration() const {
 		return m_acceleration;
 	}
 	virtual void accelerate(vector const& difference) {
 		m_acceleration += difference;
+	}
+	virtual void accelerate_h(scalar const& acceleration) {
+		m_acceleration.h += acceleration;
+	}
+	virtual void accelerate_v(scalar const& acceleration) {
+		m_acceleration.v += acceleration;
 	}
 	virtual void stopAcceleration_h() {
 		m_acceleration.h = 0.f;
@@ -58,7 +70,7 @@ public:
 	}
 };
 
-class IndependentObjectState : public DependentObjectState {
+class IndependentObjectState : public DependedAcceleratableObjectState {
 protected:
 	vector m_size;
 	vector m_position;
@@ -68,7 +80,7 @@ public:
 						   scalar position_h = 0.f, scalar position_v = 0.f,
 						   scalar speed_h = 0.f, scalar speed_v = 0.f,
 						   scalar m_acceleration_h = 0.f, scalar m_acceleration_v = 0.f)
-		: DependentObjectState(mass, m_acceleration_h, m_acceleration_v), 
+		: DependedAcceleratableObjectState(mass, m_acceleration_h, m_acceleration_v),
 		m_size(size_h, size_v), m_position(position_h, position_v), m_speed(speed_h, speed_v) {}
 
 	virtual vector size() const {

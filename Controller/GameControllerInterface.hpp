@@ -1,7 +1,7 @@
 #pragma once
 class GameController;
 class GameCamera;
-class ControllableActor;
+class MainActor;
 struct KeyLayout;
 
 class GameControllerInterface {
@@ -20,7 +20,7 @@ public:
 	void startCameraControl(GameCamera* camera);
 	void stopCameraControl();
 
-	void setMainActor(ControllableActor* actor);
+	void setMainActor(MainActor* actor);
 	void removeMainActor();
 
 	void startKeyControl(KeyLayout const *keys);

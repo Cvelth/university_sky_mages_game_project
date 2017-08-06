@@ -2,13 +2,13 @@
 #include "Events\EmptyEventHandler.hpp"
 
 class GameCamera;
-class ControllableActor;
+class MainActor;
 struct KeyLayout;
 
 class GameController : public mgl::EmptyEventHandler {
 protected:
 	GameCamera* m_controlledCamera;
-	ControllableActor* m_actor;
+	MainActor* m_actor;
 	KeyLayout const *m_keys;
 
 	int current_screen_width;
@@ -24,7 +24,7 @@ public:
 	void startCameraControl(GameCamera* camera);
 	void stopCameraControl();
 
-	void setMainActor(ControllableActor* actor);
+	void setMainActor(MainActor* actor);
 	void removeMainActor();
 
 	void startKeyControl(KeyLayout const *keys);

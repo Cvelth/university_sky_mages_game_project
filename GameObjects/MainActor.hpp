@@ -4,7 +4,9 @@
 
 class AbstractEnergyStorage;
 class AbstractFlyEngine;
+class GameController;
 class MainActor : public ControllableActor {
+	friend GameController;
 protected:
 	AbstractEnergyStorage *m_energy_storage;
 	AbstractFlyEngine *m_engine;
@@ -21,4 +23,5 @@ public:
 
 public:
 	virtual scalar mass() const override;
+	virtual vector acceleration() const override;
 };

@@ -1,6 +1,7 @@
 #include "GameController.hpp"
 #include "LogicEngine\GameCamera.hpp"
-#include "GameObjects\AbstractActors.hpp"
+#include "GameObjects\MainActor.hpp"
+#include "GameObjects\AbstractEquipableItems.hpp"
 #include "Settings\KeyLayout.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}
@@ -24,14 +25,24 @@ void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
 
 void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
 	if (m_keys) {
-		if (key == *m_keys->move_up && action == mgl::KeyAction::press) {
-			return;
-		} else if (key == *m_keys->move_down && action == mgl::KeyAction::press) {
-			return;
-		} else if (key == *m_keys->move_left && action == mgl::KeyAction::press) {
-			return;
-		} else if (key == *m_keys->move_right && action == mgl::KeyAction::press) {
-			return;
+		if (action == mgl::KeyAction::press) {
+			if (key == *m_keys->move_up)
+				m_actor->m_engine->accelerate_v_max(false);
+			else if (key == *m_keys->move_down)
+				m_actor->m_engine->accelerate_v_max(true);
+			else if (key == *m_keys->move_left)
+				m_actor->m_engine->accelerate_h_max(false);
+			else if (key == *m_keys->move_right)
+				m_actor->m_engine->accelerate_h_max(true);
+		} else if (action == mgl::KeyAction::release) {
+			if (key == *m_keys->move_up)
+				m_actor->m_engine->stopAcceleration_v();
+			else if (key == *m_keys->move_down)
+				m_actor->m_engine->stopAcceleration_v();
+			else if (key == *m_keys->move_left)
+				m_actor->m_engine->stopAcceleration_h();
+			else if (key == *m_keys->move_right)
+				m_actor->m_engine->stopAcceleration_h();
 		}
 	}
 }
@@ -44,7 +55,7 @@ void GameController::stopCameraControl() {
 	m_controlledCamera = nullptr;
 }
 
-void GameController::setMainActor(ControllableActor* actor) {
+void GameController::setMainActor(MainActor* actor) {
 	m_actor = actor;
 }
 void GameController::removeMainActor() {

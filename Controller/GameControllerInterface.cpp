@@ -17,7 +17,7 @@ void GameControllerInterface::stopCameraControl() {
 	m_controller->stopCameraControl();
 }
 
-void GameControllerInterface::setMainActor(ControllableActor* actor) {
+void GameControllerInterface::setMainActor(MainActor* actor) {
 	m_controller->setMainActor(actor);
 }
 void GameControllerInterface::removeMainActor() {
