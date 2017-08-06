@@ -39,25 +39,18 @@ void PhysicsEngine::clean() {
 		delete m_queue;
 	m_is_initialized = false;
 }
-
+#include <iostream>
 #include <chrono>
 #include <thread>
 #include "GameObjects\AbstractGameObject.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
-
-	//Initialiation
-
 	while (!m_finish_flag_access()) {
-		auto begin_time = std::chrono::steady_clock::now();
-		auto next_tick = begin_time + std::chrono::microseconds(UpdateInterval);
+		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
 		m_queue->for_each([this](AbstractGameObject* go) {
 			processMovement(go, m_map);
 		});
 
-		auto end_time = std::chrono::steady_clock::now();
-		//if (end_time > next_tick)
-		//	throw Exceptions::ProcessingIsTooSlowException(float((end_time - begin_time).count()) / 1.e+9f);
 		std::this_thread::sleep_until(next_tick);
 	}
 	clean();

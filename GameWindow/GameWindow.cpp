@@ -76,19 +76,13 @@ void GameWindow::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeQueueRendering();
 
 	while (!m_graphics->isWindowClosed()) {
-		auto begin_time = std::chrono::steady_clock::now();
-		auto next_tick = begin_time + std::chrono::microseconds(getUpdateInterval());
+		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
 
 		m_graphics->renderMap();
 		m_graphics->renderQueue();
 		m_graphics->update();
 
-		auto end_time = std::chrono::steady_clock::now();
-		std::cout << "Rendering of a frame took " << float((end_time - begin_time).count()) / 1.e+9f << " of a second.\n";
-		//if (end_time > next_tick)
-		//	throw Exceptions::RenderingIsTooSlowException(float((end_time - begin_time).count()) / 1.e+9f);
 		std::this_thread::sleep_until(next_tick);
-
 		m_graphics->pollEvents();
 	}
 
