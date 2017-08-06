@@ -1,5 +1,8 @@
 #pragma once
 #include "ObjectState.hpp"
+#include "Shared\AbstractException.hpp"
+DefineNewException(IncorrectInitializationVariableWasPassedException);
+
 enum class EquipmentType {
 	Weapon, Shield_generator, Energy_storage, 
 	Fly_engine, Trinket
@@ -71,36 +74,46 @@ private:
 protected:
 	float m_maximum_acceleration;
 	float m_energy_usage;
+
+	float m_up_acceleration_percent;
+	float m_down_acceleration_percent;
+	float m_left_acceleration_percent;
+	float m_right_acceleration_percent;
 public:
-	AbstractFlyEngine(float energy_usage, float max_acceleration, float mass)
+	AbstractFlyEngine(float energy_usage, float max_acceleration, float mass,
+					  float up_percent, float down_percent, float left_percent, float right_percent)
 		: AbstractEquipableItem(EquipmentType::Fly_engine, mass), DependedAcceleratableObjectState(mass),
-		m_maximum_acceleration(max_acceleration), m_energy_usage(energy_usage) {}
+		m_maximum_acceleration(max_acceleration), m_energy_usage(energy_usage),
+		m_up_acceleration_percent(up_percent), m_down_acceleration_percent(down_percent),
+		m_left_acceleration_percent(left_percent), m_right_acceleration_percent(right_percent) {
+	
+		if ((m_up_acceleration_percent > 1.f || m_up_acceleration_percent < 0.f) &&
+			(m_down_acceleration_percent > 1.f || m_down_acceleration_percent < 0.f) &&
+			(m_left_acceleration_percent > 1.f || m_left_acceleration_percent < 0.f) &&
+			(m_right_acceleration_percent > 1.f || m_right_acceleration_percent < 0.f)) {
+
+			throw Exceptions::IncorrectInitializationVariableWasPassedException();
+		}
+	}
 	~AbstractFlyEngine() {}
 
 	using AbstractEquipableItem::mass;
 	using AbstractEquipableItem::addMass;
 	using AbstractEquipableItem::mulMass;
 
-	virtual void accelerate_max(vector const& direction) {
-		vector temp(0.f, 0.f);
-		if (direction.h != 0.f)
-			temp.h = direction.h > 0.f ? 1.f : -1.f;
-		if (direction.v != 0.f)
-			temp.v = direction.v > 0.f ? 1.f : -1.f;
-		m_acceleration = direction * m_maximum_acceleration;
+	virtual void accelerate_up() {
+		accelerate_v(-m_maximum_acceleration * m_up_acceleration_percent);
 	}
-	virtual void accelerate_h_max(bool sign = true) {
-		if (sign)
-			accelerate_h(+m_maximum_acceleration);
-		else
-			accelerate_h(-m_maximum_acceleration);
+	virtual void accelerate_down() {
+		accelerate_v(m_maximum_acceleration * m_down_acceleration_percent);
 	}
-	virtual void accelerate_v_max(bool sign = true) {
-		if (sign)
-			accelerate_v(+m_maximum_acceleration);
-		else
-			accelerate_v(-m_maximum_acceleration);
+	virtual void accelerate_left() {
+		accelerate_h(-m_maximum_acceleration * m_left_acceleration_percent);
 	}
+	virtual void accelerate_right() {
+		accelerate_h(m_maximum_acceleration * m_right_acceleration_percent);
+	}
+
 };
 
 class AbstractTrinket : public AbstractEquipableItem {

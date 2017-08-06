@@ -30,6 +30,8 @@ protected:
 	void horizontalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 	void verticalRowsFill(AbstractBlock* odd, AbstractBlock* even);
 
+	void addBorders(AbstractBlock* border);
+
 	void resize(size_t width, size_t height);
 	void clear();
 

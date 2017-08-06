@@ -27,13 +27,13 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 	if (m_keys) {
 		if (action == mgl::KeyAction::press) {
 			if (key == *m_keys->move_up)
-				m_actor->m_engine->accelerate_v_max(false);
+				m_actor->m_engine->accelerate_up();
 			else if (key == *m_keys->move_down)
-				m_actor->m_engine->accelerate_v_max(true);
+				m_actor->m_engine->accelerate_down();
 			else if (key == *m_keys->move_left)
-				m_actor->m_engine->accelerate_h_max(false);
+				m_actor->m_engine->accelerate_left();
 			else if (key == *m_keys->move_right)
-				m_actor->m_engine->accelerate_h_max(true);
+				m_actor->m_engine->accelerate_right();
 		} else if (action == mgl::KeyAction::release) {
 			if (key == *m_keys->move_up)
 				m_actor->m_engine->stopAcceleration_v();

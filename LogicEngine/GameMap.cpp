@@ -39,6 +39,17 @@ void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
 		}
 }
 
+void GameMap::addBorders(AbstractBlock *border) {
+	for (int i = 0; i < m_width; i++) {
+		set(border, i, 0);
+		set(border, i, m_height - 1);
+	}
+	for (int i = 0; i < m_height; i++) {
+		set(border, 0, i);
+		set(border, m_width - 1, i);
+	}
+}
+
 void GameMap::resize(size_t width, size_t height) {
 	m_width = width;
 	m_height = height;
@@ -90,7 +101,11 @@ GameMap::~GameMap() {
 }
 
 float GameMap::getSpeedMultiplier(size_t w, size_t h) const {
-	return get(w, h)->get();
+	try {
+		return get(w, h)->get();
+	} catch (std::out_of_range& e) {
+		return 0.f;
+	}
 }
 
 RenderInfo const* GameMap::getRenderInfo(size_t w, size_t h) const {
@@ -148,4 +163,6 @@ void GameMap::continiousFill(AbstractBlock* free, AbstractBlock* ceiling, Abstra
 		if (current_floor > m_height - min_height)
 			current_floor = m_height - min_height;
 	}
+
+	addBorders(floor);
 }

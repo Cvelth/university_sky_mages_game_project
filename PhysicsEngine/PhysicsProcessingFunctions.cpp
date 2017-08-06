@@ -32,7 +32,7 @@ void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
 		os->speed_mul(vector(speed_multiplier, 1.f));
 		if (speed_multiplier == 0.f) {
 			os->stopAcceleration_h();
-			if (os->speed().h >= 0.f)
+			if (os->speed().h > 0.f)
 				os->move_to_h(size_t(future_position.h + half_size.h) - half_size.h);
 			else if(os->speed().h < 0.f)
 				os->move_to_h(size_t(future_position.h - half_size.h) + half_size.h + 1);
