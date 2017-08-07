@@ -1,3 +1,4 @@
+#include "Shared\GameMode.hpp"
 #include "GameWindow\GameWindow.hpp"
 #include "Controller\GameControllerInterface.hpp"
 #include "PhysicsEngine\PhysicsEngine.hpp"
@@ -24,6 +25,7 @@ AbstractFlyEngine* initializeFlyEngine(AbstractEnergyStorage* energy_source) {
 }
 
 void game_process(Settings& s) {
+	GameModeController::startInitialization();
 	GameControllerInterface* controller = new GameControllerInterface();
 	auto keys = s.getKeysValue("Keys_Layout");
 	controller->startKeyControl(&keys);

@@ -71,21 +71,33 @@ GameWindow::~GameWindow() {
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include "Shared\GameMode.hpp"
 void GameWindow::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();
+	GameModeController::graphicsLoopIsReady(true);
 
 	while (!m_graphics->isWindowClosed()) {
-		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
+		if (GameModeController::getCurrentGameMode() == GameMode::Normal) {
+			auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
+			m_graphics->clearWindow();
 
-		m_graphics->renderMap();
-		m_graphics->renderQueue();
-		m_graphics->update();
+			m_graphics->renderMap();
+			m_graphics->renderQueue();
+			m_graphics->update();
 
-		std::this_thread::sleep_until(next_tick);
-		m_graphics->pollEvents();
+			std::this_thread::sleep_until(next_tick);
+			m_graphics->pollEvents();
+		} else if (GameModeController::getCurrentGameMode() == GameMode::Pause) {
+			m_graphics->clearWindow();
+			m_graphics->update();
+			m_graphics->waitEvents();
+		} else {
+			m_graphics->waitEvents();
+		}
 	}
 
+	GameModeController::graphicsLoopIsReady(false);
 	m_graphics->cleanMapRendering();
 	m_graphics->cleanQueueRendering();
 	if (destroy_window_after_exit)

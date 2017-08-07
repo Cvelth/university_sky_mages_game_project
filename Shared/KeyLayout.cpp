@@ -15,12 +15,14 @@ std::istream & operator>>(std::istream &s, mgl::Key *k) {
 }
 
 std::ostream& operator<<(std::ostream &s, KeyLayout &k) {
-	s << k.move_up << " " << k.move_down << " " << k.move_left << " " << k.move_right << " " << k.anti_gravity;
+	s << k.move_up << " " << k.move_down << " " << k.move_left << " " << k.move_right 
+		<< " " << k.anti_gravity << " " << k.pause;
 	return s;
 }
 
 std::istream & operator>>(std::istream & s, KeyLayout & k) {
-	s >> k.move_up >> k.move_down >> k.move_left >>  k.move_right >> k.anti_gravity;
+	s >> k.move_up >> k.move_down >> k.move_left >>  k.move_right 
+		>> k.anti_gravity >> k.pause;
 	return s;
 }
 
@@ -30,14 +32,17 @@ KeyLayout::KeyLayout(const KeyLayout & other) {
 	move_left = new mgl::Key(*other.move_left);
 	move_right = new mgl::Key(*other.move_right);
 	anti_gravity = new mgl::Key(*other.anti_gravity);
+	pause = new mgl::Key(*other.pause);
  }
 
-KeyLayout::KeyLayout(const size_t up, const size_t down, const size_t left, const size_t right, const size_t antiGravity) {
+KeyLayout::KeyLayout(const size_t up, const size_t down, const size_t left, const size_t right, 
+					 const size_t antiGravity, const size_t pauseKey) {
 	move_up = new mgl::Key(mgl::Key(up));
 	move_down = new mgl::Key(mgl::Key(down));
 	move_left = new mgl::Key(mgl::Key(left));
 	move_right = new mgl::Key(mgl::Key(right));
 	anti_gravity = new mgl::Key(mgl::Key(antiGravity));
+	pause = new mgl::Key(mgl::Key(pauseKey));
 }
 
 KeyLayout::KeyLayout() {
@@ -46,6 +51,7 @@ KeyLayout::KeyLayout() {
 	move_left = new mgl::Key;
 	move_right = new mgl::Key;
 	anti_gravity = new mgl::Key;
+	pause = new mgl::Key;
 }
 
 KeyLayout::~KeyLayout() {
@@ -54,4 +60,5 @@ KeyLayout::~KeyLayout() {
 	delete move_left;
 	delete move_right;
 	delete anti_gravity;
+	delete pause;
 }

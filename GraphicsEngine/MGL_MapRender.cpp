@@ -80,8 +80,6 @@ void MyGraphicsLibraryEngine::initializeMapRendering(GameCamera* camera) {
 
 void MyGraphicsLibraryEngine::renderMap() {
 	recalculateCamera();
-
-	m_window->clearWindow();
 	m_map_program->use();
 
 	for (auto p : m_map_program.translationInstances) {

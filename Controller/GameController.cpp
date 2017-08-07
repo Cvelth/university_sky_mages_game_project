@@ -3,6 +3,7 @@
 #include "GameObjects\MainActor.hpp"
 #include "GameObjects\AbstractEquipableItems.hpp"
 #include "Shared\KeyLayout.hpp"
+#include "Shared\GameMode.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}
 
@@ -39,6 +40,8 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 					m_actor->m_engine->turn_off_anti_gravity();
 				else
 					m_actor->m_engine->turn_on_anti_gravity(m_actor->mass());
+			else if (key == *m_keys->pause)
+				GameModeController::pauseGame();
 		} else if (action == mgl::KeyAction::release) {
 			if (key == *m_keys->move_up)
 				m_actor->m_engine->accelerate_up(true);

@@ -20,6 +20,9 @@
     <ClInclude Include="KeyLayout.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameMode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractException.cpp">
@@ -29,6 +32,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

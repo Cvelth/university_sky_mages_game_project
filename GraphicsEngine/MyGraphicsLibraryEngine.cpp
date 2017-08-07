@@ -32,12 +32,19 @@ size_t MyGraphicsLibraryEngine::height() const {
 	return m_window->getHeight();
 }
 
+void MyGraphicsLibraryEngine::clearWindow() {
+	m_window->clearWindow();
+}
+
 void MyGraphicsLibraryEngine::update() {
 	m_window->update();
 }
 
 void MyGraphicsLibraryEngine::pollEvents() {
 	m_window->pollEvents();
+}
+void MyGraphicsLibraryEngine::waitEvents() {
+	m_window->waitEvents();
 }
 MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
 	m_window = new MGLWindow();

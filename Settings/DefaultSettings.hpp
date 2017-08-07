@@ -16,4 +16,4 @@ const unsigned int Screen_Width = 1280u;
 const unsigned int Screen_Height = 1024u;
 const bool Fullscreen_Window = false;
 
-const KeyLayout Keys_Layout = KeyLayout(41, 37, 19, 22, 36);
+const KeyLayout Keys_Layout = KeyLayout(41, 37, 19, 22, 36, 51);

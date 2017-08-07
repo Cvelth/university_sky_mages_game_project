@@ -29,8 +29,10 @@ public:
 	virtual size_t width() const;
 	virtual size_t height() const;
 
+	virtual void clearWindow();
 	virtual void update();
 	virtual void pollEvents();
+	void waitEvents();
 
 	virtual void insertController(GameControllerInterface* controller);
 	virtual void initializeQueue();

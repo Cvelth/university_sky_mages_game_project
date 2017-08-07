@@ -35,7 +35,7 @@ void PhysicsEngine::removeObject(AbstractGameObject * object) {
 	m_queue->remove(object);
 }
 void PhysicsEngine::clean() {
-	if (m_is_initialized && m_queue) 
+	if (m_is_initialized && m_queue)
 		delete m_queue;
 	m_is_initialized = false;
 }
@@ -43,17 +43,21 @@ void PhysicsEngine::clean() {
 #include <chrono>
 #include <thread>
 #include "GameObjects\AbstractGameObject.hpp"
+#include "Shared\GameMode.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
+	GameModeController::physicsLoopIsReady(true);
 	while (!m_finish_flag_access()) {
 		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
-		m_queue->for_each([this](AbstractGameObject* go) {
-			processForces(go);
-			processMovement(go, m_map);
-		});
+		if (GameModeController::getCurrentGameMode() == GameMode::Normal)
+			m_queue->for_each([this](AbstractGameObject* go) {
+				processForces(go);
+				processMovement(go, m_map);
+			});
 
 		std::this_thread::sleep_until(next_tick);
 	}
+	GameModeController::physicsLoopIsReady(false);
 	clean();
 	if (destroy_engine_after_exit)
 		delete this;

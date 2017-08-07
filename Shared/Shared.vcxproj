@@ -116,11 +116,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AbstractException.hpp" />
+    <ClInclude Include="GameMode.hpp" />
     <ClInclude Include="KeyLayout.hpp" />
     <ClInclude Include="vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractException.cpp" />
+    <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="KeyLayout.cpp" />
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
