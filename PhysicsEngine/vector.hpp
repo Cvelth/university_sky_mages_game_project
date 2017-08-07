@@ -20,11 +20,10 @@ struct vector {
 		v *= m.v;
 		return *this;
 	}
-	inline vector& operator-() {
-		h = -h;
-		v = -v;
-		return *this;
+	inline vector operator-() const {
+		return vector(-h, -v);
 	}
+	scalar const abs() const;
 	friend vector const operator+(vector const& a, vector const& b);
 	friend vector const operator-(vector const& a, vector const& b);
 	friend vector const operator*(vector const& a, scalar b);

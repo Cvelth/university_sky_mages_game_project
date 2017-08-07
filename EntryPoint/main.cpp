@@ -20,7 +20,7 @@ AbstractFlyEngine* initializeFlyEngine(AbstractEnergyStorage* energy_source) {
 	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.55f;
-	return new AbstractFlyEngine(energy_source, 10.f, 1300.f, 3.f, fe_settings);
+	return new AbstractFlyEngine(energy_source, 1.f, 1300.f, 3.f, fe_settings);
 }
 
 void game_process(Settings& s) {
@@ -49,7 +49,7 @@ void game_process(Settings& s) {
 
 	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
 										  60.f, 1.f, 4.f, 10.5f, 30.5f);
-	auto energy_storage = new AbstractEnergyStorage(1000.f, 5.f);
+	auto energy_storage = new AbstractEnergyStorage(1.e5f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
 

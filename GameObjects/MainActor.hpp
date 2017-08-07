@@ -23,5 +23,5 @@ public:
 
 public:
 	virtual scalar mass() const override;
-	virtual vector acceleration() const override;
+	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
 };

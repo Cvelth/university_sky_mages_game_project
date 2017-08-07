@@ -25,7 +25,7 @@ public:
 	DependedAcceleratableObjectState(scalar mass, scalar m_acceleration_h = 0.f, scalar m_acceleration_v = 0.f)
 		: DependentObjectState(mass), m_acceleration(m_acceleration_h, m_acceleration_v) {}
 
-	virtual vector acceleration() const {
+	virtual vector acceleration(scalar const& time_correct = 1.f) const {
 		return m_acceleration;
 	}
 	virtual void accelerate(vector const& difference) {

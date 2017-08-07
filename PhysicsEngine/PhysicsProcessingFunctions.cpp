@@ -23,7 +23,7 @@ void PhysicsEngine::processForces(IndependentObjectState *os) {
 	auto acceleration = net_force * os->mass();
 
 	os->accelerate(acceleration);
-	os->speed_up(os->acceleration() * time_correction);
+	os->speed_up(os->acceleration(time_correction) * time_correction);
 	os->accelerate(-acceleration);
 }
 

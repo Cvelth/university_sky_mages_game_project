@@ -12,7 +12,7 @@ scalar MainActor::mass() const {
 		(m_energy_storage ? m_energy_storage->mass() : 0.f);
 }
 
-vector MainActor::acceleration() const {
+vector MainActor::acceleration(scalar const& time_correct) const {
 	return m_acceleration +
-		(m_engine ? m_engine->acceleration(mass()) : vector(0.f, 0.f));
+		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
 }
