@@ -14,13 +14,13 @@ AbstractFlyEngine* initializeFlyEngine() {
 	AbstractFlyEngineSettings fe_settings;
 	fe_settings.anti_gravity_mode_off_up_acceleration_percent = 1.f;
 	fe_settings.anti_gravity_mode_off_down_acceleration_percent = 0.05f;
-	fe_settings.anti_gravity_mode_off_left_acceleration_percent = 0.15f;
-	fe_settings.anti_gravity_mode_off_right_acceleration_percent = 0.15f;
-	fe_settings.anti_gravity_mode_on_up_acceleration_percent = 0.15f;
-	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.15f;
-	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.15f;
-	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.15f;
-	return new AbstractFlyEngine(10.f, 1600.f, 3.f, fe_settings);
+	fe_settings.anti_gravity_mode_off_left_acceleration_percent = 0.55f;
+	fe_settings.anti_gravity_mode_off_right_acceleration_percent = 0.55f;
+	fe_settings.anti_gravity_mode_on_up_acceleration_percent = 0.55f;
+	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.55f;
+	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.55f;
+	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.55f;
+	return new AbstractFlyEngine(10.f, 1300.f, 3.f, fe_settings);
 }
 
 void game_process(Settings& s) {
