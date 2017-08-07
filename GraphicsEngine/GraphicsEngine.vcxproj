@@ -140,6 +140,17 @@
     <ClCompile Include="MGL_QueueRender.cpp" />
     <ClCompile Include="MyGraphicsLibraryEngine.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">
+      <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicEngine\LogicEngine.vcxproj">
+      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderTools\RenderTools.vcxproj">
+      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

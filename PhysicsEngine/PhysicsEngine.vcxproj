@@ -118,17 +118,21 @@
     <ClCompile Include="PhysicalObjectsQueue.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PhysicsProcessingFunctions.cpp" />
-    <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicalConstants.hpp" />
     <ClInclude Include="PhysicalObjectsQueue.hpp" />
     <ClInclude Include="PhysicsEngine.hpp" />
-    <ClInclude Include="vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">
       <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicEngine\LogicEngine.vcxproj">
+      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

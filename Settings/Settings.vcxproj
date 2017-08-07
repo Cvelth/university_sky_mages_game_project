@@ -120,11 +120,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DefaultSettings.hpp" />
-    <ClInclude Include="KeyLayout.hpp" />
     <ClInclude Include="Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KeyLayout.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>

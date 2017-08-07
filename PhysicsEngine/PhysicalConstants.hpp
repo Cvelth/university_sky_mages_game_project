@@ -1,5 +1,4 @@
 #pragma once
-
 namespace Constants {
 	 float const block_length = 1.f;
 	 float const time_correction_coefficient = 0.5e-6f;

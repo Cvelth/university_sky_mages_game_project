@@ -168,6 +168,12 @@
     <ProjectReference Include="..\Controller\Controller.vcxproj">
       <Project>{c5c17a7e-3702-464b-a46a-39679106b95b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
+      <Project>{2d7a80f7-cb5d-4515-8789-5f84e6c14627}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicEngine\LogicEngine.vcxproj">
+      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

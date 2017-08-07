@@ -2,7 +2,7 @@
 #include "LogicEngine\GameCamera.hpp"
 #include "GameObjects\MainActor.hpp"
 #include "GameObjects\AbstractEquipableItems.hpp"
-#include "Settings\KeyLayout.hpp"
+#include "Shared\KeyLayout.hpp"
 
 GameController::GameController() : m_controlledCamera(nullptr) {}
 

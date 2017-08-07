@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <variant>
 #include <string>
-#include "KeyLayout.hpp"
+#include "Shared\KeyLayout.hpp"
 using SettingValue = std::variant<bool, signed int, unsigned int, float, std::string, KeyLayout>;
 using Setting = std::pair<const std::string, SettingValue>;
 using SettingsMap = std::unordered_map<std::string, SettingValue>;

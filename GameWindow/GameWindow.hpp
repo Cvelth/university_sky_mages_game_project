@@ -1,5 +1,4 @@
 #pragma once
-
 class MyGraphicsLibraryEngine;
 class GameControllerInterface;
 class GameCamera;

@@ -1,5 +1,4 @@
 #include "vector.hpp"
-
 vector const operator+(vector const& a, vector const& b) {
 	return vector(a.h + b.h, a.v + b.v);
 }

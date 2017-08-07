@@ -39,14 +39,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Build\LinkShaders.bat">
-      <Filter>Build Tools</Filter>
-    </None>
     <None Include="Shaders\MapVertexShader.glsl">
       <Filter>Shaders Source</Filter>
     </None>
     <None Include="Shaders\QueueVertexShader.glsl">
       <Filter>Shaders Source</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Build\LinkShaders.bat">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

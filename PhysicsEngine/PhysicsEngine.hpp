@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "vector.hpp"
+#include "shared\vector.hpp"
 class PhysicalObjectsQueue;
 class AbstractGameObject;
 class GameMap;

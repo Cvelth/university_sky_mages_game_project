@@ -137,9 +137,19 @@
     <ClInclude Include="RenderQueue.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Build\LinkShaders.bat" />
+    <CustomBuild Include="Build\LinkShaders.bat">
+      <FileType>Document</FileType>
+    </CustomBuild>
     <None Include="Shaders\MapVertexShader.glsl" />
     <None Include="Shaders\QueueVertexShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">
+      <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
