@@ -40,11 +40,11 @@ void GameMap::verticalRowsFill(AbstractBlock* odd, AbstractBlock* even) {
 }
 
 void GameMap::addBorders(AbstractBlock *border) {
-	for (int i = 0; i < m_width; i++) {
+	for (unsigned int i = 0; i < m_width; i++) {
 		set(border, i, 0);
 		set(border, i, m_height - 1);
 	}
-	for (int i = 0; i < m_height; i++) {
+	for (unsigned int i = 0; i < m_height; i++) {
 		set(border, 0, i);
 		set(border, m_width - 1, i);
 	}

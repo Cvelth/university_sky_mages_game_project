@@ -8,8 +8,10 @@ vector const PhysicsEngine::calculateGravityForce() {
 scalar const PhysicsEngine::calculateDimentionalDragForce(scalar const& speed, scalar const& area) {
 	if (speed > 0.f)
 		return -0.5f * Constants::air_density * speed * speed * Constants::cube_drag_coefficient * area;
-	else if(speed < 0.f)
+	else if (speed < 0.f)
 		return +0.5f * Constants::air_density * speed * speed * Constants::cube_drag_coefficient * area;
+	else
+		return 0.f;
 }
 
 vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const& size) {
