@@ -14,5 +14,5 @@ scalar MainActor::mass() const {
 
 vector MainActor::acceleration() const {
 	return m_acceleration +
-		(m_engine ? m_engine->acceleration() : vector(0.f, 0.f));
+		(m_engine ? m_engine->acceleration(mass()) : vector(0.f, 0.f));
 }

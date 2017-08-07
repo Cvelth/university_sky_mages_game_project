@@ -27,13 +27,13 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 	if (m_keys) {
 		if (action == mgl::KeyAction::press) {
 			if (key == *m_keys->move_up)
-				m_actor->m_engine->accelerate_up();
+				m_actor->m_engine->accelerate_up(false);
 			else if (key == *m_keys->move_down)
-				m_actor->m_engine->accelerate_down();
+				m_actor->m_engine->accelerate_down(false);
 			else if (key == *m_keys->move_left)
-				m_actor->m_engine->accelerate_left();
+				m_actor->m_engine->accelerate_left(false);
 			else if (key == *m_keys->move_right)
-				m_actor->m_engine->accelerate_right();
+				m_actor->m_engine->accelerate_right(false);
 			else if (key == *m_keys->anti_gravity)
 				if (m_actor->m_engine->is_auti_gravity_turned_on())
 					m_actor->m_engine->turn_off_anti_gravity();
@@ -41,13 +41,13 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 					m_actor->m_engine->turn_on_anti_gravity(m_actor->mass());
 		} else if (action == mgl::KeyAction::release) {
 			if (key == *m_keys->move_up)
-				m_actor->m_engine->stopAcceleration_v();
+				m_actor->m_engine->accelerate_up(true);
 			else if (key == *m_keys->move_down)
-				m_actor->m_engine->stopAcceleration_v();
+				m_actor->m_engine->accelerate_down(true);
 			else if (key == *m_keys->move_left)
-				m_actor->m_engine->stopAcceleration_h();
+				m_actor->m_engine->accelerate_left(true);
 			else if (key == *m_keys->move_right)
-				m_actor->m_engine->stopAcceleration_h();
+				m_actor->m_engine->accelerate_right(true);
 		}
 	}
 }
