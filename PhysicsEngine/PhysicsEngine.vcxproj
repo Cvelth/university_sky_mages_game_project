@@ -118,11 +118,13 @@
     <ClCompile Include="PhysicalObjectsQueue.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PhysicsProcessingFunctions.cpp" />
+    <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicalConstants.hpp" />
     <ClInclude Include="PhysicalObjectsQueue.hpp" />
     <ClInclude Include="PhysicsEngine.hpp" />
+    <ClInclude Include="vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameObjects\GameObjects.vcxproj">

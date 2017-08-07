@@ -48,7 +48,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
 		m_queue->for_each([this](AbstractGameObject* go) {
-			processGravity(go);
+			processForces(go);
 			processMovement(go, m_map);
 		});
 

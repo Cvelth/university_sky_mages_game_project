@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include "vector.hpp"
 class PhysicalObjectsQueue;
 class AbstractGameObject;
 class GameMap;
@@ -15,7 +16,11 @@ private:
 protected:
 	std::function<bool(void)> m_finish_flag_access;
 
-	static void processGravity(IndependentObjectState *os);
+	static vector const calculateGravityForce();
+	static scalar const calculateDimentionalDragForce(scalar const& speed, scalar const& area);
+	static vector const calculateDragForce(vector const& speed, vector const& size);
+
+	static void processForces(IndependentObjectState *os);
 	static void processMovement(IndependentObjectState *os, GameMap *map);
 public:
 	PhysicsEngine();

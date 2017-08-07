@@ -1,19 +1,34 @@
 #include "PhysicsEngine.hpp"
-#include "PhysicalObjectsQueue.hpp"
 #include "PhysicalConstants.hpp"
-#include "GameObjects\ObjectState.hpp"
+#define time_correction Constants::time_correction_coefficient * float(UpdateInterval)
 
-#define time_correction 0.5e-6f * float(UpdateInterval)
-#define speed_test(test, result) (test > 0.f ? result : -result)
-
-#include "LogicEngine\GameMap.hpp"
-void PhysicsEngine::processGravity(IndependentObjectState *os) {
-	auto gravity_acceleration = os->mass() * Constants::g;
-	os->accelerate_v(gravity_acceleration);
-	os->speed_up(os->acceleration() * time_correction);
-	os->accelerate_v(-gravity_acceleration);
+vector const PhysicsEngine::calculateGravityForce() {
+	return vector(0.f, Constants::g);
+}
+scalar const PhysicsEngine::calculateDimentionalDragForce(scalar const& speed, scalar const& area) {
+	if (speed > 0.f)
+		return -0.5f * Constants::air_density * speed * speed * Constants::cube_drag_coefficient * area;
+	else if(speed < 0.f)
+		return +0.5f * Constants::air_density * speed * speed * Constants::cube_drag_coefficient * area;
 }
 
+vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const& size) {
+	return vector(calculateDimentionalDragForce(speed.h, size.v * size.v), 
+				  calculateDimentionalDragForce(speed.v, size.h * size.h));
+}
+
+#include "GameObjects\ObjectState.hpp"
+void PhysicsEngine::processForces(IndependentObjectState *os) {
+	auto net_force = calculateGravityForce() +calculateDragForce(os->speed(), os->size());
+	auto acceleration = net_force * os->mass();
+
+	os->accelerate(acceleration);
+	os->speed_up(os->acceleration() * time_correction);
+	os->accelerate(-acceleration);
+}
+
+#include "LogicEngine\GameMap.hpp"
+#define speed_test(test, result) (test > 0.f ? result : -result)
 void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;

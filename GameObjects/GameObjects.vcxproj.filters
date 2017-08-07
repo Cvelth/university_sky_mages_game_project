@@ -37,8 +37,5 @@
     <ClCompile Include="MainActor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectState.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
