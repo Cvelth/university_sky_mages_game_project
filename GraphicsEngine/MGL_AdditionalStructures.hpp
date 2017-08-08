@@ -33,6 +33,9 @@ struct MapProgram : public AbstractProgramStruct {
 struct QueueProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *translation, *scaling, *projection;
 };
+struct HUDProgram : public AbstractProgramStruct {
+	mgl::ShaderVariable *translation, *scaling, *projection;
+};
 
 #include <string>
 std::string readShader(std::string filename);

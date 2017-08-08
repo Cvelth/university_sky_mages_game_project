@@ -75,6 +75,7 @@ GameWindow::~GameWindow() {
 void GameWindow::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();
+	m_graphics->initializeHUDRendering();
 	GameModeController::graphicsLoopIsReady(true);
 
 	while (!m_graphics->isWindowClosed()) {
@@ -84,6 +85,7 @@ void GameWindow::loop(bool destroy_window_after_exit) {
 
 			m_graphics->renderMap();
 			m_graphics->renderQueue();
+			m_graphics->renderHUD();
 			m_graphics->update();
 
 			std::this_thread::sleep_until(next_tick);
@@ -100,6 +102,7 @@ void GameWindow::loop(bool destroy_window_after_exit) {
 	GameModeController::graphicsLoopIsReady(false);
 	m_graphics->cleanMapRendering();
 	m_graphics->cleanQueueRendering();
+	m_graphics->cleanHUDRendering();
 	if (destroy_window_after_exit)
 		delete this;
 } 

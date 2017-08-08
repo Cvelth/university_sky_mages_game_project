@@ -136,6 +136,7 @@
     <ClInclude Include="MyGraphicsLibraryEngine.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MGL_HUDRender.cpp" />
     <ClCompile Include="MGL_MapRender.cpp" />
     <ClCompile Include="MGL_QueueRender.cpp" />
     <ClCompile Include="MyGraphicsLibraryEngine.cpp" />

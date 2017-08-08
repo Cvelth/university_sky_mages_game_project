@@ -26,6 +26,9 @@
     <ClCompile Include="RenderQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HUD_RenderInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderInfo.hpp">
@@ -37,12 +40,18 @@
     <ClInclude Include="RenderQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HUD_RenderInfo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\MapVertexShader.glsl">
       <Filter>Shaders Source</Filter>
     </None>
     <None Include="Shaders\QueueVertexShader.glsl">
+      <Filter>Shaders Source</Filter>
+    </None>
+    <None Include="Shaders\HUDVertexShader.glsl">
       <Filter>Shaders Source</Filter>
     </None>
   </ItemGroup>

@@ -63,7 +63,9 @@ void MGLWindow::resize(int width, int height, GameCamera* camera) {
 }
 
 void MyGraphicsLibraryEngine::initializeMapRendering(GameCamera* camera) {
-	m_map_program.program = m_window->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("MapVertexShader.glsl").c_str()));
+	m_map_program.program = m_window->linkProgramWithDefaultFragmentShader(
+		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, 
+										 readShader("MapVertexShader.glsl").c_str()));
 	m_map_program->use();
 
 	m_camera = camera;

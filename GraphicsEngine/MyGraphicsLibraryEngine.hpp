@@ -6,15 +6,18 @@ class GameCamera;
 class GameControllerInterface;
 class RenderQueue;
 class AbstractGameObject;
+class HUD_RenderInfo;
 
 class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
 	GameCamera *m_camera;
 	RenderQueue *m_queue;
+	HUD_RenderInfo *m_hud;
 
 	MapProgram m_map_program;
 	QueueProgram m_queue_program;
+	HUDProgram m_HUD_program;
 public:
 	MyGraphicsLibraryEngine();
 	~MyGraphicsLibraryEngine();
@@ -49,4 +52,8 @@ public:
 	virtual void initializeQueueRendering();
 	virtual void renderQueue();
 	virtual void cleanQueueRendering();
+
+	virtual void initializeHUDRendering();
+	virtual void renderHUD();
+	virtual void cleanHUDRendering();
 };

@@ -9,12 +9,15 @@
 #include "LogicEngine\GameCamera.hpp"
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {
-	m_queue_program.program = m_window->linkProgramWithDefaultFragmentShader(mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, readShader("QueueVertexShader.glsl").c_str()));
+	m_queue_program.program = m_window->linkProgramWithDefaultFragmentShader(
+		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, 
+										 readShader("QueueVertexShader.glsl").c_str()));
 	m_queue_program->use();
 
-	m_queue->for_each([](AbstractGameObject* go) {
+	m_queue->for_each([this](AbstractGameObject* go) {
 		if (go->isWaitingToBeInitilized()) {
-			go->getRenderInto()->get()->send(mgl::DataUsage::DynamicDraw);
+			go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
+			go->getRenderInto()->get()->insertVertexArray(m_queue_program->getVertexArray());
 			go->initializeWasSuccessfull();
 		}
 		if (go->isWaitingToBeDestroyed()) {
@@ -36,7 +39,6 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 
 void MyGraphicsLibraryEngine::renderQueue() {
 	recalculateCamera();
-
 	m_queue_program->use();
 
 	auto minX = m_camera->minX_i();

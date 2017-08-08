@@ -8,7 +8,7 @@ private:
 	mgl::AbstractDrawableObject* m_object;
 public:
 	explicit RenderInfo();
-	~RenderInfo();
+	virtual ~RenderInfo();
 	inline mgl::AbstractDrawableObject* operator*() {
 		return m_object;
 	}
