@@ -12,7 +12,7 @@ void GameWindow::clean() {
 }
 
 GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFullscreen)
-		: isMapInserted(false), isControllerInserted(false), m_update_interval(16666) {
+		: m_controller(nullptr), m_camera(nullptr), m_update_interval(16666) {
 
 	m_graphics = new MyGraphicsLibraryEngine;
 
@@ -25,21 +25,21 @@ GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFu
 void GameWindow::insertController(GameControllerInterface* controller) {
 	m_graphics->insertController(controller);
 	m_controller = controller;
-	isControllerInserted = true;
+	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
 void GameWindow::changeController(GameControllerInterface* controller, bool deleteOldOne) {
+	m_controller->stopCameraControl();
 	m_graphics->insertController(controller);
-	if (deleteOldOne && isControllerInserted && m_controller)
+	if (deleteOldOne && m_controller)
 		delete m_controller;
 	m_controller = controller;
-	isControllerInserted = true;
+	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::insertMap(GameMap* map) {
-	m_camera = new GameCamera(map, float(m_graphics->width()) / m_graphics->height());
-	if (isControllerInserted) m_controller->startCameraControl(m_camera);
-	isMapInserted = true;
+void GameWindow::insertCamera(GameCamera *camera) {
+	m_camera = camera;
+	if (m_controller) m_controller->startCameraControl(m_camera);
 }
 
 void GameWindow::changeUpdateInterval(size_t microseconds) {
@@ -48,6 +48,10 @@ void GameWindow::changeUpdateInterval(size_t microseconds) {
 
 size_t GameWindow::getUpdateInterval() {
 	return m_update_interval;
+}
+
+float GameWindow::currentAspectRatio() const {
+	return float(m_graphics->width()) / m_graphics->height();
 }
 
 bool GameWindow::isWindowClosed() {
@@ -63,11 +67,6 @@ void GameWindow::insertHUDRenderInfo(HUD_RenderInfo *hud) {
 }
 
 GameWindow::~GameWindow() {
-	if (isMapInserted && m_camera) {
-		m_controller->stopCameraControl();
-		delete m_camera;
-	}
-
 	m_graphics->clean();
 	clean();
 }

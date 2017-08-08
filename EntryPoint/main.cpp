@@ -4,6 +4,7 @@
 #include "PhysicsEngine\PhysicsEngine.hpp"
 #include "RenderTools\RenderInfoStorage.hpp"
 #include "LogicEngine\GameMap.hpp"
+#include "LogicEngine\GameCamera.hpp"
 #include "GameObjects\MainActor.hpp"
 #include "GameObjects\AbstractEquipableItems.hpp"
 #include "Settings\Settings.hpp"
@@ -47,7 +48,8 @@ void game_process(Settings& s) {
 	renderInfoStorage->generateRenderInfo();
 
 	GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
-	window->insertMap(map);
+	GameCamera *camera = new GameCamera(map, window->currentAspectRatio());
+	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
 
 	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),

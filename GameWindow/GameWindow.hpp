@@ -2,7 +2,6 @@
 class MyGraphicsLibraryEngine;
 class GameControllerInterface;
 class GameCamera;
-class GameMap;
 class AbstractGameObject;
 class HUD_RenderInfo;
 
@@ -13,8 +12,6 @@ private:
 	MyGraphicsLibraryEngine* m_graphics;
 	GameControllerInterface* m_controller;
 	GameCamera* m_camera;
-	bool isMapInserted;
-	bool isControllerInserted;
 	size_t m_update_interval;
 
 protected:
@@ -37,14 +34,16 @@ public:
 	//Changes controller for events to be redirected to.
 	void changeController(GameControllerInterface *controller, bool deleteOldOne = true);
 
-	//Adds map in the window to be shown using GameCamera.
-	void insertMap(GameMap *map);
+	//Adds camera in the window to be shown using GameCamera.
+	void insertCamera(GameCamera *camera);
 
 	//Changes loop's run interval
 	void changeUpdateInterval(size_t microseconds);
 	//Returns loop's run interval
 	size_t getUpdateInterval();
 
+	//Returns aspect ration of the window in the state it is now.
+	float currentAspectRatio() const;
 	//Returns true if window is closed or would be closed soon.
 	bool isWindowClosed();
 
