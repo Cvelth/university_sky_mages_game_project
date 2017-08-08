@@ -51,7 +51,7 @@ void game_process(Settings& s) {
 	physics_engine->initializeCollisionSystem(map);
 
 	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
-										  60.f, 1.f, 4.f, 10.5f, 30.5f);
+										  60.f, 2.f, 4.f, 10.5f, 30.5f);
 	auto energy_storage = new AbstractEnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));

@@ -6,21 +6,21 @@
 
 HUD_RenderInfo::HUD_RenderInfo(AbstractEnergyStorage *energy_source) : m_energy_source(energy_source) {
 	mgl::Primitive *outter = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-								new mgl::Color(0.9f, 0.9f, 0.9f));
+								new mgl::Color(253u, 255u, 200u));
 	outter->insert(mgl::math::Vector(0.975f, 0.01f));
 	outter->insert(mgl::math::Vector(0.995f, 0.01f));
 	outter->insert(mgl::math::Vector(0.975f, 0.99f));
 	outter->insert(mgl::math::Vector(0.995f, 0.99f));
 
 	mgl::Primitive *inner = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-							   new mgl::Color(0.70f, 0.47f, 0.63f));
+							   new mgl::Color(182u, 123u, 166u));
 	inner->insert(mgl::math::Vector(0.978f, 0.015f));
 	inner->insert(mgl::math::Vector(0.992f, 0.015f));
 	inner->insert(mgl::math::Vector(0.978f, 0.985f));
 	inner->insert(mgl::math::Vector(0.992f, 0.985f));
 
 	m_energy_bar = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-									  new mgl::Color(0.25f, 0.03f, 0.22f));
+									  new mgl::Color(104u, 7u, 77u));
 
 	get()->addPrimitive(outter);
 	get()->addPrimitive(inner);
