@@ -62,23 +62,27 @@ class AbstractEnergyStorage : public AbstractEquipableItem {
 private:
 
 protected:
-	float m_capacity;
+	float const m_maximum_capacity;
+	float m_current_capacity;
 public:
-	AbstractEnergyStorage(float capacity, float mass) 
-		: AbstractEquipableItem(EquipmentType::Energy_storage, mass), m_capacity(capacity) {}
+	AbstractEnergyStorage(float capacity, float mass) : AbstractEquipableItem(EquipmentType::Energy_storage, mass), 
+		m_current_capacity(capacity), m_maximum_capacity(capacity) {}
 	~AbstractEnergyStorage() {}
 
 	virtual void make_empty() {
-		m_capacity = 0.f;
+		m_current_capacity = 0.f;
 	}
 	virtual bool isEmpty() const {
-		return m_capacity == 0.f;
+		return m_current_capacity == 0.f;
+	}
+	virtual float getCapacityPercent() {
+		return float(m_current_capacity) / m_maximum_capacity;
 	}
 
 	virtual bool use(float const amount) {
-		m_capacity -= amount;
-		if (m_capacity < 0.f) {
-			m_capacity = 0.f;
+		m_current_capacity -= amount;
+		if (m_current_capacity < 0.f) {
+			m_current_capacity = 0.f;
 			return false;
 		} else
 			return true;

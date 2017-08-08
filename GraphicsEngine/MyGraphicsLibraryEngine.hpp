@@ -40,6 +40,7 @@ public:
 	virtual void insertController(GameControllerInterface* controller);
 	virtual void initializeQueue();
 	virtual void addToRenderQueue(AbstractGameObject* go);
+	virtual void insertHUD(HUD_RenderInfo *hud);
 
 	virtual void recalculateCamera();
 	virtual void recalculateProjection();

@@ -4,6 +4,7 @@ class GameControllerInterface;
 class GameCamera;
 class GameMap;
 class AbstractGameObject;
+class HUD_RenderInfo;
 
 //Class to store game window.
 //It stores and handles connection between the window handler(GLFWwindow struct) and chosen Engine.
@@ -49,6 +50,9 @@ public:
 
 	//Adds an object in the queue to be rendered.
 	void addToRenderQueue(AbstractGameObject *go);
+
+	//Initializes HUD rendering.
+	void insertHUDRenderInfo(HUD_RenderInfo *hud);
 
 	//Desctructs class and all dependent on it. Uses clean function.
 	~GameWindow();

@@ -5,8 +5,6 @@
 #include "Primitive\AbstractDrawableObject.hpp"
 
 void MyGraphicsLibraryEngine::initializeHUDRendering() {
-	m_hud = new HUD_RenderInfo();
-
 	m_HUD_program.program = m_window->linkProgramWithDefaultFragmentShader(
 		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex,
 										 readShader("HUDVertexShader.glsl").c_str()));
@@ -30,6 +28,7 @@ void MyGraphicsLibraryEngine::initializeHUDRendering() {
 
 void MyGraphicsLibraryEngine::renderHUD() {
 	m_HUD_program->use();
+	m_hud->recalculate();
 	m_hud->get()->draw();
 }
 

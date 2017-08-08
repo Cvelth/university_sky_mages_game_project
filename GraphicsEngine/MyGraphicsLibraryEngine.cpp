@@ -57,6 +57,9 @@ void MyGraphicsLibraryEngine::initializeQueue() {
 void MyGraphicsLibraryEngine::addToRenderQueue(AbstractGameObject * go) {
 	m_queue->add(go);
 }
+void MyGraphicsLibraryEngine::insertHUD(HUD_RenderInfo *hud) {
+	m_hud = hud;
+}
 MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
 	destroyWindow();
 	clean();

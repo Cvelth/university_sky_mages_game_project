@@ -8,6 +8,7 @@
 #include "GameObjects\AbstractEquipableItems.hpp"
 #include "Settings\Settings.hpp"
 #include "Shared\AbstractException.hpp"
+#include "RenderTools\HUD_RenderInfo.hpp"
 
 #include <thread>
 
@@ -51,7 +52,7 @@ void game_process(Settings& s) {
 
 	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
 										  60.f, 1.f, 4.f, 10.5f, 30.5f);
-	auto energy_storage = new AbstractEnergyStorage(1.e5f, 5.f);
+	auto energy_storage = new AbstractEnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
 
@@ -59,10 +60,14 @@ void game_process(Settings& s) {
 	physics_engine->addObject(main_actor);
 	window->addToRenderQueue(main_actor);
 
+	auto hud = new HUD_RenderInfo(energy_storage);
+	window->insertHUDRenderInfo(hud);
+
 	std::thread physics_thread(&PhysicsEngine::loop, physics_engine, false);
 	window->loop(false);
 	physics_thread.join();
 
+	delete hud;
 	delete main_actor;
 	delete map;
 	delete renderInfoStorage;

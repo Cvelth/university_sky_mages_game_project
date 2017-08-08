@@ -58,6 +58,10 @@ void GameWindow::addToRenderQueue(AbstractGameObject *go) {
 	m_graphics->addToRenderQueue(go);
 }
 
+void GameWindow::insertHUDRenderInfo(HUD_RenderInfo *hud) {
+	m_graphics->insertHUD(hud);
+}
+
 GameWindow::~GameWindow() {
 	if (isMapInserted && m_camera) {
 		m_controller->stopCameraControl();
