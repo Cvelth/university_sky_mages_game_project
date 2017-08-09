@@ -58,7 +58,7 @@ void game_process(Settings& s) {
 	window->addToRenderQueue(main_actor);
 
 	GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
-	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 15.f);
+	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 100.f);
 	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
 

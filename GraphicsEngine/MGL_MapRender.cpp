@@ -28,16 +28,24 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	m_map_program->use();
-	for (auto p : m_map_program.translationInstances) {
-		p.second->deleteAll();
-		for (size_t x = minX; x <= maxX; x++)
-			for (size_t y = minY; y <= maxY; y++)
-				if (*m_camera->map()->get(x, y) == *p.first)
-					p.second->insert(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
-		p.second->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
-		m_map_program->initializeInstancing(m_map_program.translation, 1);
+	if (minX != m_map_program.min_x || maxX != m_map_program.max_x ||
+		minY != m_map_program.min_y || maxY != m_map_program.max_y) {
+		m_map_program.min_x = minX;
+		m_map_program.max_x = maxX;
+		m_map_program.min_y = minY;
+		m_map_program.max_y = maxY;
+
+		m_map_program->use();
+		for (auto p : m_map_program.translationInstances) {
+			p.second->deleteAll();
+			for (size_t x = minX; x <= maxX; x++)
+				for (size_t y = minY; y <= maxY; y++)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						p.second->insert(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
+			p.second->send(mgl::DataUsage::StaticDraw);
+			m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
+			m_map_program->initializeInstancing(m_map_program.translation, 1);
+		}
 	}
 }
 
@@ -48,10 +56,6 @@ void MGLWindow::resize(GameCamera* camera) {
 void MGLWindow::resize(int width, int height, GameCamera* camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
-	auto t1 = camera->minX();
-	auto t2 = camera->maxX();
-	auto t3 = camera->maxY();
-	auto t4 = camera->minY();
 	if (m_projection) delete m_projection;
 	m_projection = new mgl::math::Matrix(mgl::math::Matrix::orthographicMatrix(
 		camera->minX() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),

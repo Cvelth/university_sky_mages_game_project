@@ -13,11 +13,11 @@ void GameCamera::correct() {
 		m_camera_was_changed = true;
 	}
 	if (maxX() > m_map->m_width) {
-		m_center->at(0) = (m_map->m_width - m_horizontal_blocks_number) / 2.f - 1.f;
+		m_center->at(0) = (m_map->m_width - m_horizontal_blocks_number) / 2.f;// -1.f;
 		m_camera_was_changed = true;
 	}
 	if (maxY() > m_map->m_height) {
-		m_center->at(1) = (m_map->m_height - m_horizontal_blocks_number / m_aspect_ratio) / 2.f - 1.f;
+		m_center->at(1) = (m_map->m_height - m_horizontal_blocks_number / m_aspect_ratio) / 2.f;// -1.f;
 		m_camera_was_changed = true;
 	}
 
@@ -39,10 +39,11 @@ GameCamera::GameCamera(GameMap *map, AbstractActor *center_figure,
 	m_center_figure(center_figure), m_camera_was_changed(true) {
 
 	m_center = new mgl::math::vector();
-	if (center_figure) {
-		auto position = center_figure->position();
-		*m_center = mgl::math::vector(position.h, position.v);
-	} else
+	// [[deprecated]]
+	//if (center_figure) {
+	//	auto position = center_figure->position();
+	//	*m_center = mgl::math::vector(position.h, position.v);
+	//} else
 		*m_center = mgl::math::vector(m_horizontal_blocks_number / 2.f, m_horizontal_blocks_number / m_aspect_ratio / 2.f);
 	correct();
 }
@@ -121,7 +122,8 @@ GameCamera::~GameCamera() {
 
 void GameCamera::move() {
 	if (m_center_figure) {
-		auto position = m_center_figure->position();
-		move_to(position.h, position.v);
+		// [[deprecated]]
+		//auto position = m_center_figure->position();
+		//move_to(position.h, position.v);
 	}
 }
