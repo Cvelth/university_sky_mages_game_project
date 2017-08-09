@@ -1,37 +1,45 @@
 #pragma once
 namespace mgl {
 	namespace math {
-		class Vector;
+		class vector;
 	}
 }
 class GameMap;
+class AbstractActor;
 
 class GameCamera {
 private:
-	mgl::math::Vector *m_corner;
-	float m_aspectRatio;
-	float m_horizontalBlocks;
-	GameMap* m_map;
+	GameMap *m_map;
 
-	bool m_wasCameraChanged;
+	mgl::math::vector *m_center;
+	AbstractActor *m_center_figure;
+
+	float m_horizontal_blocks_number;
+	float m_aspect_ratio;
+
+	bool m_camera_was_changed;
 protected:
-	bool check();
 	void correct();
 public:
-	GameCamera(GameMap* map, float aspectRatio, float blocks = 100);
+	GameCamera(GameMap *map, AbstractActor *center_figure, float aspectRatio, float blocks = 100);
 
 	void changeAspectRatio(float aspectRatio);
 	void changeZoom(float magnifier);
+	void move_to(float x, float y);
+	void move_to(mgl::math::vector const& point);
 	void move(float x, float y);
+	void move(mgl::math::vector const& point);
+	void move();
+	void changeCenterFigure(AbstractActor *center_figure);
 
 	inline float aspectRatio() const {
-		return m_aspectRatio;
+		return m_aspect_ratio;
 	}
 
-	float minX_f() const;
-	float minY_f() const;
-	float maxX_f() const;
-	float maxY_f() const;
+	float minX() const;
+	float minY() const;
+	float maxX() const;
+	float maxY() const;
 
 	unsigned int minX_i() const;
 	unsigned int minY_i() const;
@@ -40,10 +48,10 @@ public:
 	GameMap* map();
 
 	inline bool wasCameraChanged() const {
-		return m_wasCameraChanged;
+		return m_camera_was_changed;
 	}
 	inline void cameraChangeWasHandled() {
-		m_wasCameraChanged = false;
+		m_camera_was_changed = false;
 	}
 
 	~GameCamera();

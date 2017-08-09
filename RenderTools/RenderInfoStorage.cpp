@@ -1,8 +1,8 @@
 #include "RenderInfoStorage.hpp"
 #include "RenderInfo.hpp"
-#include "Primitive\AbstractDrawableObject.hpp"
-#include "Default\DefaultPrimitives.hpp"
-#include "SharedHeaders\Color.hpp"
+#include "MGL\Primitive\AbstractDrawableObject.hpp"
+#include "MGL\Default\DefaultPrimitives.hpp"
+#include "MGL\SharedHeaders\Color.hpp"
 
 void RenderInfoStorage::generateRenderInfo() {
 	EmptyBlock = new RenderInfo();

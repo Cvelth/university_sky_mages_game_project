@@ -1,5 +1,5 @@
 #pragma once
-#include "Events\EmptyEventHandler.hpp"
+#include "MGL\Events\EmptyEventHandler.hpp"
 
 class GameCamera;
 class MainActor;

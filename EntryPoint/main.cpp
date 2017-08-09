@@ -47,13 +47,8 @@ void game_process(Settings& s) {
 	RenderInfoStorage* renderInfoStorage = new RenderInfoStorage;
 	renderInfoStorage->generateRenderInfo();
 
-	GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
-	GameCamera *camera = new GameCamera(map, window->currentAspectRatio());
-	window->insertCamera(camera);
-	physics_engine->initializeCollisionSystem(map);
-
 	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
-										  60.f, 2.f, 4.f, 10.5f, 30.5f);
+										  60.f, 2.f, 4.f, 40.f, 30.f);
 	auto energy_storage = new AbstractEnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
@@ -61,6 +56,11 @@ void game_process(Settings& s) {
 	controller->setMainActor(main_actor);
 	physics_engine->addObject(main_actor);
 	window->addToRenderQueue(main_actor);
+
+	GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
+	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 15.f);
+	window->insertCamera(camera);
+	physics_engine->initializeCollisionSystem(map);
 
 	auto hud = new HUD_RenderInfo(energy_storage);
 	window->insertHUDRenderInfo(hud);
@@ -70,8 +70,9 @@ void game_process(Settings& s) {
 	physics_thread.join();
 
 	delete hud;
-	delete main_actor;
+	delete camera;
 	delete map;
+	delete main_actor;
 	delete renderInfoStorage;
 	delete physics_engine;
 	delete window;

@@ -1,5 +1,5 @@
 #include "RenderInfo.hpp"
-#include "Primitive\AbstractDrawableObject.hpp"
+#include "MGL\Primitive\AbstractDrawableObject.hpp"
 
 RenderInfo::RenderInfo() {
 	m_object = new mgl::AbstractDrawableObject();

@@ -1,102 +1,113 @@
 #include "GameCamera.hpp"
 #include "GameMap.hpp"
-#include "..\MyGraphicsLibrary\Math\Vector.hpp"
-
-bool GameCamera::check() {
-	float x = m_corner->x();
-	float y = m_corner->y();
-	if (x < 0 || y < 0 || x > m_map->m_width || y > m_map->m_height)
-		return false;
-	if (x + m_horizontalBlocks > m_map->m_width)
-		return false;
-	if (y + m_horizontalBlocks * m_aspectRatio > m_map->m_height)
-		return false;
-
-	return true;
-}
+#include "MGL\Math\Vector.hpp"
+#include "GameObjects\AbstractActors.hpp"
 
 void GameCamera::correct() {
-	float x = m_corner->x();
-	float y = m_corner->y();
-	if (x < 0) {
-		m_corner->x(0);
-		m_wasCameraChanged = true;
+	if (minX() < 0) {
+		m_center->at(0) = (m_horizontal_blocks_number / 2.f);
+		m_camera_was_changed = true;
 	}
-	if (y < 0) {
-		m_corner->y(0);
-		m_wasCameraChanged = true;
+	if (minY() < 0) {
+		m_center->at(1) = (m_horizontal_blocks_number / m_aspect_ratio / 2.f);
+		m_camera_was_changed = true;
 	}
-	if (x > m_map->m_width) {
-		m_corner->x(float(m_map->m_width));
-		m_wasCameraChanged = true;
+	if (maxX() > m_map->m_width) {
+		m_center->at(0) = (m_map->m_width - m_horizontal_blocks_number) / 2.f - 1.f;
+		m_camera_was_changed = true;
 	}
-	if (y > m_map->m_height) {
-		m_corner->y(float(m_map->m_height));
-		m_wasCameraChanged = true;
+	if (maxY() > m_map->m_height) {
+		m_center->at(1) = (m_map->m_height - m_horizontal_blocks_number / m_aspect_ratio) / 2.f - 1.f;
+		m_camera_was_changed = true;
 	}
 
-	if (x + m_horizontalBlocks >= m_map->m_width) {
-		m_horizontalBlocks = float(m_map->m_width) - 1;
-		m_corner->x(0);
-		m_wasCameraChanged = true;
+	if (m_horizontal_blocks_number >= m_map->m_width) {
+		m_horizontal_blocks_number = float(m_map->m_width) - 1.f;
+		m_center->at(0) = m_horizontal_blocks_number / 2.f;
+		m_camera_was_changed = true;
 	}
-	if (y + m_horizontalBlocks / m_aspectRatio >= m_map->m_height) {
-		m_horizontalBlocks = float(m_map->m_height) * m_aspectRatio - 1;
-		m_corner->y(0);
-		m_wasCameraChanged = true;
+	if (int(m_horizontal_blocks_number / m_aspect_ratio) + 1 >= m_map->m_height) {
+		m_horizontal_blocks_number = float(m_map->m_height) * m_aspect_ratio - 1;
+		m_center->at(1) = m_horizontal_blocks_number / m_aspect_ratio / 2.f;
+		m_camera_was_changed = true;
 	}
 }
 
-GameCamera::GameCamera(GameMap* map, float aspectRatio, float blocks) 
-	: m_corner(new mgl::math::Vector(0, 0)), m_map(map), m_aspectRatio(aspectRatio), 
-		m_horizontalBlocks(blocks), m_wasCameraChanged(true) {
+GameCamera::GameCamera(GameMap *map, AbstractActor *center_figure, 
+					   float aspectRatio, float blocks)
+	: m_map(map), m_aspect_ratio(aspectRatio), m_horizontal_blocks_number(blocks), 
+	m_center_figure(center_figure), m_camera_was_changed(true) {
 
+	m_center = new mgl::math::vector();
+	if (center_figure) {
+		auto position = center_figure->position();
+		*m_center = mgl::math::vector(position.h, position.v);
+	} else
+		*m_center = mgl::math::vector(m_horizontal_blocks_number / 2.f, m_horizontal_blocks_number / m_aspect_ratio / 2.f);
 	correct();
 }
 
 void GameCamera::changeAspectRatio(float aspectRatio) {
-	this->m_aspectRatio = aspectRatio;
-	m_wasCameraChanged = true;
+	this->m_aspect_ratio = aspectRatio;
+	m_camera_was_changed = true;
 	correct();
 }
 
 void GameCamera::changeZoom(float magnifier) {
 	if (magnifier > 0.f) {
-		m_horizontalBlocks *= magnifier;
-		m_wasCameraChanged = true;
+		m_horizontal_blocks_number *= magnifier;
+		m_camera_was_changed = true;
 		correct();
 	}
 }
 
-void GameCamera::move(float x, float y) {
-	*m_corner += mgl::math::Vector(x, y);
-	m_wasCameraChanged = true;
+void GameCamera::move_to(float x, float y) {
+	move_to(mgl::math::vector(x,y));
+}
+
+void GameCamera::move_to(mgl::math::vector const& point) {
+	*m_center = point;
+	m_camera_was_changed = true;
 	correct();
 }
 
-float GameCamera::minX_f() const {
-	return m_corner->x();
+void GameCamera::move(float x, float y) {
+	move(mgl::math::vector(x, y));
+}
+
+void GameCamera::move(mgl::math::vector const& point) {
+	*m_center += point;
+	m_camera_was_changed = true;
+	correct();
+}
+
+void GameCamera::changeCenterFigure(AbstractActor * center_figure) {
+	m_center_figure = center_figure;
+}
+
+float GameCamera::minX() const {
+	return m_center->at(0) - m_horizontal_blocks_number / 2.f;
 }								 
-float GameCamera::minY_f() const {
-	return m_corner->y();
+float GameCamera::minY() const {
+	return m_center->at(1) - m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
-float GameCamera::maxX_f() const {
-	return m_corner->x() + m_horizontalBlocks;
+float GameCamera::maxX() const {
+	return m_center->at(0) + m_horizontal_blocks_number / 2.f;
 }
-float GameCamera::maxY_f() const {
-	return m_corner->y() + m_horizontalBlocks / m_aspectRatio;
+float GameCamera::maxY() const {
+	return m_center->at(1) + m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
 unsigned int GameCamera::minX_i() const {
-	return (unsigned int) minX_f();
+	return (unsigned int) minX();
 }
 unsigned int GameCamera::minY_i() const {
-	return (unsigned int) minY_f();
+	return (unsigned int) minY();
 }
 unsigned int GameCamera::maxX_i() const {
-	return (unsigned int) maxX_f();
+	return (unsigned int) maxX();
 }
 unsigned int GameCamera::maxY_i() const {
-	return (unsigned int) maxY_f();
+	return (unsigned int) maxY();
 }
 
 GameMap * GameCamera::map() {
@@ -104,6 +115,13 @@ GameMap * GameCamera::map() {
 }
 
 GameCamera::~GameCamera() {
-	if (m_corner)
-		delete m_corner;
+	if (m_center)
+		delete m_center;
+}
+
+void GameCamera::move() {
+	if (m_center_figure) {
+		auto position = m_center_figure->position();
+		move_to(position.h, position.v);
+	}
 }

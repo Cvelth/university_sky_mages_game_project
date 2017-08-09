@@ -3,7 +3,7 @@
 
 #define addDefaultSetting(name) addSetting(#name, name)
 
-#include "..\MyGraphicsLibrary\Events\EventEnums.hpp"
+#include "MGL\Events\EventEnums.hpp"
 
 Settings::Settings(std::string filename) : SettingFileName(filename) {
 	addDefaultSetting(Program_Name);

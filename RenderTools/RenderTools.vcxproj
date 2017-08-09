@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <PreLinkEvent>
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
@@ -86,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <PreLinkEvent>
       <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
@@ -99,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -116,7 +116,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

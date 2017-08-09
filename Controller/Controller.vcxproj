@@ -75,11 +75,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\x64\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MGL\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -87,11 +87,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MGL\Debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -109,7 +109,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MGL\Release;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,7 +119,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\;..\..\MyGraphicsLibrary\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -127,7 +127,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\x64\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

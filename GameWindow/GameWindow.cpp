@@ -85,12 +85,12 @@ void GameWindow::loop(bool destroy_window_after_exit) {
 		if (GameModeController::getCurrentGameMode() == GameMode::Normal) {
 			auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
 			m_graphics->clearWindow();
-
+			
 			m_graphics->renderMap();
 			m_graphics->renderQueue();
 			m_graphics->renderHUD();
 			m_graphics->update();
-
+			
 			std::this_thread::sleep_until(next_tick);
 			m_graphics->pollEvents();
 		} else if (GameModeController::getCurrentGameMode() == GameMode::Pause) {

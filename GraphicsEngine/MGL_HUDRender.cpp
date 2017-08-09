@@ -1,8 +1,8 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
 #include "RenderTools\HUD_RenderInfo.hpp"
-#include "OpenGL\FunctionsMirror\FunctionsMirror.hpp"
-#include "Primitive\AbstractDrawableObject.hpp"
+#include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
+#include "MGL\Primitive\AbstractDrawableObject.hpp"
 
 void MyGraphicsLibraryEngine::initializeHUDRendering() {
 	m_HUD_program.program = m_window->linkProgramWithDefaultFragmentShader(
@@ -20,8 +20,8 @@ void MyGraphicsLibraryEngine::initializeHUDRendering() {
 	m_HUD_program.scaling = m_HUD_program->getUniform("scaling");
 	m_HUD_program.projection = m_HUD_program->getUniform("projection");
 
-	m_HUD_program->sendUniform(m_HUD_program.translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
-	m_HUD_program->sendUniform(m_HUD_program.scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
+	m_HUD_program->sendUniform(m_HUD_program.translation, mgl::math::vectorH(0.f, 0.f, 0.f, 0.f));
+	m_HUD_program->sendUniform(m_HUD_program.scaling, mgl::math::vectorH(1.f, 1.f, 1.f, 1.f));
 	m_HUD_program->sendUniform(m_HUD_program.projection, 
 							   mgl::math::Matrix::orthographicMatrix(0, 1, 1, 0, 1, -1));
 }

@@ -1,6 +1,6 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
-#include "OpenGL\FunctionsMirror\FunctionsMirror.hpp"
+#include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
 
 #include "GameObjects\AbstractGameObject.hpp"
 #include "GameObjects\ObjectState.hpp"
@@ -33,8 +33,8 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 	m_queue_program.scaling = m_queue_program->getUniform("scaling");
 	m_queue_program.projection = m_queue_program->getUniform("projection");
 
-	m_queue_program->sendUniform(m_queue_program.translation, mgl::math::Vector(0.f, 0.f, 0.f, 0.f));
-	m_queue_program->sendUniform(m_queue_program.scaling, mgl::math::Vector(1.f, 1.f, 1.f, 1.f));
+	m_queue_program->sendUniform(m_queue_program.translation, mgl::math::vectorH(0.f, 0.f, 0.f, 0.f));
+	m_queue_program->sendUniform(m_queue_program.scaling, mgl::math::vectorH(1.f, 1.f, 1.f, 1.f));
 }
 
 void MyGraphicsLibraryEngine::renderQueue() {
@@ -50,7 +50,7 @@ void MyGraphicsLibraryEngine::renderQueue() {
 		if (position.h >= minX && position.v >= minY &&
 			position.h <= maxX && position.v <= maxY) {
 
-			m_queue_program->sendUniform(m_queue_program.translation, mgl::math::Vector(position.h, position.v, 0.f, 0.f));
+			m_queue_program->sendUniform(m_queue_program.translation, mgl::math::vectorH(position.h, position.v, 0.f, 0.f));
 			go->getRenderInto()->get()->draw();
 		}
 	});

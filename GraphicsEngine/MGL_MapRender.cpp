@@ -1,7 +1,7 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
-#include "OpenGL\FunctionsMirror\FunctionsMirror.hpp"
-#include "Primitive\InstancingArray.hpp"
+#include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
+#include "MGL\Primitive\InstancingArray.hpp"
 
 #include "LogicEngine\GameMap.hpp"
 #include "LogicEngine\GameCamera.hpp"
@@ -9,6 +9,7 @@
 #include "RenderTools\RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::recalculateCamera() {
+	m_camera->move();
 	if (m_camera->wasCameraChanged()) {
 		recalculateProjection();
 		recalculateInstancing();
@@ -33,7 +34,7 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 		for (size_t x = minX; x <= maxX; x++)
 			for (size_t y = minY; y <= maxY; y++)
 				if (*m_camera->map()->get(x, y) == *p.first)
-					p.second->insert(new mgl::math::Vector(float(x), float(y), 0.f, 0.f));
+					p.second->insert(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
 		p.second->send(mgl::DataUsage::StaticDraw);
 		m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
 		m_map_program->initializeInstancing(m_map_program.translation, 1);
@@ -47,16 +48,16 @@ void MGLWindow::resize(GameCamera* camera) {
 void MGLWindow::resize(int width, int height, GameCamera* camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
-	auto t1 = camera->minX_f();
-	auto t2 = camera->maxX_f();
-	auto t3 = camera->maxY_f();
-	auto t4 = camera->minY_f();
+	auto t1 = camera->minX();
+	auto t2 = camera->maxX();
+	auto t3 = camera->maxY();
+	auto t4 = camera->minY();
 	if (m_projection) delete m_projection;
 	m_projection = new mgl::math::Matrix(mgl::math::Matrix::orthographicMatrix(
-		camera->minX_f() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
-		camera->maxX_f() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
-		camera->maxY_f() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
-		camera->minY_f() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
+		camera->minX() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
+		camera->maxX() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
+		camera->maxY() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
+		camera->minY() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
 		-1.f,
 		+1.f
 	));
