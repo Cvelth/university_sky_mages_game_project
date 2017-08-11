@@ -2,7 +2,6 @@
 #include <vector>
 class AbstractBlock;
 class GameCamera;
-class RenderInfoStorage;
 class RenderInfo;
 
 enum DefaultMapFilling {
@@ -45,7 +44,7 @@ protected:
 
 	bool isBorder(size_t w, size_t h) const;
 public:
-	GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, DefaultMapFilling mapFilling = DefaultMapFilling::All_Empty);
+	GameMap(size_t width, size_t height, DefaultMapFilling mapFilling = DefaultMapFilling::All_Empty);
 	~GameMap();
 
 	inline size_t width() const { return m_width; }

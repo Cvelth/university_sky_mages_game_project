@@ -9,12 +9,15 @@ GameController::GameController() : m_controlledCamera(nullptr) {}
 
 GameController::~GameController() {}
 
+
 void GameController::mouseScrollEvent(GLFWwindow* w, double x, double y) {
 	if (m_controlledCamera)
 		m_controlledCamera->changeZoom(1.f + float(y) / 10.f);
 }
 
 void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
+	current_screen_width = x;
+	current_screen_height = y;
 	if (m_controlledCamera) {
 		auto newAR = float(x) / y;
 		float mgn = newAR / m_controlledCamera->aspectRatio();
@@ -22,7 +25,6 @@ void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
 		m_controlledCamera->changeAspectRatio(newAR);
 	}
 }
-
 
 void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
 	if (m_keys) {
@@ -54,6 +56,18 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 		}
 	}
 }
+void GameController::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mgl::MouseAction action, mgl::Mods mods) {
+	if (action == mgl::MouseAction::press) {
+		if (button == mgl::MouseButton::left)
+			m_actor->activateRightWeapon();
+		else if (button == mgl::MouseButton::right)
+			m_actor->activateLeftWeapon();
+	} else if (action == mgl::MouseAction::release)
+		if (button == mgl::MouseButton::left)
+			m_actor->deactivateRightWeapon();
+		else
+			m_actor->deactivateLeftWeapon();
+}
 
 void GameController::startCameraControl(GameCamera* camera) {
 	m_controlledCamera = camera;
@@ -76,4 +90,15 @@ void GameController::startKeyControl(KeyLayout const *keys) {
 
 void GameController::stopKeyControl() {
 	m_keys = nullptr;
+}
+
+#include "MGL\OpenGL\FunctionsMirror\ExperimentalFunctionsMirror.hpp"
+void GameController::mouseMoveEvent(GLFWwindow *w, double x, double y) {
+	if (!current_screen_width || !current_screen_height)
+		mgl::getWindowSize(w, &current_screen_width, &current_screen_height);
+	auto temp_x = m_controlledCamera->minX();
+	auto temp_y = m_controlledCamera->minY();
+	float tx = float(x) / current_screen_width * (m_controlledCamera->maxX() - temp_x) + temp_x;
+	float ty = float(y) / current_screen_height * (m_controlledCamera->maxY() - temp_y) + temp_y;
+	m_actor->aim(tx, ty);
 }

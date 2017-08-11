@@ -123,6 +123,7 @@
     <ClInclude Include="ObjectState.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractEquipableItems.cpp" />
     <ClCompile Include="AbstractObjectQueue.cpp" />
     <ClCompile Include="MainActor.cpp" />
   </ItemGroup>

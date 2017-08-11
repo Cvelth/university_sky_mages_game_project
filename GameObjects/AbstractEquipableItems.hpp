@@ -3,6 +3,7 @@
 #include "PhysicsEngine\PhysicalConstants.hpp"
 #include "Shared\AbstractException.hpp"
 DefineNewException(IncorrectInitializationDataWasPassedException);
+DefineNewException(UnsupportableItemWasGivenException);
 
 enum class EquipmentType {
 	Weapon, Shield_generator, Energy_storage, 
@@ -21,27 +22,54 @@ public:
 	}
 };
 
-enum class WeaponType {
+enum class WeaponAmmoType {
 	Energy, Projectile, Bullet
 };
 enum class WeaponSize {
 	Small, One_Arm, One_And_A_Half_Arm, Two_Arm, Big
 };
+class AbstractShootableObject;
 class AbstractWeapon : public AbstractEquipableItem {
 private:
-	WeaponType m_type;
+	WeaponAmmoType m_ammo_type;
 	WeaponSize m_size;
 protected:
 	float m_damage;
 	float m_fire_rate;
 	float m_ammo_speed;
 	float m_ammo_capacity;
+	float m_ammo_mass;
+	float m_ammo_size_h;
+	float m_ammo_size_v;
 	float m_reload_time;
 	float m_shoot_cost;
+
+	float m_current_ammo;
+	unsigned long long m_last_shot_time;
+	bool is_activated;
 public:
-	AbstractWeapon(WeaponType type, WeaponSize size, float mass) 
-		: AbstractEquipableItem(EquipmentType::Weapon, mass), m_type(type), m_size(size) {}
+	AbstractWeapon(WeaponAmmoType type, WeaponSize size, float mass)
+		: AbstractEquipableItem(EquipmentType::Weapon, mass), m_ammo_type(type), 
+		m_size(size), is_activated(false), m_last_shot_time(0ull) {}
 	~AbstractWeapon() {}
+
+	inline WeaponAmmoType ammoType() {
+		return m_ammo_type;
+	}
+	inline WeaponSize size() {
+		return m_size;
+	}
+	inline void activate() {
+		is_activated = true;
+	}
+	inline void deactivate() {
+		is_activated = false;
+	}
+	inline bool is_ready() const {
+		return is_activated && is_reloaded() && m_current_ammo > 0;
+	}
+	bool is_reloaded() const;
+	AbstractShootableObject* shoot(float current_x, float current_y, float destination_x, float destination_y);
 };
 
 enum class ShieldType {

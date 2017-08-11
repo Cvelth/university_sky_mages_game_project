@@ -44,10 +44,9 @@ void game_process(Settings& s) {
 	});
 	physics_engine->changeUpdateInterval(1'000'000 / s.getUintValue("Physical_Updates_Per_Second"));
 
-	RenderInfoStorage* renderInfoStorage = new RenderInfoStorage;
-	renderInfoStorage->generateRenderInfo();
+	RenderInfoStorage::generateRenderInfo();
 
-	MainActor* main_actor = new MainActor(renderInfoStorage->getMainActorRenderInfo(),
+	MainActor* main_actor = new MainActor(RenderInfoStorage::getMainActorRenderInfo(),
 										  60.f, 2.f, 4.f, 40.f, 30.f);
 	auto energy_storage = new AbstractEnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
@@ -57,7 +56,7 @@ void game_process(Settings& s) {
 	physics_engine->addObject(main_actor);
 	window->addToRenderQueue(main_actor);
 
-	GameMap *map = new GameMap(100, 80, renderInfoStorage, DefaultMapFilling::Continious);
+	GameMap *map = new GameMap(100, 80, DefaultMapFilling::Continious);
 	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 100.f);
 	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
@@ -73,7 +72,6 @@ void game_process(Settings& s) {
 	delete camera;
 	delete map;
 	delete main_actor;
-	delete renderInfoStorage;
 	delete physics_engine;
 	delete window;
 	delete controller;

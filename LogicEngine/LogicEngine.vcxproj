@@ -120,6 +120,7 @@
     <ClInclude Include="GameMap.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractBlock.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameMap.cpp" />
   </ItemGroup>

@@ -67,31 +67,31 @@ bool GameMap::isBorder(size_t w, size_t h) const {
 	return w == 0 || w == m_width - 1 || h == 0 || h == m_height - 1;
 }
 
-GameMap::GameMap(size_t width, size_t height, RenderInfoStorage* renderInfo, DefaultMapFilling mapFilling) {
+GameMap::GameMap(size_t width, size_t height, DefaultMapFilling mapFilling) {
 	resize(width, height);
 	switch (mapFilling) {
 		case DefaultMapFilling::All_Empty:
-			fillEach(new EmptyBlock(renderInfo));
+			fillEach(new EmptyBlock());
 			break;
 		case DefaultMapFilling::All_Walls:
-			fillEach(new WallBlock(renderInfo));
+			fillEach(new WallBlock());
 			break;
 		case DefaultMapFilling::Borders:
-			borderFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
+			borderFill(new WallBlock(), new EmptyBlock());
 			break;
 		case DefaultMapFilling::Random:	{
-				AbstractBlock* blocks[] = {new WallBlock(renderInfo), new EmptyBlock(renderInfo)};
+				AbstractBlock* blocks[] = {new WallBlock(), new EmptyBlock()};
 				randomFill(2, blocks);
 			} break;
 		case DefaultMapFilling::Continious: {
-				AbstractBlock* wall = new WallBlock(renderInfo);
-				continiousFill(new EmptyBlock(renderInfo), wall, wall, 3, height / 5, height - height / 5, 5);
+				AbstractBlock* wall = new WallBlock();
+				continiousFill(new EmptyBlock(), wall, wall, 3, height / 5, height - height / 5, 5);
 			} break;
 		case DefaultMapFilling::HorizontalRows:
-			horizontalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
+			horizontalRowsFill(new WallBlock(), new EmptyBlock());
 			break;
 		case DefaultMapFilling::VerticalRows:
-			verticalRowsFill(new WallBlock(renderInfo), new EmptyBlock(renderInfo));
+			verticalRowsFill(new WallBlock(), new EmptyBlock());
 			break;
 	}
 }

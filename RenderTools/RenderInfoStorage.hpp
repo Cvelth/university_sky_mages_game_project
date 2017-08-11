@@ -4,18 +4,19 @@ DefineNewException(RenderInfoException);
 class RenderInfo;
 class RenderInfoStorage {
 private:
-	bool isRenderInfoGenerated = false;
+	static bool isRenderInfoGenerated;
 protected:
-	RenderInfo* EmptyBlock;
-	RenderInfo* WallBlock;
-	RenderInfo* MainActor;
+	static RenderInfo* EmptyBlock;
+	static RenderInfo* WallBlock;
+	static RenderInfo* MainActor;
+	static RenderInfo* AbstractBullet;
 public:
-	~RenderInfoStorage() { cleanRenderInfo(); }
-	void generateRenderInfo();
-	void cleanRenderInfo();
+	static void generateRenderInfo();
+	static void cleanRenderInfo();
 
-	inline void check() { if (!isRenderInfoGenerated) throw Exceptions::RenderInfoException("Render info was never generated, so it cannot be accessed. Call generateRenderInfo() first."); }
-	inline RenderInfo* getEmptyBlockRenderInfo() { check(); return EmptyBlock; }
-	inline RenderInfo* getWallBlockRenderInfo() { check(); return WallBlock; }
-	inline RenderInfo* getMainActorRenderInfo() { check(); return MainActor; }
+	static inline void check() { if (!isRenderInfoGenerated) throw Exceptions::RenderInfoException("Render info was never generated, so it cannot be accessed. Call generateRenderInfo() first."); }
+	static inline RenderInfo* getEmptyBlockRenderInfo() { check(); return EmptyBlock; }
+	static inline RenderInfo* getWallBlockRenderInfo() { check(); return WallBlock; }
+	static inline RenderInfo* getMainActorRenderInfo() { check(); return MainActor; }
+	static inline RenderInfo* getAbstractBulletRenderInfo() { check(); return AbstractBullet; }
 };

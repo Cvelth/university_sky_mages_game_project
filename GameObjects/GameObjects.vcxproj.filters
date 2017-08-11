@@ -37,5 +37,8 @@
     <ClCompile Include="MainActor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractEquipableItems.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
