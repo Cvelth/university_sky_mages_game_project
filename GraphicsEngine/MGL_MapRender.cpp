@@ -21,7 +21,7 @@ void MyGraphicsLibraryEngine::recalculateProjection() {
 	if (!m_map_program && m_map_program->isLinked())
 		m_map_program->sendUniform(m_map_program.projection, *m_window->projection());
 	if (!m_queue_program && m_queue_program->isLinked())
-		m_queue_program->sendUniform(m_map_program.projection, *m_window->projection());
+		m_queue_program->sendUniform(m_queue_program.projection, *m_window->projection());
 }
 void MyGraphicsLibraryEngine::recalculateInstancing() {
 	auto minX = m_camera->minX_i();
