@@ -77,6 +77,10 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>math.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\MGL\x64\debug;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -85,6 +89,10 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>math.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\MGL\Debug;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -99,6 +107,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>math.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\MGL\Release;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -113,6 +125,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>math.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AbstractException.hpp" />
@@ -125,7 +141,6 @@
     <ClCompile Include="AbstractException.cpp" />
     <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="KeyLayout.cpp" />
-    <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

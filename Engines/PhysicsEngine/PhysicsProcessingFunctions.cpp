@@ -15,8 +15,8 @@ scalar const PhysicsEngine::calculateDimentionalDragForce(scalar const& speed, s
 }
 
 vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const& size) {
-	return vector(calculateDimentionalDragForce(speed.h, size.v * size.v), 
-				  calculateDimentionalDragForce(speed.v, size.h * size.h));
+	return vector(calculateDimentionalDragForce(speed[0], size[1] * size[1]), 
+				  calculateDimentionalDragForce(speed[1], size[0] * size[0]));
 }
 
 #include "Objects\GameObjects\ObjectState.hpp"
@@ -37,24 +37,24 @@ void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
 		auto half_size = os->size() * 0.5f;
 		float speed_multiplier;
 
-		speed_multiplier = map->getSpeedMultiplier(size_t(future_position.h), size_t(future_position.v + speed_test(os->speed().v, half_size.v)));
+		speed_multiplier = map->getSpeedMultiplier(size_t(future_position[0]), size_t(future_position[1] + speed_test(os->speed()[1], half_size[1])));
 		os->speed_mul(vector(1.f, speed_multiplier));
 		if (speed_multiplier == 0.f) {
 			os->stopAcceleration_v();
-			if (os->speed().v > 0.f)
-				os->move_to_v(size_t(future_position.v + half_size.v) - half_size.v);
-			else if(os->speed().v < 0.f)
-				os->move_to_v(size_t(future_position.v - half_size.v) + half_size.v + 1);
+			if (os->speed()[1] > 0.f)
+				os->move_to_v(size_t(future_position[1] + half_size[1]) - half_size[1]);
+			else if(os->speed()[1] < 0.f)
+				os->move_to_v(size_t(future_position[1] - half_size[1]) + half_size[1] + 1);
 		}
 
-		speed_multiplier = map->getSpeedMultiplier(size_t(future_position.h + speed_test(os->speed().h, half_size.h)), size_t(future_position.v));
+		speed_multiplier = map->getSpeedMultiplier(size_t(future_position[0] + speed_test(os->speed()[0], half_size[0])), size_t(future_position[1]));
 		os->speed_mul(vector(speed_multiplier, 1.f));
 		if (speed_multiplier == 0.f) {
 			os->stopAcceleration_h();
-			if (os->speed().h > 0.f)
-				os->move_to_h(size_t(future_position.h + half_size.h) - half_size.h);
-			else if(os->speed().h < 0.f)
-				os->move_to_h(size_t(future_position.h - half_size.h) + half_size.h + 1);
+			if (os->speed()[0] > 0.f)
+				os->move_to_h(size_t(future_position[0] + half_size[0]) - half_size[0]);
+			else if(os->speed()[0] < 0.f)
+				os->move_to_h(size_t(future_position[0] - half_size[0]) + half_size[0] + 1);
 		}
 	}
 	os->move(vector(os->speed() * time_correction));

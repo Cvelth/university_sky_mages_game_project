@@ -74,9 +74,9 @@ void MainActor::deactivateLeftWeapon() {
 }
 
 void MainActor::execute_shooting() {
-	m_weapon_right_arm->shoot(m_position.h, m_position.v, m_aim_x, m_aim_y);
+	m_weapon_right_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
 	if (m_weapon_right_arm != m_weapon_left_arm)
-		m_weapon_left_arm->shoot(m_position.h, m_position.v, m_aim_x, m_aim_y);
+		m_weapon_left_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
 }
 
 scalar MainActor::mass() const {

@@ -47,10 +47,10 @@ void MyGraphicsLibraryEngine::renderQueue() {
 	auto maxY = m_camera->maxY_i();
 	m_queue->for_each([&minX, &maxX, &minY, &maxY, this](AbstractGameObject* go) {
 		auto position = go->position();
-		if (position.h >= minX && position.v >= minY &&
-			position.h <= maxX && position.v <= maxY) {
+		if (position[0] >= minX && position[1] >= minY &&
+			position[0] <= maxX && position[1] <= maxY) {
 
-			m_queue_program->sendUniform(m_queue_program.translation, mgl::math::vectorH(position.h, position.v, 0.f, 0.f));
+			m_queue_program->sendUniform(m_queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
 			go->getRenderInto()->get()->draw();
 		}
 	});

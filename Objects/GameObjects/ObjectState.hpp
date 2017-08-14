@@ -32,16 +32,16 @@ public:
 		m_acceleration += difference;
 	}
 	virtual void accelerate_h(scalar const& acceleration) {
-		m_acceleration.h += acceleration;
+		m_acceleration[0] += acceleration;
 	}
 	virtual void accelerate_v(scalar const& acceleration) {
-		m_acceleration.v += acceleration;
+		m_acceleration[1] += acceleration;
 	}
 	virtual void stopAcceleration_h() {
-		m_acceleration.h = 0.f;
+		m_acceleration[0] = 0.f;
 	}
 	virtual void stopAcceleration_v() {
-		m_acceleration.v = 0.f;
+		m_acceleration[1] = 0.f;
 	}
 };
 
@@ -75,10 +75,10 @@ public:
 		m_position = position;
 	}
 	virtual void move_to_h(scalar const& h) {
-		m_position.h = h;
+		m_position[0] = h;
 	}
 	virtual void move_to_v(scalar const& v) {
-		m_position.v = v;
+		m_position[1] = v;
 	}
 
 	virtual vector speed() const {

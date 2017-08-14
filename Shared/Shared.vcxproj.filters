@@ -31,9 +31,6 @@
     <ClCompile Include="AbstractException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
