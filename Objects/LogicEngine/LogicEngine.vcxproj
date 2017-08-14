@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E8A62825-BABB-48AF-8C6F-C57C08BD594D}</ProjectGuid>
-    <RootNamespace>Shared</RootNamespace>
+    <ProjectGuid>{ACE8714C-1DDE-4D4D-B947-092ACB940888}</ProjectGuid>
+    <RootNamespace>LogicEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -83,7 +83,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,7 +93,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -107,7 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,17 +115,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractException.hpp" />
-    <ClInclude Include="GameMode.hpp" />
-    <ClInclude Include="KeyLayout.hpp" />
-    <ClInclude Include="PhysicsConstants.hpp" />
-    <ClInclude Include="vector.hpp" />
+    <ClInclude Include="AbstractBlock.hpp" />
+    <ClInclude Include="GameCamera.hpp" />
+    <ClInclude Include="GameMap.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractException.cpp" />
-    <ClCompile Include="GameMode.cpp" />
-    <ClCompile Include="KeyLayout.cpp" />
-    <ClCompile Include="vector.cpp" />
+    <ClCompile Include="AbstractBlock.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
+      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
