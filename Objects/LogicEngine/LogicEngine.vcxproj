@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E8A62825-BABB-48AF-8C6F-C57C08BD594D}</ProjectGuid>
-    <RootNamespace>Shared</RootNamespace>
+    <ProjectGuid>{ACE8714C-1DDE-4D4D-B947-092ACB940888}</ProjectGuid>
+    <RootNamespace>LogicEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,24 +75,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\x64\debug;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Debug;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -101,16 +93,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Release;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -119,28 +107,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractException.hpp" />
-    <ClInclude Include="GameMode.hpp" />
-    <ClInclude Include="KeyLayout.hpp" />
-    <ClInclude Include="PhysicsConstants.hpp" />
-    <ClInclude Include="vector.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AbstractException.cpp" />
-    <ClCompile Include="GameMode.cpp" />
-    <ClCompile Include="KeyLayout.cpp" />
+    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
+      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

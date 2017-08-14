@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E8A62825-BABB-48AF-8C6F-C57C08BD594D}</ProjectGuid>
-    <RootNamespace>Shared</RootNamespace>
+    <ProjectGuid>{1A6B1B96-89C0-46A7-A6BF-3D43298D7E26}</ProjectGuid>
+    <RootNamespace>Physics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,24 +75,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\x64\debug;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Debug;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -101,16 +93,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Release;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -119,28 +107,33 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractException.hpp" />
-    <ClInclude Include="GameMode.hpp" />
-    <ClInclude Include="KeyLayout.hpp" />
-    <ClInclude Include="PhysicsConstants.hpp" />
-    <ClInclude Include="vector.hpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PhysicsProcessingFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractException.cpp" />
-    <ClCompile Include="GameMode.cpp" />
-    <ClCompile Include="KeyLayout.cpp" />
+    <ClInclude Include="PhysicsEngine.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Objects\AbstractObjects\AbstractObjects.vcxproj">
+      <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
+      <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\ObjectState\ObjectState.vcxproj">
+      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

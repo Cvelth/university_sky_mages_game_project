@@ -11,30 +11,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractException.hpp">
+    <ClInclude Include="Weapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector.hpp">
+    <ClInclude Include="Shield.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyLayout.hpp">
+    <ClInclude Include="EnergyStorage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameMode.hpp">
+    <ClInclude Include="FlyEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsConstants.hpp">
+    <ClInclude Include="Trinket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractException.cpp">
+    <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KeyLayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMode.cpp">
+    <ClCompile Include="FlyEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

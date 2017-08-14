@@ -11,30 +11,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractException.hpp">
+    <ClInclude Include="MGL_AdditionalStructures.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector.hpp">
+    <ClInclude Include="MGL_Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyLayout.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsConstants.hpp">
+    <ClInclude Include="MyGraphicsLibraryEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractException.cpp">
+    <ClCompile Include="MGL_HUDRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KeyLayout.cpp">
+    <ClCompile Include="MGL_MapRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameMode.cpp">
+    <ClCompile Include="MGL_QueueRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGraphicsLibraryEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
