@@ -1,5 +1,5 @@
 #include "Shared\GameMode.hpp"
-#include "Client\GameWindow\GameWindow.hpp"
+#include "Client\Window\Window.hpp"
 #include "Client\Controller\ControllerInterface.hpp"
 #include "Engines\Physics\PhysicsEngine.hpp"
 #include "Engines\RenderTools\RenderInfoStorage.hpp"
@@ -36,11 +36,11 @@ void game_process(Settings& s) {
 	controller->startKeyControl(&keys);
 
 	auto object_queue = new ObjectQueue();
-	GameWindow* window = new GameWindow(s.getProgramVersionInfo().c_str(),
-										s.getUintValue("Screen_Width"),
-										s.getUintValue("Screen_Height"),
-										s.getBoolValue("Fullscreen_Window"),
-										object_queue);
+	Window* window = new Window(s.getProgramVersionInfo().c_str(),
+								s.getUintValue("Screen_Width"),
+								s.getUintValue("Screen_Height"),
+								s.getBoolValue("Fullscreen_Window"),
+								object_queue);
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / s.getUintValue("Graphical_Updates_Per_Second"));
 

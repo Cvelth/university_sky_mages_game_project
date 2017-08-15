@@ -182,11 +182,11 @@
     <ProjectReference Include="..\Controller\Controller.vcxproj">
       <Project>{c5c17a7e-3702-464b-a46a-39679106b95b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\GameWindow\GameWindow.vcxproj">
-      <Project>{51ace45f-329d-405e-9ae8-913a942c997c}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Settings\Settings.vcxproj">
       <Project>{0dfe8e10-1f21-496b-897a-08d62d4611b3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Window\Window.vcxproj">
+      <Project>{90a4d32b-9433-4933-9588-2fcd6a3e9392}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

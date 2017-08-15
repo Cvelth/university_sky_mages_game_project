@@ -1,17 +1,17 @@
-#include "GameWindow.hpp"
+#include "Window.hpp"
 #include "Engines\Camera\Camera.hpp"
 #include "Client\Controller\ControllerInterface.hpp"
 #include "Engines\Graphics\MyGraphicsLibraryEngine.hpp"
 
-void GameWindow::initialize() {
+void Window::initialize() {
 	//Does nothing.
 }
 
-void GameWindow::clean() {
+void Window::clean() {
 	//Does nothing.
 }
 
-GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFullscreen, ObjectQueue *object_queue)
+Window::Window(const char* title, size_t width, size_t height, bool isFullscreen, ObjectQueue *object_queue)
 		: m_controller(nullptr), m_camera(nullptr), m_update_interval(16666) {
 
 	m_graphics = new MyGraphicsLibraryEngine;
@@ -22,13 +22,13 @@ GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFu
 	m_graphics->initializeQueue(object_queue);
 }
 
-void GameWindow::insertController(ControllerInterface *controller) {
+void Window::insertController(ControllerInterface *controller) {
 	m_graphics->insertController(controller);
 	m_controller = controller;
 	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::changeController(ControllerInterface *controller, bool deleteOldOne) {
+void Window::changeController(ControllerInterface *controller, bool deleteOldOne) {
 	m_controller->stopCameraControl();
 	m_graphics->insertController(controller);
 	if (deleteOldOne && m_controller)
@@ -37,36 +37,36 @@ void GameWindow::changeController(ControllerInterface *controller, bool deleteOl
 	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::insertCamera(Camera *camera) {
+void Window::insertCamera(Camera *camera) {
 	m_camera = camera;
 	if (m_controller) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::changeUpdateInterval(size_t microseconds) {
+void Window::changeUpdateInterval(size_t microseconds) {
 	m_update_interval = microseconds;
 }
 
-size_t GameWindow::getUpdateInterval() {
+size_t Window::getUpdateInterval() {
 	return m_update_interval;
 }
 
-float GameWindow::currentAspectRatio() const {
+float Window::currentAspectRatio() const {
 	return float(m_graphics->width()) / m_graphics->height();
 }
 
-bool GameWindow::isWindowClosed() {
+bool Window::isWindowClosed() {
 	return m_graphics->isWindowClosed();
 }
 
-void GameWindow::addToRenderQueue(IndependentObject *go) {
+void Window::addToRenderQueue(IndependentObject *go) {
 	m_graphics->addToRenderQueue(go);
 }
 
-void GameWindow::insertHUDRenderInfo(HUD_RenderInfo *hud) {
+void Window::insertHUDRenderInfo(HUD_RenderInfo *hud) {
 	m_graphics->insertHUD(hud);
 }
 
-GameWindow::~GameWindow() {
+Window::~Window() {
 	m_graphics->clean();
 	clean();
 }
@@ -75,7 +75,7 @@ GameWindow::~GameWindow() {
 #include <thread>
 #include <iostream>
 #include "Shared\GameMode.hpp"
-void GameWindow::loop(bool destroy_window_after_exit) {
+void Window::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();
 	m_graphics->initializeHUDRendering();

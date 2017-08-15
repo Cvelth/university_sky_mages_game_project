@@ -8,7 +8,7 @@ class HUD_RenderInfo;
 
 //Class to store game window.
 //It stores and handles connection between the window handler(GLFWwindow struct) and chosen Engine.
-class GameWindow {
+class Window {
 private:
 	MyGraphicsLibraryEngine* m_graphics;
 	ControllerInterface* m_controller;
@@ -27,7 +27,7 @@ public:
 
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
-	GameWindow(char const *title, size_t width, size_t height, bool isFullscreen,
+	Window(char const *title, size_t width, size_t height, bool isFullscreen,
 			   ObjectQueue *object_queue);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
@@ -56,7 +56,7 @@ public:
 	void insertHUDRenderInfo(HUD_RenderInfo *hud);
 
 	//Desctructs class and all dependent on it. Uses clean function.
-	~GameWindow();
+	~Window();
 
 	//Main game loop. 
 	//Initializes engine rendering state (sends data to graphical device).
