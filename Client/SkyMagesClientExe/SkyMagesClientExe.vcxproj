@@ -92,6 +92,9 @@
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreLinkEvent>
+      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,6 +107,9 @@
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreLinkEvent>
+      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -120,6 +126,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreLinkEvent>
+      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -136,15 +145,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreLinkEvent>
+      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <None Include="LinkSettings.bat" />
-    <None Include="Settings.ini" />
-    <None Include="Settings.ini.backup" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Engines\Camera\Camera.vcxproj">
       <Project>{2f0a43a3-b61f-4587-94d9-f0ce3457d179}</Project>

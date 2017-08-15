@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Build\LinkShaders.bat">
-      <Filter>Source Files</Filter>
+      <Filter>Build Tools</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

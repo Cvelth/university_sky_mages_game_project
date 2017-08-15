@@ -219,10 +219,10 @@ void Settings::copy_file(std::string const &from, std::string const &to) {
 }
 
 std::string Settings::getProgramVersionInfo() {
-	return std::get<std::string>(getValue("Program_Name")) + " " +
+	return std::get<std::string>(getValue("Program_Name")) + " v" +
 		std::to_string(std::get<unsigned int>(getValue("Program_Major_Version"))) + "." +
 		std::to_string(std::get<unsigned int>(getValue("Program_Minor_Version"))) + "." +
-		std::to_string(std::get<unsigned int>(getValue("Program_Build_Version"))) + " " +
+		std::to_string(std::get<unsigned int>(getValue("Program_Build_Version"))) + "" +
 		std::get<std::string>(getValue("Program_Version_Suffix"));
 }
 
