@@ -1,21 +1,21 @@
-#include "GameController.hpp"
+#include "Controller.hpp"
 #include "Engines\Camera\Camera.hpp"
 #include "Objects\Actors\MainActor.hpp"
 #include "Objects\EquipableItems\FlyEngine.hpp"
 #include "Shared\KeyLayout.hpp"
 #include "Shared\GameMode.hpp"
 
-GameController::GameController() : m_controlledCamera(nullptr) {}
+Controller::Controller() : m_controlledCamera(nullptr) {}
 
-GameController::~GameController() {}
+Controller::~Controller() {}
 
 
-void GameController::mouseScrollEvent(GLFWwindow* w, double x, double y) {
+void Controller::mouseScrollEvent(GLFWwindow* w, double x, double y) {
 	if (m_controlledCamera)
 		m_controlledCamera->changeZoom(1.f + float(y) / 10.f);
 }
 
-void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
+void Controller::resizeEvent(GLFWwindow *w, int x, int y) {
 	current_screen_width = x;
 	current_screen_height = y;
 	if (m_controlledCamera) {
@@ -26,7 +26,7 @@ void GameController::resizeEvent(GLFWwindow *w, int x, int y) {
 	}
 }
 
-void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
+void Controller::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAction action, mgl::Mods mods) {
 	if (m_keys) {
 		if (action == mgl::KeyAction::press) {
 			if (key == *m_keys->move_up)
@@ -56,7 +56,7 @@ void GameController::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::Ke
 		}
 	}
 }
-void GameController::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mgl::MouseAction action, mgl::Mods mods) {
+void Controller::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mgl::MouseAction action, mgl::Mods mods) {
 	if (action == mgl::MouseAction::press) {
 		if (button == mgl::MouseButton::left)
 			m_actor->activateRightWeapon();
@@ -69,31 +69,31 @@ void GameController::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mg
 			m_actor->deactivateLeftWeapon();
 }
 
-void GameController::startCameraControl(Camera* camera) {
+void Controller::startCameraControl(Camera* camera) {
 	m_controlledCamera = camera;
 }
 
-void GameController::stopCameraControl() {
+void Controller::stopCameraControl() {
 	m_controlledCamera = nullptr;
 }
 
-void GameController::setMainActor(MainActor* actor) {
+void Controller::setMainActor(MainActor* actor) {
 	m_actor = actor;
 }
-void GameController::removeMainActor() {
+void Controller::removeMainActor() {
 	m_actor = nullptr;
 }
 
-void GameController::startKeyControl(KeyLayout const *keys) {
+void Controller::startKeyControl(KeyLayout const *keys) {
 	m_keys = keys;
 }
 
-void GameController::stopKeyControl() {
+void Controller::stopKeyControl() {
 	m_keys = nullptr;
 }
 
 #include "MGL\OpenGL\FunctionsMirror\ExperimentalFunctionsMirror.hpp"
-void GameController::mouseMoveEvent(GLFWwindow *w, double x, double y) {
+void Controller::mouseMoveEvent(GLFWwindow *w, double x, double y) {
 	if (!current_screen_width || !current_screen_height)
 		mgl::getWindowSize(w, &current_screen_width, &current_screen_height);
 	auto temp_x = m_controlledCamera->minX();

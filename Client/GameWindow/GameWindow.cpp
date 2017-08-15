@@ -1,6 +1,6 @@
 #include "GameWindow.hpp"
 #include "Engines\Camera\Camera.hpp"
-#include "Client\Controller\GameControllerInterface.hpp"
+#include "Client\Controller\ControllerInterface.hpp"
 #include "Engines\Graphics\MyGraphicsLibraryEngine.hpp"
 
 void GameWindow::initialize() {
@@ -22,13 +22,13 @@ GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFu
 	m_graphics->initializeQueue(object_queue);
 }
 
-void GameWindow::insertController(GameControllerInterface* controller) {
+void GameWindow::insertController(ControllerInterface *controller) {
 	m_graphics->insertController(controller);
 	m_controller = controller;
 	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::changeController(GameControllerInterface* controller, bool deleteOldOne) {
+void GameWindow::changeController(ControllerInterface *controller, bool deleteOldOne) {
 	m_controller->stopCameraControl();
 	m_graphics->insertController(controller);
 	if (deleteOldOne && m_controller)

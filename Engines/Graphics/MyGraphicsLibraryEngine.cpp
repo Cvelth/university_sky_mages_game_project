@@ -68,9 +68,9 @@ MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
 	clean();
 }
 
-#include "Client\Controller\GameControllerInterface.hpp"
-#include "Client\Controller\GameController.hpp"
-void MyGraphicsLibraryEngine::insertController(GameControllerInterface* controller) {
+#include "Client\Controller\ControllerInterface.hpp"
+#include "Client\Controller\Controller.hpp"
+void MyGraphicsLibraryEngine::insertController(ControllerInterface* controller) {
 	m_window->initializeEventHandling(controller->controller());
 }
 

@@ -3,7 +3,7 @@
 
 class MGLWindow;
 class Camera;
-class GameControllerInterface;
+class ControllerInterface;
 class ObjectQueue;
 class IndependentObject;
 class HUD_RenderInfo;
@@ -37,7 +37,7 @@ public:
 	virtual void pollEvents();
 	void waitEvents();
 
-	virtual void insertController(GameControllerInterface* controller);
+	virtual void insertController(ControllerInterface* controller);
 	virtual void initializeQueue(ObjectQueue *queue = nullptr);
 	virtual void addToRenderQueue(IndependentObject* go);
 	virtual void insertHUD(HUD_RenderInfo *hud);

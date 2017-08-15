@@ -135,12 +135,12 @@
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GameController.hpp" />
-    <ClInclude Include="GameControllerInterface.hpp" />
+    <ClInclude Include="Controller.hpp" />
+    <ClInclude Include="ControllerInterface.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameController.cpp" />
-    <ClCompile Include="GameControllerInterface.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ControllerInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">

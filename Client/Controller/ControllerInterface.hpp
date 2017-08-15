@@ -1,19 +1,19 @@
 #pragma once
-class GameController;
+class Controller;
 class Camera;
 class MainActor;
 struct KeyLayout;
 
-class GameControllerInterface {
-	GameController* m_controller;
+class ControllerInterface {
+	Controller* m_controller;
 public:
-	GameControllerInterface();
-	~GameControllerInterface();
+	ControllerInterface();
+	~ControllerInterface();
 
-	inline GameController* controller() {
+	inline Controller* controller() {
 		return m_controller;
 	}
-	inline GameController* operator*() {
+	inline Controller* operator*() {
 		return controller();
 	}
 

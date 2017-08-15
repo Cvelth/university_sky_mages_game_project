@@ -11,18 +11,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameController.hpp">
+    <ClInclude Include="Controller.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GameControllerInterface.hpp">
+    <ClInclude Include="ControllerInterface.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameController.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="GameControllerInterface.cpp">
+    <ClCompile Include="ControllerInterface.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

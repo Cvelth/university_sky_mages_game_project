@@ -1,6 +1,6 @@
 #include "Shared\GameMode.hpp"
 #include "Client\GameWindow\GameWindow.hpp"
-#include "Client\Controller\GameControllerInterface.hpp"
+#include "Client\Controller\ControllerInterface.hpp"
 #include "Engines\Physics\PhysicsEngine.hpp"
 #include "Engines\RenderTools\RenderInfoStorage.hpp"
 #include "Engines\Camera\Camera.hpp"
@@ -31,7 +31,7 @@ FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
 
 void game_process(Settings& s) {
 	GameModeController::startInitialization();
-	GameControllerInterface* controller = new GameControllerInterface();
+	ControllerInterface* controller = new ControllerInterface();
 	auto keys = s.getKeysValue("Keys_Layout");
 	controller->startKeyControl(&keys);
 

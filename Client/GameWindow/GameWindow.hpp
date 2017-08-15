@@ -1,6 +1,6 @@
 #pragma once
 class MyGraphicsLibraryEngine;
-class GameControllerInterface;
+class ControllerInterface;
 class Camera;
 class IndependentObject;
 class ObjectQueue;
@@ -11,7 +11,7 @@ class HUD_RenderInfo;
 class GameWindow {
 private:
 	MyGraphicsLibraryEngine* m_graphics;
-	GameControllerInterface* m_controller;
+	ControllerInterface* m_controller;
 	Camera* m_camera;
 	size_t m_update_interval;
 
@@ -31,10 +31,10 @@ public:
 			   ObjectQueue *object_queue);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
-	void insertController(GameControllerInterface *controller);
+	void insertController(ControllerInterface *controller);
 
 	//Changes controller for events to be redirected to.
-	void changeController(GameControllerInterface *controller, bool deleteOldOne = true);
+	void changeController(ControllerInterface *controller, bool deleteOldOne = true);
 
 	//Adds camera in the window to be shown using GameCamera.
 	void insertCamera(Camera *camera);

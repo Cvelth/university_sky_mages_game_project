@@ -5,7 +5,7 @@ class Camera;
 class MainActor;
 struct KeyLayout;
 
-class GameController : public mgl::EmptyEventHandler {
+class Controller : public mgl::EmptyEventHandler {
 protected:
 	Camera* m_controlledCamera;
 	MainActor* m_actor;
@@ -17,8 +17,8 @@ protected:
 	int current_screen_width;
 	int current_screen_height;
 public:
-	GameController();
-	~GameController();
+	Controller();
+	~Controller();
 
 	virtual void mouseButtonEvent(GLFWwindow* w, mgl::MouseButton button,
 								  mgl::MouseAction action, mgl::Mods mods) override;

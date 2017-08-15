@@ -6,9 +6,9 @@ DefineNewException(UnsupportableItemWasGivenException)
 class EnergyStorage;
 class FlyEngine;
 class Weapon;
-class GameController;
+class Controller;
 class MainActor : public Actor {
-	friend GameController;
+	friend Controller;
 protected:
 	EnergyStorage *m_energy_storage;
 	FlyEngine *m_engine;
