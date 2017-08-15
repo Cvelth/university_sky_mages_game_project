@@ -172,7 +172,7 @@ void Settings::save() {
 		<< getValue("Program_Version_Suffix") << std::endl;
 
 	f << "# Use '#' at the beginning of the string to make a commentary.\n"
-		<< "# Structure of a line : \"- field_type field-name = field_value\"\n"
+		<< "# Structure of a line : \"field_type field-name = field_value\"\n"
 		<< std::endl;
 
 	for (auto it : m_data)
