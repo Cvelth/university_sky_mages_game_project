@@ -11,18 +11,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyGraphicsLibraryEngine.hpp">
+    <ClInclude Include="MGL_AdditionalStructures.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MGL_Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MGL_AdditionalStructures.hpp">
+    <ClInclude Include="MyGraphicsLibraryEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyGraphicsLibraryEngine.cpp">
+    <ClCompile Include="MGL_HUDRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MGL_MapRender.cpp">
@@ -31,7 +31,7 @@
     <ClCompile Include="MGL_QueueRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MGL_HUDRender.cpp">
+    <ClCompile Include="MyGraphicsLibraryEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

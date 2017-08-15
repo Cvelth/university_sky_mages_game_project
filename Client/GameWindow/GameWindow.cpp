@@ -1,7 +1,7 @@
 #include "GameWindow.hpp"
 #include "Objects\LogicEngine\GameCamera.hpp"
 #include "Client\Controller\GameControllerInterface.hpp"
-#include "Engines\GraphicsEngine\MyGraphicsLibraryEngine.hpp"
+#include "Engines\Graphics\MyGraphicsLibraryEngine.hpp"
 
 void GameWindow::initialize() {
 	//Does nothing.

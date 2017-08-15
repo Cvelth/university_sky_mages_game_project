@@ -1,7 +1,7 @@
 #include "Shared\GameMode.hpp"
 #include "Client\GameWindow\GameWindow.hpp"
 #include "Client\Controller\GameControllerInterface.hpp"
-#include "Engines\PhysicsEngine\PhysicsEngine.hpp"
+#include "Engines\Physics\PhysicsEngine.hpp"
 #include "Engines\RenderTools\RenderInfoStorage.hpp"
 #include "Objects\LogicEngine\GameMap.hpp"
 #include "Objects\LogicEngine\GameCamera.hpp"

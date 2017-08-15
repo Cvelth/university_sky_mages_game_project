@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{CB82332B-74C2-4C23-9760-385CADE2CE6A}</ProjectGuid>
-    <RootNamespace>PhysicsEngine</RootNamespace>
+    <ProjectGuid>{1A6B1B96-89C0-46A7-A6BF-3D43298D7E26}</ProjectGuid>
+    <RootNamespace>Physics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -130,6 +130,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
       <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\ObjectState\ObjectState.vcxproj">
+      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>

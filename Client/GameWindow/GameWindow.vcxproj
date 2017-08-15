@@ -165,9 +165,6 @@
     <ClInclude Include="GameWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engines\GraphicsEngine\GraphicsEngine.vcxproj">
-      <Project>{2d7a80f7-cb5d-4515-8789-5f84e6c14627}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
       <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
     </ProjectReference>
