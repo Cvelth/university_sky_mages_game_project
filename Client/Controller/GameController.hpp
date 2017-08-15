@@ -1,13 +1,13 @@
 #pragma once
 #include "MGL\Events\EmptyEventHandler.hpp"
 
-class GameCamera;
+class Camera;
 class MainActor;
 struct KeyLayout;
 
 class GameController : public mgl::EmptyEventHandler {
 protected:
-	GameCamera* m_controlledCamera;
+	Camera* m_controlledCamera;
 	MainActor* m_actor;
 	KeyLayout const *m_keys;
 
@@ -28,7 +28,7 @@ public:
 	virtual void keyEvent(GLFWwindow* w, mgl::Key key, int scancode,
 						  mgl::KeyAction action, mgl::Mods mods) override;
 
-	void startCameraControl(GameCamera* camera);
+	void startCameraControl(Camera* camera);
 	void stopCameraControl();
 
 	void setMainActor(MainActor* actor);

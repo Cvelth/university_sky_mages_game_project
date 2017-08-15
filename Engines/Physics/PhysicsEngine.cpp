@@ -32,7 +32,7 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess, Ob
 
 	m_is_initialized = true;
 }
-void PhysicsEngine::initializeCollisionSystem(GameMap *map) {
+void PhysicsEngine::initializeCollisionSystem(Map *map) {
 	m_map = map;
 }
 void PhysicsEngine::addObject(IndependentObject *object) {

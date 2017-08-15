@@ -3,9 +3,9 @@
 #include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
 #include "MGL\Primitive\InstancingArray.hpp"
 
-#include "Objects\LogicEngine\GameMap.hpp"
-#include "Objects\LogicEngine\GameCamera.hpp"
-#include "Objects\LogicEngine\AbstractBlock.hpp"
+#include "Objects\Map\Map.hpp"
+#include "Objects\Map\Block.hpp"
+#include "Engines\Camera\Camera.hpp"
 #include "Engines\RenderTools\RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::recalculateCamera() {
@@ -49,11 +49,11 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 	}
 }
 
-void MGLWindow::resize(GameCamera* camera) {
+void MGLWindow::resize(Camera* camera) {
 	auto size = getSize();
 	resize(size.w, size.h, camera);
 }
-void MGLWindow::resize(int width, int height, GameCamera* camera) {
+void MGLWindow::resize(int width, int height, Camera* camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
 	if (m_projection) delete m_projection;
@@ -67,7 +67,7 @@ void MGLWindow::resize(int width, int height, GameCamera* camera) {
 	));
 }
 
-void MyGraphicsLibraryEngine::initializeMapRendering(GameCamera* camera) {
+void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 	m_map_program.program = m_window->linkProgramWithDefaultFragmentShader(
 		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, 
 										 readShader("MapVertexShader.glsl").c_str()));
@@ -76,7 +76,7 @@ void MyGraphicsLibraryEngine::initializeMapRendering(GameCamera* camera) {
 	m_camera = camera;
 	for (auto it : m_camera->map()->get_blocks_data()) {
 		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translationInstances.push_back(std::pair<AbstractBlock*, mgl::InstancingArray*>(it, new mgl::InstancingArray()));
+		m_map_program.translationInstances.push_back(std::pair<Block*, mgl::InstancingArray*>(it, new mgl::InstancingArray()));
 	}
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);

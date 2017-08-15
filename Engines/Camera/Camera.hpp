@@ -4,12 +4,11 @@ namespace mgl {
 		class vector;
 	}
 }
-class GameMap;
+class Map;
 class Actor;
-
-class GameCamera {
+class Camera {
 private:
-	GameMap *m_map;
+	Map *m_map;
 
 	mgl::math::vector *m_center;
 	Actor *m_center_figure;
@@ -21,7 +20,7 @@ private:
 protected:
 	void correct();
 public:
-	GameCamera(GameMap *map, Actor *center_figure, float aspectRatio, float blocks = 100);
+	Camera(Map *map, Actor *center_figure, float aspectRatio, float blocks = 100);
 
 	void changeAspectRatio(float aspectRatio);
 	void changeZoom(float magnifier);
@@ -45,7 +44,7 @@ public:
 	unsigned int minY_i() const;
 	unsigned int maxX_i() const;
 	unsigned int maxY_i() const;
-	GameMap* map();
+	Map* map();
 
 	inline bool wasCameraChanged() const {
 		return m_camera_was_changed;
@@ -54,6 +53,6 @@ public:
 		m_camera_was_changed = false;
 	}
 
-	~GameCamera();
+	~Camera();
 };
 

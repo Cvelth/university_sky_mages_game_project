@@ -1,7 +1,7 @@
 #pragma once
 class MyGraphicsLibraryEngine;
 class GameControllerInterface;
-class GameCamera;
+class Camera;
 class IndependentObject;
 class ObjectQueue;
 class HUD_RenderInfo;
@@ -12,7 +12,7 @@ class GameWindow {
 private:
 	MyGraphicsLibraryEngine* m_graphics;
 	GameControllerInterface* m_controller;
-	GameCamera* m_camera;
+	Camera* m_camera;
 	size_t m_update_interval;
 
 protected:
@@ -37,7 +37,7 @@ public:
 	void changeController(GameControllerInterface *controller, bool deleteOldOne = true);
 
 	//Adds camera in the window to be shown using GameCamera.
-	void insertCamera(GameCamera *camera);
+	void insertCamera(Camera *camera);
 
 	//Changes loop's run interval
 	void changeUpdateInterval(size_t microseconds);

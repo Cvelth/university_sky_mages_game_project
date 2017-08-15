@@ -4,13 +4,13 @@
 class ObjectQueue;
 class IndependentObject;
 class IndependentObjectState;
-class GameMap;
+class Map;
 
 class PhysicsEngine {
 private:
 	static size_t UpdateInterval;
 	ObjectQueue* m_queue;
-	GameMap* m_map;
+	Map* m_map;
 
 	bool m_is_initialized;
 protected:
@@ -21,7 +21,7 @@ protected:
 	static vector const calculateDragForce(vector const& speed, vector const& size);
 
 	static void processForces(IndependentObjectState *os);
-	static void processMovement(IndependentObjectState *os, GameMap *map);
+	static void processMovement(IndependentObjectState *os, Map *map);
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess, ObjectQueue* queue = nullptr);
@@ -31,7 +31,7 @@ public:
 	static void changeUpdateInterval(size_t microseconds);
 
 	void initialize(std::function<bool(void)> const &finishFlagAccess, ObjectQueue* queue);
-	void initializeCollisionSystem(GameMap *map);
+	void initializeCollisionSystem(Map *map);
 	void addObject(IndependentObject *object);
 	void removeObject(IndependentObject *object);
 	void loop(bool destroy_engine_after_exit = false);

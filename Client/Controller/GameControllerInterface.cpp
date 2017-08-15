@@ -9,7 +9,7 @@ GameControllerInterface::~GameControllerInterface() {
 	delete m_controller;
 }
 
-void GameControllerInterface::startCameraControl(GameCamera* camera) {
+void GameControllerInterface::startCameraControl(Camera* camera) {
 	m_controller->startCameraControl(camera);
 }
 

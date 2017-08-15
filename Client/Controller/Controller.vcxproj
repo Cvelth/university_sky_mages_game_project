@@ -143,9 +143,6 @@
     <ClCompile Include="GameControllerInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
-      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
     </ProjectReference>

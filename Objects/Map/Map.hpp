@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-class AbstractBlock;
-class GameCamera;
+class Block;
+class Camera;
 class RenderInfo;
 
 enum DefaultMapFilling {
@@ -13,29 +13,29 @@ namespace Exceptions {
 	class NonExistingCoordinateException {};
 }
 
-class GameMap {
-	friend GameCamera;
+class Map {
+	friend Camera;
 private:
 	size_t m_width;
 	size_t m_height;
-	std::vector<AbstractBlock*> m_blocks;
-	std::vector<std::vector<AbstractBlock*>> m_cells;
+	std::vector<Block*> m_blocks;
+	std::vector<std::vector<Block*>> m_cells;
 protected:
-	void fillEach(AbstractBlock* block);
-	void borderFill(AbstractBlock* border, AbstractBlock* others);
-	void randomFill(size_t number_of_types, AbstractBlock* types[]);
-	void continiousFill(AbstractBlock* free, AbstractBlock* ceiling, AbstractBlock* floor,
+	void fillEach(Block* block);
+	void borderFill(Block* border, Block* others);
+	void randomFill(size_t number_of_types, Block* types[]);
+	void continiousFill(Block* free, Block* ceiling, Block* floor,
 						size_t max_step, size_t ceiling_start, size_t floor_start, size_t min_height);
-	void horizontalRowsFill(AbstractBlock* odd, AbstractBlock* even);
-	void verticalRowsFill(AbstractBlock* odd, AbstractBlock* even);
+	void horizontalRowsFill(Block* odd, Block* even);
+	void verticalRowsFill(Block* odd, Block* even);
 
-	void addBorders(AbstractBlock* border);
+	void addBorders(Block* border);
 
 	void resize(size_t width, size_t height);
 	void clear();
 
-	void addNewBlock(AbstractBlock* block);
-	inline void set(AbstractBlock* block, size_t width, size_t height) {
+	void addNewBlock(Block* block);
+	inline void set(Block* block, size_t width, size_t height) {
 		if (width >= m_width || height >= m_height)
 			throw Exceptions::NonExistingCoordinateException();
 		addNewBlock(block);
@@ -44,20 +44,20 @@ protected:
 
 	bool isBorder(size_t w, size_t h) const;
 public:
-	GameMap(size_t width, size_t height, DefaultMapFilling mapFilling = DefaultMapFilling::All_Empty);
-	~GameMap();
+	Map(size_t width, size_t height, DefaultMapFilling mapFilling = DefaultMapFilling::All_Empty);
+	~Map();
 
 	inline size_t width() const { return m_width; }
 	inline size_t height() const { return m_height; }
 	inline size_t getSize() const { return m_width * m_height; }
 
-	inline AbstractBlock* get(size_t w, size_t h) const {
+	inline Block* get(size_t w, size_t h) const {
 		return m_cells.at(w).at(h);
 	}
-	inline AbstractBlock* operator()(size_t w, size_t h) const {
+	inline Block* operator()(size_t w, size_t h) const {
 		return get(w, h);
 	}
-	inline std::vector<AbstractBlock*>& get_blocks_data() {
+	inline std::vector<Block*>& get_blocks_data() {
 		return m_blocks;
 	}
 	float getSpeedMultiplier(size_t w, size_t h) const;

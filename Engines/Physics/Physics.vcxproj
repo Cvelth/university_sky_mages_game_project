@@ -125,9 +125,6 @@
     <ProjectReference Include="..\..\Objects\AbstractObjects\AbstractObjects.vcxproj">
       <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
-      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
       <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
     </ProjectReference>

@@ -29,9 +29,9 @@ void PhysicsEngine::processForces(IndependentObjectState *os) {
 	os->accelerate(-acceleration);
 }
 
-#include "Objects\LogicEngine\GameMap.hpp"
+#include "Objects\Map\Map.hpp"
 #define speed_test(test, result) (test > 0.f ? result : -result)
-void PhysicsEngine::processMovement(IndependentObjectState *os, GameMap *map) {
+void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;
 		auto half_size = os->size() * 0.5f;

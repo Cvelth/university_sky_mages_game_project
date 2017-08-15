@@ -1,6 +1,6 @@
 #pragma once
 class GameController;
-class GameCamera;
+class Camera;
 class MainActor;
 struct KeyLayout;
 
@@ -17,7 +17,7 @@ public:
 		return controller();
 	}
 
-	void startCameraControl(GameCamera* camera);
+	void startCameraControl(Camera* camera);
 	void stopCameraControl();
 
 	void setMainActor(MainActor* actor);

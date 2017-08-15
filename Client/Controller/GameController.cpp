@@ -1,5 +1,5 @@
 #include "GameController.hpp"
-#include "Objects\LogicEngine\GameCamera.hpp"
+#include "Engines\Camera\Camera.hpp"
 #include "Objects\Actors\MainActor.hpp"
 #include "Objects\EquipableItems\FlyEngine.hpp"
 #include "Shared\KeyLayout.hpp"
@@ -69,7 +69,7 @@ void GameController::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mg
 			m_actor->deactivateLeftWeapon();
 }
 
-void GameController::startCameraControl(GameCamera* camera) {
+void GameController::startCameraControl(Camera* camera) {
 	m_controlledCamera = camera;
 }
 

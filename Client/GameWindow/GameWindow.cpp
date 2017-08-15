@@ -1,5 +1,5 @@
 #include "GameWindow.hpp"
-#include "Objects\LogicEngine\GameCamera.hpp"
+#include "Engines\Camera\Camera.hpp"
 #include "Client\Controller\GameControllerInterface.hpp"
 #include "Engines\Graphics\MyGraphicsLibraryEngine.hpp"
 
@@ -37,7 +37,7 @@ void GameWindow::changeController(GameControllerInterface* controller, bool dele
 	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void GameWindow::insertCamera(GameCamera *camera) {
+void GameWindow::insertCamera(Camera *camera) {
 	m_camera = camera;
 	if (m_controller) m_controller->startCameraControl(m_camera);
 }

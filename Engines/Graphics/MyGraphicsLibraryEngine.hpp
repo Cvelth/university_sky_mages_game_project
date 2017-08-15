@@ -2,7 +2,7 @@
 #include "MGL_AdditionalStructures.hpp"
 
 class MGLWindow;
-class GameCamera;
+class Camera;
 class GameControllerInterface;
 class ObjectQueue;
 class IndependentObject;
@@ -11,7 +11,7 @@ class HUD_RenderInfo;
 class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
-	GameCamera *m_camera;
+	Camera *m_camera;
 	ObjectQueue *m_queue;
 	HUD_RenderInfo *m_hud;
 
@@ -46,7 +46,7 @@ public:
 	virtual void recalculateProjection();
 	virtual void recalculateInstancing();
 
-	virtual void initializeMapRendering(GameCamera* camera);
+	virtual void initializeMapRendering(Camera* camera);
 	virtual void renderMap();
 	virtual void cleanMapRendering();
 

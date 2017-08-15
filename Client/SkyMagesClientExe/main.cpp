@@ -3,8 +3,8 @@
 #include "Client\Controller\GameControllerInterface.hpp"
 #include "Engines\Physics\PhysicsEngine.hpp"
 #include "Engines\RenderTools\RenderInfoStorage.hpp"
-#include "Objects\LogicEngine\GameMap.hpp"
-#include "Objects\LogicEngine\GameCamera.hpp"
+#include "Engines\Camera\Camera.hpp"
+#include "Objects\Map\Map.hpp"
 #include "Objects\Actors\MainActor.hpp"
 #include "Objects\EquipableItems\EnergyStorage.hpp"
 #include "Objects\EquipableItems\FlyEngine.hpp"
@@ -61,8 +61,8 @@ void game_process(Settings& s) {
 	controller->setMainActor(main_actor);
 	object_queue->add(main_actor);
 
-	GameMap *map = new GameMap(100, 80, DefaultMapFilling::Continious);
-	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 100.f);
+	Map *map = new Map(100, 80, DefaultMapFilling::Continious);
+	Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
 	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
 

@@ -3,7 +3,7 @@
 #include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
 #include "Objects\ObjectQueue\ObjectQueue.hpp"
 #include "Objects\AbstractObjects\IndependentObject.hpp"
-#include "Objects\LogicEngine\GameCamera.hpp"
+#include "Engines\Camera\Camera.hpp"
 #include "Engines\RenderTools\RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {

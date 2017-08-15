@@ -146,11 +146,20 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Engines\Camera\Camera.vcxproj">
+      <Project>{2f0a43a3-b61f-4587-94d9-f0ce3457d179}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
       <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
+      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\AbstractObjects\AbstractObjects.vcxproj">
+      <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
       <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
@@ -158,11 +167,14 @@
     <ProjectReference Include="..\..\Objects\EquipableItems\EquipableItems.vcxproj">
       <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
-      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
+    <ProjectReference Include="..\..\Objects\Map\Map.vcxproj">
+      <Project>{40c730bf-4334-4285-a86e-9953a89b9801}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
       <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\ObjectState\ObjectState.vcxproj">
+      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
