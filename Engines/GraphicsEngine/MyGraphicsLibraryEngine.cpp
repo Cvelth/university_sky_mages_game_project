@@ -50,11 +50,14 @@ MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
 	m_window = new MGLWindow();
 }
 
-#include "Engines\RenderTools\RenderQueue.hpp"
-void MyGraphicsLibraryEngine::initializeQueue() {
-	m_queue = new RenderQueue;
+#include "Objects\ObjectQueue\ObjectQueue.hpp"
+void MyGraphicsLibraryEngine::initializeQueue(ObjectQueue *queue) {
+	if (queue)
+		m_queue = queue;
+	else
+		m_queue = new ObjectQueue();
 }
-void MyGraphicsLibraryEngine::addToRenderQueue(AbstractGameObject * go) {
+void MyGraphicsLibraryEngine::addToRenderQueue(IndependentObject * go) {
 	m_queue->add(go);
 }
 void MyGraphicsLibraryEngine::insertHUD(HUD_RenderInfo *hud) {
@@ -63,7 +66,6 @@ void MyGraphicsLibraryEngine::insertHUD(HUD_RenderInfo *hud) {
 MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
 	destroyWindow();
 	clean();
-	if (m_queue) delete m_queue;
 }
 
 #include "Client\Controller\GameControllerInterface.hpp"

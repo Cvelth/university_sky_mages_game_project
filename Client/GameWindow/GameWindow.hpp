@@ -2,7 +2,8 @@
 class MyGraphicsLibraryEngine;
 class GameControllerInterface;
 class GameCamera;
-class AbstractGameObject;
+class IndependentObject;
+class ObjectQueue;
 class HUD_RenderInfo;
 
 //Class to store game window.
@@ -26,7 +27,8 @@ public:
 
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
-	GameWindow(char const *title, size_t width, size_t height, bool isFullscreen);
+	GameWindow(char const *title, size_t width, size_t height, bool isFullscreen,
+			   ObjectQueue *object_queue);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
 	void insertController(GameControllerInterface *controller);
@@ -48,7 +50,7 @@ public:
 	bool isWindowClosed();
 
 	//Adds an object in the queue to be rendered.
-	void addToRenderQueue(AbstractGameObject *go);
+	void addToRenderQueue(IndependentObject *go);
 
 	//Initializes HUD rendering.
 	void insertHUDRenderInfo(HUD_RenderInfo *hud);

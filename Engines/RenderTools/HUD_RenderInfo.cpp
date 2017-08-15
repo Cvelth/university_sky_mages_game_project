@@ -4,7 +4,7 @@
 #include "MGL\SharedHeaders\Color.hpp"
 #include "MGL\Math\Vector.hpp"
 
-HUD_RenderInfo::HUD_RenderInfo(AbstractEnergyStorage *energy_source) : m_energy_source(energy_source) {
+HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(energy_source) {
 	mgl::Primitive *outter = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
 								new mgl::Color(253u, 255u, 200u));
 	outter->insert(mgl::math::vector(0.975f, 0.01f));
@@ -29,7 +29,7 @@ HUD_RenderInfo::HUD_RenderInfo(AbstractEnergyStorage *energy_source) : m_energy_
 
 HUD_RenderInfo::~HUD_RenderInfo() {}
 
-#include "Objects\GameObjects\AbstractEquipableItems.hpp"
+#include "Objects\EquipableItems\EnergyStorage.hpp"
 #include "MGL\Primitive\Primitive.hpp"
 void HUD_RenderInfo::recalculate() {
 	auto current_capacity = m_energy_source->getCapacityPercent();

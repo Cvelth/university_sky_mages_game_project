@@ -19,7 +19,7 @@ vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const
 				  calculateDimentionalDragForce(speed[1], size[0] * size[0]));
 }
 
-#include "Objects\GameObjects\ObjectState.hpp"
+#include "Objects\ObjectState\IndependentObject.hpp"
 void PhysicsEngine::processForces(IndependentObjectState *os) {
 	auto net_force = calculateGravityForce() +calculateDragForce(os->speed(), os->size());
 	auto acceleration = net_force * os->mass();

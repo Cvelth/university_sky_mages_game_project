@@ -1,11 +1,9 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
 #include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
-
-#include "Objects\GameObjects\AbstractGameObject.hpp"
-#include "Objects\GameObjects\ObjectState.hpp"
+#include "Objects\ObjectQueue\ObjectQueue.hpp"
+#include "Objects\AbstractObjects\IndependentObject.hpp"
 #include "Objects\LogicEngine\GameCamera.hpp"
-#include "Engines\RenderTools\RenderQueue.hpp"
 #include "Engines\RenderTools\RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {
@@ -14,15 +12,11 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 										 readShader("QueueVertexShader.glsl").c_str()));
 	m_queue_program->use();
 
-	m_queue->for_each([this](AbstractGameObject* go) {
-		if (go->isWaitingToBeInitilized()) {
+	m_queue->for_each([this](IndependentObject* go) {
+		if (!go->isInitialized()) {
 			go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
 			go->getRenderInto()->get()->insertVertexArray(m_queue_program->getVertexArray());
-			go->initializeWasSuccessfull();
-		}
-		if (go->isWaitingToBeDestroyed()) {
-			go->getRenderInto()->get()->clean();
-			go->destructionWasSuccessfull();
+			go->initializationWasSuccessfull();
 		}
 	});
 
@@ -45,7 +39,7 @@ void MyGraphicsLibraryEngine::renderQueue() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	m_queue->for_each([&minX, &maxX, &minY, &maxY, this](AbstractGameObject* go) {
+	m_queue->for_each([&minX, &maxX, &minY, &maxY, this](IndependentObject* go) {
 		auto position = go->position();
 		if (position[0] >= minX && position[1] >= minY &&
 			position[0] <= maxX && position[1] <= maxY) {
@@ -57,9 +51,9 @@ void MyGraphicsLibraryEngine::renderQueue() {
 }
 
 void MyGraphicsLibraryEngine::cleanQueueRendering() {
-	m_queue->for_each([](AbstractGameObject* go) {
+	m_queue->for_each([](IndependentObject* go) {
 		go->getRenderInto()->get()->clean();
-		go->destructionWasSuccessfull();
+		go->reinitialize();
 	});
 
 	if (m_queue_program.translation) delete m_queue_program.translation;

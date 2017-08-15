@@ -4,15 +4,15 @@
 class MGLWindow;
 class GameCamera;
 class GameControllerInterface;
-class RenderQueue;
-class AbstractGameObject;
+class ObjectQueue;
+class IndependentObject;
 class HUD_RenderInfo;
 
 class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
 	GameCamera *m_camera;
-	RenderQueue *m_queue;
+	ObjectQueue *m_queue;
 	HUD_RenderInfo *m_hud;
 
 	MapProgram m_map_program;
@@ -38,8 +38,8 @@ public:
 	void waitEvents();
 
 	virtual void insertController(GameControllerInterface* controller);
-	virtual void initializeQueue();
-	virtual void addToRenderQueue(AbstractGameObject* go);
+	virtual void initializeQueue(ObjectQueue *queue = nullptr);
+	virtual void addToRenderQueue(IndependentObject* go);
 	virtual void insertHUD(HUD_RenderInfo *hud);
 
 	virtual void recalculateCamera();

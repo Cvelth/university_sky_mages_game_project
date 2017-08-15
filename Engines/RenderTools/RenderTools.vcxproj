@@ -130,13 +130,11 @@
     <ClCompile Include="HUD_RenderInfo.cpp" />
     <ClCompile Include="RenderInfo.cpp" />
     <ClCompile Include="RenderInfoStorage.cpp" />
-    <ClCompile Include="RenderQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HUD_RenderInfo.hpp" />
     <ClInclude Include="RenderInfo.hpp" />
     <ClInclude Include="RenderInfoStorage.hpp" />
-    <ClInclude Include="RenderQueue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Build\LinkShaders.bat">
@@ -147,9 +145,6 @@
     <None Include="Shaders\QueueVertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Objects\GameObjects\GameObjects.vcxproj">
-      <Project>{f6a0fee2-0f72-44e2-9abc-fa1cf8ba6d4b}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
     </ProjectReference>

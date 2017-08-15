@@ -1,7 +1,7 @@
 #include "GameController.hpp"
 #include "Objects\LogicEngine\GameCamera.hpp"
-#include "Objects\GameObjects\MainActor.hpp"
-#include "Objects\GameObjects\AbstractEquipableItems.hpp"
+#include "Objects\Actors\MainActor.hpp"
+#include "Objects\EquipableItems\FlyEngine.hpp"
 #include "Shared\KeyLayout.hpp"
 #include "Shared\GameMode.hpp"
 

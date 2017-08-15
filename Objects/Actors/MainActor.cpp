@@ -1,12 +1,9 @@
 #include "MainActor.hpp"
-#include "AbstractEquipableItems.hpp"
+#include "Objects\EquipableItems\EnergyStorage.hpp"
+#include "Objects\EquipableItems\FlyEngine.hpp"
+#include "Objects\EquipableItems\Weapon.hpp"
 
-MainActor::~MainActor() {
-	if (m_energy_storage) delete m_energy_storage;
-	if (m_engine) delete m_engine;
-}
-
-void MainActor::giveLeftWeapon(AbstractWeapon *w) {
+void MainActor::giveLeftWeapon(Weapon *w) {
 	switch (w->size()) {
 		case WeaponSize::One_Arm:
 		case WeaponSize::One_And_A_Half_Arm:
@@ -29,7 +26,7 @@ void MainActor::giveLeftWeapon(AbstractWeapon *w) {
 	}
 }
 
-void MainActor::giveRightWeapon(AbstractWeapon *w) {
+void MainActor::giveRightWeapon(Weapon *w) {
 	switch (w->size()) {
 		case WeaponSize::One_Arm:
 		case WeaponSize::One_And_A_Half_Arm:
@@ -79,13 +76,20 @@ void MainActor::execute_shooting() {
 		m_weapon_left_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
 }
 
+vector MainActor::acceleration(scalar const& time_correct) const {
+	return m_acceleration +
+		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
+}
+
 scalar MainActor::mass() const {
 	return m_mass + 
 		(m_engine ? m_engine->mass() : 0.f) + 
 		(m_energy_storage ? m_energy_storage->mass() : 0.f);
 }
 
-vector MainActor::acceleration(scalar const& time_correct) const {
-	return m_acceleration +
-		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
+MainActor::~MainActor() {
+	if (m_energy_storage) delete m_energy_storage;
+	if (m_engine) delete m_engine;
+	if (m_weapon_left_arm)delete m_weapon_left_arm;
+	if (m_weapon_right_arm)delete m_weapon_right_arm;
 }

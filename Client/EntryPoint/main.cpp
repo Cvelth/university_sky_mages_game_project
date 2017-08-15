@@ -5,16 +5,19 @@
 #include "Engines\RenderTools\RenderInfoStorage.hpp"
 #include "Objects\LogicEngine\GameMap.hpp"
 #include "Objects\LogicEngine\GameCamera.hpp"
-#include "Objects\GameObjects\MainActor.hpp"
-#include "Objects\GameObjects\AbstractEquipableItems.hpp"
+#include "Objects\Actors\MainActor.hpp"
+#include "Objects\EquipableItems\EnergyStorage.hpp"
+#include "Objects\EquipableItems\FlyEngine.hpp"
+#include "Objects\EquipableItems\Weapon.hpp"
 #include "Client\Settings\Settings.hpp"
 #include "Shared\AbstractException.hpp"
 #include "Engines\RenderTools\HUD_RenderInfo.hpp"
+#include "Objects\ObjectQueue\ObjectQueue.hpp"
 
 #include <thread>
 
-AbstractFlyEngine* initializeFlyEngine(AbstractEnergyStorage* energy_source) {
-	AbstractFlyEngineSettings fe_settings;
+FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
+	FlyEngineControls fe_settings;
 	fe_settings.anti_gravity_mode_off_up_acceleration_percent = 1.f;
 	fe_settings.anti_gravity_mode_off_down_acceleration_percent = 0.05f;
 	fe_settings.anti_gravity_mode_off_left_acceleration_percent = 0.55f;
@@ -23,7 +26,7 @@ AbstractFlyEngine* initializeFlyEngine(AbstractEnergyStorage* energy_source) {
 	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.55f;
-	return new AbstractFlyEngine(energy_source, 1.f, 1300.f, 3.f, fe_settings);
+	return new FlyEngine(energy_source, 1.f, 1300.f, 3.f, fe_settings);
 }
 
 void game_process(Settings& s) {
@@ -32,29 +35,31 @@ void game_process(Settings& s) {
 	auto keys = s.getKeysValue("Keys_Layout");
 	controller->startKeyControl(&keys);
 
+	auto object_queue = new ObjectQueue();
 	GameWindow* window = new GameWindow(s.getProgramVersionInfo().c_str(),
 										s.getUintValue("Screen_Width"),
 										s.getUintValue("Screen_Height"),
-										s.getBoolValue("Fullscreen_Window"));
+										s.getBoolValue("Fullscreen_Window"),
+										object_queue);
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / s.getUintValue("Graphical_Updates_Per_Second"));
 
+
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
-	});
+	}, object_queue);
 	physics_engine->changeUpdateInterval(1'000'000 / s.getUintValue("Physical_Updates_Per_Second"));
 
 	RenderInfoStorage::generateRenderInfo();
 
 	MainActor* main_actor = new MainActor(RenderInfoStorage::getMainActorRenderInfo(),
 										  60.f, 2.f, 4.f, 40.f, 30.f);
-	auto energy_storage = new AbstractEnergyStorage(1.e6f, 5.f);
+	auto energy_storage = new EnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
 
 	controller->setMainActor(main_actor);
-	physics_engine->addObject(main_actor);
-	window->addToRenderQueue(main_actor);
+	object_queue->add(main_actor);
 
 	GameMap *map = new GameMap(100, 80, DefaultMapFilling::Continious);
 	GameCamera *camera = new GameCamera(map, main_actor, window->currentAspectRatio(), 100.f);
@@ -74,6 +79,7 @@ void game_process(Settings& s) {
 	delete main_actor;
 	delete physics_engine;
 	delete window;
+	delete object_queue;
 	delete controller;
 }
 

@@ -20,32 +20,32 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C1110F89-0B60-42C5-B6B2-B7571D6FB743}</ProjectGuid>
-    <RootNamespace>EntryPoint</RootNamespace>
+    <ProjectGuid>{17253703-7209-43B3-863B-0A8FE5D524EB}</ProjectGuid>
+    <RootNamespace>AbstractObjects</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -69,18 +69,23 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
-  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -89,46 +94,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
-    </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
-    </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -138,49 +108,22 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="ActorObject.hpp" />
+    <ClInclude Include="EquipableItem.hpp" />
+    <ClInclude Include="IndependentObject.hpp" />
+    <ClInclude Include="ShootableObject.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engines\GraphicsEngine\GraphicsEngine.vcxproj">
-      <Project>{2d7a80f7-cb5d-4515-8789-5f84e6c14627}</Project>
+    <ProjectReference Include="..\ObjectState\ObjectState.vcxproj">
+      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engines\PhysicsEngine\PhysicsEngine.vcxproj">
-      <Project>{cb82332b-74c2-4c23-9760-385cade2ce6a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
-      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
-      <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
-      <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GameWindow\GameWindow.vcxproj">
-      <Project>{51ace45f-329d-405e-9ae8-913a942c997c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Settings\Settings.vcxproj">
-      <Project>{0dfe8e10-1f21-496b-897a-08d62d4611b3}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LinkSettings.bat" />
-    <CustomBuild Include="Settings.ini">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <None Include="Settings.ini.backup" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

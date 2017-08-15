@@ -5,14 +5,14 @@ namespace mgl {
 	}
 }
 class GameMap;
-class AbstractActor;
+class Actor;
 
 class GameCamera {
 private:
 	GameMap *m_map;
 
 	mgl::math::vector *m_center;
-	AbstractActor *m_center_figure;
+	Actor *m_center_figure;
 
 	float m_horizontal_blocks_number;
 	float m_aspect_ratio;
@@ -21,7 +21,7 @@ private:
 protected:
 	void correct();
 public:
-	GameCamera(GameMap *map, AbstractActor *center_figure, float aspectRatio, float blocks = 100);
+	GameCamera(GameMap *map, Actor *center_figure, float aspectRatio, float blocks = 100);
 
 	void changeAspectRatio(float aspectRatio);
 	void changeZoom(float magnifier);
@@ -30,7 +30,7 @@ public:
 	void move(float x, float y);
 	void move(mgl::math::vector const& point);
 	void move();
-	void changeCenterFigure(AbstractActor *center_figure);
+	void changeCenterFigure(Actor *center_figure);
 
 	inline float aspectRatio() const {
 		return m_aspect_ratio;

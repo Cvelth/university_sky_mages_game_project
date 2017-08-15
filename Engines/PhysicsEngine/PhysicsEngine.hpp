@@ -1,15 +1,15 @@
 #pragma once
 #include <functional>
 #include "shared\vector.hpp"
-class PhysicalObjectsQueue;
-class AbstractGameObject;
-class GameMap;
+class ObjectQueue;
+class IndependentObject;
 class IndependentObjectState;
+class GameMap;
 
 class PhysicsEngine {
 private:
 	static size_t UpdateInterval;
-	PhysicalObjectsQueue* m_queue;
+	ObjectQueue* m_queue;
 	GameMap* m_map;
 
 	bool m_is_initialized;
@@ -24,16 +24,16 @@ protected:
 	static void processMovement(IndependentObjectState *os, GameMap *map);
 public:
 	PhysicsEngine();
-	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess);
+	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess, ObjectQueue* queue = nullptr);
 	~PhysicsEngine();
 
 	static size_t getUpdateInterval();
 	static void changeUpdateInterval(size_t microseconds);
 
-	void initialize(std::function<bool(void)> const &finishFlagAccess);
+	void initialize(std::function<bool(void)> const &finishFlagAccess, ObjectQueue* queue);
 	void initializeCollisionSystem(GameMap *map);
-	void addObject(AbstractGameObject* object);
-	void removeObject(AbstractGameObject* object);
+	void addObject(IndependentObject *object);
+	void removeObject(IndependentObject *object);
 	void loop(bool destroy_engine_after_exit = false);
 	void clean();
 };

@@ -23,9 +23,6 @@
     <ClCompile Include="RenderInfoStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HUD_RenderInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderInfoStorage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HUD_RenderInfo.hpp">

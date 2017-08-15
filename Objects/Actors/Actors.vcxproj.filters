@@ -11,15 +11,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PhysicsEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsProcessingFunctions.cpp">
+    <ClCompile Include="MainActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PhysicsEngine.hpp">
+    <ClInclude Include="MainActor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

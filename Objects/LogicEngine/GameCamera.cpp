@@ -1,7 +1,6 @@
 #include "GameCamera.hpp"
 #include "GameMap.hpp"
 #include "MGL\Math\Vector.hpp"
-#include "Objects\GameObjects\AbstractActors.hpp"
 
 void GameCamera::correct() {
 	if (minX() < 0) {
@@ -33,7 +32,7 @@ void GameCamera::correct() {
 	}
 }
 
-GameCamera::GameCamera(GameMap *map, AbstractActor *center_figure, 
+GameCamera::GameCamera(GameMap *map, Actor *center_figure, 
 					   float aspectRatio, float blocks)
 	: m_map(map), m_aspect_ratio(aspectRatio), m_horizontal_blocks_number(blocks), 
 	m_center_figure(center_figure), m_camera_was_changed(true) {
@@ -82,7 +81,7 @@ void GameCamera::move(mgl::math::vector const& point) {
 	correct();
 }
 
-void GameCamera::changeCenterFigure(AbstractActor * center_figure) {
+void GameCamera::changeCenterFigure(Actor * center_figure) {
 	m_center_figure = center_figure;
 }
 

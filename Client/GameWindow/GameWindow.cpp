@@ -11,7 +11,7 @@ void GameWindow::clean() {
 	//Does nothing.
 }
 
-GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFullscreen)
+GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFullscreen, ObjectQueue *object_queue)
 		: m_controller(nullptr), m_camera(nullptr), m_update_interval(16666) {
 
 	m_graphics = new MyGraphicsLibraryEngine;
@@ -19,7 +19,7 @@ GameWindow::GameWindow(const char* title, size_t width, size_t height, bool isFu
 	initialize();
 	m_graphics->initialize();
 	m_graphics->initializeWindow(title, width, height, isFullscreen);
-	m_graphics->initializeQueue();
+	m_graphics->initializeQueue(object_queue);
 }
 
 void GameWindow::insertController(GameControllerInterface* controller) {
@@ -58,7 +58,7 @@ bool GameWindow::isWindowClosed() {
 	return m_graphics->isWindowClosed();
 }
 
-void GameWindow::addToRenderQueue(AbstractGameObject *go) {
+void GameWindow::addToRenderQueue(IndependentObject *go) {
 	m_graphics->addToRenderQueue(go);
 }
 
