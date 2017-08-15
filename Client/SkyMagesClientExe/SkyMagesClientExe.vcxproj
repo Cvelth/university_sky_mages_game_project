@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C1110F89-0B60-42C5-B6B2-B7571D6FB743}</ProjectGuid>
-    <RootNamespace>EntryPoint</RootNamespace>
+    <ProjectGuid>{63AC0C54-2A8B-4ED7-A078-1DFA97AAF0C3}</ProjectGuid>
+    <RootNamespace>SkyMagesClientExe</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,17 +70,41 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
+    <TargetName>SkyMages.client.dev.0.2.118</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
+    <TargetName>SkyMages.client.dev.0.2.118</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
+    <TargetName>SkyMages.client.dev.0.2.118</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>SkyMages.dev.0.1</TargetName>
+    <TargetName>SkyMages.client.dev.0.2.118</TargetName>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
+      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -96,39 +120,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
-    </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
-      <AdditionalOptions> /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT; MSVCRT</IgnoreSpecificDefaultLibraries>
-    </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,10 +136,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="LinkSettings.bat" />
+    <None Include="Settings.ini" />
+    <None Include="Settings.ini.backup" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
       <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
@@ -156,14 +152,23 @@
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
-      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
       <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Objects\EquipableItems\EquipableItems.vcxproj">
+      <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Objects\LogicEngine\LogicEngine.vcxproj">
       <Project>{ace8714c-1dde-4d4d-b947-092acb940888}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
+      <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Controller\Controller.vcxproj">
+      <Project>{c5c17a7e-3702-464b-a46a-39679106b95b}</Project>
     </ProjectReference>
     <ProjectReference Include="..\GameWindow\GameWindow.vcxproj">
       <Project>{51ace45f-329d-405e-9ae8-913a942c997c}</Project>
@@ -171,9 +176,6 @@
     <ProjectReference Include="..\Settings\Settings.vcxproj">
       <Project>{0dfe8e10-1f21-496b-897a-08d62d4611b3}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

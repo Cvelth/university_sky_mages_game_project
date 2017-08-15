@@ -81,6 +81,7 @@
       <AdditionalDependencies>Events.lib;FunctionsMirror.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\MGL\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,6 +94,7 @@
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\MGL\Debug;</AdditionalLibraryDirectories>
     </Lib>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -111,6 +113,7 @@
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\MGL\Release;</AdditionalLibraryDirectories>
     </Lib>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -129,6 +132,7 @@
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
     </Lib>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameController.hpp" />
