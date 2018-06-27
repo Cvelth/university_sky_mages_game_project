@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects\AbstractObjects\EquipableItem.hpp"
+#include "Objects/AbstractObjects/EquipableItem.hpp"
 
 enum class ShieldType {
 	Anti_Energy, Anti_Projectile, Anti_Bullet

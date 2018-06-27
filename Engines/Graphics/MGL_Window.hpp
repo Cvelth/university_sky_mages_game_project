@@ -2,7 +2,7 @@
 #include "MyGraphicsLibraryEngine.hpp"
 
 #define MGL_DEFAULT_INCLUDE
-#include "MGL\MGL.hpp"
+#include "../MyGraphicsLibrary/MGL/MGL.hpp"
 
 class MGLWindow : public mgl::Window {
 	friend MyGraphicsLibraryEngine;

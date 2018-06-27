@@ -1,5 +1,5 @@
 #include "PhysicsEngine.hpp"
-#include "shared\PhysicsConstants.hpp"
+#include "shared/PhysicsConstants.hpp"
 #define time_correction Constants::time_correction_coefficient * float(UpdateInterval)
 
 vector const PhysicsEngine::calculateGravityForce() {
@@ -19,7 +19,7 @@ vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const
 				  calculateDimentionalDragForce(speed[1], size[0] * size[0]));
 }
 
-#include "Objects\ObjectState\IndependentObject.hpp"
+#include "Objects/ObjectState/IndependentObject.hpp"
 void PhysicsEngine::processForces(IndependentObjectState *os) {
 	auto net_force = calculateGravityForce() +calculateDragForce(os->speed(), os->size());
 	auto acceleration = net_force * os->mass();
@@ -29,7 +29,7 @@ void PhysicsEngine::processForces(IndependentObjectState *os) {
 	os->accelerate(-acceleration);
 }
 
-#include "Objects\Map\Map.hpp"
+#include "Objects/Map/Map.hpp"
 #define speed_test(test, result) (test > 0.f ? result : -result)
 void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
 	if (map) {

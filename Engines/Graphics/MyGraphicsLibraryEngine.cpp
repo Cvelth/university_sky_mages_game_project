@@ -50,7 +50,7 @@ MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
 	m_window = new MGLWindow();
 }
 
-#include "Objects\ObjectQueue\ObjectQueue.hpp"
+#include "Objects/ObjectQueue/ObjectQueue.hpp"
 void MyGraphicsLibraryEngine::initializeQueue(ObjectQueue *queue) {
 	if (queue)
 		m_queue = queue;
@@ -68,14 +68,14 @@ MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
 	clean();
 }
 
-#include "Client\Controller\ControllerInterface.hpp"
-#include "Client\Controller\Controller.hpp"
+#include "Client/Controller/ControllerInterface.hpp"
+#include "Client/Controller/Controller.hpp"
 void MyGraphicsLibraryEngine::insertController(ControllerInterface* controller) {
 	m_window->initializeEventHandling(controller->controller());
 }
 
 #include <string>
-#include "Shared\AbstractException.hpp"
+#include "Shared/AbstractException.hpp"
 DefineNewException(GraphicsEngineInitializationException)
 #include <fstream>
 std::string readShader(std::string filename) {

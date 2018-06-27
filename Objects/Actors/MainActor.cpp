@@ -1,7 +1,7 @@
 #include "MainActor.hpp"
-#include "Objects\EquipableItems\EnergyStorage.hpp"
-#include "Objects\EquipableItems\FlyEngine.hpp"
-#include "Objects\EquipableItems\Weapon.hpp"
+#include "Objects/EquipableItems/EnergyStorage.hpp"
+#include "Objects/EquipableItems/FlyEngine.hpp"
+#include "Objects/EquipableItems/Weapon.hpp"
 
 void MainActor::giveLeftWeapon(Weapon *w) {
 	switch (w->size()) {

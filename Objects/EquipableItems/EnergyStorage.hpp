@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects\AbstractObjects\EquipableItem.hpp"
+#include "Objects/AbstractObjects/EquipableItem.hpp"
 
 class EnergyStorage : public EquipableItem {
 private:

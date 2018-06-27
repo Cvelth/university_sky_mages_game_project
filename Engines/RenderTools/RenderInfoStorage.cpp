@@ -1,10 +1,10 @@
 #include "RenderInfoStorage.hpp"
 #include "RenderInfo.hpp"
-#include "MGL\Primitive\AbstractDrawableObject.hpp"
-#include "MGL\Default\DefaultPrimitives.hpp"
-#include "MGL\SharedHeaders\Color.hpp"
-#include "MGL\Math\vector.hpp"
-#include "MGL\Primitive\Primitive.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/AbstractDrawableObject.hpp"
+#include "../MyGraphicsLibrary/MGL/Default/DefaultPrimitives.hpp"
+#include "../MyGraphicsLibrary/MGL/SharedHeaders/Color.hpp"
+#include "../MyGraphicsLibrary/MGL/Math/vector.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/Primitive.hpp"
 
 RenderInfo* RenderInfoStorage::EmptyBlock;
 RenderInfo* RenderInfoStorage::WallBlock;

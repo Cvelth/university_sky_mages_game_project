@@ -1,10 +1,10 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
-#include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
-#include "Objects\ObjectQueue\ObjectQueue.hpp"
-#include "Objects\AbstractObjects\IndependentObject.hpp"
-#include "Engines\Camera\Camera.hpp"
-#include "Engines\RenderTools\RenderInfo.hpp"
+#include "../MyGraphicsLibrary/MGL/OpenGL/FunctionsMirror/FunctionsMirror.hpp"
+#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/AbstractObjects/IndependentObject.hpp"
+#include "Engines/Camera/Camera.hpp"
+#include "Engines/RenderTools/RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {
 	m_queue_program.program = m_window->linkProgramWithDefaultFragmentShader(

@@ -1,5 +1,5 @@
 #include "PhysicsEngine.hpp"
-#include "Objects\ObjectQueue\ObjectQueue.hpp"
+#include "Objects/ObjectQueue/ObjectQueue.hpp"
 
 size_t PhysicsEngine::UpdateInterval = 16667ul;
 
@@ -47,8 +47,8 @@ void PhysicsEngine::clean() {
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include "Objects\AbstractObjects\IndependentObject.hpp"
-#include "Shared\GameMode.hpp"
+#include "Objects/AbstractObjects/IndependentObject.hpp"
+#include "Shared/GameMode.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 	GameModeController::physicsLoopIsReady(true);
 	while (!m_finish_flag_access()) {

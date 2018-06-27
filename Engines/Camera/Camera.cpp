@@ -1,6 +1,6 @@
 #include "Camera.hpp"
-#include "Objects\Map\Map.hpp"
-#include "Shared\vector.hpp"
+#include "Objects/Map/Map.hpp"
+#include "Shared/vector.hpp"
 
 void Camera::correct() {
 	if (minX() < 0) {

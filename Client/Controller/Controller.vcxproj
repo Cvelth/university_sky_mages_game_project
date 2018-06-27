@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C5C17A7E-3702-464B-A46A-39679106B95B}</ProjectGuid>
     <RootNamespace>Controller</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -130,7 +130,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\x64\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\x64\Release;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>

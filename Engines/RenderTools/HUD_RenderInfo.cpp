@@ -1,8 +1,8 @@
 #include "HUD_RenderInfo.hpp"
-#include "MGL\Primitive\AbstractDrawableObject.hpp"
-#include "MGL\Primitive\Primitive.hpp"
-#include "MGL\SharedHeaders\Color.hpp"
-#include "MGL\Math\Vector.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/AbstractDrawableObject.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/Primitive.hpp"
+#include "../MyGraphicsLibrary/MGL/SharedHeaders/Color.hpp"
+#include "../MyGraphicsLibrary/MGL/Math/Vector.hpp"
 
 HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(energy_source) {
 	mgl::Primitive *outter = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
@@ -29,8 +29,8 @@ HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(e
 
 HUD_RenderInfo::~HUD_RenderInfo() {}
 
-#include "Objects\EquipableItems\EnergyStorage.hpp"
-#include "MGL\Primitive\Primitive.hpp"
+#include "Objects/EquipableItems/EnergyStorage.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/Primitive.hpp"
 void HUD_RenderInfo::recalculate() {
 	auto current_capacity = m_energy_source->getCapacityPercent();
 	if (m_current_energy_percent != current_capacity) {

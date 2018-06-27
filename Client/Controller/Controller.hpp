@@ -1,5 +1,5 @@
 #pragma once
-#include "MGL\Events\EmptyEventHandler.hpp"
+#include "../MyGraphicsLibrary/MGL/Events/EmptyEventHandler.hpp"
 
 class Camera;
 class MainActor;

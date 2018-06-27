@@ -1,6 +1,6 @@
 #pragma once
-#include "Objects\AbstractObjects\ActorObject.hpp"
-#include "Shared\AbstractException.hpp"
+#include "Objects/AbstractObjects/ActorObject.hpp"
+#include "Shared/AbstractException.hpp"
 DefineNewException(UnsupportableItemWasGivenException)
 
 class EnergyStorage;

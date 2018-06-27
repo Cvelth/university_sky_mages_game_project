@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects\AbstractObjects\IndependentObject.hpp"
+#include "Objects/AbstractObjects/IndependentObject.hpp"
 
 class ShootableObject : public IndependentObject {
 	friend TheQueue;

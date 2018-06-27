@@ -1,5 +1,5 @@
 #pragma once
-#include "Shared\AbstractException.hpp"
+#include "Shared/AbstractException.hpp"
 DefineNewException(RenderInfoException);
 class RenderInfo;
 class RenderInfoStorage {

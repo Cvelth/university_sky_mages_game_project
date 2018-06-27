@@ -1,7 +1,7 @@
 #include "Window.hpp"
-#include "Engines\Camera\Camera.hpp"
-#include "Client\Controller\ControllerInterface.hpp"
-#include "Engines\Graphics\MyGraphicsLibraryEngine.hpp"
+#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/ControllerInterface.hpp"
+#include "Engines/Graphics/MyGraphicsLibraryEngine.hpp"
 
 void Window::initialize() {
 	//Does nothing.
@@ -74,7 +74,7 @@ Window::~Window() {
 #include <chrono>
 #include <thread>
 #include <iostream>
-#include "Shared\GameMode.hpp"
+#include "Shared/GameMode.hpp"
 void Window::loop(bool destroy_window_after_exit) {
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();

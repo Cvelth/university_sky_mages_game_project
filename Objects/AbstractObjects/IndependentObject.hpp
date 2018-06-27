@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects\ObjectState\IndependentObject.hpp"
+#include "Objects/ObjectState/IndependentObject.hpp"
 class TheQueue;
 class PhysicsEngine;
 class RenderInfo;

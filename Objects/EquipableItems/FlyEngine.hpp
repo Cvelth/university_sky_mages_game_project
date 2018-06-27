@@ -1,7 +1,7 @@
 #pragma once
-#include "Objects\AbstractObjects\EquipableItem.hpp"
-#include "Objects\ObjectState\DependedAcceleratableObject.hpp"
-#include "Shared\AbstractException.hpp"
+#include "Objects/AbstractObjects/EquipableItem.hpp"
+#include "Objects/ObjectState/DependedAcceleratableObject.hpp"
+#include "Shared/AbstractException.hpp"
 DefineNewException(IncorrectInitializationDataWasPassedException);
 DefineNewException(YouMustNotUseThisFunctionExceptions)
 #define invert_if(inverted, value) (inverted ? +value : -value)

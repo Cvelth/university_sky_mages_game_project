@@ -1,6 +1,6 @@
 #include "KeyLayout.hpp"
 #include <iostream>
-#include "MGL\Events\EventEnums.hpp"
+#include "../MyGraphicsLibrary/MGL/Events/EventEnums.hpp"
 
 std::ostream & operator<<(std::ostream &s, mgl::Key *k) {
 	s << size_t(*k);

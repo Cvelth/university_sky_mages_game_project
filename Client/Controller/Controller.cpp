@@ -1,9 +1,9 @@
 #include "Controller.hpp"
-#include "Engines\Camera\Camera.hpp"
-#include "Objects\Actors\MainActor.hpp"
-#include "Objects\EquipableItems\FlyEngine.hpp"
-#include "Shared\KeyLayout.hpp"
-#include "Shared\GameMode.hpp"
+#include "Engines/Camera/Camera.hpp"
+#include "Objects/Actors/MainActor.hpp"
+#include "Objects/EquipableItems/FlyEngine.hpp"
+#include "Shared/KeyLayout.hpp"
+#include "Shared/GameMode.hpp"
 
 Controller::Controller() : m_controlledCamera(nullptr) {}
 
@@ -92,7 +92,7 @@ void Controller::stopKeyControl() {
 	m_keys = nullptr;
 }
 
-#include "MGL\OpenGL\FunctionsMirror\ExperimentalFunctionsMirror.hpp"
+#include "../MyGraphicsLibrary/MGL/OpenGL/FunctionsMirror/ExperimentalFunctionsMirror.hpp"
 void Controller::mouseMoveEvent(GLFWwindow *w, double x, double y) {
 	if (!current_screen_width || !current_screen_height)
 		mgl::getWindowSize(w, &current_screen_width, &current_screen_height);

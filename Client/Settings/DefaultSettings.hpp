@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Shared\KeyLayout.hpp"
+#include "Shared/KeyLayout.hpp"
 const std::string Program_Name = "SkyMages";
 const unsigned int Program_Major_Version = 0u;
 const unsigned int Program_Minor_Version = 2u;

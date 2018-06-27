@@ -1,12 +1,12 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
-#include "MGL\OpenGL\FunctionsMirror\FunctionsMirror.hpp"
-#include "MGL\Primitive\InstancingArray.hpp"
+#include "../MyGraphicsLibrary/MGL/OpenGL/FunctionsMirror/FunctionsMirror.hpp"
+#include "../MyGraphicsLibrary/MGL/Primitive/InstancingArray.hpp"
 
-#include "Objects\Map\Map.hpp"
-#include "Objects\Map\Block.hpp"
-#include "Engines\Camera\Camera.hpp"
-#include "Engines\RenderTools\RenderInfo.hpp"
+#include "Objects/Map/Map.hpp"
+#include "Objects/Map/Block.hpp"
+#include "Engines/Camera/Camera.hpp"
+#include "Engines/RenderTools/RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::recalculateCamera() {
 	m_camera->move();

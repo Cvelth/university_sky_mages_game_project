@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects\ObjectState\DependentObject.hpp"
+#include "Objects/ObjectState/DependentObject.hpp"
 class EquipableItem : public DependentObjectState {
 public:
 	EquipableItem(float mass)

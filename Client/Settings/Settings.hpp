@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <variant>
 #include <string>
-#include "Shared\KeyLayout.hpp"
+#include "Shared/KeyLayout.hpp"
 using SettingValue = std::variant<bool, signed int, unsigned int, float, std::string, KeyLayout>;
 using Setting = std::pair<const std::string, SettingValue>;
 using SettingsMap = std::unordered_map<std::string, SettingValue>;
@@ -58,7 +58,7 @@ public:
 std::ostream& operator<<(std::ostream &stream, const SettingValue &value);
 std::istream& operator>>(std::istream &stream, SettingValue &value);
 
-#include "Shared\AbstractException.hpp"
+#include "Shared/AbstractException.hpp"
 DefineNewException(SettingsAccessException);
 DefineNewException(SettingsVersionException);
 DefineNewException(SettingsUsageException);

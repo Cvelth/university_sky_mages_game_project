@@ -1,6 +1,6 @@
 #include "Weapon.hpp"
-#include "Objects\AbstractObjects\ShootableObject.hpp"
-#include "Engines\RenderTools\RenderInfoStorage.hpp"
+#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Engines/RenderTools/RenderInfoStorage.hpp"
 
 #include <chrono>
 using microseconds = unsigned long long;
