@@ -89,11 +89,19 @@ int client_main() {
 	try {
 		s.load();
 	}
-	catch (Exceptions::SettingsVersionException& e) {
+	catch (Exceptions::SettingsVersionException &e) {
+		s.backup();
+		s.nullify();
+		s.save();
 		e.print();
 	}
-	catch (Exceptions::SettingsAccessException& e) {
+	catch (Exceptions::SettingsAccessException &e) {
 		s.backup();
+		s.nullify();
+		s.save();
+		e.print();
+	}
+	catch (Exceptions::NoSettingsFileException &e) {
 		s.nullify();
 		s.save();
 		e.print();

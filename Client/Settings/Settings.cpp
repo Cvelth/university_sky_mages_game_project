@@ -141,7 +141,7 @@ void Settings::load() {
 	std::ifstream f;
 	f.open(SettingFileName);
 	if (!f.is_open())
-		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
+		throw Exceptions::NoSettingsFileException("Settings file cannot be opened.");
 
 	bool first = true;
 	std::string line;
@@ -160,7 +160,7 @@ void Settings::save() {
 	std::ofstream f;
 	f.open(SettingFileName);
 	if (!f.is_open())
-		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
+		throw Exceptions::NoSettingsFileException("Settings file cannot be opened.");
 	
 	f << SettingFileName << " v"
 		<< getValue("Settings_Syntax_Major_Version") << "."
@@ -214,7 +214,7 @@ void Settings::copy_file(std::string const &from, std::string const &to) {
 	fi.open(from);
 	fo.open(to);
 	if (!fi.is_open() || !fo.is_open())
-		throw Exceptions::SettingsAccessException("Settings file cannot be opened.");
+		throw Exceptions::NoSettingsFileException("Settings file cannot be opened.");
 	fo << fi.rdbuf();
 }
 
