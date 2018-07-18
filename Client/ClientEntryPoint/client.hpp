@@ -94,7 +94,7 @@ int client_main() {
 	}
 	catch (Exceptions::SettingsAccessException& e) {
 		s.backup();
-		s.default();
+		s.nullify();
 		s.save();
 		e.print();
 	}

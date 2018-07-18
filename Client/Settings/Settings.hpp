@@ -42,7 +42,7 @@ protected:
 	void addSetting(std::string const &name, const std::string& value);
 	void addSetting(std::string const &name, const KeyLayout& value);
 public:
-	void default();
+	void nullify();
 	void load();
 	void save();
 	void backup();	

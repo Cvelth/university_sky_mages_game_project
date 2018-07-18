@@ -14,7 +14,7 @@ Settings::Settings(std::string filename) : SettingFileName(filename) {
 	addDefaultSetting(Settings_Syntax_Major_Version);
 	addDefaultSetting(Settings_Syntax_Minor_Version);
 }
-void Settings::default() {
+void Settings::nullify() {
 	addDefaultSetting(Screen_Width);
 	addDefaultSetting(Screen_Height);
 	addDefaultSetting(Fullscreen_Window);
