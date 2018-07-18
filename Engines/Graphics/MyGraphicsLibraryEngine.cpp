@@ -80,12 +80,13 @@ DefineNewException(GraphicsEngineInitializationException)
 #include <fstream>
 std::string readShader(std::string filename) {
 	std::ifstream file;
-	file.open("Shaders\\" + filename, std::ios::ate | std::ios::binary);
-	if (!file.is_open()) {
-		file.open("..\\..\\Engines\\RenderTools\\Shaders\\" + filename, std::ios::ate | std::ios::binary);
-		if (!file.is_open())
-			throw Exceptions::GraphicsEngineInitializationException("Shader cannot be read.");
-		return std::string(std::istreambuf_iterator<char>(std::ifstream("..\\..\\Engines\\RenderTools\\Shaders\\" + filename)), std::istreambuf_iterator<char>());
-	}
-	return std::string(std::istreambuf_iterator<char>(std::ifstream("Shaders\\" + filename)), std::istreambuf_iterator<char>());
+	auto shader_path_variants = { "Shaders\\", "..\\Engines\\RenderTools\\Shaders\\", "..\\..\\Engines\\RenderTools\\Shaders\\" };
+	auto shader_path_iterator = shader_path_variants.begin();
+	while (shader_path_iterator != shader_path_variants.end() && !file.is_open())
+		file.open(*(shader_path_iterator++) + filename, std::ios::ate | std::ios::binary);
+
+	if (!file.is_open())
+		throw Exceptions::GraphicsEngineInitializationException("Shader cannot be read.");
+
+	return std::string(std::istreambuf_iterator<char>(std::ifstream(*(--shader_path_iterator) + filename)), std::istreambuf_iterator<char>());
 }
