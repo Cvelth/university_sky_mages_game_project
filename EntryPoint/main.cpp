@@ -4,8 +4,9 @@
 #include <thread>
 
 int main(int argc, char **argv) {
-	server_main(argc, argv);
-	client_main();
+	std::thread server_thread(std::bind(&server_main, argc, argv));
+	std::thread client_thread(&client_main);
+	client_thread.join();
+	server_thread.join();
 	return 0;
-	//std::thread server_thread(&server_main);
 }
