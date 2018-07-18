@@ -79,7 +79,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\x64\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -94,7 +94,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -115,7 +115,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>MGL.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\Release;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>

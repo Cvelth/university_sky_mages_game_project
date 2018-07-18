@@ -79,7 +79,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;FunctionsMirror.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\x64\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\x64\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -92,7 +92,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\Debug;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -111,7 +111,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\MGL\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\MyGraphicsLibrary\Release;</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>

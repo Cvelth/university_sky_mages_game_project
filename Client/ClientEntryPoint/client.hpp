@@ -106,4 +106,5 @@ int client_main() {
 		e.print();
 		getchar(); // Prevents Program from closing.
 	}
+	return 0;
 }

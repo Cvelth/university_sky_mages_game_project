@@ -79,7 +79,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\x64\debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\x64\debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -91,7 +91,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Debug;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,7 +109,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>math.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\MGL\Release;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\MyGraphicsLibrary\Release;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

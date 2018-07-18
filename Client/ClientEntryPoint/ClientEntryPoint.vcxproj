@@ -95,6 +95,7 @@
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,6 +111,7 @@
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -129,6 +131,7 @@
     <PreLinkEvent>
       <Command>call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,6 +151,7 @@
     <PreLinkEvent>
       <Command>call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="LinkSettings.bat" />
