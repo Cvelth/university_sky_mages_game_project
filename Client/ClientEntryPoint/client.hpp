@@ -32,18 +32,18 @@ FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
 
 class TestWeapon : public Weapon {
 public:
-	TestWeapon() : Weapon(AmmoType::Bullet, WeaponSize::One_Arm, 8.f) {
+	TestWeapon() : Weapon(AmmoProjectileType::Bullet, WeaponSize::One_Arm, 8.f) {
 		m_damage = 1.f;
-		m_firerate = 1.f;
+		m_firerate = 60.f;
 		m_autofire_supported = true;
 
 		m_initial_ammo_speed = 200.f;
 		m_initial_ammo_mass = 0.1f;
-		m_initial_ammo_size_h = 1.f;
-		m_initial_ammo_size_v = 1.f;
+		m_initial_ammo_size_h = 0.005f;
+		m_initial_ammo_size_v = 0.005f;
 
 		m_ammo_capacity = 5;
-		m_reload_cooldown = 5.f;
+		m_reload_cooldown = 0.5f;
 		m_energy_efficency_multiplier = 0.25f;
 
 		m_current_ammo = m_ammo_capacity;
@@ -106,6 +106,7 @@ void game_process(Settings& s) {
 	delete window;
 	delete main_object_queue;
 	delete projectile_queue;
+	delete miscellaneous_object_queue;
 	delete controller;
 }
 

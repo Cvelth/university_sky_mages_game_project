@@ -1,16 +1,20 @@
 #pragma once
+#include "Shared/AbstractException.hpp"
 #include "Objects/AbstractObjects/EquipableItem.hpp"
 
-enum class AmmoType {
-	Energy, Projectile, Bullet
+enum class AmmoProjectileType {
+	Energy, Physical, Bullet
 };
+DefineNewException(UnsupportedProjectileType);
 enum class WeaponSize {
 	Small, One_Arm, One_And_A_Half_Arm, Two_Arm, Big
 };
+DefineNewException(UnsupportedWeaponSize);
+
 class ShootableObject;
 class Weapon : public EquipableItem {
 private:
-	AmmoType m_ammo_type;
+	AmmoProjectileType m_ammo_type;
 	WeaponSize m_size;
 protected:
 	float m_damage;
@@ -30,12 +34,12 @@ protected:
 	mutable unsigned long long m_last_shot_time;
 	mutable bool is_activated;
 public:
-	Weapon(AmmoType type, WeaponSize size, float mass)
+	Weapon(AmmoProjectileType type, WeaponSize size, float mass)
 		: EquipableItem(mass), m_ammo_type(type), m_size(size), is_activated(false),
 		m_last_shot_time(0ull) {}
 	~Weapon() {}
 
-	inline AmmoType ammoType() const {
+	inline AmmoProjectileType ammoType() const {
 		return m_ammo_type;
 	}
 	inline WeaponSize size() const {
