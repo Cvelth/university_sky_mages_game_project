@@ -14,39 +14,42 @@ private:
 	WeaponSize m_size;
 protected:
 	float m_damage;
-	float m_fire_rate;
-	float m_ammo_speed;
-	float m_ammo_capacity;
-	float m_ammo_mass;
-	float m_ammo_size_h;
-	float m_ammo_size_v;
-	float m_reload_time;
-	float m_shoot_cost;
+	float m_firerate;
+	bool m_autofire_supported;
 
-	size_t m_current_ammo;
-	unsigned long long m_last_shot_time;
-	bool is_activated;
+	float m_initial_ammo_speed;
+	float m_initial_ammo_mass;
+	float m_initial_ammo_size_h;
+	float m_initial_ammo_size_v;
+
+	size_t m_ammo_capacity;
+	float m_reload_cooldown;
+	float m_energy_efficency_multiplier;
+
+	mutable size_t m_current_ammo;
+	mutable unsigned long long m_last_shot_time;
+	mutable bool is_activated;
 public:
 	Weapon(AmmoType type, WeaponSize size, float mass)
-		: EquipableItem(mass), m_ammo_type(type), m_size(size), is_activated(false), 
+		: EquipableItem(mass), m_ammo_type(type), m_size(size), is_activated(false),
 		m_last_shot_time(0ull) {}
 	~Weapon() {}
 
-	inline AmmoType ammoType() {
+	inline AmmoType ammoType() const {
 		return m_ammo_type;
 	}
-	inline WeaponSize size() {
+	inline WeaponSize size() const {
 		return m_size;
 	}
-	inline void activate() {
+	inline void activate() const {
 		is_activated = true;
 	}
-	inline void deactivate() {
+	inline void deactivate() const {
 		is_activated = false;
 	}
 	inline bool is_ready() const {
-		return is_activated && is_reloaded() && m_current_ammo > 0;
+		return is_activated && is_reloaded();
 	}
 	bool is_reloaded() const;
-	ShootableObject* shoot(float current_x, float current_y, float destination_x, float destination_y);
+	ShootableObject* shoot(float current_x, float current_y, float destination_x, float destination_y) const;
 };
