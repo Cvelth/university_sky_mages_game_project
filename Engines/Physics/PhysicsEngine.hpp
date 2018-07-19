@@ -2,15 +2,20 @@
 #include <functional>
 #include "shared/vector.hpp"
 class ObjectQueue;
+class MainActorQueue;
+class ProjectileQueue;
 class IndependentObject;
 class IndependentObjectState;
+class MainActor;
 class Map;
 
 class PhysicsEngine {
 private:
 	static size_t UpdateInterval;
-	ObjectQueue* m_queue;
-	Map* m_map;
+	MainActorQueue *m_actor_queue;
+	ProjectileQueue *m_projectile_queue;
+	ObjectQueue *m_object_queue;
+	Map *m_map;
 
 	bool m_is_initialized;
 protected:
@@ -22,18 +27,23 @@ protected:
 
 	static void processForces(IndependentObjectState *os);
 	static void processMovement(IndependentObjectState *os, Map *map);
+	static void processWeaponry(MainActor *ma);
 public:
 	PhysicsEngine();
-	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess, ObjectQueue* queue = nullptr);
+	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,
+		MainActorQueue *actor_queue = nullptr, ProjectileQueue *projectile_queue = nullptr, ObjectQueue *object_queue = nullptr);
 	~PhysicsEngine();
 
 	static size_t getUpdateInterval();
 	static void changeUpdateInterval(size_t microseconds);
 
-	void initialize(std::function<bool(void)> const &finishFlagAccess, ObjectQueue* queue);
+	void initialize(std::function<bool(void)> const &finishFlagAccess, 
+		MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
 	void initializeCollisionSystem(Map *map);
 	void addObject(IndependentObject *object);
 	void removeObject(IndependentObject *object);
+	void addActor(MainActor *actor);
+	void removeActor(MainActor *actor);
 	void loop(bool destroy_engine_after_exit = false);
 	void clean();
 };

@@ -59,3 +59,7 @@ void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
 	}
 	os->move(vector(os->speed() * time_correction));
 }
+
+void PhysicsEngine::processWeaponry(MainActor *ma) {
+
+}
