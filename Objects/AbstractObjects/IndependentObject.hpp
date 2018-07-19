@@ -1,11 +1,9 @@
 #pragma once
 #include "Objects/ObjectState/IndependentObject.hpp"
-class TheQueue;
 class PhysicsEngine;
 class RenderInfo;
 
 class IndependentObject : protected IndependentObjectState {
-	friend TheQueue;
 	friend PhysicsEngine;
 protected:
 	RenderInfo* m_render_info;

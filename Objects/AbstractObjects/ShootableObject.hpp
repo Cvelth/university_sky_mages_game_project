@@ -2,7 +2,6 @@
 #include "Objects/AbstractObjects/IndependentObject.hpp"
 
 class ShootableObject : public IndependentObject {
-	friend TheQueue;
 	friend PhysicsEngine;
 protected:
 	float m_damage;
