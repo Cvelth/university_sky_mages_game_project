@@ -27,7 +27,7 @@ protected:
 
 	static void processForces(IndependentObjectState *os);
 	static void processMovement(IndependentObjectState *os, Map *map);
-	static void processWeaponry(MainActor *ma);
+	static void processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue);
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,

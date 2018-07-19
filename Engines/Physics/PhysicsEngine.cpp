@@ -75,7 +75,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 			m_actor_queue->for_each([this](MainActor *go) {
 				processForces(go);
 				processMovement(go, m_map);
-				processWeaponry(go);
+				processWeaponry(go, m_projectile_queue);
 			});
 			m_projectile_queue->for_each([this](ShootableObject *go) {
 				processForces(go);

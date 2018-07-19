@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClInclude Include="ObjectQueue.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ObjectQueue.cpp" />
+  </ItemGroup>
 </Project>

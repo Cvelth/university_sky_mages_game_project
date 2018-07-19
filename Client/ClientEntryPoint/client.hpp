@@ -30,6 +30,26 @@ FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
 	return new FlyEngine(energy_source, 1.f, 1300.f, 3.f, fe_settings);
 }
 
+class TestWeapon : public Weapon {
+public:
+	TestWeapon() : Weapon(AmmoType::Bullet, WeaponSize::One_Arm, 8.f) {
+		m_damage = 1.f;
+		m_firerate = 1.f;
+		m_autofire_supported = true;
+
+		m_initial_ammo_speed = 200.f;
+		m_initial_ammo_mass = 0.1f;
+		m_initial_ammo_size_h = 1.f;
+		m_initial_ammo_size_v = 1.f;
+
+		m_ammo_capacity = 5;
+		m_reload_cooldown = 5.f;
+		m_energy_efficency_multiplier = 0.25f;
+
+		m_current_ammo = m_ammo_capacity;
+	}
+};
+
 void game_process(Settings& s) {
 	GameModeController::startInitialization();
 	ControllerInterface* controller = new ControllerInterface();
@@ -61,6 +81,7 @@ void game_process(Settings& s) {
 	auto energy_storage = new EnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
+	main_actor->giveRightWeapon(new TestWeapon());
 
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);
