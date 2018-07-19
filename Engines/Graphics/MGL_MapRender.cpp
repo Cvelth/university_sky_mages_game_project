@@ -16,13 +16,22 @@ void MyGraphicsLibraryEngine::recalculateCamera() {
 		m_camera->cameraChangeWasHandled();
 	}
 }
+void resendSingleQueueProjection(QueueProgram &program_struct, mgl::math::Matrix const& projection) {
+	if (!program_struct && program_struct->isLinked())
+		program_struct->sendUniform(program_struct.projection, projection);
+}
 void MyGraphicsLibraryEngine::recalculateProjection() {
 	m_window->resize(m_camera);
 	if (!m_map_program && m_map_program->isLinked())
 		m_map_program->sendUniform(m_map_program.projection, *m_window->projection());
-	if (!m_queue_program && m_queue_program->isLinked())
-		m_queue_program->sendUniform(m_queue_program.projection, *m_window->projection());
+
+	resendSingleQueueProjection(m_projectile_queue_program, *m_window->projection());
+	resendSingleQueueProjection(m_miscellaneous_queue_program, *m_window->projection());
+	resendSingleQueueProjection(m_actor_queue_program, *m_window->projection());
 }
+QueueProgram m_projectile_queue_program,
+m_miscellaneous_queue_program,
+m_actor_queue_program;
 void MyGraphicsLibraryEngine::recalculateInstancing() {
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();

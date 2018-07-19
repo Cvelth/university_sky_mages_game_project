@@ -88,7 +88,7 @@ void Window::loop(bool destroy_window_after_exit) {
 			m_graphics->clearWindow();
 			
 			m_graphics->renderMap();
-			m_graphics->renderQueue();
+			m_graphics->renderQueues();
 			m_graphics->renderHUD();
 			m_graphics->update();
 			

@@ -14,13 +14,15 @@ class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
 	Camera *m_camera;
-	MainActorQueue *m_actor_queue;
 	ProjectileQueue *m_projectile_queue;
 	ObjectQueue *m_miscellaneous_queue;
+	MainActorQueue *m_actor_queue;
 	HUD_RenderInfo *m_hud;
 
 	MapProgram m_map_program;
-	QueueProgram m_queue_program;
+	QueueProgram m_projectile_queue_program,
+		m_miscellaneous_queue_program, 
+		m_actor_queue_program;
 	HUDProgram m_HUD_program;
 public:
 	MyGraphicsLibraryEngine();
@@ -55,7 +57,7 @@ public:
 	virtual void cleanMapRendering();
 
 	virtual void initializeQueueRendering();
-	virtual void renderQueue();
+	virtual void renderQueues();
 	virtual void cleanQueueRendering();
 
 	virtual void initializeHUDRendering();
