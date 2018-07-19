@@ -8,6 +8,15 @@
 #include "Engines/Camera/Camera.hpp"
 #include "Engines/RenderTools/RenderInfo.hpp"
 
+template <typename Type> 
+inline void sendRenderInfo(Type *go, mgl::VertexArray *va) {
+	if (!go->isInitialized()) {
+		go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
+		go->getRenderInto()->get()->insertVertexArray(va);
+		go->initializationWasSuccessfull();
+	}
+}
+
 template <typename Type>
 void initializeSingleQueueRendering(AbstractQueue<Type> *queue, QueueProgram &queue_program, MGLWindow *window) {
 	queue_program.program = window->linkProgramWithDefaultFragmentShader(
@@ -17,11 +26,7 @@ void initializeSingleQueueRendering(AbstractQueue<Type> *queue, QueueProgram &qu
 	queue_program->use();
 
 	queue->for_each([&queue_program](Type* go) {
-		if (!go->isInitialized()) {
-			go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
-			go->getRenderInto()->get()->insertVertexArray(queue_program->getVertexArray());
-			go->initializationWasSuccessfull();
-		}
+		sendRenderInfo(go, queue_program->getVertexArray());
 	});
 
 	queue_program->enableAttrib("position", 4, 8, 0);
@@ -45,6 +50,7 @@ template <typename Type, typename NumeralType>
 void renderSingleQueue(AbstractQueue<Type> *queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
 	queue_program->use();
 	queue->for_each([&minX, &maxX, &minY, &maxY, queue_program](Type* go) {
+		sendRenderInfo(go, queue_program->getVertexArray());
 		auto position = go->position();
 		if (position[0] >= minX && position[1] >= minY &&
 			position[0] <= maxX && position[1] <= maxY) {
