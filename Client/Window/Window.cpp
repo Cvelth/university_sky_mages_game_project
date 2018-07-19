@@ -11,7 +11,8 @@ void Window::clean() {
 	//Does nothing.
 }
 
-Window::Window(const char* title, size_t width, size_t height, bool isFullscreen, ObjectQueue *object_queue)
+Window::Window(const char* title, size_t width, size_t height, bool isFullscreen, 
+			   MainActorQueue *main_actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue)
 		: m_controller(nullptr), m_camera(nullptr), m_update_interval(16666) {
 
 	m_graphics = new MyGraphicsLibraryEngine;
@@ -19,7 +20,7 @@ Window::Window(const char* title, size_t width, size_t height, bool isFullscreen
 	initialize();
 	m_graphics->initialize();
 	m_graphics->initializeWindow(title, width, height, isFullscreen);
-	m_graphics->initializeQueue(object_queue);
+	m_graphics->initializeQueues(main_actor_queue, projectile_queue, object_queue);
 }
 
 void Window::insertController(ControllerInterface *controller) {
@@ -58,9 +59,9 @@ bool Window::isWindowClosed() {
 	return m_graphics->isWindowClosed();
 }
 
-void Window::addToRenderQueue(IndependentObject *go) {
-	m_graphics->addToRenderQueue(go);
-}
+//void Window::addToRenderQueue(IndependentObject *go) {
+//	m_graphics->addToRenderQueue(go);
+//}
 
 void Window::insertHUDRenderInfo(HUD_RenderInfo *hud) {
 	m_graphics->insertHUD(hud);

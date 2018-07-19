@@ -4,6 +4,8 @@
 class MGLWindow;
 class Camera;
 class ControllerInterface;
+class MainActorQueue;
+class ProjectileQueue;
 class ObjectQueue;
 class IndependentObject;
 class HUD_RenderInfo;
@@ -12,7 +14,9 @@ class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
 	Camera *m_camera;
-	ObjectQueue *m_queue;
+	MainActorQueue *m_actor_queue;
+	ProjectileQueue *m_projectile_queue;
+	ObjectQueue *m_miscellaneous_queue;
 	HUD_RenderInfo *m_hud;
 
 	MapProgram m_map_program;
@@ -38,8 +42,8 @@ public:
 	void waitEvents();
 
 	virtual void insertController(ControllerInterface* controller);
-	virtual void initializeQueue(ObjectQueue *queue = nullptr);
-	virtual void addToRenderQueue(IndependentObject* go);
+	virtual void initializeQueues(MainActorQueue *mq = nullptr, ProjectileQueue *pq = nullptr, ObjectQueue *oq = nullptr);
+	//virtual void addToRenderQueue(IndependentObject* go);
 	virtual void insertHUD(HUD_RenderInfo *hud);
 
 	virtual void recalculateCamera();

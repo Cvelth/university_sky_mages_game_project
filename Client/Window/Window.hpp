@@ -3,6 +3,8 @@ class MyGraphicsLibraryEngine;
 class ControllerInterface;
 class Camera;
 class IndependentObject;
+class MainActorQueue;
+class ProjectileQueue;
 class ObjectQueue;
 class HUD_RenderInfo;
 
@@ -28,7 +30,7 @@ public:
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
 	Window(char const *title, size_t width, size_t height, bool isFullscreen,
-			   ObjectQueue *object_queue);
+		   MainActorQueue *main_actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
 	void insertController(ControllerInterface *controller);
@@ -49,8 +51,8 @@ public:
 	//Returns true if window is closed or would be closed soon.
 	bool isWindowClosed();
 
-	//Adds an object in the queue to be rendered.
-	void addToRenderQueue(IndependentObject *go);
+	////Adds an object in the queue to be rendered.
+	//void addToRenderQueue(IndependentObject *go);
 
 	//Initializes HUD rendering.
 	void insertHUDRenderInfo(HUD_RenderInfo *hud);
