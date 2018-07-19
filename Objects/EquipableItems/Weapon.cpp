@@ -36,7 +36,8 @@ ShootableObject* Weapon::shoot(float current_x, float current_y, float destinati
 		m_current_ammo--;
 		m_last_shot_time = now();
 		return new ShootableObject(m_damage, projectileRenderInfo(m_ammo_type),
-			m_initial_ammo_mass, m_initial_ammo_size_h, m_initial_ammo_size_v, current_x, current_y);
+			m_initial_ammo_mass, m_initial_ammo_size_h, m_initial_ammo_size_v,
+			current_x, current_y, destination_x, destination_y, m_initial_ammo_speed);
 	} else
 		return nullptr;
 }
