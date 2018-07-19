@@ -2,16 +2,21 @@
 #include <set>
 #include <functional>
 
-class IndependentObject;
-class ObjectQueue {
+template <typename Type>
+class AbstractQueue {
 private:
-	std::set<IndependentObject*> m_queue;
+	std::set<Type*> m_queue;
 public:
-	ObjectQueue();
-	~ObjectQueue();
+	ObjectQueue() {}
+	~ObjectQueue() {}
 
-	void add(IndependentObject* object);
-	void remove(IndependentObject* object);
-
-	void for_each(const std::function<void(IndependentObject*)>& lambda);
+	void add(Type* object) { m_queue.insert(object); }
+	void remove(Type* object) { m_queue.erase(object); }
+	void for_each(const std::function<void(Type*)>& lambda) { for (auto it : m_queue) lambda(it); }
 };
+
+class IndependentObject;
+using ObjectQueue = AbstractQueue<IndependentObject>;
+
+class Actor;
+using ActorQueue = AbstractQueue<Actor>;

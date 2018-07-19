@@ -117,9 +117,6 @@
   <ItemGroup>
     <ClInclude Include="ObjectQueue.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ObjectQueue.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
