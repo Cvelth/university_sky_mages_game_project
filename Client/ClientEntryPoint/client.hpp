@@ -36,19 +36,22 @@ void game_process(Settings& s) {
 	auto keys = s.getKeysValue("Keys_Layout");
 	controller->startKeyControl(&keys);
 
-	auto object_queue = new ObjectQueue();
+	auto main_object_queue = new MainActorQueue();
+	auto projectile_queue = new ProjectileQueue();
+	auto miscellaneous_object_queue = new ObjectQueue();
+	
 	Window* window = new Window(s.getProgramVersionInfo().c_str(),
 		s.getUintValue("Screen_Width"),
 		s.getUintValue("Screen_Height"),
 		s.getBoolValue("Fullscreen_Window"),
-		object_queue);
+		main_object_queue, projectile_queue, miscellaneous_object_queue);
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / s.getUintValue("Graphical_Updates_Per_Second"));
 
 
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
-	}, object_queue);
+	}, main_object_queue, projectile_queue, miscellaneous_object_queue);
 	physics_engine->changeUpdateInterval(1'000'000 / s.getUintValue("Physical_Updates_Per_Second"));
 
 	RenderInfoStorage::generateRenderInfo();
@@ -60,7 +63,7 @@ void game_process(Settings& s) {
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
 
 	controller->setMainActor(main_actor);
-	object_queue->add(main_actor);
+	main_object_queue->add(main_actor);
 
 	Map *map = new Map(100, 80, DefaultMapFilling::Continious);
 	Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
@@ -80,7 +83,8 @@ void game_process(Settings& s) {
 	delete main_actor;
 	delete physics_engine;
 	delete window;
-	delete object_queue;
+	delete main_object_queue;
+	delete projectile_queue;
 	delete controller;
 }
 
