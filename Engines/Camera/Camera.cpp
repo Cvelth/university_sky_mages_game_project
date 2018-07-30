@@ -4,32 +4,37 @@
 #include "Shared/vector.hpp"
 
 void Camera::correct() {
-	if (minX() < 0) {
-		m_center->at(0) = (m_horizontal_blocks_number / 2.f);
-		m_camera_was_changed = true;
-	}
-	if (minY() < 0) {
-		m_center->at(1) = (m_horizontal_blocks_number / m_aspect_ratio / 2.f);
-		m_camera_was_changed = true;
-	}
-	if (maxX() > m_map->m_width) {
-		m_center->at(0) = (m_map->m_width - m_horizontal_blocks_number) / 2.f;// -1.f;
-		m_camera_was_changed = true;
-	}
-	if (maxY() > m_map->m_height) {
-		m_center->at(1) = (m_map->m_height - m_horizontal_blocks_number / m_aspect_ratio) / 2.f;// -1.f;
-		m_camera_was_changed = true;
-	}
+	auto width_multiplier = (maxX() - minX()) / m_map->width();
+	auto height_multiplier = (maxY() - minY()) / m_map->height();
 
-	if (m_horizontal_blocks_number >= m_map->m_width) {
-		m_horizontal_blocks_number = float(m_map->m_width) - 1.f;
-		m_center->at(0) = m_horizontal_blocks_number / 2.f;
-		m_camera_was_changed = true;
-	}
-	if (int(m_horizontal_blocks_number / m_aspect_ratio) + 1 >= int(m_map->m_height)) {
-		m_horizontal_blocks_number = float(m_map->m_height) * m_aspect_ratio - 1;
-		m_center->at(1) = m_horizontal_blocks_number / m_aspect_ratio / 2.f;
-		m_camera_was_changed = true;
+	if (width_multiplier > height_multiplier) {
+		if (auto temp = minY(); temp < 0) {
+			m_center->at(1) -= temp;
+			m_camera_was_changed = true;
+		}
+		if (auto temp = maxY(); temp >= m_map->m_height) {
+			m_center->at(1) -= temp - m_map->m_height;
+			m_camera_was_changed = true;
+		}
+		if (int(m_horizontal_blocks_number / m_aspect_ratio) + 1 >= int(m_map->m_height)) {
+			m_horizontal_blocks_number = float(m_map->m_height) * m_aspect_ratio - 1;
+			m_center->at(1) = m_horizontal_blocks_number / m_aspect_ratio / 2.f;
+			m_camera_was_changed = true;
+		}
+	} else {
+		if (auto temp = minX(); temp < 0) {
+			m_center->at(0) -= temp;
+			m_camera_was_changed = true;
+		}
+		if (auto temp = maxX(); temp >= m_map->m_width) {
+			m_center->at(0) -= temp - m_map->m_width;
+			m_camera_was_changed = true;
+		}
+		if (m_horizontal_blocks_number >= m_map->m_width) {
+			m_horizontal_blocks_number = float(m_map->m_width) - 1.f;
+			m_center->at(0) = m_horizontal_blocks_number / 2.f;
+			m_camera_was_changed = true;
+		}
 	}
 }
 
