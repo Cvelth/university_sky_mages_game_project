@@ -103,19 +103,19 @@ float Camera::maxY() const {
 }
 size_t Camera::minX_i() const {
 	if (float t = minX(); t <= 0.f)
-		return 0.f;
+		return 0u;
 	else
-		return t;
+		return size_t(t);
 }
 size_t Camera::minY_i() const {
 	if (float t = minY(); t <= 0.f)
-		return 0.f;
+		return 0u;
 	else
-		return t;
+		return size_t(t);
 }
 size_t Camera::maxX_i() const {
 	float temp = maxX();
-	size_t ret = temp;
+	size_t ret = size_t(temp);
 	if (temp != float(ret))
 		ret++;
 	if (ret == m_map->width())
@@ -124,7 +124,7 @@ size_t Camera::maxX_i() const {
 }
 size_t Camera::maxY_i() const {
 	float temp = maxY();
-	size_t ret = temp;
+	size_t ret = size_t(temp);
 	if (temp != float(ret))
 		ret++;
 	if (ret == m_map->height())
