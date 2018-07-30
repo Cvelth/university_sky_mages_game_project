@@ -18,6 +18,8 @@ class Map {
 private:
 	size_t m_width;
 	size_t m_height;
+	Block* m_default_block;
+
 	std::vector<Block*> m_blocks;
 	std::vector<std::vector<Block*>> m_cells;
 protected:
@@ -52,7 +54,10 @@ public:
 	inline size_t getSize() const { return m_width * m_height; }
 
 	inline Block* get(size_t w, size_t h) const {
-		return m_cells.at(w).at(h);
+		if (w >= 0 && w < width() && h >= 0 && h < height())
+			return m_cells.at(w).at(h);
+		else
+			return m_default_block;
 	}
 	inline Block* operator()(size_t w, size_t h) const {
 		return get(w, h);

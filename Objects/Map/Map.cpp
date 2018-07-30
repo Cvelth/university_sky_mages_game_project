@@ -94,6 +94,7 @@ Map::Map(size_t width, size_t height, DefaultMapFilling mapFilling) {
 			verticalRowsFill(new WallBlock(), new EmptyBlock());
 			break;
 	}
+	m_default_block = m_blocks.front();
 }
 
 Map::~Map() {

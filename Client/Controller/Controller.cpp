@@ -12,7 +12,7 @@ Controller::~Controller() {}
 
 void Controller::mouseScrollEvent(GLFWwindow* w, double x, double y) {
 	if (m_controlledCamera)
-		m_controlledCamera->changeZoom(1.f + float(y) / 10.f);
+		m_controlledCamera->changeZoom(1.f - float(y) / 10.f);
 }
 
 void Controller::resizeEvent(GLFWwindow *w, int x, int y) {

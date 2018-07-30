@@ -18,6 +18,8 @@ private:
 
 	bool m_camera_was_changed;
 protected:
+	void correct_height();
+	void correct_width();
 	void correct();
 public:
 	Camera(Map *map, Actor *center_figure, float aspectRatio, float blocks = 100);
@@ -40,10 +42,10 @@ public:
 	float maxX() const;
 	float maxY() const;
 
-	unsigned int minX_i() const;
-	unsigned int minY_i() const;
-	unsigned int maxX_i() const;
-	unsigned int maxY_i() const;
+	size_t minX_i() const;
+	size_t minY_i() const;
+	size_t maxX_i() const;
+	size_t maxY_i() const;
 	Map* map();
 
 	inline bool wasCameraChanged() const {
