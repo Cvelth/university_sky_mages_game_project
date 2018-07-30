@@ -46,7 +46,7 @@ void Map::addBorders(Block *border) {
 	}
 	for (unsigned int i = 0; i < m_height; i++) {
 		set(border, 0, i);
-		set(border, m_width - 2, i);
+		set(border, m_width - 1, i);
 	}
 }
 
