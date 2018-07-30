@@ -46,7 +46,7 @@ void Map::addBorders(Block *border) {
 	}
 	for (unsigned int i = 0; i < m_height; i++) {
 		set(border, 0, i);
-		set(border, m_width - 1, i);
+		set(border, m_width - 2, i);
 	}
 }
 
@@ -94,6 +94,7 @@ Map::Map(size_t width, size_t height, DefaultMapFilling mapFilling) {
 			verticalRowsFill(new WallBlock(), new EmptyBlock());
 			break;
 	}
+	m_default_block = m_blocks.front();
 }
 
 Map::~Map() {
