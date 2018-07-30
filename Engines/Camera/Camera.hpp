@@ -18,6 +18,8 @@ private:
 
 	bool m_camera_was_changed;
 protected:
+	void correct_height();
+	void correct_width();
 	void correct();
 public:
 	Camera(Map *map, Actor *center_figure, float aspectRatio, float blocks = 100);
