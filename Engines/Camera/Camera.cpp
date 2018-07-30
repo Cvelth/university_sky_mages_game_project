@@ -39,10 +39,9 @@ Camera::Camera(Map *map, Actor *center_figure,
 	m_center_figure(center_figure), m_camera_was_changed(true) {
 
 	m_center = new mgl::math::vector();
-	// [[deprecated]]
-	//if (m_center_figure)
-	//	*m_center = mgl::math::vector(m_center_figure->position().at(0), m_center_figure->position().at(1));
-	//else
+	if (m_center_figure)
+		*m_center = mgl::math::vector(m_center_figure->position().at(0), m_center_figure->position().at(1));
+	else
 		*m_center = mgl::math::vector(m_horizontal_blocks_number / 2.f, m_horizontal_blocks_number / m_aspect_ratio / 2.f);
 	correct();
 }
@@ -97,17 +96,35 @@ float Camera::maxX() const {
 float Camera::maxY() const {
 	return m_center->at(1) + m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
-unsigned int Camera::minX_i() const {
-	return (unsigned int) minX();
+size_t Camera::minX_i() const {
+	if (float t = minX(); t <= 0.f)
+		return 0.f;
+	else
+		return t;
 }
-unsigned int Camera::minY_i() const {
-	return (unsigned int) minY();
+size_t Camera::minY_i() const {
+	if (float t = minY(); t <= 0.f)
+		return 0.f;
+	else
+		return t;
 }
-unsigned int Camera::maxX_i() const {
-	return (unsigned int) maxX();
+size_t Camera::maxX_i() const {
+	float temp = maxX();
+	size_t ret = temp;
+	if (temp != float(ret))
+		ret++;
+	if (ret == m_map->width())
+		ret--;
+	return ret;
 }
-unsigned int Camera::maxY_i() const {
-	return (unsigned int) maxY();
+size_t Camera::maxY_i() const {
+	float temp = maxY();
+	size_t ret = temp;
+	if (temp != float(ret))
+		ret++;
+	if (ret == m_map->height())
+		ret--;
+	return ret;
 }
 
 Map* Camera::map() {
@@ -120,8 +137,7 @@ Camera::~Camera() {
 }
 
 void Camera::move() {
-	// [[deprecated]]
-	//if (m_center_figure)
-	//	move_to(m_center_figure->position().at(0), m_center_figure->position().at(1));
-	//correct();
+	if (m_center_figure)
+		move_to(m_center_figure->position().at(0), m_center_figure->position().at(1));
+	correct();
 }

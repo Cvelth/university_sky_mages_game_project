@@ -40,10 +40,10 @@ public:
 	float maxX() const;
 	float maxY() const;
 
-	unsigned int minX_i() const;
-	unsigned int minY_i() const;
-	unsigned int maxX_i() const;
-	unsigned int maxY_i() const;
+	size_t minX_i() const;
+	size_t minY_i() const;
+	size_t maxX_i() const;
+	size_t maxY_i() const;
 	Map* map();
 
 	inline bool wasCameraChanged() const {

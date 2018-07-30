@@ -29,14 +29,12 @@ void MyGraphicsLibraryEngine::recalculateProjection() {
 	resendSingleQueueProjection(m_miscellaneous_queue_program, *m_window->projection());
 	resendSingleQueueProjection(m_actor_queue_program, *m_window->projection());
 }
-QueueProgram m_projectile_queue_program,
-m_miscellaneous_queue_program,
-m_actor_queue_program;
 void MyGraphicsLibraryEngine::recalculateInstancing() {
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
+
 	if (minX != m_map_program.min_x || maxX != m_map_program.max_x ||
 		minY != m_map_program.min_y || maxY != m_map_program.max_y) {
 		m_map_program.min_x = minX;
@@ -66,14 +64,14 @@ void MGLWindow::resize(int width, int height, Camera* camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
 	if (m_projection) delete m_projection;
-	m_projection = new mgl::math::Matrix(mgl::math::Matrix::orthographicMatrix(
-		camera->minX() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
-		camera->maxX() * (1.f / (m_aspectRatio > 1.f ? m_aspectRatio : 1.f)),
-		camera->maxY() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
-		camera->minY() * (m_aspectRatio > 1.f ? 1.f : m_aspectRatio),
-		-1.f,
-		+1.f
-	));
+
+	auto minX = camera->minX();
+	auto maxX = camera->maxX();
+	auto minY = camera->minY();
+	auto maxY = camera->maxY();
+	m_projection = new mgl::math::Matrix(
+		mgl::math::Matrix::orthographicMatrix(
+			minX, maxX, maxY, minY, -1.f, +1.f));
 }
 
 void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
