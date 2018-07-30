@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Objects/AbstractObjects/ActorObject.hpp"
 #include "Objects/Map/Map.hpp"
 #include "Shared/vector.hpp"
 
@@ -39,10 +40,9 @@ Camera::Camera(Map *map, Actor *center_figure,
 
 	m_center = new mgl::math::vector();
 	// [[deprecated]]
-	//if (center_figure) {
-	//	auto position = center_figure->position();
-	//	*m_center = mgl::math::vector(position.h, position.v);
-	//} else
+	//if (m_center_figure)
+	//	*m_center = mgl::math::vector(m_center_figure->position().at(0), m_center_figure->position().at(1));
+	//else
 		*m_center = mgl::math::vector(m_horizontal_blocks_number / 2.f, m_horizontal_blocks_number / m_aspect_ratio / 2.f);
 	correct();
 }
@@ -81,13 +81,13 @@ void Camera::move(mgl::math::vector const& point) {
 	correct();
 }
 
-void Camera::changeCenterFigure(Actor * center_figure) {
+void Camera::changeCenterFigure(Actor *center_figure) {
 	m_center_figure = center_figure;
 }
 
 float Camera::minX() const {
 	return m_center->at(0) - m_horizontal_blocks_number / 2.f;
-}								 
+}
 float Camera::minY() const {
 	return m_center->at(1) - m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
@@ -110,7 +110,7 @@ unsigned int Camera::maxY_i() const {
 	return (unsigned int) maxY();
 }
 
-Map * Camera::map() {
+Map* Camera::map() {
 	return m_map;
 }
 
@@ -120,9 +120,8 @@ Camera::~Camera() {
 }
 
 void Camera::move() {
-	if (m_center_figure) {
-		// [[deprecated]]
-		//auto position = m_center_figure->position();
-		//move_to(position.h, position.v);
-	}
+	// [[deprecated]]
+	//if (m_center_figure)
+	//	move_to(m_center_figure->position().at(0), m_center_figure->position().at(1));
+	//correct();
 }
