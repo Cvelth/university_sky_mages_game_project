@@ -89,9 +89,7 @@
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -105,9 +103,7 @@
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -128,9 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,16 +142,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <ProjectReference />
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <None Include="LinkSettings.bat" />
-    <None Include="Settings.ini" />
-    <None Include="Settings.ini.backup" />
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
