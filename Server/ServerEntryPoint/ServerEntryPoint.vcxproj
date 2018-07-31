@@ -135,6 +135,9 @@
     <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
       <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
+      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
