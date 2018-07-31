@@ -1,3 +1,4 @@
+/*
 #include "Settings.hpp"
 #include "DefaultSettings.hpp"
 
@@ -295,3 +296,4 @@ void Settings::loadLine(std::string const &line) {
 	} else
 		throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
 }
+*/

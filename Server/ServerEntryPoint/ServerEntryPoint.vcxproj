@@ -131,6 +131,11 @@
   <ItemGroup>
     <ClInclude Include="server.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
+      <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
