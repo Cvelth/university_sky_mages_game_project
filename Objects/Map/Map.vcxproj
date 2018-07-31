@@ -117,10 +117,12 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.hpp" />
     <ClInclude Include="Map.hpp" />
+    <ClInclude Include="MapGenerator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">

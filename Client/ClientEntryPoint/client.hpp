@@ -5,7 +5,7 @@
 #include "Engines/Physics/PhysicsEngine.hpp"
 #include "Engines/RenderTools/RenderInfoStorage.hpp"
 #include "Engines/Camera/Camera.hpp"
-#include "Objects/Map/Map.hpp"
+#include "Objects/Map/MapGenerator.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Objects/EquipableItems/FlyEngine.hpp"
@@ -86,7 +86,7 @@ void game_process(Settings& s) {
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);
 
-	Map *map = new Map(100, 80, DefaultMapFilling::Continious);
+	Map *map = MapGenerator::generate_continious_map(120, 80);
 	Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
 	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
