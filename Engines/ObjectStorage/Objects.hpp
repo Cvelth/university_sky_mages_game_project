@@ -2,14 +2,20 @@
 class ObjectStorage;
 class Settings;
 
+enum class ProgramMode { Client, Server };
+
 class Objects {
 	friend ObjectStorage;
 protected:
-	Settings *m_client_settings, *m_server_settings;
+	ProgramMode m_program_mode;
+	Settings *m_settings;
 public:
-	Objects();
+	Objects(ProgramMode);
 	~Objects();
 	void set_settings_to_default();
+	inline ProgramMode mode() { return m_program_mode; }
+	inline bool isServer() { return m_program_mode == ProgramMode::Server; }
+	inline bool isClient() { return m_program_mode == ProgramMode::Client; }
 };
 
-Objects* initialize_object_storage();
+Objects* initialize_object_storage(ProgramMode);

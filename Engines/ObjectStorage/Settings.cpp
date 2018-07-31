@@ -112,7 +112,7 @@ void Settings::addSetting(std::string const & name, const KeyLayout & value) {
 	t = value;
 	m_data.insert(Setting(name, t));
 }
-void Settings::clear_settings() {
+void Settings::clear() {
 	m_data.clear();
 }
 

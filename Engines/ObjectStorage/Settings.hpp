@@ -45,7 +45,7 @@ protected:
 	void addSetting(std::string const &name, const std::string& value);
 	void addSetting(std::string const &name, const KeyLayout& value);
 
-	void clear_settings();
+	void clear();
 
 	void parse_line(std::string const &line);
 	std::string generate_line() const;
