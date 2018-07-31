@@ -6,6 +6,3 @@ const unsigned int Program_Minor_Version = 2u;
 const unsigned int Program_Patch_Version = 0u;
 const unsigned int Program_Build_Version = 160u;
 const std::string Program_Version_Suffix = "dev";
-
-const unsigned int Object_Storage_Syntax_Major_Version = 0u;
-const unsigned int Object_Storage_Syntax_Minor_Version = 1u;

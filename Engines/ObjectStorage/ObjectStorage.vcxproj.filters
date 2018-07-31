@@ -20,13 +20,13 @@
     <ClInclude Include="DefaultClientSetting.hpp">
       <Filter>Default Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectStorageFileData.hpp">
-      <Filter>Default Files</Filter>
-    </ClInclude>
     <ClInclude Include="Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DefaultServerSettings.hpp">
+      <Filter>Default Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultObjectStorageData.hpp">
       <Filter>Default Files</Filter>
     </ClInclude>
   </ItemGroup>
