@@ -110,10 +110,12 @@ void ObjectStorage::load(std::string const& path_string) {
 void ObjectStorage::parse_object_line(std::string const& line) {
 	switch (m_current_object) {
 	case ObjectType::ClientSettings:
-		if (m_objects->isClient()) m_objects->m_settings->parse_line(line);
+		if (m_objects->isClient()) 
+			m_objects->m_settings->parse_line(line);
 		break;
 	case ObjectType::ServerSettings:
-		if (m_objects->isServer()) m_objects->m_settings->parse_line(line);
+		if (m_objects->isServer()) 
+			m_objects->m_settings->parse_line(line);
 		break;
 	default:
 		throw Exceptions::FileParsingException("Unsupported object type was encountered.");

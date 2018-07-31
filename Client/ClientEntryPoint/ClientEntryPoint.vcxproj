@@ -90,7 +90,7 @@
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
@@ -106,7 +106,7 @@
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
@@ -129,7 +129,7 @@
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -149,7 +149,7 @@
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
+      <Command>echo call "$(ProjectDir)linksettings.bat"</Command>
     </PreLinkEvent>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -167,6 +167,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
       <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
+      <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>

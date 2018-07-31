@@ -13,3 +13,13 @@ Objects* initialize_object_storage(ProgramMode mode) {
 void Objects::set_settings_to_default() {
 	m_settings->clear();
 }
+
+#include "DefaultObjectStorageData.hpp"
+std::string Objects::get_program_version() {
+	return Program_Name + " v" +
+		std::to_string(Program_Major_Version) + "." +
+		std::to_string(Program_Minor_Version) + "." +
+		std::to_string(Program_Patch_Version) + "." +
+		std::to_string(Program_Build_Version) + "_" +
+		Program_Version_Suffix;
+}
