@@ -9,7 +9,7 @@ using SettingsMap = std::unordered_map<std::string, SettingValue>;
 
 class Settings {
 private:
-	std::string SettingFileName;
+	std::string SettingsFileName;
 protected:
 	SettingsMap m_data;
 public:
@@ -42,6 +42,7 @@ protected:
 	void addSetting(std::string const &name, const std::string& value);
 	void addSetting(std::string const &name, const KeyLayout& value);
 public:
+	void initialize();
 	void nullify();
 	void load();
 	void save();

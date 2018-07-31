@@ -5,10 +5,14 @@
 
 #include "../MyGraphicsLibrary/MGL/Events/EventEnums.hpp"
 
-Settings::Settings(std::string filename) : SettingFileName(filename) {
+Settings::Settings(std::string filename) : SettingsFileName(filename) {
+	initialize();
+}
+void Settings::initialize() {
 	addDefaultSetting(Program_Name);
 	addDefaultSetting(Program_Major_Version);
 	addDefaultSetting(Program_Minor_Version);
+	addDefaultSetting(Program_Patch_Version);
 	addDefaultSetting(Program_Build_Version);
 	addDefaultSetting(Program_Version_Suffix);
 	addDefaultSetting(Settings_Syntax_Major_Version);
@@ -139,7 +143,7 @@ void Settings::addSetting(std::string const & name, const KeyLayout & value) {
 #include <fstream>
 void Settings::load() {
 	std::ifstream f;
-	f.open(SettingFileName);
+	f.open(SettingsFileName);
 	if (!f.is_open())
 		throw Exceptions::NoSettingsFileException("Settings file cannot be opened.");
 
@@ -158,17 +162,18 @@ void Settings::load() {
 
 void Settings::save() {
 	std::ofstream f;
-	f.open(SettingFileName);
+	f.open(SettingsFileName);
 	if (!f.is_open())
 		throw Exceptions::NoSettingsFileException("Settings file cannot be opened.");
 	
-	f << SettingFileName << " v"
+	f << SettingsFileName << " v"
 		<< getValue("Settings_Syntax_Major_Version") << "."
 		<< getValue("Settings_Syntax_Minor_Version") << " for "
 		<< getValue("Program_Name") << " v"
 		<< getValue("Program_Major_Version") << "."
 		<< getValue("Program_Minor_Version") << "."
-		<< getValue("Program_Build_Version")
+		<< getValue("Program_Patch_Version") << "."
+		<< getValue("Program_Build_Version") << "_"
 		<< getValue("Program_Version_Suffix") << std::endl;
 
 	f << "# Use '#' at the beginning of the string to make a commentary.\n"
@@ -179,10 +184,10 @@ void Settings::save() {
 		f << getType(it.second) << " " << it.first << " = " << it.second << std::endl;
 }
 void Settings::backup() {
-	copy_file(SettingFileName, (SettingFileName + std::string(".backup")).c_str());
+	copy_file(SettingsFileName, (SettingsFileName + std::string(".backup")).c_str());
 }
 void Settings::unbackup() {
-	copy_file((SettingFileName + std::string(".backup")).c_str(), SettingFileName);
+	copy_file((SettingsFileName + std::string(".backup")).c_str(), SettingsFileName);
 }
 
 template <class... Ts> struct overloaded : Ts... { overloaded(Ts... f) : Ts(f)... {} };
@@ -229,29 +234,30 @@ std::string Settings::getProgramVersionInfo() {
 #include <sstream>
 void Settings::loadFirstLine(std::string const &line) {
 	std::stringstream iss(line);
-	std::string s;
-	iss >> s;
-	if (s != "Settings.ini")
+	std::string string;
+	iss >> string;
+	if (string != SettingsFileName)
 		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
 
-	char c;
-	unsigned int maj, min, bld;
-	iss >> c >> maj >> c >> min;
-	if (maj != std::get<unsigned int>(getValue("Settings_Syntax_Major_Version"))
-		|| min != std::get<unsigned int>(getValue("Settings_Syntax_Minor_Version"))) {
+	char placeholder;
+	unsigned int major, minor, patch, build;
+	iss >> placeholder >> major >> placeholder >> minor;
+	if (major != std::get<unsigned int>(getValue("Settings_Syntax_Major_Version"))
+		|| minor != std::get<unsigned int>(getValue("Settings_Syntax_Minor_Version"))) {
 
 		throw Exceptions::SettingsVersionException("Settings version is different from the expected one.");
 	}
 
-	iss >> s >> s; 
-	if (s != std::get<std::string>(getValue("Program_Name")))
+	iss >> string >> string;
+	if (string != std::get<std::string>(getValue("Program_Name")))
 		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
 	
-	iss >> c >> maj >> c >> min >> c >> bld >> s;
-	if (maj != std::get<unsigned int>(getValue("Program_Major_Version"))
-		|| min != std::get<unsigned int>(getValue("Program_Minor_Version"))
-		|| bld != std::get<unsigned int>(getValue("Program_Build_Version"))
-		|| s != std::get<std::string>(getValue("Program_Version_Suffix"))) {
+	iss >> placeholder >> major >> placeholder >> minor >> placeholder >> patch >> placeholder >> build >> placeholder >> string;
+	if (major != std::get<unsigned int>(getValue("Program_Major_Version"))
+		|| minor != std::get<unsigned int>(getValue("Program_Minor_Version"))
+		|| patch != std::get<unsigned int>(getValue("Program_Patch_Version"))
+		|| build != std::get<unsigned int>(getValue("Program_Build_Version"))
+		|| string != std::get<std::string>(getValue("Program_Version_Suffix"))) {
 
 		throw Exceptions::SettingsVersionException("Program version is different from the expected one.");
 	}

@@ -4,10 +4,11 @@
 const std::string Program_Name = "SkyMages";
 const unsigned int Program_Major_Version = 0u;
 const unsigned int Program_Minor_Version = 2u;
-const unsigned int Program_Build_Version = 159u;
+const unsigned int Program_Patch_Version = 0u;
+const unsigned int Program_Build_Version = 160u;
 const std::string Program_Version_Suffix = "dev";
 const unsigned int Settings_Syntax_Major_Version = 0u;
-const unsigned int Settings_Syntax_Minor_Version = 1u;
+const unsigned int Settings_Syntax_Minor_Version = 2u;
 
 const unsigned int Graphical_Updates_Per_Second = 60;
 const unsigned int Physical_Updates_Per_Second = 60;
