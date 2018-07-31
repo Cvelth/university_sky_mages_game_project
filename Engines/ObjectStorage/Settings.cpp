@@ -1,34 +1,4 @@
-/*
 #include "Settings.hpp"
-#include "DefaultSettings.hpp"
-
-#define addDefaultSetting(name) addSetting(#name, name)
-
-#include "../MyGraphicsLibrary/MGL/Events/EventEnums.hpp"
-
-Settings::Settings(std::string filename) : SettingsFileName(filename) {
-	initialize();
-}
-void Settings::initialize() {
-	addDefaultSetting(Program_Name);
-	addDefaultSetting(Program_Major_Version);
-	addDefaultSetting(Program_Minor_Version);
-	addDefaultSetting(Program_Patch_Version);
-	addDefaultSetting(Program_Build_Version);
-	addDefaultSetting(Program_Version_Suffix);
-	addDefaultSetting(Settings_Syntax_Major_Version);
-	addDefaultSetting(Settings_Syntax_Minor_Version);
-}
-void Settings::nullify() {
-	addDefaultSetting(Screen_Width);
-	addDefaultSetting(Screen_Height);
-	addDefaultSetting(Fullscreen_Window);
-	addDefaultSetting(Graphical_Updates_Per_Second);
-	addDefaultSetting(Physical_Updates_Per_Second);
-	addDefaultSetting(Keys_Layout);
-}
-Settings::~Settings() {}
-
 SettingValue & Settings::operator[](const std::string &name) {
 	return getValue(name);
 }
@@ -38,7 +8,8 @@ const SettingValue & Settings::operator[](const std::string &name) const {
 SettingValue & Settings::getValue(const std::string &name) {
 	try {
 		return m_data.at(name);
-	} catch (std::out_of_range&) {
+	}
+	catch (std::out_of_range&) {
 		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
@@ -46,7 +17,8 @@ const SettingValue & Settings::getValue(const std::string &name) const {
 	try {
 		auto t = m_data.at(name);
 		return m_data.at(name);
-	} catch (std::out_of_range&) {
+	}
+	catch (std::out_of_range&) {
 		throw Exceptions::SettingsUsageException("There is no Setting with given name. Maybe settings weren't loaded(or set by default).");
 	}
 }
@@ -100,7 +72,7 @@ const std::string Settings::getType(SettingValue value) const {
 			return "float";
 		else if (std::is_same_v<Type, std::string>)
 			return "string";
-		else if (std::is_same_v<Type,  KeyLayout>)
+		else if (std::is_same_v<Type, KeyLayout>)
 			return "Keys";
 		else
 			throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
@@ -140,6 +112,78 @@ void Settings::addSetting(std::string const & name, const KeyLayout & value) {
 	t = value;
 	m_data.insert(Setting(name, t));
 }
+void Settings::clear_settings() {
+	m_data.clear();
+}
+
+#include <sstream>
+void Settings::parse_line(std::string const &line) {
+	std::stringstream iss(line);
+	std::string s;
+	iss >> s;
+	char c;
+	if (s == "boolean") {
+		std::string v;
+		iss >> s >> c >> v;
+		addSetting(s, (v == "true") ? true : false);
+	}
+	else if (s == "s_int") {
+		signed int v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	}
+	else if (s == "u_int") {
+		unsigned int v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	}
+	else if (s == "float") {
+		float v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	}
+	else if (s == "string") {
+		std::string v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	}
+	else if (s == "Keys") {
+		KeyLayout v;
+		iss >> s >> c >> v;
+		addSetting(s, v);
+	}
+	else
+		throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
+}
+std::string Settings::generate_line() const {
+	return std::string(); //to be implemented;
+}
+/*
+#include "DefaultSettings.hpp"
+
+#define addDefaultSetting(name) addSetting(#name, name)
+
+#include "../MyGraphicsLibrary/MGL/Events/EventEnums.hpp"
+
+void Settings::initialize() {
+	addDefaultSetting(Program_Name);
+	addDefaultSetting(Program_Major_Version);
+	addDefaultSetting(Program_Minor_Version);
+	addDefaultSetting(Program_Patch_Version);
+	addDefaultSetting(Program_Build_Version);
+	addDefaultSetting(Program_Version_Suffix);
+	addDefaultSetting(Settings_Syntax_Major_Version);
+	addDefaultSetting(Settings_Syntax_Minor_Version);
+}
+void Settings::nullify() {
+	addDefaultSetting(Screen_Width);
+	addDefaultSetting(Screen_Height);
+	addDefaultSetting(Fullscreen_Window);
+	addDefaultSetting(Graphical_Updates_Per_Second);
+	addDefaultSetting(Physical_Updates_Per_Second);
+	addDefaultSetting(Keys_Layout);
+}
+
 
 #include <fstream>
 void Settings::load() {
@@ -230,70 +274,5 @@ std::string Settings::getProgramVersionInfo() {
 		std::to_string(std::get<unsigned int>(getValue("Program_Minor_Version"))) + "." +
 		std::to_string(std::get<unsigned int>(getValue("Program_Build_Version"))) + "" +
 		std::get<std::string>(getValue("Program_Version_Suffix"));
-}
-
-#include <sstream>
-void Settings::loadFirstLine(std::string const &line) {
-	std::stringstream iss(line);
-	std::string string;
-	iss >> string;
-	if (string != SettingsFileName)
-		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
-
-	char placeholder;
-	unsigned int major, minor, patch, build;
-	iss >> placeholder >> major >> placeholder >> minor;
-	if (major != std::get<unsigned int>(getValue("Settings_Syntax_Major_Version"))
-		|| minor != std::get<unsigned int>(getValue("Settings_Syntax_Minor_Version"))) {
-
-		throw Exceptions::SettingsVersionException("Settings version is different from the expected one.");
-	}
-
-	iss >> string >> string;
-	if (string != std::get<std::string>(getValue("Program_Name")))
-		throw Exceptions::SettingsAccessException("Something is wrong with parsing of the settings file. Maybe it was corrupted.");
-	
-	iss >> placeholder >> major >> placeholder >> minor >> placeholder >> patch >> placeholder >> build >> placeholder >> string;
-	if (major != std::get<unsigned int>(getValue("Program_Major_Version"))
-		|| minor != std::get<unsigned int>(getValue("Program_Minor_Version"))
-		|| patch != std::get<unsigned int>(getValue("Program_Patch_Version"))
-		|| build != std::get<unsigned int>(getValue("Program_Build_Version"))
-		|| string != std::get<std::string>(getValue("Program_Version_Suffix"))) {
-
-		throw Exceptions::SettingsVersionException("Program version is different from the expected one.");
-	}
-}
-
-void Settings::loadLine(std::string const &line) {
-	std::stringstream iss(line);
-	std::string s;
-	iss >> s;
-	char c;
-	if (s == "boolean") {
-		std::string v;
-		iss >> s >> c >> v;
-		addSetting(s, (v == "true") ? true : false);
-	} else if (s == "s_int") {
-		signed int v;
-		iss >> s >> c >> v;
-		addSetting(s, v);
-	} else if (s == "u_int") {
-		unsigned int v;
-		iss >> s >> c >> v;
-		addSetting(s, v);
-	} else if (s == "float") {
-		float v;
-		iss >> s >> c >> v;
-		addSetting(s, v);
-	} else if (s == "string") {
-		std::string v;
-		iss >> s >> c >> v;
-		addSetting(s, v);
-	} else if (s == "Keys") {
-		KeyLayout v;
-		iss >> s >> c >> v;
-		addSetting(s, v);
-	} else
-		throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
 }
 */

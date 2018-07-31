@@ -1,5 +1,10 @@
 #include "ObjectStorage.hpp"
 #include "DefaultObjectStorageData.hpp"
+#include "Objects.hpp"
+
+ObjectStorage::ObjectStorage(Objects *objects, std::string const& path)
+	: m_objects(objects), m_current_object(ObjectType::Empty),
+	m_current_object_counter(0), m_current_object_number(0) { load(path); }
 
 ObjectType _switch(std::string const& type) {
 	if (type == "ClientSettings")
@@ -20,7 +25,7 @@ void ObjectStorage::parse_line(std::string const& line) {
 		char placeholder;
 		size_t number;
 		s >> number >> placeholder >> string;
-		if (m_current_object_counter++ == number && number < m_current_object_number)
+		if (number == ++m_current_object_counter && number <= m_current_object_number)
 			m_current_object = _switch(string);
 		else
 			throw Exceptions::FileParsingException("File seems to be corrupted");
@@ -28,19 +33,6 @@ void ObjectStorage::parse_line(std::string const& line) {
 		return parse_object_line(line);
 	} else
 		throw Exceptions::FileParsingException("File seems to be corrupted");
-}
-void ObjectStorage::parse_object_line(std::string const & line) {
-	switch (m_current_object) {
-	case ObjectType::ClientSettings:
-		//to handle;
-		break;
-	case ObjectType::ServerSettings:
-		//to handle;
-		break;
-	default:
-		throw Exceptions::FileParsingException("Unsupported object type was encountered.");
-		break;
-	}
 }
 void ObjectStorage::parse_first_line(std::string const& line) {
 	std::istringstream s(line);
@@ -112,4 +104,19 @@ void ObjectStorage::load(std::string const& path_string) {
 							first_line_parsed = true;
 						}
 			}
+}
+
+#include "Settings.hpp"
+void ObjectStorage::parse_object_line(std::string const& line) {
+	switch (m_current_object) {
+	case ObjectType::ClientSettings:
+		m_objects->m_client_settings->parse_line(line);
+		break;
+	case ObjectType::ServerSettings:
+		m_objects->m_server_settings->parse_line(line);
+		break;
+	default:
+		throw Exceptions::FileParsingException("Unsupported object type was encountered.");
+		break;
+	}
 }
