@@ -4,3 +4,6 @@
 
 const unsigned int Object_Storage_Syntax_Major_Version = 0u;
 const unsigned int Object_Storage_Syntax_Minor_Version = 1u;
+
+#include <string>
+std::string ObjectStorageFileExtention = ".stg";
