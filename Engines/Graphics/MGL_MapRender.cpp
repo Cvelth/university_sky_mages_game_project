@@ -45,8 +45,8 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 		m_map_program->use();
 		for (auto p : m_map_program.translationInstances) {
 			p.second->deleteAll();
-			for (size_t x = minX; x <= maxX; x++)
-				for (size_t y = minY; y <= maxY; y++)
+			for (long long x = minX - 1; x <= maxX; x++)
+				for (long long y = minY - 1; y <= maxY; y++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						p.second->insert(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
 			p.second->send(mgl::DataUsage::StaticDraw);

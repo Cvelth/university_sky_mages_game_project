@@ -42,10 +42,10 @@ public:
 	float maxX() const;
 	float maxY() const;
 
-	size_t minX_i() const;
-	size_t minY_i() const;
-	size_t maxX_i() const;
-	size_t maxY_i() const;
+	long long minX_i() const;
+	long long minY_i() const;
+	long long maxX_i() const;
+	long long maxY_i() const;
 	Map* map();
 
 	inline bool wasCameraChanged() const {

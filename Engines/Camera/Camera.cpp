@@ -8,12 +8,12 @@ void Camera::correct_height() {
 		m_center->at(1) -= temp;
 		m_camera_was_changed = true;
 	}
-	if (auto temp = maxY(); temp >= m_map->m_height) {
-		m_center->at(1) -= temp - m_map->m_height;
+	if (auto temp = maxY(); temp >= m_map->height()) {
+		m_center->at(1) -= temp - m_map->height();
 		m_camera_was_changed = true;
 	}
-	if (int(m_horizontal_blocks_number / m_aspect_ratio) + 1 >= int(m_map->m_height)) {
-		m_horizontal_blocks_number = float(m_map->m_height) * m_aspect_ratio - 1;
+	if (int(m_horizontal_blocks_number / m_aspect_ratio) + 1 >= int(m_map->height())) {
+		m_horizontal_blocks_number = float(m_map->height()) * m_aspect_ratio - 1;
 		m_center->at(1) = m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 		m_camera_was_changed = true;
 	}
@@ -23,12 +23,12 @@ void Camera::correct_width() {
 		m_center->at(0) -= temp;
 		m_camera_was_changed = true;
 	}
-	if (auto temp = maxX(); temp >= m_map->m_width) {
-		m_center->at(0) -= temp - m_map->m_width;
+	if (auto temp = maxX(); temp >= m_map->width()) {
+		m_center->at(0) -= temp - m_map->width();
 		m_camera_was_changed = true;
 	}
-	if (m_horizontal_blocks_number >= m_map->m_width) {
-		m_horizontal_blocks_number = float(m_map->m_width) - 1.f;
+	if (m_horizontal_blocks_number >= m_map->width()) {
+		m_horizontal_blocks_number = float(m_map->width()) - 1.f;
 		m_center->at(0) = m_horizontal_blocks_number / 2.f;
 		m_camera_was_changed = true;
 	}
@@ -109,35 +109,17 @@ float Camera::maxX() const {
 float Camera::maxY() const {
 	return m_center->at(1) + m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
-size_t Camera::minX_i() const {
-	if (float t = minX(); t <= 0.f)
-		return 0u;
-	else
-		return size_t(t);
+long long Camera::minX_i() const {
+	return size_t(minX());
 }
-size_t Camera::minY_i() const {
-	if (float t = minY(); t <= 0.f)
-		return 0u;
-	else
-		return size_t(t);
+long long Camera::minY_i() const {
+	return size_t(minY());
 }
-size_t Camera::maxX_i() const {
-	float temp = maxX();
-	size_t ret = size_t(temp);
-	if (temp != float(ret))
-		ret++;
-	if (ret == m_map->width())
-		ret--;
-	return ret;
+long long Camera::maxX_i() const {
+	return size_t(maxX());
 }
-size_t Camera::maxY_i() const {
-	float temp = maxY();
-	size_t ret = size_t(temp);
-	if (temp != float(ret))
-		ret++;
-	if (ret == m_map->height())
-		ret--;
-	return ret;
+long long Camera::maxY_i() const {
+	return size_t(maxY());
 }
 
 Map* Camera::map() {

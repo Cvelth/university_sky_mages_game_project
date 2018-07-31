@@ -29,7 +29,7 @@ struct MapProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *projection;
 	std::list<std::pair<Block*, mgl::InstancingArray*>> translationInstances;
 	mgl::ShaderVariable *translation;
-	size_t min_x = 0, min_y = 0, max_x = 0, max_y = 0;
+	long long min_x = 0, min_y = 0, max_x = 0, max_y = 0;
 };
 struct QueueProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *translation, *scaling, *projection;
