@@ -27,12 +27,12 @@ FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
 	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.55f;
 	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.55f;
-	return new FlyEngine(energy_source, 1.f, 1300.f, 3.f, fe_settings);
+	return new FlyEngine(energy_source, 0.4f, 1300.f, 3.f, fe_settings);
 }
 
 class TestWeapon : public Weapon {
 public:
-	TestWeapon() : Weapon(AmmoProjectileType::Bullet, WeaponSize::One_Arm, 8.f) {
+	TestWeapon(EnergyStorage* energy_source) : Weapon(AmmoProjectileType::Bullet, WeaponSize::One_Arm, 8.f, energy_source, 0.15f) {
 		m_damage = 1.f;
 		m_firerate = 60.f;
 		m_autofire_supported = true;
@@ -44,7 +44,6 @@ public:
 
 		m_ammo_capacity = 5;
 		m_reload_cooldown = 0.5f;
-		m_energy_efficency_multiplier = 0.25f;
 
 		m_current_ammo = m_ammo_capacity;
 	}
@@ -81,7 +80,7 @@ void game_process(Settings& s) {
 	auto energy_storage = new EnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
-	main_actor->giveRightWeapon(new TestWeapon());
+	main_actor->giveRightWeapon(new TestWeapon(energy_storage));
 
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);
