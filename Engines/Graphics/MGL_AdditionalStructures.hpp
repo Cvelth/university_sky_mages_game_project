@@ -4,7 +4,7 @@
 namespace mgl {
 	class ShaderProgram;
 	class ShaderVariable;
-	class InstancingArray;
+	class InstancingMultiArray;
 }
 class Block;
 struct AbstractProgramStruct {
@@ -27,7 +27,7 @@ struct AbstractProgramStruct {
 };
 struct MapProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *projection;
-	std::list<std::pair<Block*, mgl::InstancingArray*>> translationInstances;
+	std::list<std::pair<Block*, mgl::InstancingMultiArray*>> translationInstances;
 	mgl::ShaderVariable *translation;
 	long long min_x = 0, min_y = 0, max_x = 0, max_y = 0;
 };
