@@ -110,16 +110,16 @@ float Camera::maxY() const {
 	return m_center->at(1) + m_horizontal_blocks_number / m_aspect_ratio / 2.f;
 }
 long long Camera::minX_i() const {
-	return size_t(minX());
+	return size_t(minX()) - 2;
 }
 long long Camera::minY_i() const {
-	return size_t(minY());
+	return size_t(minY()) - 2;
 }
 long long Camera::maxX_i() const {
-	return size_t(maxX());
+	return size_t(maxX()) + 1;
 }
 long long Camera::maxY_i() const {
-	return size_t(maxY());
+	return size_t(maxY()) + 1;
 }
 
 Map* Camera::map() {
