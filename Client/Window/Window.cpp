@@ -87,6 +87,7 @@ void Window::loop(bool destroy_window_after_exit) {
 			auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
 			m_graphics->clearWindow();
 			
+			m_graphics->recalculateCamera();
 			m_graphics->renderMap();
 			m_graphics->renderQueues();
 			m_graphics->renderHUD();

@@ -119,7 +119,6 @@ void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 }
 
 void MyGraphicsLibraryEngine::renderMap() {
-	recalculateCamera();
 	m_map_program->use();
 
 	for (auto p : m_map_program.translationInstances) {
