@@ -62,8 +62,6 @@ void renderSingleQueue(AbstractQueue<Type> *queue, QueueProgram &queue_program, 
 }
 
 void MyGraphicsLibraryEngine::renderQueues() {
-	recalculateCamera();
-
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();

@@ -37,22 +37,61 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 
 	if (minX != m_map_program.min_x || maxX != m_map_program.max_x ||
 		minY != m_map_program.min_y || maxY != m_map_program.max_y) {
+
+		m_map_program->use();
+		for (auto p : m_map_program.translationInstances) {
+			p.second->initialize_data_edit();
+
+			for (auto y = m_map_program.min_y; y < minY; y++)
+				if (!p.second->get().empty())
+					p.second->get().pop_front();
+			for (auto y = m_map_program.max_y; y > maxY; y--)
+				if (!p.second->get().empty())
+					p.second->get().pop_back();
+
+			for (auto y = m_map_program.min_y; y > minY; y--) {
+				p.second->get().push_front(std::deque<std::unique_ptr<mgl::math::vectorH>>());
+				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						p.second->get().front().push_back(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
+			}
+			for (auto y = m_map_program.max_y; y < maxY; y++) {
+				p.second->get().push_back(std::deque<std::unique_ptr<mgl::math::vectorH>>());
+				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						p.second->get().back().push_back(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
+			}
+
+			auto y = minY;
+			for (auto &list : p.second->get()) {
+				for (auto x = m_map_program.min_x; x < minX; x++)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						if (!list.empty())
+							list.pop_front();
+				for (auto x = m_map_program.max_x; x > maxX; x--)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						if (!list.empty())
+							list.pop_back();
+
+				for (auto x = m_map_program.min_x; x >= minX; x--)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						list.push_front(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
+				for (auto x = m_map_program.max_x; x <= maxX; x++)
+					if (*m_camera->map()->get(x, y) == *p.first)
+						list.push_back(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
+				
+				y++;
+			}
+
+			p.second->stop_data_edit();
+			p.second->send(mgl::DataUsage::DynamicDraw);
+			m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
+			m_map_program->initializeInstancing(m_map_program.translation, 1);
+		}
 		m_map_program.min_x = minX;
 		m_map_program.max_x = maxX;
 		m_map_program.min_y = minY;
 		m_map_program.max_y = maxY;
-
-		m_map_program->use();
-		for (auto p : m_map_program.translationInstances) {
-			p.second->deleteAll();
-			for (long long x = minX - 1; x <= maxX; x++)
-				for (long long y = minY - 1; y <= maxY; y++)
-					if (*m_camera->map()->get(x, y) == *p.first)
-						p.second->insert(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
-			p.second->send(mgl::DataUsage::StaticDraw);
-			m_map_program.translation = m_map_program->enableAttrib("translation", 4, 0, 0);
-			m_map_program->initializeInstancing(m_map_program.translation, 1);
-		}
 	}
 }
 
@@ -83,7 +122,7 @@ void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 	m_camera = camera;
 	for (auto it : m_camera->map()->get_blocks_data()) {
 		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translationInstances.push_back(std::pair<Block*, mgl::InstancingArray*>(it, new mgl::InstancingArray()));
+		m_map_program.translationInstances.push_back(std::make_pair(it, new mgl::InstancingMultiArray()));
 	}
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);
@@ -93,7 +132,6 @@ void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 }
 
 void MyGraphicsLibraryEngine::renderMap() {
-	recalculateCamera();
 	m_map_program->use();
 
 	for (auto p : m_map_program.translationInstances) {

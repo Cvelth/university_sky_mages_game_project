@@ -7,17 +7,21 @@
 HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(energy_source) {
 	mgl::Primitive *outter = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
 								new mgl::Color(253u, 255u, 200u));
+	outter->initialize_data_edit();
 	outter->insert(mgl::math::vector(0.975f, 0.01f));
 	outter->insert(mgl::math::vector(0.995f, 0.01f));
 	outter->insert(mgl::math::vector(0.975f, 0.99f));
 	outter->insert(mgl::math::vector(0.995f, 0.99f));
+	outter->stop_data_edit();
 
 	mgl::Primitive *inner = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
 							   new mgl::Color(182u, 123u, 166u));
+	inner->initialize_data_edit();
 	inner->insert(mgl::math::vector(0.978f, 0.015f));
 	inner->insert(mgl::math::vector(0.992f, 0.015f));
 	inner->insert(mgl::math::vector(0.978f, 0.985f));
 	inner->insert(mgl::math::vector(0.992f, 0.985f));
+	inner->stop_data_edit();
 
 	m_energy_bar = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
 									  new mgl::Color(104u, 7u, 77u));
@@ -40,10 +44,12 @@ void HUD_RenderInfo::recalculate() {
 		current_capacity = 1.f - current_capacity;
 
 		m_energy_bar->deleteAll();
+		m_energy_bar->initialize_data_edit();
 		m_energy_bar->insert(mgl::math::vector(0.978f, current_capacity));
 		m_energy_bar->insert(mgl::math::vector(0.992f, current_capacity));
 		m_energy_bar->insert(mgl::math::vector(0.978f, 0.985f));
 		m_energy_bar->insert(mgl::math::vector(0.992f, 0.985f));
+		m_energy_bar->stop_data_edit();
 		m_energy_bar->send(mgl::DataUsage::StreamDraw);
 	}
 }
