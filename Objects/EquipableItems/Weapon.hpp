@@ -12,6 +12,7 @@ enum class WeaponSize {
 DefineNewException(UnsupportedWeaponSize);
 
 class ShootableObject;
+class EnergyStorage;
 class Weapon : public EquipableItem {
 private:
 	AmmoProjectileType m_ammo_type;
@@ -28,15 +29,17 @@ protected:
 
 	size_t m_ammo_capacity;
 	float m_reload_cooldown;
-	float m_energy_efficency_multiplier;
+
+	float m_energy_usage_coefficient;
+	EnergyStorage* m_energy_source;
 
 	mutable size_t m_current_ammo;
 	mutable unsigned long long m_last_shot_time;
 	mutable bool is_activated;
 public:
-	Weapon(AmmoProjectileType type, WeaponSize size, float mass)
-		: EquipableItem(mass), m_ammo_type(type), m_size(size), is_activated(false),
-		m_last_shot_time(0ull) {}
+	Weapon(AmmoProjectileType type, WeaponSize size, float mass, EnergyStorage* energy_source, float energy_usage_coefficient)
+		: EquipableItem(mass), m_ammo_type(type), m_size(size), is_activated(false), m_last_shot_time(0ull), 
+		m_energy_source(energy_source), m_energy_usage_coefficient(energy_usage_coefficient) {}
 	~Weapon() {}
 
 	inline AmmoProjectileType ammoType() const {
