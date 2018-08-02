@@ -50,13 +50,13 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 					p.second->get().pop_back();
 
 			for (auto y = m_map_program.min_y; y > minY; y--) {
-				p.second->get().push_front(std::list<std::unique_ptr<mgl::math::vectorH>>());
+				p.second->get().push_front(std::deque<std::unique_ptr<mgl::math::vectorH>>());
 				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						p.second->get().front().push_back(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
 			}
 			for (auto y = m_map_program.max_y; y < maxY; y++) {
-				p.second->get().push_back(std::list<std::unique_ptr<mgl::math::vectorH>>());
+				p.second->get().push_back(std::deque<std::unique_ptr<mgl::math::vectorH>>());
 				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						p.second->get().back().push_back(std::make_unique<mgl::math::vectorH>(float(x), float(y), 0.f, 0.f));
