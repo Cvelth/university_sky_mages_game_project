@@ -77,7 +77,7 @@ void game_process(Settings& s) {
 	RenderInfoStorage::generateRenderInfo();
 
 	MainActor* main_actor = new MainActor(RenderInfoStorage::getMainActorRenderInfo(),
-		60.f, 2.f, 4.f, 40.f, 300.f);
+		60.f, 2.f, 4.f, 40.f, 30.f);
 	auto energy_storage = new EnergyStorage(1.e6f, 5.f);
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
@@ -86,7 +86,7 @@ void game_process(Settings& s) {
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);
 
-	Map *map = MapGenerator::generate_continious_map(1200, 800);
+	Map *map = MapGenerator::generate_continious_map(120, 80);
 	Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
 	window->insertCamera(camera);
 	physics_engine->initializeCollisionSystem(map);
