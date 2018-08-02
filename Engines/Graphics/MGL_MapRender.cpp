@@ -29,8 +29,6 @@ void MyGraphicsLibraryEngine::recalculateProjection() {
 	resendSingleQueueProjection(m_miscellaneous_queue_program, *m_window->projection());
 	resendSingleQueueProjection(m_actor_queue_program, *m_window->projection());
 }
-#include <iostream>
-template <typename T> inline T const& diff(T const& v) { if (v < 0) return -v; else return v; }
 void MyGraphicsLibraryEngine::recalculateInstancing() {
 	auto minX = m_camera->minX_i();
 	auto maxX = m_camera->maxX_i();
@@ -45,19 +43,27 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 			p.second->initialize_data_edit();
 
 			for (auto y = m_map_program.min_y; y < minY; y++)
-				if (!p.second->get().empty()) p.second->get().pop_front();
+				if (!p.second->get().empty()) {
+					for (auto it : p.second->get().front())
+						delete it;
+					p.second->get().pop_front();
+				}
 			for (auto y = m_map_program.max_y; y > maxY; y--)
-				if (!p.second->get().empty()) p.second->get().pop_back();
+				if (!p.second->get().empty()) {
+					for (auto it : p.second->get().back())
+						delete it;
+					p.second->get().pop_back();
+				}
 
 			for (auto y = m_map_program.min_y; y > minY; y--) {
 				p.second->get().push_front(std::list<mgl::math::vectorH*>());
-				for (auto x = m_map_program.min_x; x < m_map_program.max_x; x++)
+				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						p.second->get().front().push_back(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
 			}
 			for (auto y = m_map_program.max_y; y < maxY; y++) {
 				p.second->get().push_back(std::list<mgl::math::vectorH*>());
-				for (auto x = m_map_program.min_x; x < m_map_program.max_x; x++)
+				for (auto x = m_map_program.min_x; x <= m_map_program.max_x; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						p.second->get().back().push_back(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
 			}
@@ -66,15 +72,21 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 			for (auto &list : p.second->get()) {
 				for (auto x = m_map_program.min_x; x < minX; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
-						if (!list.empty()) list.pop_front();
+						if (!list.empty()) {
+							delete list.front();
+							list.pop_front();
+						}
 				for (auto x = m_map_program.max_x; x > maxX; x--)
 					if (*m_camera->map()->get(x, y) == *p.first)
-						if (!list.empty()) list.pop_back();
+						if (!list.empty()) {
+							delete list.back();
+							list.pop_back();
+						}
 
-				for (auto x = m_map_program.min_x; x > minX; x--)
+				for (auto x = m_map_program.min_x; x >= minX; x--)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						list.push_front(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
-				for (auto x = m_map_program.max_x; x < maxX; x++)
+				for (auto x = m_map_program.max_x; x <= maxX; x++)
 					if (*m_camera->map()->get(x, y) == *p.first)
 						list.push_back(new mgl::math::vectorH(float(x), float(y), 0.f, 0.f));
 				
