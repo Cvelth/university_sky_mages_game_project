@@ -45,9 +45,9 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 			p.second->initialize_data_edit();
 
 			for (auto y = m_map_program.min_y; y < minY; y++)
-				p.second->get().pop_front();
+				if (!p.second->get().empty()) p.second->get().pop_front();
 			for (auto y = m_map_program.max_y; y > maxY; y--)
-				p.second->get().pop_back();
+				if (!p.second->get().empty()) p.second->get().pop_back();
 
 			for (auto y = m_map_program.min_y; y > minY; y--) {
 				p.second->get().push_front(std::list<mgl::math::vectorH*>());
