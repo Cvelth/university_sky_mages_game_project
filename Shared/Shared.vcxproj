@@ -135,6 +135,7 @@
     <ClInclude Include="GameMode.hpp" />
     <ClInclude Include="KeyLayout.hpp" />
     <ClInclude Include="PhysicsConstants.hpp" />
+    <ClInclude Include="ProgramData.hpp" />
     <ClInclude Include="vector.hpp" />
   </ItemGroup>
   <ItemGroup>

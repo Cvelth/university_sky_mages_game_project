@@ -1,0 +1,22 @@
+Settings.stg is an ObjectStorage v0.1 file for SkyMages v0.2.0.160_dev with 2 objects
+# Use '#' at the beginning of the string to make a commentary.
+
+# Supported Object Types:
+#    Client Settings.
+#    Server Settings.
+
+Object 1 - ClientSettings
+# Structure of a line : "- field_type field-name = field_value"
+
+u_int Screen_Width = 1280
+u_int Screen_Height = 1024
+boolean Fullscreen_Window = false
+u_int Graphical_Updates_Per_Second = 60
+u_int Physical_Updates_Per_Second = 60
+Keys Keys_Layout = 41 37 19 22 36 51
+string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/
+
+Object 2 - ServerSettings
+# Structure of a line : "- field_type field-name = field_value"
+
+string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/

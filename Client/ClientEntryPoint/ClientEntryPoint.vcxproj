@@ -89,9 +89,7 @@
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -105,9 +103,7 @@
       <AdditionalIncludeDirectories>..\..\;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -128,9 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,16 +142,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
-    <PreLinkEvent>
-      <Command>call "$(ProjectDir)linksettings.bat"</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <ProjectReference />
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <None Include="LinkSettings.bat" />
-    <None Include="Settings.ini" />
-    <None Include="Settings.ini.backup" />
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -167,6 +154,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
       <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
+      <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
@@ -197,9 +187,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Controller\Controller.vcxproj">
       <Project>{c5c17a7e-3702-464b-a46a-39679106b95b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Settings\Settings.vcxproj">
-      <Project>{0dfe8e10-1f21-496b-897a-08d62d4611b3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Window\Window.vcxproj">
       <Project>{90a4d32b-9433-4933-9588-2fcd6a3e9392}</Project>

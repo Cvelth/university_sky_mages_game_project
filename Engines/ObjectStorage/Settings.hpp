@@ -2,19 +2,22 @@
 #include <unordered_map>
 #include <variant>
 #include <string>
-#include "Shared/KeyLayout.hpp"
+#include "../../Shared/KeyLayout.hpp"
 using SettingValue = std::variant<bool, signed int, unsigned int, float, std::string, KeyLayout>;
 using Setting = std::pair<const std::string, SettingValue>;
 using SettingsMap = std::unordered_map<std::string, SettingValue>;
 
+class Objects;
+class ObjectStorage;
+
 class Settings {
-private:
-	std::string SettingsFileName;
+	friend Objects;
+	friend ObjectStorage;
 protected:
 	SettingsMap m_data;
 public:
-	Settings(std::string filename = "Settings.ini");
-	~Settings();
+	Settings() {}
+	~Settings() {}
 
 	SettingValue& operator[](std::string const &name);
 	const SettingValue& operator[](std::string const &name) const;
@@ -41,26 +44,15 @@ protected:
 	void addSetting(std::string const &name, const float value);
 	void addSetting(std::string const &name, const std::string& value);
 	void addSetting(std::string const &name, const KeyLayout& value);
-public:
-	void initialize();
-	void nullify();
-	void load();
-	void save();
-	void backup();	
-	void unbackup();
-protected:
-	void loadFirstLine(std::string const &line);
-	void loadLine(std::string const &line);
-	void copy_file(std::string const &from, std::string const &to);
-public:
-	std::string getProgramVersionInfo();
-};
 
+	void clear();
+
+	void parse_line(std::string const &line);
+	std::string generate_line() const;
+};
+/*
 std::ostream& operator<<(std::ostream &stream, const SettingValue &value);
 std::istream& operator>>(std::istream &stream, SettingValue &value);
-
-#include "Shared/AbstractException.hpp"
-DefineNewException(NoSettingsFileException);
-DefineNewException(SettingsAccessException);
-DefineNewException(SettingsVersionException);
+*/
+#include "../../Shared/AbstractException.hpp"
 DefineNewException(SettingsUsageException);
