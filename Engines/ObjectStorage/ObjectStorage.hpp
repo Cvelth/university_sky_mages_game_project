@@ -1,10 +1,5 @@
 #pragma once
 #include <string>
-/*
-Supported object types:
-- Client Settings
-- Server Settings
-*/
 enum class ObjectType {
 	Empty = 0, ClientSettings, ServerSettings,
 	EnergyStorage, FlyEngine, Weapon
