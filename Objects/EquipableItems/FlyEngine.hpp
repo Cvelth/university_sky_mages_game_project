@@ -1,82 +1,34 @@
 #pragma once
 #include "Objects/AbstractObjects/EquipableItem.hpp"
 #include "Objects/ObjectState/DependedAcceleratableObject.hpp"
-#include "Shared/AbstractException.hpp"
-DefineNewException(IncorrectInitializationDataWasPassedException);
-DefineNewException(YouMustNotUseThisFunctionExceptions)
 #define invert_if(inverted, value) (inverted ? +value : -value)
 
-struct FlyEngineControls {
-	float anti_gravity_mode_off_up_acceleration_percent;
-	float anti_gravity_mode_off_down_acceleration_percent;
-	float anti_gravity_mode_off_left_acceleration_percent;
-	float anti_gravity_mode_off_right_acceleration_percent;
-
-	float anti_gravity_mode_on_up_acceleration_percent;
-	float anti_gravity_mode_on_down_acceleration_percent;
-	float anti_gravity_mode_on_left_acceleration_percent;
-	float anti_gravity_mode_on_right_acceleration_percent;
-
-	bool check_correction() {
-		return (anti_gravity_mode_off_up_acceleration_percent < 1.f || anti_gravity_mode_off_up_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_off_down_acceleration_percent < 1.f || anti_gravity_mode_off_down_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_off_left_acceleration_percent < 1.f || anti_gravity_mode_off_left_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_off_right_acceleration_percent < 1.f || anti_gravity_mode_off_right_acceleration_percent > 0.f) &&
-
-			(anti_gravity_mode_on_up_acceleration_percent < 1.f || anti_gravity_mode_on_up_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_on_down_acceleration_percent < 1.f || anti_gravity_mode_on_down_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_on_left_acceleration_percent < 1.f || anti_gravity_mode_on_left_acceleration_percent > 0.f) &&
-			(anti_gravity_mode_on_right_acceleration_percent < 1.f || anti_gravity_mode_on_right_acceleration_percent > 0.f);
-	}
-};
-
 class EnergyStorage;
+class ObjectStorage;
 class FlyEngine : public EquipableItem, public DependedAcceleratableObjectState {
-private:
-
+	friend ObjectStorage;
 protected:
 	float m_maximum_acceleration;
 	float m_energy_usage_coefficient;
 
-	EnergyStorage* m_energy_source;
-	FlyEngineControls m_settings;
-	float m_anti_gravity_expected_mass; //0.f for turned off.
-protected:
-	float const calculate_acceleration_up() const {
-		if (m_anti_gravity_expected_mass)
-			return -m_maximum_acceleration * m_settings.anti_gravity_mode_on_up_acceleration_percent;
-		else
-			return -m_maximum_acceleration * m_settings.anti_gravity_mode_off_up_acceleration_percent;
-	}
-	float const calculate_acceleration_down() const {
-		if (m_anti_gravity_expected_mass)
-			return +m_maximum_acceleration * m_settings.anti_gravity_mode_on_down_acceleration_percent;
-		else
-			return +m_maximum_acceleration * m_settings.anti_gravity_mode_off_down_acceleration_percent;
-	}
-	float const calculate_acceleration_left() const {
-		if (m_anti_gravity_expected_mass)
-			return -m_maximum_acceleration * m_settings.anti_gravity_mode_on_left_acceleration_percent;
-		else
-			return -m_maximum_acceleration * m_settings.anti_gravity_mode_off_left_acceleration_percent;
-	}
-	float const calculate_acceleration_right() const {
-		if (m_anti_gravity_expected_mass)
-			return +m_maximum_acceleration * m_settings.anti_gravity_mode_on_right_acceleration_percent;
-		else
-			return +m_maximum_acceleration * m_settings.anti_gravity_mode_off_right_acceleration_percent;
-	}
-public:
-	FlyEngine(EnergyStorage* energy_source, float energy_usage_coefficient,
-			  float max_acceleration, float mass, FlyEngineControls settings)
-		: EquipableItem(mass), DependedAcceleratableObjectState(mass), m_energy_source(energy_source), 
-		m_energy_usage_coefficient(energy_usage_coefficient), m_settings(settings),
-		m_maximum_acceleration(max_acceleration), m_anti_gravity_expected_mass(0.f) {
+	float m_up_acceleration_percent;
+	float m_down_acceleration_percent;
+	float m_left_acceleration_percent;
+	float m_right_acceleration_percent;
 
-		if (!m_settings.check_correction())
-			throw Exceptions::IncorrectInitializationDataWasPassedException("Data, used to initialize new AbstractFlyEngine, isn't supported.");
-	}
+	EnergyStorage* m_energy_source;
+	mutable float m_anti_gravity_expected_mass; //0.f for turned off.
+protected:
+	float const calculate_acceleration_up() const;
+	float const calculate_acceleration_down() const;
+	float const calculate_acceleration_left() const;
+	float const calculate_acceleration_right() const;
+
+	FlyEngine() : EquipableItem(), DependedAcceleratableObjectState(0.f) { }
+public:
 	~FlyEngine() {}
+
+	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
 
 	using EquipableItem::mass;
 	using EquipableItem::addMass;
@@ -109,7 +61,43 @@ public:
 	}
 
 	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
-	
 	virtual vector acceleration(scalar const& mass, scalar const& time_correct) const;
-	
+private:
+	template <typename value_type>
+	void set_value(std::string const& name, value_type const& value);
 };
+
+template<>
+inline void FlyEngine::set_value<std::string>(std::string const& name, std::string const& value) {
+	if (name == "name")
+		m_name = value;
+	else if (name == "description")
+		m_description = value;
+	else
+		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+}
+template<>
+inline void FlyEngine::set_value<float>(std::string const& name, float const& value) {
+	if (name == "mass") {
+		EquipableItem::addMass(value);
+		DependedAcceleratableObjectState::addMass(value);
+	} else if (name == "energy_usage_coefficient")
+		m_energy_usage_coefficient = value;
+	else if (name == "maximum_acceleration")
+		m_maximum_acceleration = value;
+	else if (name == "up_acceleration_percent")
+		m_up_acceleration_percent = value;
+	else if (name == "down_acceleration_percent")
+		m_down_acceleration_percent = value;
+	else if (name == "left_acceleration_percent")
+		m_left_acceleration_percent = value;
+	else if (name == "right_acceleration_percent")
+		m_right_acceleration_percent = value;
+	else
+		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+}
+
+template<typename value_type>
+inline void FlyEngine::set_value(std::string const& name, value_type const& value) {
+	static_assert("Unsupported value type");
+}
