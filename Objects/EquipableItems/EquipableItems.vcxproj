@@ -22,10 +22,12 @@
     <ClInclude Include="EnergyStorage.hpp" />
     <ClInclude Include="FlyEngine.hpp" />
     <ClInclude Include="Shield.hpp" />
+    <ClInclude Include="TimeControl.hpp" />
     <ClInclude Include="Trinket.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnergyStorage.cpp" />
     <ClCompile Include="FlyEngine.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>

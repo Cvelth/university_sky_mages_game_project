@@ -26,12 +26,18 @@
     <ClInclude Include="Trinket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TimeControl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FlyEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnergyStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
