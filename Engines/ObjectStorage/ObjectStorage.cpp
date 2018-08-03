@@ -77,6 +77,7 @@ void ObjectStorage::parse_first_line(std::string const& line) {
 }
 
 #include "../../Objects/EquipableItems/EnergyStorage.hpp"
+#include "../../Objects/EquipableItems/FlyEngine.hpp"
 void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 	m_current_object = type;
 	float value;
@@ -85,6 +86,10 @@ void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 	case ObjectType::EnergyStorage:
 		s >> placeholder >> value;
 		m_objects->m_energy_storage.push_back(std::unique_ptr<EnergyStorage>(new EnergyStorage(value)));
+		break;
+	case ObjectType::FlyEngine:
+		m_objects->m_fly_engine.push_back(std::unique_ptr<FlyEngine>(new FlyEngine()));
+		break;
 	}
 }
 #include <list>
@@ -181,7 +186,8 @@ void ObjectStorage::parse_object_line(std::string const& line) {
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_energy_storage.back()->set_value(name, value); });
 		break;
 	case ObjectType::FlyEngine:
-		//Do nothing.
+		if (!m_objects->m_fly_engine.empty())
+			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_fly_engine.back()->set_value(name, value); });
 		break;
 	case ObjectType::Weapon:
 		//Do nothing.

@@ -28,10 +28,10 @@ std::string Objects::get_program_version() {
 EnergyStorage* Objects::get_energy_storage() const {
 	return new EnergyStorage(*m_energy_storage.front());
 }
-//#include "../../Objects/EquipableItems/FlyEngine.hpp"
-//FlyEngine* Objects::get_fly_engine() const {
-//	return new FlyEngine(*m_fly_engine.front());
-//}
+#include "../../Objects/EquipableItems/FlyEngine.hpp"
+FlyEngine* Objects::get_fly_engine() const {
+	return new FlyEngine(*m_fly_engine.front());
+}
 //#include "../../Objects/EquipableItems/Weapon.hpp"
 //Weapon* Objects::get_weapon() const {
 //	return new Weapon(*m_weapon.front());
