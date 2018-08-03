@@ -3,6 +3,19 @@
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 
+void MainActor::giveEnergyStorage(EnergyStorage *es) {
+	m_energy_storage = es;
+	if (m_engine) m_engine->connect_to_energy_source(m_energy_storage);
+	if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(m_energy_storage);
+	if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(m_energy_storage);
+}
+
+void MainActor::giveFlyEngine(FlyEngine *fe) {
+	if (m_engine) m_engine->connect_to_energy_source(nullptr);
+	m_engine = fe;
+	fe->connect_to_energy_source(m_energy_storage);
+}
+
 void MainActor::giveLeftWeapon(Weapon *w) {
 	switch (w->size()) {
 		case WeaponSize::One_Arm:
@@ -12,14 +25,21 @@ void MainActor::giveLeftWeapon(Weapon *w) {
 				(m_weapon_right_arm->size() == WeaponSize::Two_Arm ||
 				 m_weapon_right_arm->size() == WeaponSize::Big)) {
 
+				m_weapon_right_arm->connect_to_energy_source(nullptr);
 				m_weapon_right_arm = nullptr;
 			}
+
+			if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(nullptr);
 			m_weapon_left_arm = w;
+			m_weapon_left_arm->connect_to_energy_source(m_energy_storage);
 			break;
 		case WeaponSize::Two_Arm:
 		case WeaponSize::Big:
+			if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(nullptr);
+			if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(nullptr);
 			m_weapon_left_arm = w;
 			m_weapon_right_arm = w;
+			m_weapon_right_arm->connect_to_energy_source(m_energy_storage);
 			break;
 		default:
 			throw Exceptions::UnsupportableItemWasGivenException("This weapon cannot be equiped.");
@@ -27,24 +47,31 @@ void MainActor::giveLeftWeapon(Weapon *w) {
 }
 void MainActor::giveRightWeapon(Weapon *w) {
 	switch (w->size()) {
-		case WeaponSize::One_Arm:
-		case WeaponSize::One_And_A_Half_Arm:
-		case WeaponSize::Small:
-			if (m_weapon_left_arm &&
-				(m_weapon_left_arm->size() == WeaponSize::Two_Arm ||
-				 m_weapon_left_arm->size() == WeaponSize::Big)) {
+	case WeaponSize::One_Arm:
+	case WeaponSize::One_And_A_Half_Arm:
+	case WeaponSize::Small:
+		if (m_weapon_left_arm &&
+			(m_weapon_left_arm->size() == WeaponSize::Two_Arm ||
+				m_weapon_left_arm->size() == WeaponSize::Big)) {
 
-				m_weapon_left_arm = nullptr;
-			}
-			m_weapon_right_arm = w;
-			break;
-		case WeaponSize::Two_Arm:
-		case WeaponSize::Big:
-			m_weapon_left_arm = w;
-			m_weapon_right_arm = w;
-			break;
-		default:
-			throw Exceptions::UnsupportableItemWasGivenException("This weapon cannot be equiped.");
+			m_weapon_left_arm->connect_to_energy_source(nullptr);
+			m_weapon_left_arm = nullptr;
+		}
+
+		if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(nullptr);
+		m_weapon_right_arm = w;
+		m_weapon_right_arm->connect_to_energy_source(m_energy_storage);
+		break;
+	case WeaponSize::Two_Arm:
+	case WeaponSize::Big:
+		if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(nullptr);
+		if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(nullptr);
+		m_weapon_left_arm = w;
+		m_weapon_right_arm = w;
+		m_weapon_right_arm->connect_to_energy_source(m_energy_storage);
+		break;
+	default:
+		throw Exceptions::UnsupportableItemWasGivenException("This weapon cannot be equiped.");
 	}
 }
 
@@ -76,10 +103,7 @@ ShootableObject* MainActor::shootLeftWeapon() {
 	return nullptr;
 }
 std::vector<ShootableObject*> MainActor::shootingProcess() {
-	std::vector<ShootableObject*> ret;
-	ret.push_back(shootRightWeapon());
-	ret.push_back(shootLeftWeapon());
-	return ret;
+	return { shootRightWeapon(), shootLeftWeapon() };
 }
 
 vector MainActor::acceleration(scalar const& time_correct) const {
@@ -94,6 +118,6 @@ scalar MainActor::mass() const {
 MainActor::~MainActor() {
 	if (m_energy_storage) delete m_energy_storage;
 	if (m_engine) delete m_engine;
-	if (m_weapon_left_arm)delete m_weapon_left_arm;
-	if (m_weapon_right_arm)delete m_weapon_right_arm;
+	if (m_weapon_left_arm) delete m_weapon_left_arm;
+	if (m_weapon_right_arm) delete m_weapon_right_arm;
 }
