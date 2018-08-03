@@ -32,7 +32,7 @@ EnergyStorage* Objects::get_energy_storage() const {
 FlyEngine* Objects::get_fly_engine() const {
 	return new FlyEngine(*m_fly_engine.front());
 }
-//#include "../../Objects/EquipableItems/Weapon.hpp"
-//Weapon* Objects::get_weapon() const {
-//	return new Weapon(*m_weapon.front());
-//}
+#include "../../Objects/EquipableItems/Weapon.hpp"
+Weapon* Objects::get_weapon() const {
+	return new Weapon(*m_weapon.front());
+}

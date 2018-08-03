@@ -16,7 +16,7 @@ protected:
 	Settings *m_settings;
 	std::list<std::unique_ptr<EnergyStorage>> m_energy_storage;
 	std::list<std::unique_ptr<FlyEngine>> m_fly_engine;
-	//std::list<std::unique_ptr<Weapon>> m_weapon;
+	std::list<std::unique_ptr<Weapon>> m_weapon;
 public:
 	Objects(ProgramMode);
 	~Objects();
@@ -32,7 +32,7 @@ public:
 	//to be rewritten.
 	EnergyStorage* get_energy_storage() const;
 	FlyEngine* get_fly_engine() const;
-	//Weapon* get_weapon() const;
+	Weapon* get_weapon() const;
 };
 
 Objects* initialize_object_storage(ProgramMode);
