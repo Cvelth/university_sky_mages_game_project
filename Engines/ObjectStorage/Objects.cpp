@@ -23,3 +23,16 @@ std::string Objects::get_program_version() {
 		std::to_string(Program_Build_Version) + "_" +
 		Program_Version_Suffix;
 }
+
+#include "../../Objects/EquipableItems/EnergyStorage.hpp"
+EnergyStorage* Objects::get_energy_storage() const {
+	return new EnergyStorage(*m_energy_storage.front());
+}
+//#include "../../Objects/EquipableItems/FlyEngine.hpp"
+//FlyEngine* Objects::get_fly_engine() const {
+//	return new FlyEngine(*m_fly_engine.front());
+//}
+//#include "../../Objects/EquipableItems/Weapon.hpp"
+//Weapon* Objects::get_weapon() const {
+//	return new Weapon(*m_weapon.front());
+//}
