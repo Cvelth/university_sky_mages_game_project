@@ -47,8 +47,8 @@ protected:
 
 	void clear();
 
-	void parse_line(std::string const &line);
-	std::string generate_line() const;
+	//void parse_line(std::string const &line);
+	//std::string generate_line() const;
 };
 /*
 std::ostream& operator<<(std::ostream &stream, const SettingValue &value);
