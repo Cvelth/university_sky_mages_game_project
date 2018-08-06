@@ -29,12 +29,8 @@ public:
 	using Actor::Actor;
 	~MainActor();
 
-	inline void giveEnergyStorage(EnergyStorage *es) {
-		m_energy_storage = es;
-	}
-	inline void giveFlyEngine(FlyEngine *fe) {
-		m_engine = fe;
-	}
+	void giveEnergyStorage(EnergyStorage *es);
+	void giveFlyEngine(FlyEngine *fe);
 	void giveRightWeapon(Weapon *w);
 	void giveLeftWeapon(Weapon *w);
 

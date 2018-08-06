@@ -32,39 +32,6 @@ int client_main() {
 #include "Engines/ObjectStorage/Settings.hpp"
 
 #include <thread>
-
-FlyEngine* initializeFlyEngine(EnergyStorage* energy_source) {
-	FlyEngineControls fe_settings;
-	fe_settings.anti_gravity_mode_off_up_acceleration_percent = 1.f;
-	fe_settings.anti_gravity_mode_off_down_acceleration_percent = 0.05f;
-	fe_settings.anti_gravity_mode_off_left_acceleration_percent = 0.55f;
-	fe_settings.anti_gravity_mode_off_right_acceleration_percent = 0.55f;
-	fe_settings.anti_gravity_mode_on_up_acceleration_percent = 0.55f;
-	fe_settings.anti_gravity_mode_on_down_acceleration_percent = 0.55f;
-	fe_settings.anti_gravity_mode_on_left_acceleration_percent = 0.55f;
-	fe_settings.anti_gravity_mode_on_right_acceleration_percent = 0.55f;
-	return new FlyEngine(energy_source, 0.4f, 1300.f, 3.f, fe_settings);
-}
-
-class TestWeapon : public Weapon {
-public:
-	TestWeapon(EnergyStorage* energy_source) : Weapon(AmmoProjectileType::Bullet, WeaponSize::One_Arm, 8.f, energy_source, 0.15f) {
-		m_damage = 1.f;
-		m_firerate = 60.f;
-		m_autofire_supported = true;
-
-		m_initial_ammo_speed = 200.f;
-		m_initial_ammo_mass = 0.1f;
-		m_initial_ammo_size_h = 0.005f;
-		m_initial_ammo_size_v = 0.005f;
-
-		m_ammo_capacity = 5;
-		m_reload_cooldown = 0.5f;
-
-		m_current_ammo = m_ammo_capacity;
-	}
-};
-
 void game_process(Objects *o) {
 	GameModeController::startInitialization();
 	ControllerInterface* controller = new ControllerInterface();
@@ -93,10 +60,10 @@ void game_process(Objects *o) {
 
 	MainActor* main_actor = new MainActor(RenderInfoStorage::getMainActorRenderInfo(),
 		60.f, 2.f, 4.f, 40.f, 30.f);
-	auto energy_storage = new EnergyStorage(1.e6f, 5.f);
+	auto energy_storage = o->get_energy_storage();
 	main_actor->giveEnergyStorage(energy_storage);
-	main_actor->giveFlyEngine(initializeFlyEngine(energy_storage));
-	main_actor->giveRightWeapon(new TestWeapon(energy_storage));
+	main_actor->giveFlyEngine(o->get_fly_engine());
+	main_actor->giveRightWeapon(o->get_weapon());
 
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);

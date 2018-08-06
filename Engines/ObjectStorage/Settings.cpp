@@ -116,7 +116,7 @@ void Settings::clear() {
 	m_data.clear();
 }
 
-#include <sstream>
+/*
 void Settings::parse_line(std::string const &line) {
 	std::stringstream iss(line);
 	std::string s;
@@ -154,10 +154,10 @@ void Settings::parse_line(std::string const &line) {
 	}
 	else
 		throw Exceptions::SettingsUsageException("Setting type is currently unsupported.");
-}
-std::string Settings::generate_line() const {
-	return std::string(); //to be implemented;
-}
+}*/
+//std::string Settings::generate_line() const {
+//	return std::string(); //to be implemented;
+//}
 /*
 #include "DefaultSettings.hpp"
 
