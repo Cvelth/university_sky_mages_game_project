@@ -4,6 +4,7 @@
 #include "Shared/AbstractException.hpp"
 DefineNewException(RenderInfoException);
 #include "FileLoader.hpp"
+#include "DefaultObjectStorageData.hpp"
 class RenderInfo;
 namespace mgl {
 	class Color;
@@ -31,6 +32,6 @@ public:
 	~RenderInfoStorage();
 	static inline void check() { if (!wasRenderInfoLoaded) throw Exceptions::RenderInfoException("Render info was never loaded, so it cannot be accessed. Call loadRenderInfo() first."); }
 	static RenderInfo* getRenderInfo(std::string const& obj);
-	void load(std::string const& path = "/") { FileLoader::load(path, ".ris"); wasRenderInfoLoaded = true; }
+	void load(std::string const& path = "/") { FileLoader::load(path, RenderInfoFileExtention); wasRenderInfoLoaded = true; }
 	static void clean();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "FileLoader.hpp"
+#include "DefaultObjectStorageData.hpp"
 enum class ObjectType {
 	Empty = 0, ClientSettings, ServerSettings,
 	EnergyStorage, FlyEngine, Weapon
@@ -22,6 +23,6 @@ protected:
 	void initialize_object(ObjectType type, std::istream &s);
 public:
 	ObjectStorage(Objects* objects, std::string const& path = "/");
-	void load(std::string const& path = "/") { FileLoader::load(path, ".stg"); }
+	void load(std::string const& path = "/") { FileLoader::load(path, ObjectStorageFileExtention); }
 	virtual void save(std::string const& filename, std::string const& path);
 };
