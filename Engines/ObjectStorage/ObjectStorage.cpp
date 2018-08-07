@@ -6,7 +6,7 @@ ObjectStorage::ObjectStorage(Objects *objects, std::string const& path)
 	: m_objects(objects), m_current_object(ObjectType::Empty),
 	m_current_object_counter(0), m_current_object_number(0) { load(path); }
 
-void ObjectStorage::save(std::string const & filename, std::string const & path) {
+void ObjectStorage::save(std::string const& filename, std::string const& path) {
 	static_assert("Not yet implemented.");
 }
 
