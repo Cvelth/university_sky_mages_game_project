@@ -126,6 +126,7 @@
     <ClInclude Include="DefaultClientSetting.hpp" />
     <ClInclude Include="DefaultServerSettings.hpp" />
     <ClInclude Include="FileLoader.hpp" />
+    <ClInclude Include="MapStorage.hpp" />
     <ClInclude Include="Objects.hpp" />
     <ClInclude Include="ObjectStorage.hpp" />
     <ClInclude Include="DefaultObjectStorageData.hpp" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileLoader.cpp" />
+    <ClCompile Include="MapStorage.cpp" />
     <ClCompile Include="Objects.cpp" />
     <ClCompile Include="ObjectStorage.cpp" />
     <ClCompile Include="RenderInfoStorage.cpp" />
