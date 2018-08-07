@@ -4,6 +4,7 @@
 void game_process(Objects *s);
 int client_main() {
 	Objects *o = initialize_object_storage(ProgramMode::Client);
+	initialize_render_info();
 	try {
 		game_process(o);
 	}
@@ -19,7 +20,6 @@ int client_main() {
 #include "Client/Window/Window.hpp"
 #include "Client/Controller/ControllerInterface.hpp"
 #include "Engines/Physics/PhysicsEngine.hpp"
-#include "Engines/RenderTools/RenderInfoStorage.hpp"
 #include "Engines/Camera/Camera.hpp"
 #include "Objects/Map/Map.hpp"
 #include "Objects/Map/MapGenerator.hpp"
@@ -49,17 +49,13 @@ void game_process(Objects *o) {
 		main_object_queue, projectile_queue, miscellaneous_object_queue);
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
-
-
+	
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
 	}, main_object_queue, projectile_queue, miscellaneous_object_queue);
 	physics_engine->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
-	RenderInfoStorage::generateRenderInfo();
-
-	MainActor* main_actor = new MainActor(RenderInfoStorage::getMainActorRenderInfo(),
-		60.f, 2.f, 4.f, 40.f, 30.f);
+	MainActor* main_actor = new MainActor(60.f, 2.f, 4.f, 40.f, 30.f);
 	auto energy_storage = o->get_energy_storage();
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(o->get_fly_engine());
