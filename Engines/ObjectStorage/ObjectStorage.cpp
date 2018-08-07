@@ -6,6 +6,10 @@ ObjectStorage::ObjectStorage(Objects *objects, std::string const& path)
 	: m_objects(objects), m_current_object(ObjectType::Empty),
 	m_current_object_counter(0), m_current_object_number(0) { load(path); }
 
+void ObjectStorage::save(std::string const & filename, std::string const & path) {
+	static_assert("Not yet implemented.");
+}
+
 ObjectType _switch(std::string const& type) {
 	if (type == "ClientSettings")
 		return ObjectType::ClientSettings;
@@ -135,4 +139,9 @@ void ObjectStorage::parse_file_type_info(std::string const& line) {
 
 	m_current_object_number = temp;
 	m_current_object_counter = 0;
+}
+std::string ObjectStorage::generate_file_type_info() {
+	std::ostringstream s;
+	s << "with " << m_objects->size() << " objects";
+	return s.str();
 }
