@@ -128,11 +128,13 @@
     <ClInclude Include="Objects.hpp" />
     <ClInclude Include="ObjectStorage.hpp" />
     <ClInclude Include="DefaultObjectStorageData.hpp" />
+    <ClInclude Include="RenderInfoStorage.hpp" />
     <ClInclude Include="Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Objects.cpp" />
     <ClCompile Include="ObjectStorage.cpp" />
+    <ClCompile Include="RenderInfoStorage.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
