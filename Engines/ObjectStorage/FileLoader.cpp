@@ -64,7 +64,7 @@ void FileLoader::load(std::string const& path_string, std::string const& file_ex
 						if (first_line_parsed)
 							parse_line(temp_line);
 						else {
-							parse_first_line(temp_line);
+							parse_first_line(temp_line, file_extention);
 							first_line_parsed = true;
 						}
 			}
