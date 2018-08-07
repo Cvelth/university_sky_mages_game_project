@@ -136,11 +136,17 @@
     <ClInclude Include="server.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
+      <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
       <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Objects\EquipableItems\EquipableItems.vcxproj">
       <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\Map\Map.vcxproj">
+      <Project>{40c730bf-4334-4285-a86e-9953a89b9801}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
