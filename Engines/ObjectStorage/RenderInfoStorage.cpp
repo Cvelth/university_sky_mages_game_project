@@ -92,14 +92,18 @@ void RenderInfoStorage::parse_object_line(std::string const& line) {
 		float aspect_ratio;
 		std::string filled;
 		iss >> aspect_ratio >> placeholder >> s >> filled;
-		m_current_render_info->get()->addPrimitive(mgl::generateRectangle(aspect_ratio, m_current_color, placing_switch(s), filling_switch(filled)));
+		auto primitive = mgl::generateRectangle(aspect_ratio, m_current_color, placing_switch(s), filling_switch(filled));
+		*primitive *= *m_current_scale;
+		m_current_render_info->get()->addPrimitive(primitive);
 	}
 	else if (s == "Ellipse") {
 		float aspect_ratio;
 		std::string filled;
 		size_t vertices;
 		iss >> aspect_ratio >> placeholder >> vertices >> placeholder >> s >> filled;
-		m_current_render_info->get()->addPrimitive(mgl::generateEllipse(aspect_ratio, vertices, m_current_color, placing_switch(s), filling_switch(filled)));
+		auto primitive = mgl::generateEllipse(aspect_ratio, vertices, m_current_color, placing_switch(s), filling_switch(filled));
+		*primitive *= *m_current_scale;
+		m_current_render_info->get()->addPrimitive(primitive);
 	} else
 		throw Exceptions::FileParsingException(("Unsupported RenderStorage line was encountered:\n" + line).c_str());
 }
