@@ -46,6 +46,7 @@ protected:
 	void addSetting(std::string const &name, const KeyLayout& value);
 
 	void clear();
+	size_t size() const { return m_data.size(); }
 
 	//void parse_line(std::string const &line);
 	//std::string generate_line() const;
