@@ -1,7 +1,7 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
 #include "../MyGraphicsLibrary/MGL/OpenGL/FunctionsMirror/FunctionsMirror.hpp"
-#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Objects/AbstractObjects/IndependentObject.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Objects/Actors/MainActor.hpp"

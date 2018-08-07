@@ -118,6 +118,7 @@
     <ClInclude Include="DependedAcceleratableObject.hpp" />
     <ClInclude Include="DependentObject.hpp" />
     <ClInclude Include="IndependentObject.hpp" />
+    <ClInclude Include="ObjectQueue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">

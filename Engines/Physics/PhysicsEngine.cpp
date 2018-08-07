@@ -1,5 +1,5 @@
 #include "PhysicsEngine.hpp"
-#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
 
 size_t PhysicsEngine::UpdateInterval = 16667ul;
 

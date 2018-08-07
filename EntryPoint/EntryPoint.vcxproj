@@ -167,9 +167,6 @@
     <ProjectReference Include="..\Objects\Map\Map.vcxproj">
       <Project>{40c730bf-4334-4285-a86e-9953a89b9801}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Objects\ObjectQueue\ObjectQueue.vcxproj">
-      <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Objects\ObjectState\ObjectState.vcxproj">
       <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
     </ProjectReference>

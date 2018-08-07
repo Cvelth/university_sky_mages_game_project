@@ -50,7 +50,7 @@ MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
 	m_window = new MGLWindow();
 }
 
-#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
 void MyGraphicsLibraryEngine::initializeQueues(MainActorQueue *mq, ProjectileQueue *pq, ObjectQueue *oq) {
 	if (mq)	m_actor_queue = mq;
 	else m_actor_queue = new MainActorQueue();

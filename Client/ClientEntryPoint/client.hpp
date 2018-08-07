@@ -28,7 +28,7 @@ int client_main() {
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Engines/Graphics/HUD_RenderInfo.hpp"
-#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Engines/ObjectStorage/Settings.hpp"
 
 #include <thread>

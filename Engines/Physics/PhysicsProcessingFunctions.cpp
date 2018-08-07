@@ -62,7 +62,7 @@ void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
-#include "Objects/ObjectQueue/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
 void PhysicsEngine::processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue) {
 	for (auto projectile : ma->shootingProcess())
 		if (projectile)
