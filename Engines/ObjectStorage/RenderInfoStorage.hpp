@@ -24,6 +24,10 @@ protected:
 	virtual void parse_file_type_info(std::string const& line) override;
 	virtual void parse_line(std::string const& line) override;
 	virtual void parse_object_line(std::string const& line);
+
+	[[deprecated]] virtual std::string generate_first_line() { return ""; }
+	[[deprecated]] virtual std::string generate_line() { return ""; }
+	[[deprecated]] virtual std::string generate_file_type_info() { return ""; }
 public:
 	RenderInfoStorage();
 	~RenderInfoStorage();
