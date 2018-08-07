@@ -33,6 +33,14 @@ void FileLoader::parse_first_line(std::string const& line, std::string const& fi
 	parse_file_type_info(string);
 }
 
+std::string FileLoader::generate_first_line(std::string const& filename, std::string const& file_extention) {
+	std::ostringstream s;
+	s << filename << file_extention << " is an ObjectStorage v" << Object_Storage_Syntax_Major_Version << "." << Object_Storage_Syntax_Minor_Version << " file for " << Program_Name
+		<< " v" << Program_Major_Version << "." << Program_Minor_Version << "." << Program_Patch_Version << "." << Program_Build_Version << "_" << Program_Version_Suffix << " "
+		<< generate_file_type_info();
+	return s.str();
+}
+
 #include <list>
 std::list<std::string> split_path(std::string const& path, std::string const& separator = ";") {
 	std::list<std::string> ret;
