@@ -129,12 +129,10 @@
   <ItemGroup>
     <ClCompile Include="HUD_RenderInfo.cpp" />
     <ClCompile Include="RenderInfo.cpp" />
-    <ClCompile Include="RenderInfoStorage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HUD_RenderInfo.hpp" />
     <ClInclude Include="RenderInfo.hpp" />
-    <ClInclude Include="RenderInfoStorage.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Build\LinkShaders.bat">
