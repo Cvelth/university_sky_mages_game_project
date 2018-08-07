@@ -38,14 +38,26 @@ int server_main(int argc, char **argv) {
 				map = MapGenerator::generate_continious_map(120, 80);
 				std::cout << "Map was generated.\n";
 			} else if (string == "load") {
-
+				if (input) {
+					input >> string;
+					MapStorage storage;
+					try {
+						storage.load(string, "maps/");
+						std::cout << "Map was loaded.\n";
+					} catch (Exceptions::FileCannotBeOpennedException e) {
+						e.print();
+					} catch (Exceptions::FileParsingException e) {
+						e.print();
+					}
+				} else
+					std::cout << "<filename> required.\nCall \"map help\" for more info.\n";
 			} else if (string == "help") {
 				std::cout << "Supported commands:\n"
 					<< " - map save [<filename>] - saves currently loaded map to /maps/<filename>.mpf.\n"
 					<< " - map load <filename> - loads a map from /maps/<filename>.mpf.\n"
 					<< " - map generate - generates new map.\n";
 			} else
-				std::cout << "Unsupported map-related server command.\nType \"map help\" for list of supported ones.\n";
+				std::cout << "Unsupported map-related server command.\nCall \"map help\" for list of supported ones.\n";
 		} else if (string == "help") {
 			std::cout << "Supported commands:\n" 
 				<< " - map - access to map-related commands. Call \"map help\" for more details.\n"
@@ -53,7 +65,7 @@ int server_main(int argc, char **argv) {
 		} else if (string == "exit") {
 			server_should_close = true;
 		} else
-			std::cout << "Unsupported server command.\nType \"help\" for list of supported ones.\n";
+			std::cout << "Unsupported server command.\nCall \"help\" for list of supported ones.\n";
 	}
 
 	std::cout << "Cleaning up...";
