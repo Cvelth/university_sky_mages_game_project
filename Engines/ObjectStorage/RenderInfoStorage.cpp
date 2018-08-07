@@ -13,17 +13,13 @@ void RenderInfoStorage::clean() {
 		delete it.second;
 	m_data.clear();
 }
-
-#include <sstream>
 void RenderInfoStorage::parse_file_type_info(std::string const& line) {
-	std::istringstream s(line);
-	std::string string;
-	s >> string >> string;
-	if (string != "RenderInfo")
+	if (line != " with RenderInfo")
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 
 	m_current_render_info = nullptr;
 }
+#include <sstream>
 void RenderInfoStorage::parse_line(std::string const& line) {
 	std::istringstream s(line);
 	std::string string;
