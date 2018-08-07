@@ -40,41 +40,6 @@ void ObjectStorage::parse_line(std::string const& line) {
 	} else
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 }
-void ObjectStorage::parse_first_line(std::string const& line) {
-	std::istringstream s(line);
-	std::string string;
-	s >> string;
-	if (string.size() < 4 || string.substr(string.size() - 4) != ObjectStorageFileExtention)
-		throw Exceptions::FileParsingException("File seems to be corrupted");
-	s >> string >> string >> string;
-	if (string != "ObjectStorage")
-		throw Exceptions::FileParsingException("File seems to be corrupted");
-
-	char placeholder;
-	size_t major, minor, patch, build;
-	s >> placeholder >> major >> placeholder >> minor;
-	if (major != Object_Storage_Syntax_Major_Version || minor != Object_Storage_Syntax_Minor_Version)
-		throw Exceptions::FileVersionException("File storage version is different from the expected one.");
-
-	s >> string >> string >> string;
-	if (string != Program_Name)
-		throw Exceptions::FileParsingException("File seems to be corrupted");
-
-	s >> placeholder >> major >> placeholder >> minor >> placeholder >> patch >> 
-		placeholder >> build >> placeholder >> string;
-	if (major != Program_Major_Version || minor != Program_Minor_Version || patch != Program_Patch_Version
-		|| build != Program_Build_Version || string != Program_Version_Suffix) 
-	{
-		throw Exceptions::FileVersionException("Program version is different from the expected one.");
-	}
-
-	s >> string >> major >> string;
-	if (string != "objects")
-		throw Exceptions::FileParsingException("File seems to be corrupted");
-
-	m_current_object_number = major;
-	m_current_object_counter = 0;
-}
 
 #include "../../Objects/EquipableItems/EnergyStorage.hpp"
 #include "../../Objects/EquipableItems/FlyEngine.hpp"
@@ -135,8 +100,7 @@ void ObjectStorage::load(std::string const& path_string) {
 
 #include <sstream>
 #include "../../Shared/KeyLayout.hpp"
-template<class function>
-void parse_field(std::string const& line, function f) {
+template<class function> void parse_field(std::string const& line, function f) {
 	std::stringstream iss(line);
 	std::string s;
 	iss >> s;
@@ -201,4 +165,16 @@ void ObjectStorage::parse_object_line(std::string const& line) {
 		throw Exceptions::FileParsingException("Unsupported object type was encountered.");
 		break;
 	}
+}
+
+void ObjectStorage::parse_file_type_info(std::string const& line) {
+	std::istringstream s(line);
+	std::string string;
+	size_t temp;
+	s >> string >> temp >> string;
+	if (string != "objects")
+		throw Exceptions::FileParsingException("File seems to be corrupted");
+
+	m_current_object_number = temp;
+	m_current_object_counter = 0;
 }
