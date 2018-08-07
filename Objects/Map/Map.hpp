@@ -4,9 +4,11 @@ class Block;
 class Camera;
 class RenderInfo;
 class MapGenerator;
+class MapStorage;
 
 class Map {
 	friend MapGenerator;
+	friend MapStorage;
 private:
 	std::vector<Block*> m_blocks;
 	std::vector<std::vector<Block*>> m_cells;
@@ -36,6 +38,7 @@ public:
 	inline void changeDefaultBlock(Block *new_default) {
 		m_default_block = new_default;
 	}
+	inline Block* default_block() const { return m_default_block; }
 };
 
 #include "../../Shared/AbstractException.hpp"
