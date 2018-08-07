@@ -6,7 +6,7 @@
 #include "Objects/Map/Map.hpp"
 #include "Objects/Map/Block.hpp"
 #include "Engines/Camera/Camera.hpp"
-#include "Engines/RenderTools/RenderInfo.hpp"
+#include "Engines/Graphics/RenderInfo.hpp"
 
 void MyGraphicsLibraryEngine::recalculateCamera() {
 	m_camera->move();

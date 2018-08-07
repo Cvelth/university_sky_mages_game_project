@@ -84,6 +84,12 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Sheders were linked.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,6 +105,12 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Sheders were linked.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -120,6 +132,12 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Sheders were linked.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -141,6 +159,12 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>call "$(ProjectDir)build\linkshaders.bat"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Sheders were linked.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Objects\AbstractObjects\AbstractObjects.vcxproj">
@@ -149,20 +173,27 @@
     <ProjectReference Include="..\..\Objects\ObjectQueue\ObjectQueue.vcxproj">
       <Project>{94b05ec3-2fe9-42d9-b765-a322df2c87cd}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\RenderTools\RenderTools.vcxproj">
-      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HUD_RenderInfo.hpp" />
     <ClInclude Include="MGL_AdditionalStructures.hpp" />
     <ClInclude Include="MGL_Window.hpp" />
     <ClInclude Include="MyGraphicsLibraryEngine.hpp" />
+    <ClInclude Include="RenderInfo.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HUD_RenderInfo.cpp" />
     <ClCompile Include="MGL_HUDRender.cpp" />
     <ClCompile Include="MGL_MapRender.cpp" />
     <ClCompile Include="MGL_QueueRender.cpp" />
     <ClCompile Include="MyGraphicsLibraryEngine.cpp" />
+    <ClCompile Include="RenderInfo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Build\LinkShaders.bat" />
+    <None Include="Shaders\HUDVertexShader.glsl" />
+    <None Include="Shaders\MapVertexShader.glsl" />
+    <None Include="Shaders\QueueVertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

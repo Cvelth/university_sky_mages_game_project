@@ -1,5 +1,5 @@
 #include "RenderInfoStorage.hpp"
-#include "../RenderTools/RenderInfo.hpp"
+#include "../Graphics/RenderInfo.hpp"
 std::unordered_map<std::string, RenderInfo*> RenderInfoStorage::m_data;
 bool RenderInfoStorage::wasRenderInfoLoaded;
 

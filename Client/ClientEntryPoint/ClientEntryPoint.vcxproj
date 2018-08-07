@@ -161,9 +161,6 @@
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engines\RenderTools\RenderTools.vcxproj">
-      <Project>{f403ed3b-ea47-415b-b9c9-4ba159b063d8}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Objects\AbstractObjects\AbstractObjects.vcxproj">
       <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
     </ProjectReference>

@@ -6,7 +6,7 @@
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Engines/Camera/Camera.hpp"
-#include "Engines/RenderTools/RenderInfo.hpp"
+#include "Engines/Graphics/RenderInfo.hpp"
 
 template <typename Type> 
 inline void sendRenderInfo(Type *go, mgl::VertexArray *va) {

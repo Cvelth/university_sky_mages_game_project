@@ -82,7 +82,7 @@ DefineNewException(GraphicsEngineInitializationException)
 #include <fstream>
 std::string readShader(std::string filename) {
 	std::ifstream file;
-	auto shader_path_variants = { "Shaders\\", "..\\Engines\\RenderTools\\Shaders\\", "..\\..\\Engines\\RenderTools\\Shaders\\" };
+	auto shader_path_variants = { "Shaders\\", "..\\Engines\\Graphics\\Shaders\\", "..\\..\\Engines\\Graphics\\Shaders\\" };
 	auto shader_path_iterator = shader_path_variants.begin();
 	while (shader_path_iterator != shader_path_variants.end() && !file.is_open())
 		file.open(*(shader_path_iterator++) + filename, std::ios::ate | std::ios::binary);
