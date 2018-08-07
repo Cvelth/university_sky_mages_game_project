@@ -33,6 +33,8 @@ public:
 	EnergyStorage* get_energy_storage() const;
 	FlyEngine* get_fly_engine() const;
 	Weapon* get_weapon() const;
+
+	size_t size() const;
 };
 
 //Initialization functions;

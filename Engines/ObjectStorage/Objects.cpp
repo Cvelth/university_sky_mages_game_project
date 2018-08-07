@@ -36,3 +36,7 @@ FlyEngine* Objects::get_fly_engine() const {
 Weapon* Objects::get_weapon() const {
 	return new Weapon(*m_weapon.front());
 }
+
+size_t Objects::size() const {
+	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size();
+}
