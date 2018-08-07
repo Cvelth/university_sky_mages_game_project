@@ -13,9 +13,9 @@ private:
 	ObjectType m_current_object;
 	size_t m_current_object_counter, m_current_object_number;
 protected:
+	virtual void parse_file_type_info(std::string const& line) override;
 	virtual void parse_line(std::string const& line) override;
 	virtual void parse_object_line(std::string const& line);
-	virtual void parse_file_type_info(std::string const& line) override;
 
 	void initialize_object(ObjectType type, std::istream &s);
 public:
