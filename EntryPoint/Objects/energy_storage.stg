@@ -1,4 +1,4 @@
-energy_storage.stg is an ObjectStorage v0.1 file for SkyMages v0.2.1.187_dev with 1 objects
+energy_storage.stg is an ObjectStorage v0.1 file for SkyMages v0.2.2.222_dev with 1 objects
 # Use '#' at the beginning of the string to make a commentary.
 
 Object 1 - EnergyStorage = 1.e7
