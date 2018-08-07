@@ -17,12 +17,11 @@ protected:
 	virtual void parse_line(std::string const& line) override;
 	virtual void parse_object_line(std::string const& line);
 
-	[[deprecated]] virtual std::string generate_first_line() { return ""; }
-	[[deprecated]] virtual std::string generate_line() { return ""; }
-	[[deprecated]] virtual std::string generate_file_type_info() { return ""; }
+	virtual std::string generate_file_type_info() override;
 
 	void initialize_object(ObjectType type, std::istream &s);
 public:
 	ObjectStorage(Objects* objects, std::string const& path = "/");
 	void load(std::string const& path = "/") { FileLoader::load(path, ".stg"); }
+	virtual void save(std::string const& filename, std::string const& path);
 };
