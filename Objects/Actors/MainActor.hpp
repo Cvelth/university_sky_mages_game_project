@@ -26,7 +26,7 @@ protected:
 	ShootableObject* shootRightWeapon();
 	ShootableObject* shootLeftWeapon();
 public:
-	using Actor::Actor;
+	MainActor(float mass, float size_h, float size_v, float position_h, float position_v);
 	~MainActor();
 
 	void giveEnergyStorage(EnergyStorage *es);

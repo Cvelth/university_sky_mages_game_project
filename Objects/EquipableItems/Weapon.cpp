@@ -1,13 +1,13 @@
 #include "Weapon.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Objects/EquipableItems/EnergyStorage.hpp"
-#include "Engines/RenderTools/RenderInfoStorage.hpp"
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
 RenderInfo* projectileRenderInfo(AmmoProjectileType ammo_type) {
 	switch (ammo_type) {
-	case AmmoProjectileType::Bullet: return RenderInfoStorage::getAbstractBulletProjectileRenderInfo();
-	case AmmoProjectileType::Physical: return RenderInfoStorage::getAbstractPhysicalProjectileRenderInfo();
-	case AmmoProjectileType::Energy: return RenderInfoStorage::getAbstractEnergyProjectileRenderInfo();
+	case AmmoProjectileType::Bullet: return RenderInfoStorage::getRenderInfo("AbstractBulletProjectile");
+	case AmmoProjectileType::Physical: return RenderInfoStorage::getRenderInfo("AbstractPhysicalProjectile");
+	case AmmoProjectileType::Energy: return RenderInfoStorage::getRenderInfo("AbstractEnergyProjectile");
 	default: throw Exceptions::UnsupportedProjectileType("Unsupported projectile type was attempted to be rendered.");
 	}
 }

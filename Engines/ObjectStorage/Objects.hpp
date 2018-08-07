@@ -35,4 +35,6 @@ public:
 	Weapon* get_weapon() const;
 };
 
+//Initialization functions;
 Objects* initialize_object_storage(ProgramMode);
+void initialize_render_info();

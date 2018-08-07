@@ -1,6 +1,4 @@
 #include "Block.hpp"
-#include "Engines/RenderTools/RenderInfoStorage.hpp"
-
-EmptyBlock::EmptyBlock() : Block(1.f, RenderInfoStorage::getEmptyBlockRenderInfo()) {};
-
-WallBlock::WallBlock() : Block(0.f, RenderInfoStorage::getWallBlockRenderInfo()) {};
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
+EmptyBlock::EmptyBlock() : Block(1.f, RenderInfoStorage::getRenderInfo("EmptyBlock")) {};
+WallBlock::WallBlock() : Block(0.f, RenderInfoStorage::getRenderInfo("WallBlock")) {};

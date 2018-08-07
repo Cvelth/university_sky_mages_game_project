@@ -20,18 +20,12 @@
     <ClCompile Include="RenderInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderInfoStorage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HUD_RenderInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderInfo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderInfoStorage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HUD_RenderInfo.hpp">
