@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
+#include "FileLoader.hpp"
 enum class ObjectType {
 	Empty = 0, ClientSettings, ServerSettings,
 	EnergyStorage, FlyEngine, Weapon
 };
 class Objects;
-class ObjectStorage {
+class ObjectStorage : public FileLoader {
 private:
 	Objects *m_objects;
 
