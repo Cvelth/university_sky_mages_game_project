@@ -121,3 +121,6 @@ MainActor::~MainActor() {
 	if (m_weapon_left_arm) delete m_weapon_left_arm;
 	if (m_weapon_right_arm) delete m_weapon_right_arm;
 }
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
+MainActor::MainActor(float mass, float size_h, float size_v, float position_h, float position_v) 
+	: Actor(RenderInfoStorage::getRenderInfo("MainActor"), mass, size_h, size_v, position_h, position_v) {}
