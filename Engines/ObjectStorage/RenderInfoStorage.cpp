@@ -50,6 +50,16 @@ RenderInfo* RenderInfoStorage::getRenderInfo(std::string const& obj) {
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
 
+std::string RenderInfoStorage::getRenderInfo(RenderInfo *inf) {
+	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, RenderInfo*> it) {
+		return it.second == inf;
+	});
+	if (res != m_data.end())
+		return res->first;
+	else
+		throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
+}
+
 #include "../MyGraphicsLibrary/MGL/Primitive/AbstractDrawableObject.hpp"
 #include "../MyGraphicsLibrary/MGL/Primitive/Primitive.hpp"
 #include "../MyGraphicsLibrary/MGL/Default/DefaultPrimitives.hpp"

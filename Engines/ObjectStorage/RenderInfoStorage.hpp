@@ -32,6 +32,7 @@ public:
 	~RenderInfoStorage();
 	static inline void check() { if (!wasRenderInfoLoaded) throw Exceptions::RenderInfoException("Render info was never loaded, so it cannot be accessed. Call loadRenderInfo() first."); }
 	static RenderInfo* getRenderInfo(std::string const& obj);
+	static std::string getRenderInfo(RenderInfo *inf);
 	void load(std::string const& path = "/") { FileLoader::load(path, RenderInfoFileExtention); wasRenderInfoLoaded = true; }
 	static void clean();
 };
