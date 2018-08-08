@@ -7,13 +7,23 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
+void server_process(Objects *objects);
 int server_main(int argc, char **argv) {
-	Objects *objects;
+	Objects *objects = initialize_object_storage(ProgramMode::Server);
+	try {
+		server_process(objects);
+	} catch (Exceptions::AbstractException &e) {
+		e.print();
+		getchar(); // Prevents Program from closing.
+	}
+	delete objects;
+	exit(0);
+}
+void server_process(Objects *objects) {
 	Map *map = nullptr;
 	bool server_should_close = false;
-
-	objects = initialize_object_storage(ProgramMode::Server);
-	std::cout << objects->get_program_version() << " server has been started.\n";	
+	
+	std::cout << objects->get_program_version() << " server has been started.\n";
 	while (!server_should_close) {
 		std::cout << ": ";
 		std::string string;
@@ -24,7 +34,7 @@ int server_main(int argc, char **argv) {
 			input >> string;
 			if (string == "save") {
 				std::ostringstream filename;
-				filename << "Map_" << + std::chrono::high_resolution_clock::now().time_since_epoch().count();
+				filename << "Map_" << std::chrono::high_resolution_clock::now().time_since_epoch().count();
 				string = filename.str();
 				if (input) input >> string;
 				if (map) {
@@ -59,7 +69,7 @@ int server_main(int argc, char **argv) {
 			} else
 				std::cout << "Unsupported map-related server command.\nCall \"map help\" for list of supported ones.\n";
 		} else if (string == "help") {
-			std::cout << "Supported commands:\n" 
+			std::cout << "Supported commands:\n"
 				<< " - map - access to map-related commands. Call \"map help\" for more details.\n"
 				<< " - exit - closes the server after cleaning up.\n";
 		} else if (string == "exit") {
@@ -70,6 +80,4 @@ int server_main(int argc, char **argv) {
 
 	std::cout << "Cleaning up...";
 	if (map) delete map;
-	delete objects;
-	exit(0);
 }
