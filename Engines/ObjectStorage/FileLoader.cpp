@@ -26,7 +26,8 @@ void FileLoader::parse_first_line(std::string const& line, std::string const& fi
 	if (major != Program_Major_Version || minor != Program_Minor_Version || patch != Program_Patch_Version
 		|| build != Program_Build_Version || string != Program_Version_Suffix)
 	{
-		throw Exceptions::FileVersionException("Program version is different from the expected one.");
+		//[[deprecated]] while program being actively developed.
+		//throw Exceptions::ProgramVersionException("Program version is different from the expected one.");
 	}
 
 	std::getline(s, string);

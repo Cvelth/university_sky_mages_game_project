@@ -15,4 +15,5 @@ public:
 #include "../../Shared/AbstractException.hpp"
 DefineNewException(FileCannotBeOpennedException);
 DefineNewException(FileParsingException);
-DefineNewException(FileVersionException);
+DefineNewException(FileVersionException); 
+DefineNewException(ProgramVersionException);
