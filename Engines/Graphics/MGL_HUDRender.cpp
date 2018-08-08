@@ -1,6 +1,6 @@
 #include "MyGraphicsLibraryEngine.hpp"
 #include "MGL_Window.hpp"
-#include "Engines/RenderTools/HUD_RenderInfo.hpp"
+#include "Engines/Graphics/HUD_RenderInfo.hpp"
 #include "../MyGraphicsLibrary/MGL/OpenGL/FunctionsMirror/FunctionsMirror.hpp"
 #include "../MyGraphicsLibrary/MGL/Primitive/AbstractDrawableObject.hpp"
 

@@ -13,17 +13,13 @@ void RenderInfoStorage::clean() {
 		delete it.second;
 	m_data.clear();
 }
-
-#include <sstream>
 void RenderInfoStorage::parse_file_type_info(std::string const& line) {
-	std::istringstream s(line);
-	std::string string;
-	s >> string >> string;
-	if (string != "RenderInfo")
+	if (line != " with RenderInfo")
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 
 	m_current_render_info = nullptr;
 }
+#include <sstream>
 void RenderInfoStorage::parse_line(std::string const& line) {
 	std::istringstream s(line);
 	std::string string;
@@ -52,6 +48,16 @@ RenderInfo* RenderInfoStorage::getRenderInfo(std::string const& obj) {
 	if (auto temp = m_data.find(obj); temp != m_data.end())
 		return m_data[obj];
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
+}
+
+std::string RenderInfoStorage::getRenderInfo(RenderInfo *inf) {
+	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, RenderInfo*> it) {
+		return it.second == inf;
+	});
+	if (res != m_data.end())
+		return res->first;
+	else
+		throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
 
 #include "../MyGraphicsLibrary/MGL/Primitive/AbstractDrawableObject.hpp"
@@ -92,14 +98,18 @@ void RenderInfoStorage::parse_object_line(std::string const& line) {
 		float aspect_ratio;
 		std::string filled;
 		iss >> aspect_ratio >> placeholder >> s >> filled;
-		m_current_render_info->get()->addPrimitive(mgl::generateRectangle(aspect_ratio, m_current_color, placing_switch(s), filling_switch(filled)));
+		auto primitive = mgl::generateRectangle(aspect_ratio, m_current_color, placing_switch(s), filling_switch(filled));
+		*primitive *= *m_current_scale;
+		m_current_render_info->get()->addPrimitive(primitive);
 	}
 	else if (s == "Ellipse") {
 		float aspect_ratio;
 		std::string filled;
 		size_t vertices;
 		iss >> aspect_ratio >> placeholder >> vertices >> placeholder >> s >> filled;
-		m_current_render_info->get()->addPrimitive(mgl::generateEllipse(aspect_ratio, vertices, m_current_color, placing_switch(s), filling_switch(filled)));
+		auto primitive = mgl::generateEllipse(aspect_ratio, vertices, m_current_color, placing_switch(s), filling_switch(filled));
+		*primitive *= *m_current_scale;
+		m_current_render_info->get()->addPrimitive(primitive);
 	} else
 		throw Exceptions::FileParsingException(("Unsupported RenderStorage line was encountered:\n" + line).c_str());
 }
