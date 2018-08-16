@@ -1,5 +1,4 @@
 #include "Networking.hpp"
-#include <sstream>
 #define NOMINMAX
 #include "enet/enet.h"
 
@@ -27,19 +26,18 @@ std::thread initialize_server(bool const& should_close, std::function<void(std::
 			throw Exceptions::NetworkingException("Server host cannot be initialized.");
 
 		ENetEvent event;
-		std::ostringstream s;
+		const size_t max_name_length = 100;
+		char host_name[max_name_length];
 		while (!should_close) {
 			enet_host_service(server_host, &event, 1000);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_CONNECT:
-					s.clear();
-					s << event.peer->address.host;
-					peer_connected(s.str(), event.peer->address.port);
+					enet_address_get_host(&event.peer->address, host_name, max_name_length);
+					peer_connected(host_name, event.peer->address.port);
 					break;
 				case ENET_EVENT_TYPE_DISCONNECT:
-					s.clear();
-					s << event.peer->address.host;
-					peer_disconnected(s.str(), event.peer->address.port);
+					enet_address_get_host(&event.peer->address, host_name, max_name_length);
+					peer_disconnected(host_name, event.peer->address.port);
 					break;
 				case ENET_EVENT_TYPE_RECEIVE:
 					packet_received(reinterpret_cast<char*>(event.packet->data));
@@ -79,7 +77,7 @@ std::thread initialize_client(std::function<bool()> should_close, std::function<
 			throw Exceptions::NetworkingException("Connection to cannot be established.");
 
 		ENetEvent event;
-		if (enet_host_service(client_host, &event, 5000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
+		if (enet_host_service(client_host, &event, 15000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
 			//connection was successful.
 		} else {
 			enet_peer_reset(server_peer);
