@@ -77,6 +77,7 @@ Window::~Window() {
 #include <iostream>
 #include "Shared/GameMode.hpp"
 void Window::loop(bool destroy_window_after_exit) {
+	while (!m_camera) std::this_thread::sleep_for(std::chrono::microseconds(getUpdateInterval())); //Wait for camera to be initialized.
 	m_graphics->initializeMapRendering(m_camera);
 	m_graphics->initializeQueueRendering();
 	m_graphics->initializeHUDRendering();
