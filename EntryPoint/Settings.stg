@@ -11,6 +11,7 @@ u_int Graphical_Updates_Per_Second = 60
 u_int Physical_Updates_Per_Second = 60
 Keys Keys_Layout = 41 37 19 22 36 51
 string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/
+string Server_IP = 127.0.0.1
 
 Object 2 - ServerSettings
 # Structure of a line : "- field_type field-name = field_value"
