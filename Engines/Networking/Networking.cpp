@@ -1,7 +1,7 @@
 #include "Networking.hpp"
+#include <thread>
 #define NOMINMAX
 #include "enet/enet.h"
-#include <thread>
 
 size_t const client_number = 9;
 size_t const channel_number = 3;
@@ -12,7 +12,7 @@ bool is_client = false;
 ENetHost *host;
 ENetPeer *server_peer = nullptr;
 
-void initialize_server(bool &should_close, std::function<void()> peer_connected, std::function<void()> peer_disconnected, std::function<void(std::string)> packet_received, size_t port) {
+void initialize_server(bool const& should_close, std::function<void()> peer_connected, std::function<void()> peer_disconnected, std::function<void(std::string)> packet_received, size_t port) {
 	if (is_server || is_client) throw Exceptions::NetworkingException("Cannot initialize server. NetworkingEngine was already initialized.");
 	is_server = true;
 
@@ -45,6 +45,8 @@ void initialize_server(bool &should_close, std::function<void()> peer_connected,
 					packet_received(reinterpret_cast<char*>(event.packet->data));
 					enet_packet_destroy(event.packet);
 					break;
+				case ENET_EVENT_TYPE_NONE:
+					break;
 				default:
 					throw Exceptions::NetworkingException("Unsupported packet was received");
 			}
@@ -57,7 +59,7 @@ void initialize_server(bool &should_close, std::function<void()> peer_connected,
 	is_server = false;
 }
 
-void initialize_client(bool &should_close, std::function<void(std::string)> packet_received, std::string ip, size_t port) {
+void initialize_client(bool const& should_close, std::function<void(std::string)> packet_received, std::string ip, size_t port) {
 	if (is_server || is_client) throw Exceptions::NetworkingException("Cannot initialize client. NetworkingEngine was already initialized.");
 	is_client = true;
 
