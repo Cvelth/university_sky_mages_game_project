@@ -22,7 +22,7 @@ int client_main() {
 #include "Engines/Physics/PhysicsEngine.hpp"
 #include "Engines/Camera/Camera.hpp"
 #include "Objects/Map/Map.hpp"
-#include "Objects/Map/MapGenerator.hpp"
+#include "Engines/ObjectStorage/MapStorage.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Objects/EquipableItems/FlyEngine.hpp"
@@ -33,6 +33,8 @@ int client_main() {
 #include "Engines/Networking/Networking.hpp"
 
 #include <thread>
+#include <sstream>
+
 void game_process(Objects *o) {
 	GameModeController::startInitialization();
 	ControllerInterface* controller = new ControllerInterface();
@@ -51,18 +53,12 @@ void game_process(Objects *o) {
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
 
-	auto networking_thread = initialize_client([&window](void) {
-		return window->isWindowClosed();
-	}, [](std::string const& data) /*packed received*/ {
-		throw Exceptions::AbstractException(data.c_str());
-	}, o->settings()->getStringValue("Server_IP"));
-	
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
 	}, main_object_queue, projectile_queue, miscellaneous_object_queue);
 	physics_engine->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
-	MainActor* main_actor = new MainActor(60.f, 2.f, 4.f, 40.f, 30.f);
+	MainActor *main_actor = new MainActor(60.f, 2.f, 4.f, 40.f, 30.f);
 	auto energy_storage = o->get_energy_storage();
 	main_actor->giveEnergyStorage(energy_storage);
 	main_actor->giveFlyEngine(o->get_fly_engine());
@@ -71,11 +67,26 @@ void game_process(Objects *o) {
 	controller->setMainActor(main_actor);
 	main_object_queue->add(main_actor);
 
-	Map *map = MapGenerator::generate_continious_map(120, 80);
-	Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
-	window->insertCamera(camera);
-	physics_engine->initializeCollisionSystem(map);
+	Camera *camera = nullptr;
+	auto networking_thread = initialize_client([&window](void) {
+		return window->isWindowClosed();
+	}, [&window, &physics_engine, &camera, &main_actor](std::string const& data) /*packed received*/ {
+		std::istringstream s(data);
+		std::string string;
+		std::getline(s, string);
+		if (string == "Map") {
+			Map *map = MapStorage::string_to_map(data.substr(string.size() + 1));
+			if (!map)
+				throw Exceptions::NetworkingException(("Received map is corrupted: " + data).c_str());
+			physics_engine->initializeCollisionSystem(map);
 
+			if (camera) delete camera;
+			Camera *camera = new Camera(map, main_actor, window->currentAspectRatio(), 100.f);
+			window->insertCamera(camera);
+		} else
+			throw Exceptions::NetworkingException(("Unsupported data was received from server: " + data).c_str());
+	}, o->settings()->getStringValue("Server_IP"));
+	
 	auto hud = new HUD_RenderInfo(energy_storage);
 	window->insertHUDRenderInfo(hud);
 
@@ -86,7 +97,6 @@ void game_process(Objects *o) {
 
 	delete hud;
 	delete camera;
-	delete map;
 	delete main_actor;
 	delete physics_engine;
 	delete window;
