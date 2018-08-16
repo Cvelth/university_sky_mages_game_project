@@ -120,9 +120,9 @@ void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 	m_map_program->use();
 
 	m_camera = camera;
-	for (auto it : m_camera->map()->get_blocks_data()) {
-		it->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
-		m_map_program.translationInstances.push_back(std::make_pair(it, new mgl::InstancingMultiArray()));
+	for (auto it = m_camera->map()->get_blocks_data().rbegin(); it != m_camera->map()->get_blocks_data().rend(); it++) {
+		(*it)->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+		m_map_program.translationInstances.push_back(std::make_pair(*it, new mgl::InstancingMultiArray()));
 	}
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);
