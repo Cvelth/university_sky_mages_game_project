@@ -99,7 +99,7 @@ std::string MapStorage::map_to_string(Map *map) {
 	return s.str();
 }
 Map* MapStorage::string_to_map(std::string const& data) {
-	std::istringstream s;
+	std::istringstream s(data);
 	std::string string;
 
 	std::getline(s, string);
