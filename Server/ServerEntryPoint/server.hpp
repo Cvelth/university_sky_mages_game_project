@@ -5,6 +5,7 @@
 void server_process(Objects *objects);
 int server_main(int argc, char **argv) {
 	Objects *objects = initialize_object_storage(ProgramMode::Server);
+	initialize_render_info();
 	try {
 		server_process(objects);
 	} catch (Exceptions::AbstractException &e) {
@@ -27,8 +28,13 @@ void server_process(Objects *objects) {
 	bool server_should_close = false;
 
 	auto networking_thread = initialize_server(server_should_close,
-					  [](std::string const& ip, size_t port) /*peer connected*/ {
-		std::cout << "\nA client from " << ip << ":" << port << " has been connected.\n: ";
+					  [&](std::string const& ip, size_t port) /*peer connected*/ {
+		std::cout << "\b\bA client from " << ip << ":" << port << " has been connected.\n";
+		if (map) {
+			bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
+			std::cout << "Map was broadcasted.\n";
+		}
+		std::cout << ": ";
 	},
 					  [](std::string const& ip, size_t port) /*peer disconnected*/ {
 		std::cout << "\nA client from " << ip << ":" << port << " has been disconnected.\n: "; 
@@ -59,14 +65,12 @@ void server_process(Objects *objects) {
 					std::cout << "Cannot save non-existing map. Try generating or loading one.\n";
 			} else if (string == "generate") {
 				if (map) delete map;
-				try {
-					map = MapGenerator::generate_continious_map(120, 80);
-				} catch (Exceptions::RenderInfoException) {
-					initialize_render_info();
-					map = MapGenerator::generate_continious_map(120, 80);
-				}
+				map = MapGenerator::generate_continious_map(120, 80);
 				std::cout << "Map was generated.\n";
-				bcast_from_server("Map was generated.");
+				if (map) {
+					bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
+					std::cout << "Map was broadcasted.\n";
+				}
 			} else if (string == "load") {
 				if (input) {
 					input >> string;
@@ -74,6 +78,10 @@ void server_process(Objects *objects) {
 					try {
 						storage.load(string, "maps/");
 						std::cout << "Map was loaded.\n";
+						if (map) {
+							bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
+							std::cout << "Map was broadcasted.\n";
+						}
 					} catch (Exceptions::FileCannotBeOpennedException e) {
 						e.print();
 					} catch (Exceptions::FileParsingException e) {
