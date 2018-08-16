@@ -28,16 +28,16 @@ void server_process(Objects *objects) {
 	bool server_should_close = false;
 
 	auto networking_thread = initialize_server(server_should_close,
-					  [&](std::string const& ip, size_t port) /*peer connected*/ {
-		std::cout << "\b\bA client from " << ip << ":" << port << " has been connected.\n";
+					  [&](std::string const& name, size_t port) /*peer connected*/ {
+		std::cout << "\b\bClient " << name << ":" << port << " has been connected.\n";
 		if (map) {
 			bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
 			std::cout << "Map was broadcasted.\n";
 		}
 		std::cout << ": ";
 	},
-					  [](std::string const& ip, size_t port) /*peer disconnected*/ {
-		std::cout << "\nA client from " << ip << ":" << port << " has been disconnected.\n: "; 
+					  [](std::string const& name, size_t port) /*peer disconnected*/ {
+		std::cout << "\nClient " << name << ":" << port << " has been disconnected.\n: "; 
 	},
 					  [](std::string const& data) /*packet received*/ {
 		std::cout << "\nA packet with " << data << " was received.\n: ";
@@ -64,8 +64,12 @@ void server_process(Objects *objects) {
 				} else
 					std::cout << "Cannot save non-existing map. Try generating or loading one.\n";
 			} else if (string == "generate") {
+				size_t width = 120, height = 80;
+				if (input) {
+					input >> width >> height;
+				}
 				if (map) delete map;
-				map = MapGenerator::generate_continious_map(120, 80);
+				map = MapGenerator::generate_continious_map(width, height);
 				std::cout << "Map was generated.\n";
 				if (map) {
 					bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
@@ -76,7 +80,7 @@ void server_process(Objects *objects) {
 					input >> string;
 					MapStorage storage;
 					try {
-						storage.load(string, "maps/");
+						map = storage.load(string, "maps/");
 						std::cout << "Map was loaded.\n";
 						if (map) {
 							bcast_from_server("Map\n" + MapStorage::map_to_string(map), 0, true);
@@ -93,7 +97,7 @@ void server_process(Objects *objects) {
 				std::cout << "Supported commands:\n"
 					<< " - map save [<filename>] - saves currently loaded map to /maps/<filename>.mpf.\n"
 					<< " - map load <filename> - loads a map from /maps/<filename>.mpf.\n"
-					<< " - map generate - generates new map.\n";
+					<< " - map generate [<width> <height>] - generates new <width>x<height> map. Default values (if no others were provided) are 120x80.\n";
 			} else
 				std::cout << "Unsupported map-related server command.\nCall \"map help\" for list of supported ones.\n";
 		} else if (string == "help") {
