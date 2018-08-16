@@ -1,5 +1,5 @@
 #include "Networking.hpp"
-#include <thread>
+#include <sstream>
 #define NOMINMAX
 #include "enet/enet.h"
 
@@ -10,11 +10,11 @@ ENetHost *client_host;
 ENetHost *server_host;
 ENetPeer *server_peer = nullptr;
 
-void initialize_server(bool const& should_close, std::function<void()> peer_connected, std::function<void()> peer_disconnected, std::function<void(std::string)> packet_received, size_t port) {
+std::thread initialize_server(bool const& should_close, std::function<void(std::string const& ip, size_t port)> peer_connected, std::function<void(std::string const& ip, size_t port)> peer_disconnected, std::function<void(std::string)> packet_received, size_t port) {
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
-	std::thread thread([&should_close, &peer_connected, &peer_disconnected, &packet_received, port]() {
+	std::thread thread([should_close, peer_connected, peer_disconnected, packet_received, port]() {
 		if (enet_initialize() != 0)
 			throw Exceptions::NetworkingException("Enet library cannot be initialized.");
 
@@ -27,14 +27,19 @@ void initialize_server(bool const& should_close, std::function<void()> peer_conn
 			throw Exceptions::NetworkingException("Server host cannot be initialized.");
 
 		ENetEvent event;
+		std::ostringstream s;
 		while (!should_close) {
 			enet_host_service(server_host, &event, 1000);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_CONNECT:
-					peer_connected();
+					s.clear();
+					s << event.peer->address.host;
+					peer_connected(s.str(), event.peer->address.port);
 					break;
 				case ENET_EVENT_TYPE_DISCONNECT:
-					peer_disconnected();
+					s.clear();
+					s << event.peer->address.host;
+					peer_disconnected(s.str(), event.peer->address.port);
 					break;
 				case ENET_EVENT_TYPE_RECEIVE:
 					packet_received(reinterpret_cast<char*>(event.packet->data));
@@ -50,14 +55,14 @@ void initialize_server(bool const& should_close, std::function<void()> peer_conn
 		enet_host_destroy(server_host);
 		enet_deinitialize();
 	});
-	thread.detach();
+	return thread;
 }
 
-void initialize_client(bool const& should_close, std::function<void(std::string)> packet_received, std::string ip, size_t port) {
+std::thread initialize_client(std::function<bool()> should_close, std::function<void(std::string)> packet_received, std::string ip, size_t port) {
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
-	std::thread thread([&should_close, &packet_received, ip, port]() {
+	std::thread thread([should_close, packet_received, ip, port]() {
 		if (enet_initialize() != 0)
 			throw Exceptions::NetworkingException("Enet library cannot be initialized.");
 
@@ -81,7 +86,7 @@ void initialize_client(bool const& should_close, std::function<void(std::string)
 			throw Exceptions::ConnectionException(("Cannot connect to " + ip).c_str());
 		}
 		
-		while (!should_close) {
+		while (!should_close()) {
 			enet_host_service(client_host, &event, 1000);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_DISCONNECT:
@@ -90,6 +95,8 @@ void initialize_client(bool const& should_close, std::function<void(std::string)
 				case ENET_EVENT_TYPE_RECEIVE:
 					packet_received(reinterpret_cast<char*>(event.packet->data));
 					enet_packet_destroy(event.packet);
+					break;
+				case ENET_EVENT_TYPE_NONE:
 					break;
 				default:
 					throw Exceptions::NetworkingException("Unsupported packet was received");
@@ -113,7 +120,7 @@ void initialize_client(bool const& should_close, std::function<void(std::string)
 		enet_host_destroy(client_host);
 		enet_deinitialize();
 	});
-	thread.detach();
+	return thread;
 }
 
 void send_to_server(std::string const& data, size_t channel_id, bool important) {
