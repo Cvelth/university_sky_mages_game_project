@@ -14,7 +14,7 @@ std::thread initialize_server(bool const& should_close, std::function<void(std::
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
-	std::thread thread([should_close, peer_connected, peer_disconnected, packet_received, port]() {
+	std::thread thread([&should_close, peer_connected, peer_disconnected, packet_received, port]() {
 		if (enet_initialize() != 0)
 			throw Exceptions::NetworkingException("Enet library cannot be initialized.");
 
