@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../libs/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../libs/include/;../../;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>enet64.lib</AdditionalDependencies>
@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../libs/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../libs/include/;../../;</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>enet.lib</AdditionalDependencies>
@@ -108,7 +108,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../libs/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../libs/include/;../../;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -129,7 +129,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../libs/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../libs/include/;../../;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
