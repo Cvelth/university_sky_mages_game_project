@@ -1,12 +1,7 @@
 #pragma once
 #include "../../Engines/ObjectStorage/Objects.hpp"
-#include "../../Engines/ObjectStorage/Settings.hpp"
-#include "../../Engines/ObjectStorage/MapStorage.hpp"
-#include "../../Objects/Map/MapGenerator.hpp"
-#include "../../Objects/Map/Map.hpp"
+#include "../../Shared/AbstractException.hpp"
 #include <iostream>
-#include <sstream>
-#include <chrono>
 void server_process(Objects *objects);
 int server_main(int argc, char **argv) {
 	Objects *objects = initialize_object_storage(ProgramMode::Server);
@@ -19,9 +14,28 @@ int server_main(int argc, char **argv) {
 	delete objects;
 	exit(0);
 }
+#include "../../Engines/ObjectStorage/Settings.hpp"
+#include "../../Engines/ObjectStorage/MapStorage.hpp"
+#include "../../Objects/Map/MapGenerator.hpp"
+#include "../../Objects/Map/Map.hpp"
+#include "../../Engines/Networking/Networking.hpp"
+#include "../../Engines/ObjectStorage/RenderInfoStorage.hpp"
+#include <sstream>
+#include <chrono>
 void server_process(Objects *objects) {
 	Map *map = nullptr;
 	bool server_should_close = false;
+
+	auto networking_thread = initialize_server(server_should_close,
+					  [](std::string const& ip, size_t port) /*peer connected*/ {
+		std::cout << "\nA client from " << ip << ":" << port << " has been connected.\n: ";
+	},
+					  [](std::string const& ip, size_t port) /*peer disconnected*/ {
+		std::cout << "\nA client from " << ip << ":" << port << " has been disconnected.\n: "; 
+	},
+					  [](std::string const& data) /*packet received*/ {
+		std::cout << "\nA packet with " << data << " was received.\n: ";
+	});
 	
 	std::cout << objects->get_program_version() << " server has been started.\n";
 	while (!server_should_close) {
@@ -45,8 +59,14 @@ void server_process(Objects *objects) {
 					std::cout << "Cannot save non-existing map. Try generating or loading one.\n";
 			} else if (string == "generate") {
 				if (map) delete map;
-				map = MapGenerator::generate_continious_map(120, 80);
+				try {
+					map = MapGenerator::generate_continious_map(120, 80);
+				} catch (Exceptions::RenderInfoException) {
+					initialize_render_info();
+					map = MapGenerator::generate_continious_map(120, 80);
+				}
 				std::cout << "Map was generated.\n";
+				bcast_from_server("Map was generated.");
 			} else if (string == "load") {
 				if (input) {
 					input >> string;
@@ -79,5 +99,6 @@ void server_process(Objects *objects) {
 	}
 
 	std::cout << "Cleaning up...";
+	networking_thread.join();
 	if (map) delete map;
 }
