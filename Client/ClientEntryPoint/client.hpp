@@ -30,6 +30,7 @@ int client_main() {
 #include "Engines/Graphics/HUD_RenderInfo.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Engines/ObjectStorage/Settings.hpp"
+#include "Engines/Networking/Networking.hpp"
 
 #include <thread>
 void game_process(Objects *o) {
@@ -49,6 +50,12 @@ void game_process(Objects *o) {
 		main_object_queue, projectile_queue, miscellaneous_object_queue);
 	window->insertController(controller);
 	window->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
+
+	auto networking_thread = initialize_client([&window](void) {
+		return window->isWindowClosed();
+	}, [](std::string const& data) /*packed received*/ {
+		throw Exceptions::AbstractException(data.c_str());
+	}, o->settings()->getStringValue("Server_IP"));
 	
 	PhysicsEngine* physics_engine = new PhysicsEngine([&window](void) {
 		return window->isWindowClosed();
@@ -75,6 +82,7 @@ void game_process(Objects *o) {
 	std::thread physics_thread(&PhysicsEngine::loop, physics_engine, false);
 	window->loop(false);
 	physics_thread.join();
+	networking_thread.join();
 
 	delete hud;
 	delete camera;
