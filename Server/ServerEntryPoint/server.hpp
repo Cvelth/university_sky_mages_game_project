@@ -200,12 +200,18 @@ inline void help_() {
 inline void exit_(bool &server_should_close) {
 	server_should_close = true;
 }
-
+inline std::string id(MainActorQueue &actors) {
+	std::ostringstream s;
+	s << "Index " << actors.size();
+	return s.str();
+}
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors) {
-	auto on_peer_connect = [&map, &actors, &objects](std::string const& name, size_t port) {
+	auto on_peer_connect = [&map, &actors, &objects](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
 		std::cout << "\b\bClient " << name << ":" << port << " has been connected.\n";
-		map_broadcast(map);
+		send_back(id(actors));
 		actors_add(objects, actors);
+		map_broadcast(map);
+
 		std::cout << ": ";
 	};
 	auto on_peer_disconnect = [](std::string const& name, size_t port) {
