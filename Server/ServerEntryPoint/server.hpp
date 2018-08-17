@@ -202,7 +202,7 @@ inline void exit_(bool &server_should_close) {
 }
 inline std::string id(MainActorQueue &actors) {
 	std::ostringstream s;
-	s << "Index " << actors.size();
+	s << "Index\n" << actors.size();
 	return s.str();
 }
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors) {

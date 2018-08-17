@@ -13,7 +13,7 @@ public:
 
 	virtual std::string to_string() const {
 		std::ostringstream s;
-		s << "Queue ";
+		s << "Queue\n";
 		for_each([&s](Type *it) {
 			s << std::string(*it);
 		});
@@ -56,6 +56,11 @@ public:
 	virtual void for_each(const std::function<void(Type*)> &lambda) override { for (auto &it : m_queue) lambda(&*it); }
 	virtual void for_each(const std::function<void(Type*)> &lambda) const override { for (auto &it : m_queue) lambda(&*it); }
 	virtual size_t size() const override { return m_queue.size(); }
+
+	virtual std::shared_ptr<Type> at(size_t index) { return m_queue.at(index); }
+	virtual std::shared_ptr<Type> const at(size_t index) const { return m_queue.at(index); }
+	virtual std::shared_ptr<Type> const operator[](size_t index) const { return m_queue.at(index); }
+	virtual std::shared_ptr<Type> operator[](size_t index) { return m_queue.at(index); }
 };
 
 #define DefineNewQueue(QueueType, Type) \
