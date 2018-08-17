@@ -35,7 +35,6 @@ std::thread initialize_server(bool const& should_close, std::function<void(std::
 					enet_address_get_host(&event.peer->address, host_name, max_name_length);
 					peer_connected(host_name, event.peer->address.port, [&event](std::string const& data) {
 						enet_peer_send(event.peer, 0, enet_packet_create(data.data(), data.size() + 1, ENET_PACKET_FLAG_RELIABLE));
-						enet_host_flush(client_host);
 					});
 					break;
 				case ENET_EVENT_TYPE_DISCONNECT:
