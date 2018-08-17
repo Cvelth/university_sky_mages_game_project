@@ -17,15 +17,44 @@ Color 1.0, 1.0, 0.0
 Color 1.0, 0.5, 1.0
 Color 1.0, 1.0, 0.85
 
+ObjectArray MainActor
+Color 1.0, 0.0, 0.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 0.0, 1.0, 0.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 0.0, 0.0, 1.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 0.4, 0.0, 0.3
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 0.0, 0.3, 0.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 1.0, 0.7, 0.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 1.0, 1.0, 0.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 1.0, 0.5, 1.0
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+Color 1.0, 1.0, 0.85
+Ellipse 2.0, 60, zero_in_center, filled
+<>
+
 Object EmptyBlock
 
 Object WallBlock
 Color 0.3, 0.3, 0.3
 Rectangle 1.0, zero_in_top_left, filled
 
-Object MainActor
-Color 0.9, 0.0, 0.0
-Ellipse 2.0, 60, zero_in_center, filled
+# Object MainActor
+# Color 0.9, 0.0, 0.0
+# Ellipse 2.0, 60, zero_in_center, filled
 
 Object AbstractBulletProjectile
 Scale 0.1, 0.1, 0.1, 1.0
