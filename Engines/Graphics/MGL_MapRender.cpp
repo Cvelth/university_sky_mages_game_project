@@ -7,6 +7,7 @@
 #include "Objects/Map/Block.hpp"
 #include "Engines/Camera/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
 void MyGraphicsLibraryEngine::recalculateCamera() {
 	m_camera->move();
@@ -127,8 +128,8 @@ void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
 	m_map_program->enableAttrib("position", 4, 8, 0);
 	m_map_program->enableAttrib("color", 4, 8, 4);
 	m_map_program.projection = m_map_program->getUniform("projection");
-
-	m_window->setClearColor(0.6f, 0.85f, 0.9f);
+	
+	m_window->setClearColor(*RenderInfoStorage::getPalette("Background").front());
 }
 
 void MyGraphicsLibraryEngine::renderMap() {
