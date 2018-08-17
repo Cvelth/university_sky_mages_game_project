@@ -10,4 +10,7 @@ protected:
 public:
 	virtual void save(Map *map, std::string const& filename, std::string const& path);
 	virtual Map* load(std::string const& filename, std::string const& path, bool use = true);
+
+	static std::string map_to_string(Map *map);
+	static Map* string_to_map(std::string const& data);
 };

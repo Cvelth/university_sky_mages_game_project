@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerEntryPoint", "Server\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjectStorage", "Engines\ObjectStorage\ObjectStorage.vcxproj", "{EF622CD0-4C0E-4F22-8402-3D5E1F604482}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Networking", "Engines\Networking\Networking.vcxproj", "{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -169,6 +171,14 @@ Global
 		{EF622CD0-4C0E-4F22-8402-3D5E1F604482}.Release|x64.Build.0 = Release|x64
 		{EF622CD0-4C0E-4F22-8402-3D5E1F604482}.Release|x86.ActiveCfg = Release|Win32
 		{EF622CD0-4C0E-4F22-8402-3D5E1F604482}.Release|x86.Build.0 = Release|Win32
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Debug|x64.ActiveCfg = Debug|x64
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Debug|x64.Build.0 = Debug|x64
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Debug|x86.ActiveCfg = Debug|Win32
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Debug|x86.Build.0 = Debug|Win32
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Release|x64.ActiveCfg = Release|x64
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Release|x64.Build.0 = Release|x64
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Release|x86.ActiveCfg = Release|Win32
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +197,7 @@ Global
 		{86379DF4-ED87-4E4B-8EC5-8253B5322DF4} = {96371A14-F893-4DC5-96BA-DEA333709AFD}
 		{05C569DE-1F5A-403D-9EA7-E1BC29985004} = {92322561-F4F7-46F9-BBB7-C67DCDE4E15B}
 		{EF622CD0-4C0E-4F22-8402-3D5E1F604482} = {785A6394-7DDC-42FB-A7ED-2898EDC177EE}
+		{649F0549-6AC3-4993-BC9C-CEB9FDDA61CE} = {785A6394-7DDC-42FB-A7ED-2898EDC177EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {196142D3-573A-4AF3-AAD7-8120CAE6A52D}

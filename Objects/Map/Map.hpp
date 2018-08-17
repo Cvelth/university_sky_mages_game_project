@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 class Block;
 class Camera;
 class RenderInfo;
@@ -31,7 +32,7 @@ public:
 	}
 	Block* get(size_t w, size_t h) const;
 	float getSpeedMultiplier(size_t w, size_t h) const;
-	RenderInfo const* getRenderInfo(size_t w, size_t h) const;
+	std::shared_ptr<RenderInfo> const getRenderInfo(size_t w, size_t h) const;
 	inline std::vector<Block*>& get_blocks_data() {
 		return m_blocks;
 	}
