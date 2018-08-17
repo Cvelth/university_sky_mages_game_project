@@ -43,6 +43,11 @@ public:
 	void deactivateLeftWeapon();
 
 	std::vector<ShootableObject*> shootingProcess();
+
+	EnergyStorage* energy_storage() const { return m_energy_storage; }
+	FlyEngine* fly_engine() const { return m_engine; }
+	Weapon* left_weapon() const { return m_weapon_left_arm; }
+	Weapon* right_weapon() const { return m_weapon_right_arm; }
 public:
 	virtual scalar mass() const override;
 	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
