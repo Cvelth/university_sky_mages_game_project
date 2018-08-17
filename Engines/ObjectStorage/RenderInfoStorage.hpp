@@ -38,6 +38,8 @@ public:
 	static inline void check() { if (!wasRenderInfoLoaded) throw Exceptions::RenderInfoException("Render info was never loaded, so it cannot be accessed. Call loadRenderInfo() first."); }
 	static std::shared_ptr<RenderInfo> getRenderInfo(std::string const& obj);
 	static std::string getRenderInfo(std::shared_ptr<RenderInfo> inf);
+	static Palette& getPalette(std::string const& obj);
+	static std::string getPalette(Palette& inf);
 	void load(std::string const& path = "/") { FileLoader::load(path, RenderInfoFileExtention); wasRenderInfoLoaded = true; }
 	static void clean();
 };

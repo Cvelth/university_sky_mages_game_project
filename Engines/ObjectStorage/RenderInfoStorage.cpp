@@ -53,15 +53,29 @@ RenderInfoStorage::RenderInfoStorage() : m_current_mode(true), m_current_render_
 std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& obj) {
 	check();
 	if (auto temp = m_data.find(obj); temp != m_data.end())
-		return m_data[obj];
+		return temp->second;
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
-
 std::string RenderInfoStorage::getRenderInfo(std::shared_ptr<RenderInfo> inf) {
 	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, std::shared_ptr<RenderInfo>> it) {
 		return it.second == inf;
 	});
 	if (res != m_data.end())
+		return res->first;
+	else
+		throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
+}
+RenderInfoStorage::Palette& RenderInfoStorage::getPalette(std::string const& obj) {
+	check();
+	if (auto temp = m_palettes.find(obj); temp != m_palettes.end())
+		return temp->second;
+	else throw Exceptions::RenderInfoException("Unloaded Palette was requested.");
+}
+std::string RenderInfoStorage::getPalette(Palette &inf) {
+	auto res = std::find_if(m_palettes.begin(), m_palettes.end(), [inf](std::pair<std::string, Palette> it) {
+		return it.second == inf;
+	});
+	if (res != m_palettes.end())
 		return res->first;
 	else
 		throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
