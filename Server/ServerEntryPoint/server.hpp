@@ -37,10 +37,10 @@ void server_process(Objects *objects) {
 		std::cout << ": ";
 	},
 					  [](std::string const& name, size_t port) /*peer disconnected*/ {
-		std::cout << "\nClient " << name << ":" << port << " has been disconnected.\n: "; 
+		std::cout << "\b\bClient " << name << ":" << port << " has been disconnected.\n: "; 
 	},
 					  [](std::string const& data) /*packet received*/ {
-		std::cout << "\nA packet with " << data << " was received.\n: ";
+		std::cout << "\b\bA packet with " << data << " was received.\n: ";
 	});
 	
 	std::cout << objects->get_program_version() << " server has been started.\n";
