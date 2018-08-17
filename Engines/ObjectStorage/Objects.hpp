@@ -8,6 +8,7 @@ enum class ProgramMode { Client, Server };
 class EnergyStorage;
 class FlyEngine;
 class Weapon;
+class MainActor;
 
 class Objects {
 	friend ObjectStorage;
@@ -29,10 +30,9 @@ public:
 
 	static std::string get_program_version();
 
-	//to be rewritten.
-	EnergyStorage* get_energy_storage() const;
-	FlyEngine* get_fly_engine() const;
-	Weapon* get_weapon() const;
+	EnergyStorage* get_energy_storage(std::string const& name = "") const;
+	FlyEngine* get_fly_engine(std::string const& name = "") const;
+	Weapon* get_weapon(std::string const& name = "") const;
 
 	size_t size() const;
 };
@@ -40,3 +40,4 @@ public:
 //Initialization functions;
 Objects* initialize_object_storage(ProgramMode);
 void initialize_render_info();
+MainActor* string_to_main_actor(std::string &data, Objects *o);
