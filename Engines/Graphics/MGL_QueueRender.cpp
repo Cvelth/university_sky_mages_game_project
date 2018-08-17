@@ -18,7 +18,7 @@ inline void sendRenderInfo(Type *go, mgl::VertexArray *va) {
 }
 
 template <typename Type>
-void initializeSingleQueueRendering(AbstractQueue<Type> *queue, QueueProgram &queue_program, MGLWindow *window) {
+void initializeSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program, MGLWindow *window) {
 	queue_program.program = window->linkProgramWithDefaultFragmentShader(
 		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex,
 			readShader("QueueVertexShader.glsl").c_str()));
@@ -47,7 +47,7 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 }
 
 template <typename Type, typename NumeralType>
-void renderSingleQueue(AbstractQueue<Type> *queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
+void renderSingleQueue(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
 	queue_program->use();
 	queue->for_each([&minX, &maxX, &minY, &maxY, queue_program](Type* go) {
 		sendRenderInfo(go, queue_program->getVertexArray());
@@ -72,7 +72,7 @@ void MyGraphicsLibraryEngine::renderQueues() {
 }
 
 template <typename Type>
-void cleanSingleQueueRendering(AbstractQueue<Type> *queue, QueueProgram &queue_program) {
+void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program) {
 	queue->for_each([](Type* go) {
 		go->getRenderInto()->get()->clean();
 		go->reinitialize();
