@@ -157,13 +157,13 @@ MainActor* string_to_main_actor(std::string &data, Objects *o) {
 	float x, y;
 	s >> x;
 	auto mass = x;
-	s >> x, y;
+	s >> x >> y;
 	auto acceleration = mgl::math::vector(x, y);
-	s >> x, y;
+	s >> x >> y;
 	auto speed = mgl::math::vector(x, y);
-	s >> x, y;
+	s >> x >> y;
 	auto position = mgl::math::vector(x, y);
-	s >> x, y;
+	s >> x >> y;
 	auto size = mgl::math::vector(x, y);
 
 	s >> string;
