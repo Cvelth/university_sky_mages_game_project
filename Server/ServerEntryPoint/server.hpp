@@ -7,8 +7,8 @@ int server_main(int argc, char **argv) {
 	initialize_render_info();
 	try {
 		server_process(objects);
-	} catch (Exceptions::AbstractException &e) {
-		e.print();
+	} catch (std::exception &e) {
+		e.what();
 		getchar(); // Prevents Program from closing.
 	}
 	delete objects;
@@ -19,17 +19,19 @@ int server_main(int argc, char **argv) {
 #include <sstream>
 #include <iostream>
 #include <thread>
+#include "../../Objects/ObjectState/ObjectQueue.hpp"
 class Map;
 inline void map_(std::shared_ptr<Map> &map, std::istream &input);
-inline void actors_(std::istream &input); 
+inline void actors_(MainActorQueue &actors, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
-inline std::thread initialize_networking(bool &server_should_close, std::shared_ptr<Map> &map);
+inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors);
 void server_process(Objects *objects) {
 	std::cout << "Starting server...\n";
 	std::shared_ptr<Map> map;
+	MainActorQueue actors;
 	bool server_should_close = false;
-	auto networking_thread = initialize_networking(server_should_close, map);
+	auto networking_thread = initialize_networking(server_should_close, objects, map, actors);
 	std::cout << objects->get_program_version() << " server has been started.\n";
 
 	while (!server_should_close) {
@@ -41,7 +43,7 @@ void server_process(Objects *objects) {
 		if (string == "map")
 			map_(map, input);
 		else if (string == "actors")
-			actors_(input);
+			actors_(actors, input);
 		else if (string == "help")
 			help_();
 		else if (string == "exit")
@@ -136,41 +138,56 @@ inline void map_help() {
 		<< " - map broadcast - sends map to all the client hosts.\n";
 }
 
-inline void actors_initialize();
-inline void actors_clean();
-inline void actors_broadcast();
+#include "Objects\Actors\MainActor.hpp"
+#include "Engines\ObjectStorage\Objects.hpp"
+#include "Engines\ObjectStorage\RenderInfoStorage.hpp"
+inline void actors_initialize(MainActorQueue &actors);
+inline void actors_clean(MainActorQueue &actors);
+inline void actors_broadcast(MainActorQueue &actors);
 inline void actors_help();
-inline void actors_(std::istream &input) {
+inline void actors_(MainActorQueue &actors, std::istream &input) {
 	std::string string;
 	input >> string;
-	if (string == "initialize")
+	/*if (string == "initialize")
 		actors_initialize();
 	else if (string == "clean")
 		actors_clean();
-	else if (string == "broadcast")
-		actors_broadcast();
+	else*/ if (string == "broadcast")
+		actors_broadcast(actors);
 	else if (string == "help")
 		actors_help();
 	else
 		std::cout << "Unsupported actors-related server command.\nCall \"actors help\" for list of supported ones.\n";
 }
-inline void actors_initialize() {
+inline void actors_initialize(MainActorQueue &actors) {
 	std::cout << "Initializing actor queue...\n";
 	//To be implemented.
 }
-inline void actors_clean() {
+inline void actors_clean(MainActorQueue &actors) {
 	std::cout << "Cleaning actor queue...\n";
 	//To be implemented.
 }
-inline void actors_broadcast() {
+inline void actors_broadcast(MainActorQueue &actors) {
 	std::cout << "Broadcasting actor queue...\n";
-	//To be implemented.
+	bcast_from_server("MainActorQueue\n" + actors.to_string(), 1, false);
+	std::cout << "Actor queue was broadcasted.\n";
 }
 inline void actors_help() {
 	std::cout << "Supported commands:\n"
-		<< " - actors initialize - initializes server main actor queue with 9 actors (and their default colors).\n"
-		<< " - actors clean - cleans actor data.\n"
+		<< " - [[deprecated]] actors initialize - initializes server main actor queue with 9 actors (and their default colors).\n"
+		<< " - [[deprecated]] actors clean - cleans actor data.\n"
 		<< " - actors clean - sends actor data to all the clients.\n";
+}
+inline void actors_add(Objects *objects, MainActorQueue &actors) {
+	std::cout << "Adding new actor...\n";
+	auto actor = new MainActor(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
+	actor->giveEnergyStorage(objects->get_energy_storage(""));
+	actor->giveFlyEngine(objects->get_fly_engine(""));
+	actor->giveRightWeapon(objects->get_weapon(""));
+
+	actors.add(actor);
+	std::cout << "Actor was successfully generated.\n";
+	actors_broadcast(actors);
 }
 
 inline void help_() {
@@ -184,10 +201,11 @@ inline void exit_(bool &server_should_close) {
 	server_should_close = true;
 }
 
-inline std::thread initialize_networking(bool &server_should_close, std::shared_ptr<Map> &map) {
-	auto on_peer_connect = [&map](std::string const& name, size_t port) {
+inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors) {
+	auto on_peer_connect = [&map, &actors, &objects](std::string const& name, size_t port) {
 		std::cout << "\b\bClient " << name << ":" << port << " has been connected.\n";
 		map_broadcast(map);
+		actors_add(objects, actors);
 		std::cout << ": ";
 	};
 	auto on_peer_disconnect = [](std::string const& name, size_t port) {
