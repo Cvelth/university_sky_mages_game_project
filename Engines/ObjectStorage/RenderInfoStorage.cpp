@@ -1,6 +1,7 @@
 #include "RenderInfoStorage.hpp"
 #include "../Graphics/RenderInfo.hpp"
-std::unordered_map<std::string, RenderInfo*> RenderInfoStorage::m_data;
+std::unordered_map<std::string, std::shared_ptr<RenderInfo>> RenderInfoStorage::m_data;
+std::unordered_map<std::string, RenderInfoStorage::Palette> RenderInfoStorage::m_palettes;
 bool RenderInfoStorage::wasRenderInfoLoaded;
 
 void initialize_render_info() {
@@ -9,8 +10,6 @@ void initialize_render_info() {
 }
 void RenderInfoStorage::clean() {
 	wasRenderInfoLoaded = false;
-	for (auto &it : m_data)
-		delete it.second;
 	m_data.clear();
 }
 void RenderInfoStorage::parse_file_type_info(std::string const& line) {
@@ -25,33 +24,41 @@ void RenderInfoStorage::parse_line(std::string const& line) {
 	std::string string;
 	s >> string;
 	if (string == "Object") {
-		if (m_current_render_info)
+		if (m_current_mode && m_current_render_info)
 			m_data.insert(std::make_pair(m_current_name, m_current_render_info));
+		else if (!m_current_mode)
+			m_palettes.insert(std::make_pair(m_current_name, m_current_palette));
+		m_current_mode = true;
 		s >> m_current_name;
-		m_current_render_info = new RenderInfo();
-	} else if (m_current_render_info) {
+		m_current_render_info = std::make_shared<RenderInfo>();
+	} else if (string == "Palette") {
+		if (m_current_mode && m_current_render_info)
+			m_data.insert(std::make_pair(m_current_name, m_current_render_info));
+		else if (!m_current_mode)
+			m_palettes.insert(std::make_pair(m_current_name, m_current_palette));
+		m_current_mode = false;
+		s >> m_current_name;
+		m_current_palette.clear();
+	} else if (m_current_mode && m_current_render_info) {
 		return parse_object_line(line);
+	} else if (!m_current_mode) {
+		return parse_palette_line(line);
 	} else throw Exceptions::FileParsingException("File seems to be corrupted");
 }
 
 #include "../MyGraphicsLibrary/mgl/Math/Vector.hpp"
 #include "../MyGraphicsLibrary/mgl/SharedHeaders/Color.hpp"
-RenderInfoStorage::RenderInfoStorage() : m_current_render_info(nullptr), 
-	m_current_color(new mgl::Color(0.f, 0.f, 0.f)), m_current_scale(new mgl::math::vectorH(1.f, 1.f, 1.f, 1.f)) {}
-RenderInfoStorage::~RenderInfoStorage() {
-	delete m_current_render_info;
-	delete m_current_color;
-	delete m_current_scale;
-}
-RenderInfo* RenderInfoStorage::getRenderInfo(std::string const& obj) {
+RenderInfoStorage::RenderInfoStorage() : m_current_mode(true), m_current_render_info(nullptr),
+	m_current_color(std::make_shared<mgl::Color>(0.f, 0.f, 0.f)), m_current_scale(std::make_shared<mgl::math::vectorH>(1.f, 1.f, 1.f, 1.f)) {}
+std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& obj) {
 	check();
 	if (auto temp = m_data.find(obj); temp != m_data.end())
 		return m_data[obj];
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
 
-std::string RenderInfoStorage::getRenderInfo(RenderInfo *inf) {
-	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, RenderInfo*> it) {
+std::string RenderInfoStorage::getRenderInfo(std::shared_ptr<RenderInfo> inf) {
+	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, std::shared_ptr<RenderInfo>> it) {
 		return it.second == inf;
 	});
 	if (res != m_data.end())
@@ -85,20 +92,18 @@ void RenderInfoStorage::parse_object_line(std::string const& line) {
 		iss >> r >> placeholder >> g >> placeholder >> b;
 		if (!iss.eof()) 
 			iss >> placeholder >> a;
-		delete m_current_color;
-		m_current_color = new mgl::Color(r, g, b, a);
+		m_current_color = std::make_shared<mgl::Color>(r, g, b, a);
 	} else if (s == "Scale") {
 		float x, y, z, w = 1.f;
 		iss >> x >> placeholder >> y >> placeholder >> z;
 		if (!iss.eof()) 
 			iss >> placeholder >> w;
-		delete m_current_scale;
-		m_current_scale = new mgl::math::vectorH(x, y, z, w);
+		m_current_scale = std::make_shared<mgl::math::vectorH>(x, y, z, w);
 	} else if (s == "Rectangle") {
 		float aspect_ratio;
 		std::string filled;
 		iss >> aspect_ratio >> placeholder >> s >> filled;
-		auto primitive = mgl::generateRectangle(aspect_ratio, m_current_color, placing_switch(s), filling_switch(filled));
+		auto primitive = mgl::generateRectangle(aspect_ratio, &*m_current_color, placing_switch(s), filling_switch(filled));
 		*primitive *= *m_current_scale;
 		m_current_render_info->get()->addPrimitive(primitive);
 	}
@@ -107,9 +112,24 @@ void RenderInfoStorage::parse_object_line(std::string const& line) {
 		std::string filled;
 		size_t vertices;
 		iss >> aspect_ratio >> placeholder >> vertices >> placeholder >> s >> filled;
-		auto primitive = mgl::generateEllipse(aspect_ratio, vertices, m_current_color, placing_switch(s), filling_switch(filled));
+		auto primitive = mgl::generateEllipse(aspect_ratio, vertices, &*m_current_color, placing_switch(s), filling_switch(filled));
 		*primitive *= *m_current_scale;
 		m_current_render_info->get()->addPrimitive(primitive);
 	} else
 		throw Exceptions::FileParsingException(("Unsupported RenderStorage line was encountered:\n" + line).c_str());
+}
+
+void RenderInfoStorage::parse_palette_line(std::string const & line) {
+	std::istringstream iss(line);
+	std::string s;
+	char placeholder;
+	iss >> s;
+	if (s == "Color") {
+		float r, g, b, a = 1.f;
+		iss >> r >> placeholder >> g >> placeholder >> b;
+		if (!iss.eof())
+			iss >> placeholder >> a;
+		m_current_palette.push_back(std::make_shared<mgl::Color>(r, g, b, a));
+	} else
+		throw Exceptions::FileParsingException(("Unsupported RenderStorage line was encountered while parsing palette '" + m_current_name + "':\n" + line).c_str());
 }

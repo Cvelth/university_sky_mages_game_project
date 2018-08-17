@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Objects/ObjectState/IndependentObject.hpp"
 class PhysicsEngine;
 class RenderInfo;
@@ -6,11 +7,11 @@ class RenderInfo;
 class IndependentObject : protected IndependentObjectState {
 	friend PhysicsEngine;
 protected:
-	RenderInfo* m_render_info;
+	std::shared_ptr<RenderInfo> m_render_info;
 
 	bool m_isInitialized;
 public:
-	IndependentObject(RenderInfo* render_info, float mass, float size_h,
+	IndependentObject(std::shared_ptr<RenderInfo> render_info, float mass, float size_h,
 					   float size_v, float position_h, float position_v)
 		: IndependentObjectState(mass, size_h, size_v, position_h, position_v), m_render_info(render_info),
 		m_isInitialized(false) {}
@@ -27,7 +28,7 @@ public:
 		m_isInitialized = false;
 	}
 
-	inline RenderInfo* getRenderInto() {
+	inline std::shared_ptr<RenderInfo> getRenderInto() {
 		return m_render_info;
 	}
 

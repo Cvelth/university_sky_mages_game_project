@@ -23,7 +23,7 @@ float Map::getSpeedMultiplier(size_t w, size_t h) const {
 	auto temp = get(w, h)->get();
 	return temp;
 }
-RenderInfo const* Map::getRenderInfo(size_t w, size_t h) const {
+std::shared_ptr<RenderInfo> const Map::getRenderInfo(size_t w, size_t h) const {
 	return get(w, h)->renderInfo();
 }
 bool Map::isBorder(size_t w, size_t h) const {

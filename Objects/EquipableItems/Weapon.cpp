@@ -3,7 +3,7 @@
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
-RenderInfo* projectileRenderInfo(AmmoProjectileType ammo_type) {
+std::shared_ptr<RenderInfo> projectileRenderInfo(AmmoProjectileType ammo_type) {
 	switch (ammo_type) {
 	case AmmoProjectileType::Bullet: return RenderInfoStorage::getRenderInfo("AbstractBulletProjectile");
 	case AmmoProjectileType::Physical: return RenderInfoStorage::getRenderInfo("AbstractPhysicalProjectile");
