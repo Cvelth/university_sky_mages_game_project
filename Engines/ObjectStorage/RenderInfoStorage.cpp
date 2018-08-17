@@ -19,36 +19,71 @@ void RenderInfoStorage::parse_file_type_info(std::string const& line) {
 	m_current_render_info = nullptr;
 }
 #include <sstream>
+enum Mode { empty_mode = 0u, object_mode = 1u, palette_mode = 2u, object_array_mode = 4u };
+std::string name(std::string name, size_t index) {
+	std::ostringstream s;
+	s << name << '[' << index << ']';
+	return s.str();
+}
+void RenderInfoStorage::finalize_object(size_t mode) {
+	switch (m_current_mode) {
+		case object_mode:
+			if (m_current_render_info)
+				m_data.insert(std::make_pair(m_current_name, m_current_render_info));
+			break;
+		case palette_mode:
+			m_palettes.insert(std::make_pair(m_current_name, m_current_palette));
+			break;
+		case object_array_mode:
+			if (m_current_render_info)
+				m_data.insert(std::make_pair(name(m_current_name, m_current_index++), m_current_render_info));
+			break;
+		case empty_mode:
+			break;
+		default:
+			throw Exceptions::FileParsingException("Unsupported object mode was encountered while parsing the file");
+	}
+	m_current_mode = mode;
+}
+bool RenderInfoStorage::parse_special_line(std::string const & line) {
+	switch (m_current_mode) {
+		case object_mode:
+			parse_object_line(line);
+			return true;
+		case palette_mode:
+			parse_palette_line(line);
+			return true;
+		case object_array_mode:
+			parse_object_array_line(line);
+			return true;
+		default:
+			return false;
+	}
+}
 void RenderInfoStorage::parse_line(std::string const& line) {
 	std::istringstream s(line);
 	std::string string;
 	s >> string;
 	if (string == "Object") {
-		if (m_current_mode && m_current_render_info)
-			m_data.insert(std::make_pair(m_current_name, m_current_render_info));
-		else if (!m_current_mode)
-			m_palettes.insert(std::make_pair(m_current_name, m_current_palette));
-		m_current_mode = true;
+		finalize_object(object_mode);
 		s >> m_current_name;
 		m_current_render_info = std::make_shared<RenderInfo>();
 	} else if (string == "Palette") {
-		if (m_current_mode && m_current_render_info)
-			m_data.insert(std::make_pair(m_current_name, m_current_render_info));
-		else if (!m_current_mode)
-			m_palettes.insert(std::make_pair(m_current_name, m_current_palette));
-		m_current_mode = false;
+		finalize_object(palette_mode);
 		s >> m_current_name;
 		m_current_palette.clear();
-	} else if (m_current_mode && m_current_render_info) {
-		return parse_object_line(line);
-	} else if (!m_current_mode) {
-		return parse_palette_line(line);
-	} else throw Exceptions::FileParsingException("File seems to be corrupted");
+	} else if (string == "ObjectArray") {
+		finalize_object(object_array_mode);
+		s >> m_current_name;
+		m_current_render_info = std::make_shared<RenderInfo>();
+		m_current_index = 0u;
+	} else if (!parse_special_line(line))
+		throw Exceptions::FileParsingException("File seems to be corrupted");
 }
 
 #include "../MyGraphicsLibrary/mgl/Math/Vector.hpp"
 #include "../MyGraphicsLibrary/mgl/SharedHeaders/Color.hpp"
-RenderInfoStorage::RenderInfoStorage() : m_current_mode(true), m_current_render_info(nullptr),
+RenderInfoStorage::RenderInfoStorage() : m_current_mode(0u), m_current_render_info(nullptr),
 	m_current_color(std::make_shared<mgl::Color>(0.f, 0.f, 0.f)), m_current_scale(std::make_shared<mgl::math::vectorH>(1.f, 1.f, 1.f, 1.f)) {}
 std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& obj) {
 	check();
@@ -151,4 +186,12 @@ void RenderInfoStorage::parse_palette_line(std::string const & line) {
 		m_current_palette.push_back(std::make_shared<mgl::Color>(r, g, b, a));
 	} else
 		throw Exceptions::FileParsingException(("Unsupported RenderStorage line was encountered while parsing palette '" + m_current_name + "':\n" + line).c_str());
+}
+
+void RenderInfoStorage::parse_object_array_line(std::string const& line) {
+	if (line == "<>") {
+		finalize_object(object_array_mode);
+		m_current_render_info = std::make_shared<RenderInfo>();
+	} else
+		return parse_object_line(line);
 }
