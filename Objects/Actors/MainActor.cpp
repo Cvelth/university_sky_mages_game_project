@@ -137,6 +137,6 @@ MainActor::operator std::string() const {
 		<< (m_energy_storage ? m_energy_storage->name() : "NO") << ' '
 		<< (m_engine ? m_engine->name() : "NO") << ' '
 		<< (m_weapon_left_arm ? m_weapon_left_arm->name() : "NO") << ' '
-		<< (m_weapon_right_arm ? m_weapon_right_arm->name() : "NO") << ' ';
+		<< (m_weapon_right_arm ? m_weapon_right_arm->name() : "NO") << '\n';
 	return s.str();
 }
