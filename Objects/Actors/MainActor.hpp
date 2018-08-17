@@ -26,8 +26,10 @@ protected:
 	ShootableObject* shootRightWeapon();
 	ShootableObject* shootLeftWeapon();
 public:
-	MainActor(float mass, float size_h, float size_v, float position_h, float position_v);
-	~MainActor();
+	MainActor(float mass, mgl::math::vector const& acceleration, mgl::math::vector const& speed,
+			  mgl::math::vector const& position, mgl::math::vector const& size, std::shared_ptr<RenderInfo> render_info);
+	~MainActor();	
+	operator std::string() const;
 
 	void giveEnergyStorage(EnergyStorage *es);
 	void giveFlyEngine(FlyEngine *fe);

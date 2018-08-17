@@ -115,12 +115,28 @@ scalar MainActor::mass() const {
 		(m_engine ? m_engine->mass() : 0.f) + 
 		(m_energy_storage ? m_energy_storage->mass() : 0.f);
 }
+
+MainActor::MainActor(float mass, mgl::math::vector const& acceleration, mgl::math::vector const& speed, mgl::math::vector const& position, mgl::math::vector const& size, std::shared_ptr<RenderInfo> render_info) : Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)) {
+	accelerate(acceleration);
+	speed_up(speed);
+}
 MainActor::~MainActor() {
 	if (m_energy_storage) delete m_energy_storage;
 	if (m_engine) delete m_engine;
 	if (m_weapon_left_arm) delete m_weapon_left_arm;
 	if (m_weapon_right_arm) delete m_weapon_right_arm;
 }
-#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
-MainActor::MainActor(float mass, float size_h, float size_v, float position_h, float position_v) 
-	: Actor(RenderInfoStorage::getRenderInfo("MainActor"), mass, size_h, size_v, position_h, position_v) {}
+
+#include <sstream>
+#include "../../Engines/ObjectStorage/RenderInfoStorage.hpp"
+MainActor::operator std::string() const {
+	std::ostringstream s;
+	s << "MainActor " << m_mass << ' ' << m_acceleration.at(0) << ' ' << m_acceleration.at(1) << ' '
+		<< m_speed.at(0) << ' ' << m_speed.at(1) << ' ' << m_position.at(0) << ' ' << m_position.at(0) << ' '
+		<< m_size.at(0) << ' ' << m_size.at(1) << ' ' << RenderInfoStorage::getRenderInfo(m_render_info) << ' '
+		<< (m_energy_storage ? m_energy_storage->name() : "NO") << ' '
+		<< (m_engine ? m_engine->name() : "NO") << ' '
+		<< (m_weapon_left_arm ? m_weapon_left_arm->name() : "NO") << ' '
+		<< (m_weapon_right_arm ? m_weapon_right_arm->name() : "NO") << ' ';
+	return s.str();
+}
