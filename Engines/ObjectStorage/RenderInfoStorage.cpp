@@ -56,6 +56,11 @@ std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& 
 		return temp->second;
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
+std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& obj, size_t index) {
+	std::ostringstream s;
+	s << obj << '[' << index << ']';
+	return getRenderInfo(s.str());
+}
 std::string RenderInfoStorage::getRenderInfo(std::shared_ptr<RenderInfo> inf) {
 	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, std::shared_ptr<RenderInfo>> it) {
 		return it.second == inf;
