@@ -38,7 +38,7 @@ void Window::changeController(ControllerInterface *controller, bool deleteOldOne
 	if (m_camera) m_controller->startCameraControl(m_camera);
 }
 
-void Window::insertCamera(Camera *camera) {
+void Window::insertCamera(std::shared_ptr<Camera> camera) {
 	m_camera = camera;
 	if (m_controller) m_controller->startCameraControl(m_camera);
 }
@@ -85,16 +85,16 @@ void Window::loop(bool destroy_window_after_exit) {
 	while (!m_graphics->isWindowClosed()) {
 		if (GameStateController::state() == GameState::Normal) {
 			auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(getUpdateInterval());
-			m_graphics->clearWindow();
-			
-			m_graphics->recalculateCamera();
-			m_graphics->renderMap();
-			m_graphics->renderQueues();
-			m_graphics->renderHUD();
-			m_graphics->update();
-			
-			std::this_thread::sleep_until(next_tick);
-			m_graphics->pollEvents();
+				m_graphics->clearWindow();
+
+				m_graphics->recalculateCamera();
+				m_graphics->renderMap();
+				m_graphics->renderQueues();
+				m_graphics->renderHUD();
+				m_graphics->update();
+
+				std::this_thread::sleep_until(next_tick);
+				m_graphics->pollEvents();
 		} else if (GameStateController::state() == GameState::Pause) {
 			m_graphics->clearWindow();
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 class MyGraphicsLibraryEngine;
 class ControllerInterface;
 class Camera;
@@ -14,7 +15,7 @@ class Window {
 private:
 	MyGraphicsLibraryEngine* m_graphics;
 	ControllerInterface* m_controller;
-	Camera* m_camera;
+	std::shared_ptr<Camera> m_camera;
 	size_t m_update_interval;
 
 protected:
@@ -39,7 +40,7 @@ public:
 	void changeController(ControllerInterface *controller, bool deleteOldOne = true);
 
 	//Adds camera in the window to be shown using GameCamera.
-	void insertCamera(Camera *camera);
+	void insertCamera(std::shared_ptr<Camera> camera);
 
 	//Changes loop's run interval
 	void changeUpdateInterval(size_t microseconds);
