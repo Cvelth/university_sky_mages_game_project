@@ -26,7 +26,7 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 
 		server_host = enet_host_create(&address, client_number, channel_number, 0, 0);
 		if (server_host == NULL)
-			throw Exceptions::NetworkingException("Server host cannot be initialized.");
+			throw Exceptions::NetworkingException("Server host cannot be initialized. There's a possibility of another copy of server running on the target machine.");
 
 		ENetEvent event;
 		const size_t max_name_length = 100;
