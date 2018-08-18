@@ -141,31 +141,16 @@ inline void map_help() {
 #include "Objects\Actors\MainActor.hpp"
 #include "Engines\ObjectStorage\Objects.hpp"
 #include "Engines\ObjectStorage\RenderInfoStorage.hpp"
-inline void actors_initialize(MainActorQueue &actors);
-inline void actors_clean(MainActorQueue &actors);
 inline void actors_broadcast(MainActorQueue &actors);
 inline void actors_help();
 inline void actors_(MainActorQueue &actors, std::istream &input) {
 	std::string string;
-	input >> string;
-	/*if (string == "initialize")
-		actors_initialize();
-	else if (string == "clean")
-		actors_clean();
-	else*/ if (string == "broadcast")
+	input >> string;if (string == "broadcast")
 		actors_broadcast(actors);
 	else if (string == "help")
 		actors_help();
 	else
 		std::cout << "Unsupported actors-related server command.\nCall \"actors help\" for list of supported ones.\n";
-}
-inline void actors_initialize(MainActorQueue &actors) {
-	std::cout << "Initializing actor queue...\n";
-	//To be implemented.
-}
-inline void actors_clean(MainActorQueue &actors) {
-	std::cout << "Cleaning actor queue...\n";
-	//To be implemented.
 }
 inline void actors_broadcast(MainActorQueue &actors) {
 	std::cout << "Broadcasting actor queue...\n";
