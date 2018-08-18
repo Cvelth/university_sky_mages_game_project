@@ -68,6 +68,7 @@ void game_process(Objects *o, size_t &client_index) {
 			std::getline(s, string);
 			if (string != "Queue")
 				throw Exceptions::NetworkingException(("Received data is corrupted: " + data).c_str());
+			main_object_queue->clear();
 			while (std::getline(s, string)) {
 				main_object_queue->add(string_to_main_actor(string, o));
 			}
