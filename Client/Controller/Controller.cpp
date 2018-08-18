@@ -23,13 +23,13 @@ void Controller::resizeEvent(GLFWwindow *w, int x, int y) {
 	}
 }
 
-void Controller::startCameraControl(Camera* camera) {
+void Controller::startCameraControl(std::shared_ptr<Camera> camera) {
 	m_controlledCamera = camera;
 }
 void Controller::stopCameraControl() {
 	m_controlledCamera = nullptr;
 }
-void Controller::setMainActor(MainActor* actor) {
+void Controller::setMainActor(std::shared_ptr<MainActor> actor) {
 	m_actor = actor;
 }void Controller::removeMainActor() {
 	m_actor = nullptr;
