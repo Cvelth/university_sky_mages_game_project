@@ -32,6 +32,8 @@ public:
 		return m_render_info;
 	}
 
+	using IndependentObjectState::acceleration;
+	using IndependentObjectState::speed;
 	using IndependentObjectState::position;
 
 	virtual operator std::string() {
