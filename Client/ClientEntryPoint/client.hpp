@@ -1,10 +1,12 @@
 #pragma once
 #include "Shared/AbstractException.hpp"
+#include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
 void game_process(Objects *s, size_t &client_index);
 int client_main() {
+	GameStateController::initialize(ProgramMode::Client);
 	size_t client_index = -1;
-	Objects *o = initialize_object_storage(ProgramMode::Client);
+	Objects *o = initialize_object_storage();
 	initialize_render_info();
 	try {
 		game_process(o, client_index);
@@ -17,7 +19,6 @@ int client_main() {
 	return 0;
 }
 
-#include "Shared/GameMode.hpp"
 #include "Client/Controller/ControllerInterface.hpp"
 #include "Engines/ObjectStorage/Settings.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
@@ -29,7 +30,6 @@ int client_main() {
 #include "Objects/Actors/MainActor.hpp"
 #include "Engines/Graphics/HUD_RenderInfo.hpp"
 void game_process(Objects *o, size_t &client_index) {
-	GameModeController::startInitialization();
 	ControllerInterface* controller = new ControllerInterface();
 	auto keys = o->settings()->getKeysValue("Keys_Layout");
 	controller->startKeyControl(&keys);
@@ -51,7 +51,7 @@ void game_process(Objects *o, size_t &client_index) {
 	}, main_object_queue, projectile_queue, miscellaneous_object_queue);
 	physics_engine->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
-	Map *map;
+	Map *map = nullptr;
 	auto networking_thread = Networking::initialize_client([&window](void) {
 		return window->isWindowClosed();
 	}, [&window, &physics_engine, &map, &client_index, &main_object_queue, &o](std::string const& data) /*packed received*/ {

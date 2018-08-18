@@ -1,9 +1,11 @@
 #pragma once
-#include "../../Engines/ObjectStorage/Objects.hpp"
 #include "../../Shared/AbstractException.hpp"
+#include "../../Shared/GameStateController.hpp"
+#include "../../Engines/ObjectStorage/Objects.hpp"
 void server_process(Objects *objects);
 int server_main(int argc, char **argv) {
-	Objects *objects = initialize_object_storage(ProgramMode::Server);
+	GameStateController::initialize(ProgramMode::Server);
+	Objects *objects = initialize_object_storage();
 	initialize_render_info();
 	try {
 		server_process(objects);

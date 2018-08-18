@@ -65,17 +65,18 @@ void PhysicsEngine::clean() {
 #include "Objects/AbstractObjects/IndependentObject.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
-#include "Shared/GameMode.hpp"
+#include "Shared/GameStateController.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
-	GameModeController::physicsLoopIsReady(true);
+	GameStateController::change_physics_loop_state(true);
 	while (!m_finish_flag_access()) {
 		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
-		if (GameModeController::getCurrentGameMode() == GameMode::Normal) {
+		if (GameStateController::state() == GameState::Normal) {
 			m_actor_queue->for_each([this](MainActor *go) {
 				processForces(go);
 				processMovement(go, m_map);
-				processWeaponry(go, m_projectile_queue);
+				if (GameStateController::mode() == ProgramMode::Server)
+					processWeaponry(go, m_projectile_queue);
 			});
 			m_projectile_queue->for_each([this](ShootableObject *go) {
 				processForces(go);
@@ -89,7 +90,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 
 		std::this_thread::sleep_until(next_tick);
 	}
-	GameModeController::physicsLoopIsReady(false);
+	GameStateController::change_physics_loop_state(false);
 	clean();
 	if (destroy_engine_after_exit)
 		delete this;

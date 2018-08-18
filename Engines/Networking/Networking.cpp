@@ -9,7 +9,10 @@ ENetHost *client_host;
 ENetHost *server_host;
 ENetPeer *server_peer = nullptr;
 
+#include "Shared/GameStateController.hpp"
 std::thread Networking::initialize_server(bool const& should_close, std::function<void(std::string const& ip, size_t port, std::function<void(std::string)>)> peer_connected, std::function<void(std::string const& ip, size_t port)> peer_disconnected, std::function<void(std::string const& ip, size_t port, std::string const& data)> packet_received, size_t port) {
+	if (!GameStateController::is_server())
+		throw Exceptions::NetworkingException("Networking server must not be initialized on client program.");
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
@@ -28,6 +31,7 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 		ENetEvent event;
 		const size_t max_name_length = 100;
 		char host_name[max_name_length];
+		GameStateController::change_networking_loop_state(true);
 		while (!should_close) {
 			enet_host_service(server_host, &event, 1000);
 			switch (event.type) {
@@ -53,6 +57,7 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 			}
 		}
 
+		GameStateController::change_networking_loop_state(false);
 		enet_host_destroy(server_host);
 		enet_deinitialize();
 	});
@@ -60,6 +65,8 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 }
 
 std::thread Networking::initialize_client(std::function<bool()> should_close, std::function<void(std::string)> packet_received, std::string ip, size_t port) {
+	if (!GameStateController::is_client())
+		throw Exceptions::NetworkingException("Networking client must not be initialized on server program.");
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
@@ -86,7 +93,8 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 			enet_peer_reset(server_peer);
 			throw Exceptions::ConnectionException(("Cannot connect to " + ip).c_str());
 		}
-		
+
+		GameStateController::change_networking_loop_state(true);
 		while (!should_close()) {
 			enet_host_service(client_host, &event, 1000);
 			switch (event.type) {
@@ -103,6 +111,7 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 					throw Exceptions::NetworkingException("Unsupported packet was received");
 			}
 		}
+		GameStateController::change_networking_loop_state(false);
 		bool was_successful = false;
 		enet_peer_disconnect(server_peer, 0);
 		while (enet_host_service(client_host, &event, 3000) > 0) {
