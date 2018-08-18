@@ -9,7 +9,7 @@ ENetHost *client_host;
 ENetHost *server_host;
 ENetPeer *server_peer = nullptr;
 
-std::thread Networking::initialize_server(bool const& should_close, std::function<void(std::string const& ip, size_t port, std::function<void(std::string)>)> peer_connected, std::function<void(std::string const& ip, size_t port)> peer_disconnected, std::function<void(std::string)> packet_received, size_t port) {
+std::thread Networking::initialize_server(bool const& should_close, std::function<void(std::string const& ip, size_t port, std::function<void(std::string)>)> peer_connected, std::function<void(std::string const& ip, size_t port)> peer_disconnected, std::function<void(std::string const& ip, size_t port, std::string const& data)> packet_received, size_t port) {
 	if (port > std::numeric_limits<uint16_t>::max())
 		throw Exceptions::NetworkingException("Unsupported 'port' value was passed.");
 
@@ -42,7 +42,8 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 					peer_disconnected(host_name, event.peer->address.port);
 					break;
 				case ENET_EVENT_TYPE_RECEIVE:
-					packet_received(reinterpret_cast<char*>(event.packet->data));
+					enet_address_get_host(&event.peer->address, host_name, max_name_length);
+					packet_received(host_name, event.peer->address.port, reinterpret_cast<char*>(event.packet->data));
 					enet_packet_destroy(event.packet);
 					break;
 				case ENET_EVENT_TYPE_NONE:
