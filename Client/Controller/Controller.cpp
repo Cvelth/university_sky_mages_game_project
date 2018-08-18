@@ -46,38 +46,27 @@ void Controller::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAct
 	if (GameStateController::mode() == ProgramMode::Client && m_keys) {
 		if (GameStateController::state() == GameState::Normal) {
 			if (action == mgl::KeyAction::press) {
-				if (key == *m_keys->move_up) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_up, true);
-					m_actor->m_engine->accelerate_up(false);
-				} else if (key == *m_keys->move_down) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_down, true);
-					m_actor->m_engine->accelerate_down(false);
-				} else if (key == *m_keys->move_left) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_left, true);
-					m_actor->m_engine->accelerate_left(false);
-				} else if (key == *m_keys->move_right) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_right, true);
-					m_actor->m_engine->accelerate_right(false);
-				} else if (key == *m_keys->anti_gravity) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::anti_gravity);
-					m_actor->m_engine->activate_anti_gravity(m_actor->mass());
-				} else if (key == *m_keys->pause) {
-					GameStateController::pause();
-				}
+				if (key == *m_keys->move_up)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_up, true);
+				else if (key == *m_keys->move_down)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_down, true);
+				else if (key == *m_keys->move_left)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_left, true);
+				else if (key == *m_keys->move_right)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_right, true);
+				else if (key == *m_keys->anti_gravity)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::anti_gravity);
+				else if (key == *m_keys->pause)
+					GameStateController::pause();				
 			} else if (action == mgl::KeyAction::release) {
-				if (key == *m_keys->move_up) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_up, false);
-					m_actor->m_engine->accelerate_up(true);
-				} else if (key == *m_keys->move_down) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_down, false);
-					m_actor->m_engine->accelerate_down(true);
-				} else if (key == *m_keys->move_left) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_left, false);
-					m_actor->m_engine->accelerate_left(true);
-				} else if (key == *m_keys->move_right) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::move_right, false);
-					m_actor->m_engine->accelerate_right(true);
-				}
+				if (key == *m_keys->move_up)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_up, false);
+				else if (key == *m_keys->move_down)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_down, false);
+				else if (key == *m_keys->move_left)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_left, false);
+				else if (key == *m_keys->move_right)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::move_right, false);
 			}
 		} else if (GameStateController::state() == GameState::Pause) {
 			//Pause controls.
@@ -92,21 +81,15 @@ void Controller::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mgl::M
 	if (GameStateController::mode() == ProgramMode::Client) {
 		if (GameStateController::state() == GameState::Normal) {
 			if (action == mgl::MouseAction::press) {
-				if (button == mgl::MouseButton::left) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::left_weapon, true);
-					m_actor->activateRightWeapon();
-				} else if (button == mgl::MouseButton::right) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::right_weapon, true);
-					m_actor->activateLeftWeapon();
-				}
+				if (button == mgl::MouseButton::left)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::left_weapon, true);
+				else if (button == mgl::MouseButton::right)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::right_weapon, true);
 			} else if (action == mgl::MouseAction::release) {
-				if (button == mgl::MouseButton::left) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::left_weapon, false);
-					m_actor->deactivateRightWeapon();
-				} else if (button == mgl::MouseButton::right) {
-					NetworkController::send_control_event(NetworkController::ControlEvent::right_weapon, false);
-					m_actor->deactivateLeftWeapon();
-				}
+				if (button == mgl::MouseButton::left)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::left_weapon, false);
+				else if (button == mgl::MouseButton::right)
+					NetworkController::send_control_event(m_actor, NetworkController::ControlEvent::right_weapon, false);
 			}
 		} else if (GameStateController::state() == GameState::Pause) {
 			//Pause controls.
