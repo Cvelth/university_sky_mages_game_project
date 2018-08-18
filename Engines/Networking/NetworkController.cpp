@@ -68,7 +68,7 @@ void NetworkController::accept_control_event(std::shared_ptr<MainActor> actor, C
 std::string generate_actor_update(MainActorQueue *queue) {
 	std::ostringstream s;
 	s << queue->size() << '\n';
-	queue->for_each([&s](MainActor *object) {
+	queue->for_each([&s](std::shared_ptr<MainActor> object) {
 		auto acceleration = object->get_acceleration();
 		auto speed = object->speed();
 		auto position = object->position();
@@ -101,9 +101,10 @@ void NetworkController::update_state(std::string data, MainActorQueue *actors, P
 	if (string == "Actor") {
 		size_t size;
 		input >> size;
-		if (size != actors->size())
-			throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
-		actors->for_each([&input](MainActor *actor) {
+		if (size != actors->size()) {
+			//throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
+		}
+		actors->for_each([&input](std::shared_ptr<MainActor> actor) {
 			scalar ax, ay, sx, sy, px, py;
 			input >> ax >> ay >> sx >> sy >> px >> py;
 			actor->update_state(vector(ax, ay), vector(sx, sy), vector(px, py));
