@@ -228,17 +228,17 @@ inline std::string id(size_t id) {
 }
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
 	auto on_peer_connect = [&map, &actors, &objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
-		std::cout << "\b\bClient " << name << ":" << port << " has been connected.\n";
 		auto id_ = actors.size();
 		send_back(id(id_));
 		clients.insert(std::make_pair(std::make_pair(name, port), id_));
 		actors_add(objects, actors);
 		map_broadcast(map);
+		std::cout << "\b\bClient " << name << ":" << port << " (id - " << id_ << ") has been connected.\n";
 
 		std::cout << ": ";
 	};
-	auto on_peer_disconnect = [](std::string const& name, size_t port) {
-		std::cout << "\b\bClient " << name << ":" << port << " has been disconnected.\n: ";
+	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
+		std::cout << "\b\bClient " << name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
 	auto on_packet_received = [&clients](std::string const& name, size_t port, std::string const& data) {
 		if (data.size() == 3 && data[0] == 'C') {
