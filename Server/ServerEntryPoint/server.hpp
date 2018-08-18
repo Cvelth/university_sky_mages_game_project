@@ -32,7 +32,7 @@ inline void help_();
 inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
 void server_process(Objects *objects) {
-	std::cout << "Starting server...\n";
+	std::cout << "Starting server...";
 	bool server_should_close = false;
 	Clients clients;
 
@@ -42,7 +42,7 @@ void server_process(Objects *objects) {
 	ObjectQueue miscellaneous;
 
 	auto networking_thread = initialize_networking(server_should_close, objects, map, actors, clients);
-	std::cout << objects->get_program_version() << " server has been started.\n";
+	std::cout << '\r' << objects->get_program_version() << " server has been started.\n";
 
 	while (!server_should_close) {
 		std::cout << ": ";
@@ -93,7 +93,7 @@ inline void map_(std::shared_ptr<Map> &map, std::istream &input) {
 		std::cout << "Unsupported map-related server command.\nCall \"map help\" for list of supported ones.\n";
 }
 inline void map_save(std::shared_ptr<Map> &map, std::istream &input) {
-	std::cout << "Saving map...\n";
+	std::cout << "Saving map...";
 	std::ostringstream filename;
 	filename << "Map_" << std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	std::string string = filename.str();
@@ -101,30 +101,30 @@ inline void map_save(std::shared_ptr<Map> &map, std::istream &input) {
 	if (map) {
 		MapStorage storage;
 		storage.save(&*map, string, "maps/");
-		std::cout << "Map was saved.\n";
+		std::cout << "\rMap was saved.\n";
 		map_broadcast(map);
 	} else
 		std::cout << "Cannot save non-existing map. Try generating or loading one.\n";
 }
 inline void map_generate(std::shared_ptr<Map> &map, std::istream &input) {
-	std::cout << "Generating map...\n";
+	std::cout << "Generating map...";
 	size_t width = 120, height = 80;
 	if (input) {
 		input >> width >> height;
 	}
 	map = std::shared_ptr<Map>(MapGenerator::generate_continious_map(width, height));
-	std::cout << "Map was generated.\n";
+	std::cout << "\rMap was generated.\n";
 	map_broadcast(map);
 }
 inline void map_load(std::shared_ptr<Map> &map, std::istream &input) {
-	std::cout << "Loading map...\n";
+	std::cout << "Loading map...";
 	if (input) {
 		std::string string;
 		input >> string;
 		MapStorage storage;
 		try {
 			map = std::shared_ptr<Map>(storage.load(string, "maps/"));
-			std::cout << "Map was loaded.\n"; 
+			std::cout << "\rMap was loaded.\n"; 
 			map_broadcast(map);
 		} catch (Exceptions::FileCannotBeOpennedException e) {
 			e.print();
@@ -132,15 +132,15 @@ inline void map_load(std::shared_ptr<Map> &map, std::istream &input) {
 			e.print();
 		}
 	} else
-		std::cout << "<filename> required.\nCall \"map help\" for more info.\n";
+		std::cout << "\rUnable to load map: <filename> required.\nCall \"map help\" for more info.\n";
 }
 inline void map_broadcast(std::shared_ptr<Map> &map) {
-	std::cout << "Broadcasting map...\n";
+	std::cout << "Broadcasting map...";
 	if (map) {
 		Networking::bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
-		std::cout << "Map was broadcasted.\n";
+		std::cout << "\rMap was broadcasted.\n";
 	} else
-		std::cout << "Cannot broadcast non-existing map. Try generating or loading one.\n";
+		std::cout << "\rCannot broadcast non-existing map. Try generating or loading one.\n";
 }
 inline void map_help() {
 	std::cout << "Supported commands:\n"
@@ -165,25 +165,25 @@ inline void actors_(MainActorQueue &actors, std::istream &input) {
 		std::cout << "Unsupported actors-related server command.\nCall \"actors help\" for list of supported ones.\n";
 }
 inline void actors_broadcast(MainActorQueue &actors) {
-	std::cout << "Broadcasting actor queue...\n";
+	std::cout << "Broadcasting actor queue...";
 	Networking::bcast_from_server("MainActorQueue\n" + actors.to_string(), 1, false);
-	std::cout << "Actor queue was broadcasted.\n";
+	std::cout << "\rActor queue was broadcasted.\n";
 }
 inline void actors_help() {
 	std::cout << "Supported commands:\n"
 		<< " - [[deprecated]] actors initialize - initializes server main actor queue with 9 actors (and their default colors).\n"
 		<< " - [[deprecated]] actors clean - cleans actor data.\n"
-		<< " - actors clean - sends actor data to all the clients.\n";
+		<< " - actors broadcast - sends actor data to all the clients.\n";
 }
 inline void actors_add(Objects *objects, MainActorQueue &actors) {
-	std::cout << "Adding new actor...\n";
+	std::cout << "\rAdding new actor...";
 	auto actor = new MainActor(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
 	actor->giveEnergyStorage(objects->get_energy_storage(""));
 	actor->giveFlyEngine(objects->get_fly_engine(""));
 	actor->giveRightWeapon(objects->get_weapon(""));
 
 	actors.add(actor);
-	std::cout << "Actor was successfully generated.\n";
+	std::cout << "\rActor was generated.\n";
 	actors_broadcast(actors);
 }
 
@@ -228,25 +228,26 @@ inline std::string id(size_t id) {
 }
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
 	auto on_peer_connect = [&map, &actors, &objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
+		std::cout << "\rClient " << name << ":" << port << " is attempting to connect.\n";
 		auto id_ = actors.size();
 		send_back(id(id_));
 		clients.insert(std::make_pair(std::make_pair(name, port), id_));
 		actors_add(objects, actors);
 		map_broadcast(map);
-		std::cout << "\b\bClient " << name << ":" << port << " (id - " << id_ << ") has been connected.\n";
+		std::cout << "\rClient " << name << ":" << port << " (id - " << id_ << ") has been connected.\n";
 
 		std::cout << ": ";
 	};
 	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
-		std::cout << "\b\bClient " << name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
+		std::cout << "\rClient " << name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
 	auto on_packet_received = [&clients](std::string const& name, size_t port, std::string const& data) {
 		if (data.size() == 3 && data[0] == 'C') {
 			auto event = NetworkController::parse_control_event(data);
-			std::cout << "\b\bControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
+			std::cout << "\rControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
 				<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
 		} else
-			std::cout << "\b\bUnknown packet with " << data << " was received from " 
+			std::cout << "\rUnknown packet with " << data << " was received from " 
 			<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
 	};
 
