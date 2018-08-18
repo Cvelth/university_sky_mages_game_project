@@ -5,7 +5,7 @@
 #include "Objects/AbstractObjects/IndependentObject.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Objects/Actors/MainActor.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
 
 template <typename Type> 

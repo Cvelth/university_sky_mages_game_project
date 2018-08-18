@@ -1,5 +1,5 @@
 #include "Window.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Client/Controller/ControllerInterface.hpp"
 #include "Engines/Graphics/MyGraphicsLibraryEngine.hpp"
 

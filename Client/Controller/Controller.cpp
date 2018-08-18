@@ -1,5 +1,5 @@
 #include "Controller.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Camera.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Shared/KeyLayout.hpp"

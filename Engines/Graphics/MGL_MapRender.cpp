@@ -5,7 +5,7 @@
 
 #include "Objects/Map/Map.hpp"
 #include "Objects/Map/Block.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 

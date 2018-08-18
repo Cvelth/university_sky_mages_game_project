@@ -26,7 +26,7 @@ int client_main() {
 #include "Engines/Physics/PhysicsEngine.hpp"
 #include "Engines/Networking/Networking.hpp"
 #include "Engines/ObjectStorage/MapStorage.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Engines/Graphics/HUD_RenderInfo.hpp"
 void game_process(Objects *o, size_t &client_index) {
