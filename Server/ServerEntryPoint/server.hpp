@@ -1,7 +1,7 @@
 #pragma once
-#include "../../Shared/AbstractException.hpp"
-#include "../../Shared/GameStateController.hpp"
-#include "../../Engines/ObjectStorage/Objects.hpp"
+#include "Shared/AbstractException.hpp"
+#include "Shared/GameStateController.hpp"
+#include "Engines/ObjectStorage/Objects.hpp"
 void server_process(Objects *objects);
 int server_main(int argc, char **argv) {
 	GameStateController::initialize(ProgramMode::Server);
@@ -22,7 +22,8 @@ int server_main(int argc, char **argv) {
 #include <iostream>
 #include <thread>
 #include <map>
-#include "../../Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Engines/Physics/PhysicsEngine.hpp"
 class Map;
 using Clients = std::map<std::pair<std::string, size_t>, size_t>;
 inline void map_(std::shared_ptr<Map> &map, std::istream &input);
@@ -31,7 +32,9 @@ inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
-inline std::thread initialize_physics(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+
+PhysicsEngine *physics_engine = nullptr;
 void server_process(Objects *objects) {
 	std::cout << "Starting server...";
 	bool server_should_close = false;
@@ -45,7 +48,7 @@ void server_process(Objects *objects) {
 	std::cout << "\rInitializing networking engine...";
 	auto networking_thread = initialize_networking(server_should_close, objects, map, actors, clients);
 	std::cout << "\rInitializing physics engine...";
-	auto physics_thread = initialize_physics(server_should_close, objects, map, actors, projectiles, miscellaneous);
+	auto physics_thread = initialize_physics(physics_engine, server_should_close, objects, map, actors, projectiles, miscellaneous);
 	std::cout << '\r' << objects->get_program_version() << " server has been started.\n";
 
 	while (!server_should_close) {
@@ -73,9 +76,9 @@ void server_process(Objects *objects) {
 	physics_thread.join();
 }
 
-#include "../../Engines/ObjectStorage/MapStorage.hpp"
-#include "../../Objects/Map/MapGenerator.hpp"
-#include "../../Engines/Networking/Networking.hpp"
+#include "Engines/ObjectStorage/MapStorage.hpp"
+#include "Objects/Map/MapGenerator.hpp"
+#include "Engines/Networking/Networking.hpp"
 inline void map_save(std::shared_ptr<Map> &map, std::istream &input);
 inline void map_generate(std::shared_ptr<Map> &map, std::istream &input);
 inline void map_load(std::shared_ptr<Map> &map, std::istream &input);
@@ -143,6 +146,7 @@ inline void map_broadcast(std::shared_ptr<Map> &map) {
 	std::cout << "Broadcasting map...";
 	if (map) {
 		Networking::bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
+		physics_engine->initializeCollisionSystem(&*map);
 		std::cout << "\rMap was broadcasted.\n";
 	} else
 		std::cout << "\rCannot broadcast non-existing map. Try generating or loading one.\n";
@@ -232,7 +236,7 @@ inline std::string print_id(size_t id) {
 	return s.str();
 }
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
-	auto on_peer_connect = [&map, &actors, &objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
+	auto on_peer_connect = [&map, &actors, objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
 		std::cout << "\rClient " << name << ":" << port << " is attempting to connect.\n";
 		auto id = actors.size();
 		send_back(print_id(id));
@@ -257,11 +261,10 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }
-#include "Engines\Physics\PhysicsEngine.hpp"
 #include "Engines\ObjectStorage\Settings.hpp"
-inline std::thread initialize_physics(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
-	PhysicsEngine* physics_engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
-	physics_engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
-	physics_engine->initializeCollisionSystem(&*map);
-	return std::thread(&PhysicsEngine::loop, physics_engine, false);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
+	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
+	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
+	engine->initializeCollisionSystem(&*map);
+	return std::thread(&PhysicsEngine::loop, engine, false);
 }
