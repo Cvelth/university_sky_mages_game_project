@@ -26,9 +26,9 @@ protected:
 	static scalar const calculateDimentionalDragForce(scalar const& speed, scalar const& area);
 	static vector const calculateDragForce(vector const& speed, vector const& size);
 
-	static void processForces(IndependentObjectState *os);
-	static void processMovement(IndependentObjectState *os, std::shared_ptr<Map> map);
-	static void processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue);
+	static void processForces(std::shared_ptr<IndependentObjectState> os);
+	static void processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map);
+	static void processWeaponry(std::shared_ptr<MainActor> ma, ProjectileQueue *projectile_queue);
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,
