@@ -66,6 +66,7 @@ void PhysicsEngine::clean() {
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Shared/GameStateController.hpp"
+#include "Engines\Networking\NetworkController.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 	GameStateController::change_physics_loop_state(true);
 	while (!m_finish_flag_access()) {
@@ -86,8 +87,10 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 				processForces(go);
 				processMovement(go, m_map);
 			});
-		}
 
+			if (GameStateController::mode() == ProgramMode::Server)
+				NetworkController::update_state(m_actor_queue, m_projectile_queue, m_object_queue);
+		}
 		std::this_thread::sleep_until(next_tick);
 	}
 	GameStateController::change_physics_loop_state(false);
