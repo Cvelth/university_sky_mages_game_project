@@ -1,7 +1,10 @@
 #include "NetworkController.hpp"
 #include "Networking.hpp"
+#include "Shared/GameStateController.hpp"
 
 void NetworkController::send_control_event(ControlEvent ev, bool direction) {
+	if (GameStateController::mode() != ProgramMode::Client)
+		throw Exceptions::GameStateException("Only client-mode applications can send control events.");
 	std::string data("C x");
 	data[2] = char(ev);
 	if (direction) data[2] |= (1 << 7);
@@ -57,5 +60,53 @@ void NetworkController::accept_control_event(MainActor *actor, ControlEvent ev, 
 			else
 				actor->deactivateRightWeapon();
 			break;
+	}
+}
+
+#include "Objects/ObjectState/ObjectQueue.hpp"
+#include <sstream>
+std::string generate_actor_update(MainActorQueue *queue) {
+	std::ostringstream s;
+	s << queue->size() << '\n';
+	queue->for_each([&s](MainActor *object) {
+		auto acceleration = object->get_acceleration();
+		auto speed = object->speed();
+		auto position = object->position();
+		s << acceleration.at(0) << ' ' << acceleration.at(1) << ' '
+			<< speed.at(0) << ' ' << speed.at(1) << ' '
+			<< position.at(0) << ' ' << position.at(1) << '\n';
+	});
+	return "QueueUpdate\nActor\n" + s.str();
+}
+
+void NetworkController::update_state(MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
+	if (GameStateController::mode() != ProgramMode::Server)
+		throw Exceptions::GameStateException("Only server-mode applications can send queue state.");
+
+	Networking::bcast_from_server(generate_actor_update(actors), ActorData, false);
+	//Networking::bcast_from_server(generate_projectile_update(projectiles), ProjectileData, false);
+	//Networking::bcast_from_server(generate_miscellaneous_update(miscellaneous), OtherData, false);
+}
+void NetworkController::update_state(std::string data, MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
+	if (GameStateController::mode() != ProgramMode::Client)
+		throw Exceptions::GameStateException("Only client-mode applications can receive queue state.");
+
+	std::string string;
+	std::istringstream input(data);
+	std::getline(input, string);
+	if (string != "QueueUpdate")
+		throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
+
+	std::getline(input, string);
+	if (string == "Actor") {
+		size_t size;
+		input >> size;
+		if (size != actors->size())
+			throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
+		actors->for_each([&input](MainActor *actor) {
+			scalar ax, ay, sx, sy, px, py;
+			input >> ax >> ay >> sx >> sy >> px >> py;
+			actor->update_state(vector(ax, ay), vector(sx, sy), vector(px, py));
+		});
 	}
 }

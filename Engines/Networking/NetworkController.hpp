@@ -1,8 +1,11 @@
 #pragma once
 #include <string>
 class MainActor;
+class MainActorQueue;
+class ProjectileQueue;
+class ObjectQueue;
 namespace NetworkController {
-	enum NetworkChannels { ImportantData = 0, ActorData = 1, ControlsData = 2, ProjectileData = 3 };
+	enum NetworkChannels { ImportantData = 0, ActorData = 1, ControlsData = 2, ProjectileData = 3, OtherData = 4 };
 	enum class ControlEvent { move_up = 1, move_down = 2, move_left = 3, move_right = 4, anti_gravity = 5, left_weapon = 6, right_weapon = 7 };
 
 	void send_control_event(ControlEvent ev, bool direction = false);
@@ -15,4 +18,7 @@ namespace NetworkController {
 		accept_control_event(actor, ev, direction);
 		send_control_event(ev, direction);
 	}
+
+	void update_state(MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous);
+	void update_state(std::string data, MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous);
 }
