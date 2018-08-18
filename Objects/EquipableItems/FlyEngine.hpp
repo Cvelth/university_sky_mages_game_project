@@ -50,14 +50,11 @@ public:
 		auto acceleration = calculate_acceleration_right();
 		accelerate_h(invert_if(!inverted, acceleration));
 	}
-	void turn_on_anti_gravity(float expected_mass) {
-		m_anti_gravity_expected_mass = expected_mass;
-	}
-	void turn_off_anti_gravity() {
-		m_anti_gravity_expected_mass = 0.f;
-	}
-	bool is_auti_gravity_turned_on() {
-		return m_anti_gravity_expected_mass != 0.f;
+	void activate_anti_gravity(float expected_mass) {
+		if (m_anti_gravity_expected_mass != 0.f)
+			m_anti_gravity_expected_mass = expected_mass;
+		else
+			m_anti_gravity_expected_mass = 0.f;
 	}
 
 	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
