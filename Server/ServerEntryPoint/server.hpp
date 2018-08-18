@@ -226,7 +226,7 @@ inline void exit_(bool &server_should_close) {
 }
 
 #include "Engines\Networking\NetworkController.hpp"
-inline std::string id(size_t id) {
+inline std::string print_id(size_t id) {
 	std::ostringstream s;
 	s << "Index\n" << id;
 	return s.str();
@@ -234,26 +234,25 @@ inline std::string id(size_t id) {
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
 	auto on_peer_connect = [&map, &actors, &objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
 		std::cout << "\rClient " << name << ":" << port << " is attempting to connect.\n";
-		auto id_ = actors.size();
-		send_back(id(id_));
-		clients.insert(std::make_pair(std::make_pair(name, port), id_));
+		auto id = actors.size();
+		send_back(print_id(id));
+		clients.insert(std::make_pair(std::make_pair(name, port), id));
 		actors_add(objects, actors);
 		map_broadcast(map);
-		std::cout << "\rClient " << name << ":" << port << " (id - " << id_ << ") has been connected.\n";
+		std::cout << "\rClient " << name << ":" << port << " (id - " << id << ") has been connected.\n";
 
 		std::cout << ": ";
 	};
 	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
 		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
-	auto on_packet_received = [&clients](std::string const& name, size_t port, std::string const& data) {
+	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, std::string const& data) {
+		auto id = clients[std::make_pair(name, port)];
 		if (data.size() == 3 && data[0] == 'C') {
-			auto event = NetworkController::parse_control_event(data);
-			//std::cout << "\rControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
-			//	<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
+			NetworkController::accept_control_event(&*actors[id], data);
 		} else
 			std::cout << "\rUnknown packet with " << data << " was received from " 
-			<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
+			<< name << ":" << port << "(id - " << id << ").\n: ";
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
