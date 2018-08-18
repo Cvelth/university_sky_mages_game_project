@@ -146,7 +146,7 @@ inline void map_broadcast(std::shared_ptr<Map> &map) {
 	std::cout << "Broadcasting map...";
 	if (map) {
 		Networking::bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
-		physics_engine->initializeCollisionSystem(&*map);
+		physics_engine->initializeCollisionSystem(map);
 		std::cout << "\rMap was broadcasted.\n";
 	} else
 		std::cout << "\rCannot broadcast non-existing map. Try generating or loading one.\n";
@@ -253,7 +253,7 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, std::string const& data) {
 		auto id = clients[std::make_pair(name, port)];
 		if (data.size() == 3 && data[0] == 'C') {
-			NetworkController::accept_control_event(&*actors[id], data);
+			NetworkController::accept_control_event(actors[id], data);
 		} else
 			std::cout << "\rUnknown packet with " << data << " was received from " 
 			<< name << ":" << port << "(id - " << id << ").\n: ";
@@ -265,6 +265,6 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
-	engine->initializeCollisionSystem(&*map);
+	engine->initializeCollisionSystem(map);
 	return std::thread(&PhysicsEngine::loop, engine, false);
 }
