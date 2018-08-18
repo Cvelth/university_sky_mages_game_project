@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 class Controller;
 class Camera;
 class MainActor;
@@ -17,10 +18,10 @@ public:
 		return controller();
 	}
 
-	void startCameraControl(Camera* camera);
+	void startCameraControl(std::shared_ptr<Camera> camera);
 	void stopCameraControl();
 
-	void setMainActor(MainActor* actor);
+	void setMainActor(std::shared_ptr<MainActor> actor);
 	void removeMainActor();
 
 	void startKeyControl(KeyLayout const *keys);

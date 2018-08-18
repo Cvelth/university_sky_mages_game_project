@@ -14,9 +14,15 @@
     <ClInclude Include="Networking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkController.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Networking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

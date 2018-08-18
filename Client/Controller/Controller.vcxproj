@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;FunctionsMirror.lib;</AdditionalDependencies>
@@ -89,6 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Events.lib;</AdditionalDependencies>
@@ -104,6 +106,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -123,6 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\;..\..\..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -135,14 +139,22 @@
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="ControllerInterface.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Engines\Networking\Networking.vcxproj">
+      <Project>{649f0549-6ac3-4993-bc9c-ceb9fdda61ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Objects\Map\Map.vcxproj">
+      <Project>{40c730bf-4334-4285-a86e-9953a89b9801}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.vcxproj">
       <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
     </ProjectReference>

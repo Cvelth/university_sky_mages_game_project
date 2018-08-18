@@ -20,7 +20,7 @@ vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const
 }
 
 #include "Objects/ObjectState/IndependentObject.hpp"
-void PhysicsEngine::processForces(IndependentObjectState *os) {
+void PhysicsEngine::processForces(std::shared_ptr<IndependentObjectState> os) {
 	auto net_force = calculateGravityForce() +calculateDragForce(os->speed(), os->size());
 	auto acceleration = net_force * os->mass();
 
@@ -31,7 +31,7 @@ void PhysicsEngine::processForces(IndependentObjectState *os) {
 
 #include "Objects/Map/Map.hpp"
 #define speed_test(test, result) (test > 0.f ? result : -result)
-void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
+void PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;
 		auto half_size = os->size() * 0.5f;
@@ -63,7 +63,7 @@ void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
-void PhysicsEngine::processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue) {
+void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, ProjectileQueue *projectile_queue) {
 	for (auto projectile : ma->shootingProcess())
 		if (projectile)
 			projectile_queue->add(projectile);

@@ -5,7 +5,7 @@
 class PhysicsEngine;
 class RenderInfo;
 
-class IndependentObject : protected IndependentObjectState {
+class IndependentObject : public IndependentObjectState {
 	friend PhysicsEngine;
 protected:
 	std::shared_ptr<RenderInfo> m_render_info;
@@ -32,6 +32,8 @@ public:
 		return m_render_info;
 	}
 
+	using IndependentObjectState::acceleration;
+	using IndependentObjectState::speed;
 	using IndependentObjectState::position;
 
 	virtual operator std::string() {

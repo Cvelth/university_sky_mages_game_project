@@ -9,7 +9,7 @@ ControllerInterface::~ControllerInterface() {
 	delete m_controller;
 }
 
-void ControllerInterface::startCameraControl(Camera* camera) {
+void ControllerInterface::startCameraControl(std::shared_ptr<Camera> camera) {
 	m_controller->startCameraControl(camera);
 }
 
@@ -17,7 +17,7 @@ void ControllerInterface::stopCameraControl() {
 	m_controller->stopCameraControl();
 }
 
-void ControllerInterface::setMainActor(MainActor* actor) {
+void ControllerInterface::setMainActor(std::shared_ptr<MainActor> actor) {
 	m_controller->setMainActor(actor);
 }
 void ControllerInterface::removeMainActor() {

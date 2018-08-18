@@ -149,9 +149,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engines\Camera\Camera.vcxproj">
-      <Project>{2f0a43a3-b61f-4587-94d9-f0ce3457d179}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
       <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
     </ProjectReference>

@@ -5,11 +5,11 @@
 #include "Objects/AbstractObjects/IndependentObject.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Objects/Actors/MainActor.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
 
 template <typename Type> 
-inline void sendRenderInfo(Type *go, mgl::VertexArray *va) {
+inline void sendRenderInfo(std::shared_ptr<Type> go, mgl::VertexArray *va) {
 	if (!go->isInitialized()) {
 		go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
 		go->getRenderInto()->get()->insertVertexArray(va);
@@ -25,7 +25,7 @@ void initializeSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueuePr
 
 	queue_program->use();
 
-	queue->for_each([&queue_program](Type* go) {
+	queue->for_each([&queue_program](std::shared_ptr<Type> go) {
 		sendRenderInfo(go, queue_program->getVertexArray());
 	});
 
@@ -49,7 +49,7 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 template <typename Type, typename NumeralType>
 void renderSingleQueue(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
 	queue_program->use();
-	queue->for_each([&minX, &maxX, &minY, &maxY, queue_program](Type* go) {
+	queue->for_each([&minX, &maxX, &minY, &maxY, queue_program](std::shared_ptr<Type> go) {
 		sendRenderInfo(go, queue_program->getVertexArray());
 		auto position = go->position();
 		if (position[0] >= minX && position[1] >= minY &&
@@ -73,7 +73,7 @@ void MyGraphicsLibraryEngine::renderQueues() {
 
 template <typename Type>
 void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program) {
-	queue->for_each([](Type* go) {
+	queue->for_each([](std::shared_ptr<Type> go) {
 		go->getRenderInto()->get()->clean();
 		go->reinitialize();
 	});

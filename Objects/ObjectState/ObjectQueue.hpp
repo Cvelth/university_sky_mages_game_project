@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <functional>
 #include <string>
 #include <sstream>
@@ -7,20 +8,20 @@ class AbstractQueueInterface {
 public:
 	virtual void add(Type* object) abstract;
 	virtual void remove(Type* object) abstract;
-	virtual void for_each(const std::function<void(Type*)> &lambda) abstract;
-	virtual void for_each(const std::function<void(Type*)> &lambda) const abstract;
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) abstract;
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const abstract;
 	virtual size_t size() const abstract;
+	virtual void clear() abstract;
 
 	virtual std::string to_string() const {
 		std::ostringstream s;
 		s << "Queue\n";
-		for_each([&s](Type *it) {
+		for_each([&s](std::shared_ptr<Type> it) {
 			s << std::string(*it);
 		});
 		return s.str();
 	}
 };
-#include <memory>
 #include <set>
 template <typename Type>
 class AbstractSet : public AbstractQueueInterface<Type> {
@@ -29,9 +30,10 @@ private:
 public:
 	virtual void add(Type* object) override { m_queue.insert(std::shared_ptr<Type>(object)); }
 	virtual void remove(Type* object) override { m_queue.erase(std::shared_ptr<Type>(object)); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) override { for (auto &it : m_queue) lambda(&*it); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) const override { for (auto &it : m_queue) lambda(&*it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
+	virtual void clear() override { m_queue.clear(); }
 };
 #include <list>
 template <typename Type>
@@ -41,9 +43,10 @@ private:
 public:
 	virtual void add(Type* object) override { m_queue.push_back(std::shared_ptr<Type>(object)); }
 	virtual void remove(Type* object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), std::shared_ptr<Type>(object))); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) override { for (auto &it : m_queue) lambda(&*it); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) const override { for (auto &it : m_queue) lambda(&*it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
+	virtual void clear() override { m_queue.clear(); }
 };
 #include <vector>
 template <typename Type>
@@ -53,9 +56,10 @@ private:
 public:
 	virtual void add(Type* object) override { m_queue.push_back(std::shared_ptr<Type>(object)); }
 	virtual void remove(Type* object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), std::shared_ptr<Type>(object))); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) override { for (auto &it : m_queue) lambda(&*it); }
-	virtual void for_each(const std::function<void(Type*)> &lambda) const override { for (auto &it : m_queue) lambda(&*it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
+	virtual void clear() override { m_queue.clear(); }
 
 	virtual std::shared_ptr<Type> at(size_t index) { return m_queue.at(index); }
 	virtual std::shared_ptr<Type> const at(size_t index) const { return m_queue.at(index); }

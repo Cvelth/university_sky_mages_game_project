@@ -149,6 +149,9 @@
     <ProjectReference Include="..\..\Engines\ObjectStorage\ObjectStorage.vcxproj">
       <Project>{ef622cd0-4c0e-4f22-8402-3d5e1f604482}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
+      <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Objects\EquipableItems\EquipableItems.vcxproj">
       <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
     </ProjectReference>

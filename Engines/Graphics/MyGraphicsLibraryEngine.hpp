@@ -1,6 +1,6 @@
 #pragma once
+#include <memory>
 #include "MGL_AdditionalStructures.hpp"
-
 class MGLWindow;
 class Camera;
 class ControllerInterface;
@@ -13,7 +13,7 @@ class HUD_RenderInfo;
 class MyGraphicsLibraryEngine {
 private:
 	MGLWindow *m_window;
-	Camera *m_camera;
+	std::shared_ptr<Camera> m_camera;
 	ProjectileQueue *m_projectile_queue;
 	ObjectQueue *m_miscellaneous_queue;
 	MainActorQueue *m_actor_queue;
@@ -52,7 +52,7 @@ public:
 	virtual void recalculateProjection();
 	virtual void recalculateInstancing();
 
-	virtual void initializeMapRendering(Camera* camera);
+	virtual void initializeMapRendering(std::shared_ptr<Camera> camera);
 	virtual void renderMap();
 	virtual void cleanMapRendering();
 

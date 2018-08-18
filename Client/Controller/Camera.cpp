@@ -46,10 +46,10 @@ void Camera::correct() {
 		correct_width();
 }
 
-Camera::Camera(Map *map, Actor *center_figure, 
+Camera::Camera(std::shared_ptr<Map> map, std::shared_ptr<Actor> center_figure,
 					   float aspectRatio, float blocks)
 	: m_map(map), m_aspect_ratio(aspectRatio), m_horizontal_blocks_number(blocks), 
-	m_center_figure(center_figure), m_camera_was_changed(true) {
+	m_center_figure(center_figure), m_camera_was_changed(true), m_map_was_changed(true) {
 
 	m_center = new mgl::math::vector();
 	if (m_center_figure)
@@ -93,8 +93,12 @@ void Camera::move(mgl::math::vector const& point) {
 	correct();
 }
 
-void Camera::changeCenterFigure(Actor *center_figure) {
+void Camera::changeCenterFigure(std::shared_ptr<Actor> center_figure) {
 	m_center_figure = center_figure;
+}
+void Camera::changeMap(std::shared_ptr<Map> map) {
+	m_map = map;
+	m_map_was_changed = true;
 }
 
 float Camera::minX() const {
@@ -122,15 +126,13 @@ long long Camera::maxY_i() const {
 	return size_t(maxY()) + 1;
 }
 
-Map* Camera::map() {
+std::shared_ptr<Map> Camera::map() {
 	return m_map;
 }
-
 Camera::~Camera() {
 	if (m_center)
 		delete m_center;
 }
-
 void Camera::move() {
 	if (m_center_figure)
 		move_to(m_center_figure->position().at(0), m_center_figure->position().at(1));

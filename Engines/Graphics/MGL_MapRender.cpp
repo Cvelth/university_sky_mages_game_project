@@ -5,7 +5,7 @@
 
 #include "Objects/Map/Map.hpp"
 #include "Objects/Map/Block.hpp"
-#include "Engines/Camera/Camera.hpp"
+#include "Client/Controller/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
@@ -96,11 +96,11 @@ void MyGraphicsLibraryEngine::recalculateInstancing() {
 	}
 }
 
-void MGLWindow::resize(Camera* camera) {
+void MGLWindow::resize(std::shared_ptr<Camera> camera) {
 	auto size = getSize();
 	resize(size.w, size.h, camera);
 }
-void MGLWindow::resize(int width, int height, Camera* camera) {
+void MGLWindow::resize(int width, int height, std::shared_ptr<Camera> camera) {
 	m_aspectRatio = float(width) / height;
 	mgl::setViewport(0, 0, width, height);
 	if (m_projection) delete m_projection;
@@ -114,7 +114,7 @@ void MGLWindow::resize(int width, int height, Camera* camera) {
 			minX, maxX, maxY, minY, -1.f, +1.f));
 }
 
-void MyGraphicsLibraryEngine::initializeMapRendering(Camera* camera) {
+void MyGraphicsLibraryEngine::initializeMapRendering(std::shared_ptr<Camera> camera) {
 	m_map_program.program = m_window->linkProgramWithDefaultFragmentShader(
 		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex, 
 										 readShader("MapVertexShader.glsl").c_str()));
@@ -141,8 +141,9 @@ void MyGraphicsLibraryEngine::renderMap() {
 }
 
 void MyGraphicsLibraryEngine::cleanMapRendering() {
-	for (auto it : m_camera->map()->get_blocks_data())
-		it->renderInfo()->get()->clean();
+	if (m_camera) 
+		for (auto it : m_camera->map()->get_blocks_data())
+			it->renderInfo()->get()->clean();
 
 	for (auto it : m_map_program.translationInstances)
 		delete it.second;

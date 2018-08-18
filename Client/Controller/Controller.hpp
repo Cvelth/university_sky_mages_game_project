@@ -7,8 +7,8 @@ struct KeyLayout;
 
 class Controller : public mgl::EmptyEventHandler {
 protected:
-	Camera* m_controlledCamera;
-	MainActor* m_actor;
+	std::shared_ptr<Camera> m_controlledCamera;
+	std::shared_ptr<MainActor> m_actor;
 	KeyLayout const *m_keys;
 
 	double m_x;
@@ -28,10 +28,10 @@ public:
 	virtual void keyEvent(GLFWwindow* w, mgl::Key key, int scancode,
 						  mgl::KeyAction action, mgl::Mods mods) override;
 
-	void startCameraControl(Camera* camera);
+	void startCameraControl(std::shared_ptr<Camera> camera);
 	void stopCameraControl();
 
-	void setMainActor(MainActor* actor);
+	void setMainActor(std::shared_ptr<MainActor> actor);
 	void removeMainActor();
 
 	void startKeyControl(KeyLayout const *keys);

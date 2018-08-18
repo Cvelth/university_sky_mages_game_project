@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <functional>
 #include "shared/vector.hpp"
 class ObjectQueue;
@@ -15,7 +16,7 @@ private:
 	MainActorQueue *m_actor_queue;
 	ProjectileQueue *m_projectile_queue;
 	ObjectQueue *m_object_queue;
-	Map *m_map;
+	std::shared_ptr<Map> m_map;
 
 	bool m_is_initialized;
 protected:
@@ -25,9 +26,9 @@ protected:
 	static scalar const calculateDimentionalDragForce(scalar const& speed, scalar const& area);
 	static vector const calculateDragForce(vector const& speed, vector const& size);
 
-	static void processForces(IndependentObjectState *os);
-	static void processMovement(IndependentObjectState *os, Map *map);
-	static void processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue);
+	static void processForces(std::shared_ptr<IndependentObjectState> os);
+	static void processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map);
+	static void processWeaponry(std::shared_ptr<MainActor> ma, ProjectileQueue *projectile_queue);
 public:
 	PhysicsEngine();
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,
@@ -39,7 +40,7 @@ public:
 
 	void initialize(std::function<bool(void)> const &finishFlagAccess, 
 		MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
-	void initializeCollisionSystem(Map *map);
+	void initializeCollisionSystem(std::shared_ptr<Map> map);
 	void addObject(IndependentObject *object);
 	void removeObject(IndependentObject *object);
 	void addActor(MainActor *actor);

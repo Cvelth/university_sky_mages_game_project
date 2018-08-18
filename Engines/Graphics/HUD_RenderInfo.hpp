@@ -14,6 +14,6 @@ public:
 	HUD_RenderInfo(EnergyStorage *energy_source);
 	~HUD_RenderInfo();
 
+	void change_energy_source(EnergyStorage *es) { m_energy_source = es; }
 	virtual void recalculate();
 };
-

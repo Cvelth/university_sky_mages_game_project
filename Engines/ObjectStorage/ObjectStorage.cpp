@@ -101,14 +101,15 @@ template<class function> void parse_field(std::string const& line, function f) {
 		throw Exceptions::FileParsingException("Unsupported field type was encountered.");
 }
 #include "Settings.hpp"
+#include "Shared/GameStateController.hpp"
 void ObjectStorage::parse_object_line(std::string const& line) {
 	switch (m_current_object) {
 	case ObjectType::ClientSettings:
-		if (m_objects->isClient())
+		if (GameStateController::is_client())
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_settings->addSetting(name, value); });
 		break;
 	case ObjectType::ServerSettings:
-		if (m_objects->isServer())
+		if (GameStateController::is_server())
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_settings->addSetting(name, value); });
 		break;
 	case ObjectType::EnergyStorage:

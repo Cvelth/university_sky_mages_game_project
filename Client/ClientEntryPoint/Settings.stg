@@ -14,6 +14,3 @@ string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/
 string Server_IP = 127.0.0.1
 
 Object 2 - ServerSettings
-# Structure of a line : "- field_type field-name = field_value"
-
-string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/
