@@ -110,15 +110,21 @@ vector MainActor::acceleration(scalar const& time_correct) const {
 	return m_acceleration +
 		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
 }
+void MainActor::update_state(vector const& acceleration, vector const& speed, vector const& position) {
+	m_acceleration = acceleration;
+	m_speed = speed;
+	m_position = position;
+}
 scalar MainActor::mass() const {
 	return m_mass + 
 		(m_engine ? m_engine->mass() : 0.f) + 
 		(m_energy_storage ? m_energy_storage->mass() : 0.f);
 }
 
-MainActor::MainActor(float mass, mgl::math::vector const& acceleration, mgl::math::vector const& speed, mgl::math::vector const& position, mgl::math::vector const& size, std::shared_ptr<RenderInfo> render_info) : Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)) {
-	accelerate(acceleration);
-	speed_up(speed);
+MainActor::MainActor(float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info) 
+	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)) {
+	m_acceleration = acceleration;
+	m_speed = speed;
 }
 MainActor::~MainActor() {
 	if (m_energy_storage) delete m_energy_storage;

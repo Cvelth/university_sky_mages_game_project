@@ -26,8 +26,8 @@ protected:
 	ShootableObject* shootRightWeapon();
 	ShootableObject* shootLeftWeapon();
 public:
-	MainActor(float mass, mgl::math::vector const& acceleration, mgl::math::vector const& speed,
-			  mgl::math::vector const& position, mgl::math::vector const& size, std::shared_ptr<RenderInfo> render_info);
+	MainActor(float mass, vector const& acceleration, vector const& speed,
+			  vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info);
 	~MainActor();
 	operator std::string() const;
 
@@ -51,4 +51,6 @@ public:
 public:
 	virtual scalar mass() const override;
 	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
+
+	virtual void update_state(vector const& acceleration, vector const& speed, vector const& position);
 };
