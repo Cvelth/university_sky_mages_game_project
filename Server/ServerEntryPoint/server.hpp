@@ -19,19 +19,23 @@ int server_main(int argc, char **argv) {
 #include <sstream>
 #include <iostream>
 #include <thread>
+#include <map>
 #include "../../Objects/ObjectState/ObjectQueue.hpp"
 class Map;
+using Clients = std::map<std::pair<std::string, size_t>, size_t>;
 inline void map_(std::shared_ptr<Map> &map, std::istream &input);
 inline void actors_(MainActorQueue &actors, std::istream &input);
+inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
-inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors);
+inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
 void server_process(Objects *objects) {
 	std::cout << "Starting server...\n";
+	bool server_should_close = false;
 	std::shared_ptr<Map> map;
 	MainActorQueue actors;
-	bool server_should_close = false;
-	auto networking_thread = initialize_networking(server_should_close, objects, map, actors);
+	Clients clients;
+	auto networking_thread = initialize_networking(server_should_close, objects, map, actors, clients);
 	std::cout << objects->get_program_version() << " server has been started.\n";
 
 	while (!server_should_close) {
@@ -44,6 +48,8 @@ void server_process(Objects *objects) {
 			map_(map, input);
 		else if (string == "actors")
 			actors_(actors, input);
+		else if (string == "clients")
+			clients_(clients, input);
 		else if (string == "help")
 			help_();
 		else if (string == "exit")
@@ -175,25 +181,51 @@ inline void actors_add(Objects *objects, MainActorQueue &actors) {
 	actors_broadcast(actors);
 }
 
+inline void clients_list(Clients &clients);
+inline void clients_help();
+inline void clients_(Clients &clients, std::istream &input) {
+	std::string string;
+	input >> string;
+	if (string == "list")
+		clients_list(clients);
+	else if (string == "help")
+		clients_help();
+	else
+		std::cout << "Unsupported map-related server command.\nCall \"map help\" for list of supported ones.\n";
+}
+inline void clients_list(Clients &clients) {
+	std::cout << "List of clients:\n";
+	for (auto &it : clients)
+		std::cout << " - " << it.second << "\t- " << it.first.first << "\t- " << it.first.second <<  '\n';
+}
+inline void clients_help() {
+	std::cout << "Supported commands:\n"
+		<< " - clients list - shows the list of all the clients with their IDs.\n";
+}
+
 inline void help_() {
 	std::cout << "Supported commands:\n"
 		<< " - map - access to map-related commands. Call \"map help\" for more details.\n"
 		<< " - actors - access to actor-related commands. Call \"actors help\" for more details.\n"
+		<< " - clients - access to clients-related commands. Call \"clients help\" for more details.\n"
 		<< " - exit - closes the server after cleaning up.\n";
 }
-
 inline void exit_(bool &server_should_close) {
 	server_should_close = true;
 }
-inline std::string id(MainActorQueue &actors) {
+
+#include "Engines\Networking\NetworkController.hpp"
+inline std::string id(size_t id) {
 	std::ostringstream s;
-	s << "Index\n" << actors.size();
+	s << "Index\n" << id;
 	return s.str();
 }
-inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors) {
-	auto on_peer_connect = [&map, &actors, &objects](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
+inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
+	auto on_peer_connect = [&map, &actors, &objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
 		std::cout << "\b\bClient " << name << ":" << port << " has been connected.\n";
-		send_back(id(actors));
+		auto id_ = actors.size();
+		send_back(id(id_));
+		clients.insert(std::make_pair(std::make_pair(name, port), id_));
 		actors_add(objects, actors);
 		map_broadcast(map);
 
@@ -202,8 +234,14 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 	auto on_peer_disconnect = [](std::string const& name, size_t port) {
 		std::cout << "\b\bClient " << name << ":" << port << " has been disconnected.\n: ";
 	};
-	auto on_packet_received = [](std::string const& data) {
-		std::cout << "\b\bA packet with " << data << " was received.\n: ";
+	auto on_packet_received = [&clients](std::string const& name, size_t port, std::string const& data) {
+		if (data.size() == 3 && data[0] == 'C') {
+			auto event = NetworkController::parse_control_event(data);
+			std::cout << "\b\bControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
+				<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
+		} else
+			std::cout << "\b\bUnknown packet with " << data << " was received from " 
+			<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
