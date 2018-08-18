@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AbstractException.hpp" />
-    <ClInclude Include="GameMode.hpp" />
+    <ClInclude Include="GameStateController.hpp" />
     <ClInclude Include="KeyLayout.hpp" />
     <ClInclude Include="PhysicsConstants.hpp" />
     <ClInclude Include="ProgramData.hpp" />
@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractException.cpp" />
-    <ClCompile Include="GameMode.cpp" />
+    <ClCompile Include="GameStateController.cpp" />
     <ClCompile Include="KeyLayout.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

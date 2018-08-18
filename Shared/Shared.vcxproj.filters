@@ -20,13 +20,13 @@
     <ClInclude Include="KeyLayout.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameMode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProgramData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,7 +37,7 @@
     <ClCompile Include="KeyLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameMode.cpp">
+    <ClCompile Include="GameStateController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
