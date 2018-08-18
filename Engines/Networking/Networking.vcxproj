@@ -167,9 +167,11 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="Networking.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="Networking.cpp" />
   </ItemGroup>
   <ItemGroup>
