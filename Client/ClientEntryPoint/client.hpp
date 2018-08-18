@@ -29,6 +29,7 @@ int client_main() {
 #include "Client/Controller/Camera.hpp"
 #include "Objects/Actors/MainActor.hpp"
 #include "Engines/Graphics/HUD_RenderInfo.hpp"
+#include "Engines/Networking/NetworkController.hpp"
 void game_process(Objects *o, size_t &client_index) {
 	ControllerInterface* controller = new ControllerInterface();
 	auto keys = o->settings()->getKeysValue("Keys_Layout");
@@ -54,7 +55,7 @@ void game_process(Objects *o, size_t &client_index) {
 	Map *map = nullptr;
 	auto networking_thread = Networking::initialize_client([&window](void) {
 		return window->isWindowClosed();
-	}, [&window, &physics_engine, &map, &client_index, &main_object_queue, &o](std::string const& data) /*packed received*/ {
+	}, [&window, &physics_engine, &map, &client_index, &main_object_queue, &projectile_queue, &miscellaneous_object_queue, &o](std::string const& data) /*packed received*/ {
 		std::istringstream s(data);
 		std::string string;
 		std::getline(s, string);
@@ -72,6 +73,9 @@ void game_process(Objects *o, size_t &client_index) {
 			while (std::getline(s, string)) {
 				main_object_queue->add(string_to_main_actor(string, o));
 			}
+		} else if (string == "QueueUpdate") {
+			if (client_index != -1 && map && main_object_queue->size() != 0)
+				NetworkController::update_state(data, main_object_queue, projectile_queue, miscellaneous_object_queue);
 		} else
 			throw Exceptions::NetworkingException(("Unsupported data was received from server: " + data).c_str());
 	}, o->settings()->getStringValue("Server_IP"));
