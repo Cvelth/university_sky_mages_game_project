@@ -34,6 +34,7 @@ public:
 	void move(mgl::math::vector const& point);
 	void move();
 	void changeCenterFigure(std::shared_ptr<Actor> center_figure);
+	void changeMap(std::shared_ptr<Map> map);
 
 	inline float aspectRatio() const {
 		return m_aspect_ratio;
@@ -61,6 +62,7 @@ public:
 	}
 	inline void mapChangeWasHandled() {
 		m_map_was_changed = false;
+		m_camera_was_changed = true;
 	}
 
 	~Camera();

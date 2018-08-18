@@ -96,6 +96,10 @@ void Camera::move(mgl::math::vector const& point) {
 void Camera::changeCenterFigure(std::shared_ptr<Actor> center_figure) {
 	m_center_figure = center_figure;
 }
+void Camera::changeMap(std::shared_ptr<Map> map) {
+	m_map = map;
+	m_map_was_changed = true;
+}
 
 float Camera::minX() const {
 	return m_center->at(0) - m_horizontal_blocks_number / 2.f;
