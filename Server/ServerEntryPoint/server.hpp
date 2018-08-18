@@ -32,9 +32,13 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 void server_process(Objects *objects) {
 	std::cout << "Starting server...\n";
 	bool server_should_close = false;
+	Clients clients;
+
 	std::shared_ptr<Map> map;
 	MainActorQueue actors;
-	Clients clients;
+	ProjectileQueue projectiles;
+	ObjectQueue miscellaneous;
+
 	auto networking_thread = initialize_networking(server_should_close, objects, map, actors, clients);
 	std::cout << objects->get_program_version() << " server has been started.\n";
 

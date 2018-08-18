@@ -35,8 +35,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Window", "Client\Window\Win
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientEntryPoint", "Client\ClientEntryPoint\ClientEntryPoint.vcxproj", "{86379DF4-ED87-4E4B-8EC5-8253B5322DF4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntryPoint", "EntryPoint\EntryPoint.vcxproj", "{9433F0B4-8957-4D7C-8112-FF51F2E324A7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerEntryPoint", "Server\ServerEntryPoint\ServerEntryPoint.vcxproj", "{05C569DE-1F5A-403D-9EA7-E1BC29985004}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjectStorage", "Engines\ObjectStorage\ObjectStorage.vcxproj", "{EF622CD0-4C0E-4F22-8402-3D5E1F604482}"
@@ -147,14 +145,6 @@ Global
 		{86379DF4-ED87-4E4B-8EC5-8253B5322DF4}.Release|x64.Build.0 = Release|x64
 		{86379DF4-ED87-4E4B-8EC5-8253B5322DF4}.Release|x86.ActiveCfg = Release|Win32
 		{86379DF4-ED87-4E4B-8EC5-8253B5322DF4}.Release|x86.Build.0 = Release|Win32
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Debug|x64.ActiveCfg = Debug|x64
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Debug|x64.Build.0 = Debug|x64
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Debug|x86.ActiveCfg = Debug|Win32
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Debug|x86.Build.0 = Debug|Win32
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Release|x64.ActiveCfg = Release|x64
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Release|x64.Build.0 = Release|x64
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Release|x86.ActiveCfg = Release|Win32
-		{9433F0B4-8957-4D7C-8112-FF51F2E324A7}.Release|x86.Build.0 = Release|Win32
 		{05C569DE-1F5A-403D-9EA7-E1BC29985004}.Debug|x64.ActiveCfg = Debug|x64
 		{05C569DE-1F5A-403D-9EA7-E1BC29985004}.Debug|x64.Build.0 = Debug|x64
 		{05C569DE-1F5A-403D-9EA7-E1BC29985004}.Debug|x86.ActiveCfg = Debug|Win32
