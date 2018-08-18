@@ -19,7 +19,7 @@ std::pair<NetworkController::ControlEvent, bool> NetworkController::parse_contro
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
-void NetworkController::accept_control_event(MainActor *actor, ControlEvent ev, bool direction) {
+void NetworkController::accept_control_event(std::shared_ptr<MainActor> actor, ControlEvent ev, bool direction) {
 	switch (ev) {
 		case NetworkController::ControlEvent::move_up:
 			if (direction)

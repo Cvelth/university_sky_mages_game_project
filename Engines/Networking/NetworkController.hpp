@@ -10,11 +10,11 @@ namespace NetworkController {
 
 	void send_control_event(ControlEvent ev, bool direction = false);
 	std::pair<ControlEvent, bool> parse_control_event(std::string const& data);
-	void accept_control_event(MainActor *actor, ControlEvent ev, bool direction = false);
-	inline void accept_control_event(MainActor *actor, std::pair<ControlEvent, bool> ev) { return accept_control_event(actor, ev.first, ev.second); }
-	inline void accept_control_event(MainActor *actor, std::string const& data) { return accept_control_event(actor, parse_control_event(data)); }
+	void accept_control_event(std::shared_ptr<MainActor> actor, ControlEvent ev, bool direction = false);
+	inline void accept_control_event(std::shared_ptr<MainActor> actor, std::pair<ControlEvent, bool> ev) { return accept_control_event(actor, ev.first, ev.second); }
+	inline void accept_control_event(std::shared_ptr<MainActor> actor, std::string const& data) { return accept_control_event(actor, parse_control_event(data)); }
 
-	inline void send_control_event(MainActor *actor, ControlEvent ev, bool direction = false) {
+	inline void send_control_event(std::shared_ptr<MainActor> actor, ControlEvent ev, bool direction = false) {
 		accept_control_event(actor, ev, direction);
 		send_control_event(ev, direction);
 	}
