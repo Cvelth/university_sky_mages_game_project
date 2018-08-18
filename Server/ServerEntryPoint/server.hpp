@@ -31,6 +31,7 @@ inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
+inline std::thread initialize_physics(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
 void server_process(Objects *objects) {
 	std::cout << "Starting server...";
 	bool server_should_close = false;
@@ -41,7 +42,10 @@ void server_process(Objects *objects) {
 	ProjectileQueue projectiles;
 	ObjectQueue miscellaneous;
 
+	std::cout << "\rInitializing networking engine...";
 	auto networking_thread = initialize_networking(server_should_close, objects, map, actors, clients);
+	std::cout << "\rInitializing physics engine...";
+	auto physics_thread = initialize_physics(server_should_close, objects, map, actors, projectiles, miscellaneous);
 	std::cout << '\r' << objects->get_program_version() << " server has been started.\n";
 
 	while (!server_should_close) {
@@ -66,6 +70,7 @@ void server_process(Objects *objects) {
 
 	std::cout << "Cleaning up...";
 	networking_thread.join();
+	physics_thread.join();
 }
 
 #include "../../Engines/ObjectStorage/MapStorage.hpp"
@@ -239,17 +244,25 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 		std::cout << ": ";
 	};
 	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
-		std::cout << "\rClient " << name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
+		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
 	auto on_packet_received = [&clients](std::string const& name, size_t port, std::string const& data) {
 		if (data.size() == 3 && data[0] == 'C') {
 			auto event = NetworkController::parse_control_event(data);
-			std::cout << "\rControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
-				<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
+			//std::cout << "\rControl event with value " << size_t(event.first) << " - " << event.second << " was received from " 
+			//	<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
 		} else
 			std::cout << "\rUnknown packet with " << data << " was received from " 
 			<< name << ":" << port << "(id - " << clients[std::make_pair(name, port)] << ").\n: ";
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
+}
+#include "Engines\Physics\PhysicsEngine.hpp"
+#include "Engines\ObjectStorage\Settings.hpp"
+inline std::thread initialize_physics(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
+	PhysicsEngine* physics_engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
+	physics_engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
+	physics_engine->initializeCollisionSystem(&*map);
+	return std::thread(&PhysicsEngine::loop, physics_engine, false);
 }
