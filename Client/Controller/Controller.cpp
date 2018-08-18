@@ -65,7 +65,7 @@ void Controller::mouseButtonEvent(GLFWwindow *w, mgl::MouseButton button, mgl::M
 	} else if (action == mgl::MouseAction::release)
 		if (button == mgl::MouseButton::left)
 			m_actor->deactivateRightWeapon();
-		else
+		else if (button == mgl::MouseButton::right)
 			m_actor->deactivateLeftWeapon();
 }
 
