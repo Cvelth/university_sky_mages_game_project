@@ -5,7 +5,7 @@
 class PhysicsEngine;
 class RenderInfo;
 
-class IndependentObject : protected IndependentObjectState {
+class IndependentObject : public IndependentObjectState {
 	friend PhysicsEngine;
 protected:
 	std::shared_ptr<RenderInfo> m_render_info;
