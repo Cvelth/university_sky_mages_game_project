@@ -31,7 +31,7 @@ void PhysicsEngine::processForces(IndependentObjectState *os) {
 
 #include "Objects/Map/Map.hpp"
 #define speed_test(test, result) (test > 0.f ? result : -result)
-void PhysicsEngine::processMovement(IndependentObjectState *os, Map *map) {
+void PhysicsEngine::processMovement(IndependentObjectState *os, std::shared_ptr<Map> map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;
 		auto half_size = os->size() * 0.5f;

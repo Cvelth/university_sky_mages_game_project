@@ -41,7 +41,7 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess,
 
 	m_is_initialized = true;
 }
-void PhysicsEngine::initializeCollisionSystem(Map *map) {
+void PhysicsEngine::initializeCollisionSystem(std::shared_ptr<Map> map) {
 	m_map = map;
 }
 void PhysicsEngine::addObject(IndependentObject *object) {

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <functional>
 #include "shared/vector.hpp"
 class ObjectQueue;
@@ -15,7 +16,7 @@ private:
 	MainActorQueue *m_actor_queue;
 	ProjectileQueue *m_projectile_queue;
 	ObjectQueue *m_object_queue;
-	Map *m_map;
+	std::shared_ptr<Map> m_map;
 
 	bool m_is_initialized;
 protected:
@@ -26,7 +27,7 @@ protected:
 	static vector const calculateDragForce(vector const& speed, vector const& size);
 
 	static void processForces(IndependentObjectState *os);
-	static void processMovement(IndependentObjectState *os, Map *map);
+	static void processMovement(IndependentObjectState *os, std::shared_ptr<Map> map);
 	static void processWeaponry(MainActor *ma, ProjectileQueue *projectile_queue);
 public:
 	PhysicsEngine();
@@ -39,7 +40,7 @@ public:
 
 	void initialize(std::function<bool(void)> const &finishFlagAccess, 
 		MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
-	void initializeCollisionSystem(Map *map);
+	void initializeCollisionSystem(std::shared_ptr<Map> map);
 	void addObject(IndependentObject *object);
 	void removeObject(IndependentObject *object);
 	void addActor(MainActor *actor);
