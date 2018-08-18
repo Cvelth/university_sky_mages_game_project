@@ -21,7 +21,7 @@ vector FlyEngine::acceleration(scalar const & time_correct) const {
 	ret[1] -= m_anti_gravity_expected_mass * Constants::g;
 	return ret;
 }
-vector FlyEngine::acceleration(scalar const & mass, scalar const & time_correct) const {
+vector FlyEngine::acceleration(scalar const& mass, scalar const& time_correct) const {
 	auto ret = DependedAcceleratableObjectState::acceleration();
 	ret[1] -= m_anti_gravity_expected_mass * Constants::g;
 	if (ret[0] == 0 && ret[1] == 0)
@@ -30,4 +30,10 @@ vector FlyEngine::acceleration(scalar const & mass, scalar const & time_correct)
 		return ret;
 	else
 		return vector(0.f, 0.f);
+}
+vector FlyEngine::get_acceleration() const {
+	return DependedAcceleratableObjectState::m_acceleration;
+}
+void FlyEngine::update_acceleration(vector const& acceleration) {
+	DependedAcceleratableObjectState::m_acceleration = acceleration;
 }

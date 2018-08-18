@@ -110,8 +110,11 @@ vector MainActor::acceleration(scalar const& time_correct) const {
 	return m_acceleration +
 		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
 }
+vector MainActor::get_acceleration() const {
+	return m_acceleration + m_engine->get_acceleration();
+}
 void MainActor::update_state(vector const& acceleration, vector const& speed, vector const& position) {
-	m_acceleration = acceleration;
+	m_engine->update_acceleration(acceleration);
 	m_speed = speed;
 	m_position = position;
 }

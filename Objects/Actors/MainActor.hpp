@@ -50,7 +50,7 @@ public:
 	Weapon* right_weapon() const { return m_weapon_right_arm; }
 public:
 	virtual scalar mass() const override;
-	virtual vector acceleration(scalar const& time_correct = 1.f) const override;
-
+	virtual vector acceleration(scalar const& time_correct) const override;
+	virtual vector get_acceleration() const;
 	virtual void update_state(vector const& acceleration, vector const& speed, vector const& position);
 };
