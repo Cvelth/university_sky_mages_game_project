@@ -125,7 +125,7 @@ inline void map_load(std::shared_ptr<Map> &map, std::istream &input) {
 inline void map_broadcast(std::shared_ptr<Map> &map) {
 	std::cout << "Broadcasting map...\n";
 	if (map) {
-		bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
+		Networking::bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
 		std::cout << "Map was broadcasted.\n";
 	} else
 		std::cout << "Cannot broadcast non-existing map. Try generating or loading one.\n";
@@ -154,7 +154,7 @@ inline void actors_(MainActorQueue &actors, std::istream &input) {
 }
 inline void actors_broadcast(MainActorQueue &actors) {
 	std::cout << "Broadcasting actor queue...\n";
-	bcast_from_server("MainActorQueue\n" + actors.to_string(), 1, false);
+	Networking::bcast_from_server("MainActorQueue\n" + actors.to_string(), 1, false);
 	std::cout << "Actor queue was broadcasted.\n";
 }
 inline void actors_help() {
@@ -206,5 +206,5 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 		std::cout << "\b\bA packet with " << data << " was received.\n: ";
 	};
 
-	return initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
+	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }

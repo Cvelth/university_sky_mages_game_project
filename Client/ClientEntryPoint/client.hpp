@@ -52,7 +52,7 @@ void game_process(Objects *o, size_t &client_index) {
 	physics_engine->changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
 	Map *map;
-	auto networking_thread = initialize_client([&window](void) {
+	auto networking_thread = Networking::initialize_client([&window](void) {
 		return window->isWindowClosed();
 	}, [&window, &physics_engine, &map, &client_index, &main_object_queue, &o](std::string const& data) /*packed received*/ {
 		std::istringstream s(data);
