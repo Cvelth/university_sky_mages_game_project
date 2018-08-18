@@ -10,8 +10,8 @@ public:
 	MGLWindow() {}
 	~MGLWindow() {}
 
-	virtual void resize(int width, int height, Camera* camera);
-	virtual void resize(Camera* camera);
+	virtual void resize(int width, int height, std::shared_ptr<Camera> camera);
+	virtual void resize(std::shared_ptr<Camera> camera);
 
 	virtual void initializeRenderProcess() override {}
 	virtual void renderProcess() override {}
