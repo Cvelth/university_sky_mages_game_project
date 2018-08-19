@@ -148,7 +148,7 @@ std::string ObjectStorage::generate_file_type_info() {
 }
 #include "../../Objects/Actors/MainActor.hpp"
 #include "RenderInfoStorage.hpp"
-MainActor* string_to_main_actor(std::string &data, Objects *o) {
+std::shared_ptr<MainActor> string_to_main_actor(std::string &data, Objects *o) {
 	std::istringstream s(data);
 	std::string string;
 	s >> string;
@@ -169,7 +169,7 @@ MainActor* string_to_main_actor(std::string &data, Objects *o) {
 
 	s >> string;
 	auto render_info = RenderInfoStorage::getRenderInfo(string);
-	auto ret = new MainActor(mass, acceleration, speed, position, size, render_info);
+	auto ret = std::make_shared<MainActor>(mass, acceleration, speed, position, size, render_info);
 
 	s >> string;
 	if (string != "NO")
