@@ -10,8 +10,8 @@ void MyGraphicsLibraryEngine::initializeHUDRendering() {
 										 readShader("HUDVertexShader.glsl").c_str()));
 	m_HUD_program->use();
 
-	m_hud->get()->send(mgl::DataUsage::StaticDraw);
-	m_hud->get()->insertVertexArray(m_HUD_program->getVertexArray());
+	m_hud->send(mgl::DataUsage::StaticDraw);
+	m_hud->insertVertexArray(m_HUD_program->getVertexArray());
 
 	m_HUD_program->enableAttrib("position", 4, 8, 0);
 	m_HUD_program->enableAttrib("color", 4, 8, 4);
@@ -29,11 +29,11 @@ void MyGraphicsLibraryEngine::initializeHUDRendering() {
 void MyGraphicsLibraryEngine::renderHUD() {
 	m_HUD_program->use();
 	m_hud->recalculate();
-	m_hud->get()->draw();
+	m_hud->draw();
 }
 
 void MyGraphicsLibraryEngine::cleanHUDRendering() {
-	m_hud->get()->clean();
+	m_hud->clean();
 
 	if (m_HUD_program.translation) delete m_HUD_program.translation;
 	if (m_HUD_program.scaling) delete m_HUD_program.scaling;

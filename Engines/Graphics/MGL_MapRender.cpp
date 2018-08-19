@@ -122,7 +122,7 @@ void MyGraphicsLibraryEngine::initializeMapRendering(std::shared_ptr<Camera> cam
 
 	m_camera = camera;
 	for (auto it = m_camera->map()->get_blocks_data().rbegin(); it != m_camera->map()->get_blocks_data().rend(); it++) {
-		(*it)->renderInfo()->get()->send(mgl::DataUsage::StaticDraw);
+		(*it)->renderInfo()->send(mgl::DataUsage::StaticDraw);
 		m_map_program.translationInstances.push_back(std::make_pair(*it, new mgl::InstancingMultiArray()));
 	}
 	m_map_program->enableAttrib("position", 4, 8, 0);
@@ -136,14 +136,14 @@ void MyGraphicsLibraryEngine::renderMap() {
 	m_map_program->use();
 
 	for (auto p : m_map_program.translationInstances) {
-		p.first->renderInfo()->get()->draw(p.second);
+		p.first->renderInfo()->draw(p.second);
 	}
 }
 
 void MyGraphicsLibraryEngine::cleanMapRendering() {
 	if (m_camera) 
 		for (auto it : m_camera->map()->get_blocks_data())
-			it->renderInfo()->get()->clean();
+			it->renderInfo()->clean();
 
 	for (auto it : m_map_program.translationInstances)
 		delete it.second;

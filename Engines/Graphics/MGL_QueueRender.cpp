@@ -10,10 +10,9 @@
 
 template <typename Type> 
 inline void sendRenderInfo(std::shared_ptr<Type> go, mgl::VertexArray *va) {
-	if (!go->isInitialized()) {
-		go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
-		go->getRenderInto()->get()->insertVertexArray(va);
-		go->initializationWasSuccessfull();
+	if (!go->getRenderInto()->isInitialized()) {
+		go->getRenderInto()->insertVertexArray(va);
+		go->getRenderInto()->send(mgl::DataUsage::StaticDraw);
 	}
 }
 
@@ -56,7 +55,7 @@ void renderSingleQueue(AbstractQueueInterface<Type> *queue, QueueProgram &queue_
 			position[0] <= maxX && position[1] <= maxY) {
 
 			queue_program->sendUniform(queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
-			go->getRenderInto()->get()->draw();
+			go->getRenderInto()->draw();
 		}
 	});
 }
@@ -74,8 +73,7 @@ void MyGraphicsLibraryEngine::renderQueues() {
 template <typename Type>
 void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program) {
 	queue->for_each([](std::shared_ptr<Type> go) {
-		go->getRenderInto()->get()->clean();
-		go->reinitialize();
+		go->getRenderInto()->clean();
 	});
 
 	if (queue_program.translation) delete queue_program.translation;
