@@ -3,71 +3,41 @@
 
 MGL_FORCE_NVIDIA_GPU_USAGE
 
-void MyGraphicsLibraryEngine::initialize() {
-
-}
-
-void MyGraphicsLibraryEngine::clean() {
-	delete m_window;
-}
-
-void MyGraphicsLibraryEngine::initializeWindow(const char * title, size_t width, size_t height, bool isFullscreen) {
+MyGraphicsLibraryEngine::MyGraphicsLibraryEngine(const char* title, size_t width, size_t height, bool isFullscreen, 
+												 MainActorQueue &mq, DoubleProjectileQueue &pq, ObjectQueue &oq) 
+												 : m_actor_queue(mq), m_projectile_queue(pq), m_miscellaneous_queue(oq) {
+	m_window = new MGLWindow();
 	m_window->initialize(title, (int) width, (int) height,
 						 isFullscreen ? mgl::DefaultWindowMode::Fullscreen : mgl::DefaultWindowMode::Windowed);
 }
-
-void MyGraphicsLibraryEngine::destroyWindow() {
+MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
 	m_window->clean();
+	delete m_window;
 }
 
 bool MyGraphicsLibraryEngine::isWindowClosed() {
 	return m_window->isWindowClosed();
 }
-
 size_t MyGraphicsLibraryEngine::width() const {
 	return m_window->getWidth();
 }
-
 size_t MyGraphicsLibraryEngine::height() const {
 	return m_window->getHeight();
 }
-
 void MyGraphicsLibraryEngine::clearWindow() {
 	m_window->clearWindow();
 }
-
 void MyGraphicsLibraryEngine::update() {
 	m_window->update();
 }
-
 void MyGraphicsLibraryEngine::pollEvents() {
 	m_window->pollEvents();
 }
 void MyGraphicsLibraryEngine::waitEvents() {
 	m_window->waitEvents();
 }
-MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
-	m_window = new MGLWindow();
-}
-
-#include "Objects/ObjectState/ObjectQueue.hpp"
-void MyGraphicsLibraryEngine::initializeQueues(MainActorQueue *mq, DoubleProjectileQueue *pq, ObjectQueue *oq) {
-	if (mq)	m_actor_queue = mq;
-	else m_actor_queue = new MainActorQueue();
-	if (pq)	m_projectile_queue = pq;
-	else m_projectile_queue = new DoubleProjectileQueue();
-	if (oq)	m_miscellaneous_queue = oq;
-	else m_miscellaneous_queue = new ObjectQueue();
-}
-//void MyGraphicsLibraryEngine::addToRenderQueue(IndependentObject* go) {
-//	m_queue->add(go);
-//}
 void MyGraphicsLibraryEngine::insertHUD(HUD_RenderInfo *hud) {
 	m_hud = hud;
-}
-MyGraphicsLibraryEngine::~MyGraphicsLibraryEngine() {
-	destroyWindow();
-	clean();
 }
 
 #include "Client/Controller/ControllerInterface.hpp"
