@@ -186,10 +186,10 @@ inline void actors_help() {
 }
 inline void actors_add(Objects *objects, MainActorQueue &actors) {
 	std::cout << "\rAdding new actor...";
-	auto actor = new MainActor(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
+	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
 	actor->giveEnergyStorage(objects->get_energy_storage(""));
 	actor->giveFlyEngine(objects->get_fly_engine(""));
-	actor->giveRightWeapon(objects->get_weapon(""));
+	actor->giveLeftWeapon(objects->get_weapon(""));
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";
