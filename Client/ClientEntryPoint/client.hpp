@@ -35,7 +35,7 @@ void game_process(Objects *o, size_t &client_index) {
 	controller.startKeyControl(&keys);
 
 	MainActorQueue actors;
-	ProjectileQueue projectiles;
+	DoubleProjectileQueue projectiles;
 	ObjectQueue miscellaneous;
 
 	Window window(o->get_program_version().c_str(),
@@ -88,8 +88,10 @@ void game_process(Objects *o, size_t &client_index) {
 				main_actor = temp;
 			}
 		} else if (string == "QueueUpdate") {
-			if (client_index != -1 && map && actors.size() != 0)
-				NetworkController::update_state(data, &actors, &projectiles, &miscellaneous);
+			if (client_index != -1 && map && actors.size() != 0) {
+				NetworkController::update_state(data, &actors, &projectiles.next(), &miscellaneous);
+				projectiles.swap();
+			}
 		} else
 			throw Exceptions::NetworkingException(("Unsupported data was received from server: " + data).c_str());
 	};

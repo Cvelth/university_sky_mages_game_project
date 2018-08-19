@@ -32,7 +32,7 @@ inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous);
 
 PhysicsEngine *physics_engine = nullptr;
 void server_process(Objects *objects) {
@@ -42,7 +42,7 @@ void server_process(Objects *objects) {
 
 	std::shared_ptr<Map> map;
 	MainActorQueue actors;
-	ProjectileQueue projectiles;
+	DoubleProjectileQueue projectiles;
 	ObjectQueue miscellaneous;
 
 	std::cout << "\rInitializing networking engine...";
@@ -266,7 +266,7 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }
 #include "Engines\ObjectStorage\Settings.hpp"
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
 	engine->initializeCollisionSystem(map);
