@@ -44,16 +44,16 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess,
 void PhysicsEngine::initializeCollisionSystem(std::shared_ptr<Map> map) {
 	m_map = map;
 }
-void PhysicsEngine::addObject(IndependentObject *object) {
+void PhysicsEngine::addObject(std::shared_ptr<IndependentObject> object) {
 	m_object_queue->add(object);
 }
-void PhysicsEngine::removeObject(IndependentObject *object) {
+void PhysicsEngine::removeObject(std::shared_ptr<IndependentObject> object) {
 	m_object_queue->remove(object);
 }
-void PhysicsEngine::addActor(MainActor *actor) {
+void PhysicsEngine::addActor(std::shared_ptr<MainActor> actor) {
 	m_actor_queue->add(actor);
 }
-void PhysicsEngine::removeActor(MainActor *actor) {
+void PhysicsEngine::removeActor(std::shared_ptr<MainActor> actor) {
 	m_actor_queue->remove(actor);
 }
 void PhysicsEngine::clean() {

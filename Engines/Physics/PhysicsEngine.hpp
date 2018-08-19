@@ -41,10 +41,10 @@ public:
 	void initialize(std::function<bool(void)> const &finishFlagAccess, 
 		MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
 	void initializeCollisionSystem(std::shared_ptr<Map> map);
-	void addObject(IndependentObject *object);
-	void removeObject(IndependentObject *object);
-	void addActor(MainActor *actor);
-	void removeActor(MainActor *actor);
+	void addObject(std::shared_ptr<IndependentObject> object);
+	void removeObject(std::shared_ptr<IndependentObject> object);
+	void addActor(std::shared_ptr<MainActor> actor);
+	void removeActor(std::shared_ptr<MainActor> actor);
 	void loop(bool destroy_engine_after_exit = false);
 	void clean();
 };
