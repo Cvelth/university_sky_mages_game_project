@@ -83,10 +83,10 @@ void NetworkController::accept_aim_event(std::shared_ptr<MainActor> actor, float
 }
 
 #include "Objects/ObjectState/ObjectQueue.hpp"
-std::string generate_actor_update(MainActorQueue *queue) {
+std::string generate_actor_update(MainActorQueue &queue) {
 	std::ostringstream s;
-	s << queue->size() << '\n';
-	queue->for_each([&s](std::shared_ptr<MainActor> object) {
+	s << queue.size() << '\n';
+	queue.for_each([&s](std::shared_ptr<MainActor> object) {
 		auto acceleration = object->get_acceleration();
 		auto speed = object->speed();
 		auto position = object->position();
@@ -98,10 +98,10 @@ std::string generate_actor_update(MainActorQueue *queue) {
 }
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
-std::string generate_projectile_update(ProjectileQueue *queue) {
+std::string generate_projectile_update(ProjectileQueue &queue) {
 	std::ostringstream s;
-	s << queue->size() << '\n';
-	queue->for_each([&s](std::shared_ptr<ShootableObject> object) {
+	s << queue.size() << '\n';
+	queue.for_each([&s](std::shared_ptr<ShootableObject> object) {
 		auto acceleration = object->acceleration();
 		auto speed = object->speed();
 		auto position = object->position();
@@ -114,7 +114,7 @@ std::string generate_projectile_update(ProjectileQueue *queue) {
 	return "QueueUpdate\nProjectile\n" + s.str();
 }
 
-void NetworkController::update_state(MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
+void NetworkController::update_state(MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	if (GameStateController::mode() != ProgramMode::Server)
 		throw Exceptions::GameStateException("Only server-mode applications can send queue state.");
 
@@ -122,7 +122,7 @@ void NetworkController::update_state(MainActorQueue *actors, ProjectileQueue *pr
 	Networking::bcast_from_server(generate_projectile_update(projectiles), ProjectileData, false);
 	//Networking::bcast_from_server(generate_miscellaneous_update(miscellaneous), OtherData, false);
 }
-void NetworkController::update_state(std::string data, MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
+void NetworkController::update_state(std::string data, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	if (GameStateController::mode() != ProgramMode::Client)
 		throw Exceptions::GameStateException("Only client-mode applications can receive queue state.");
 
@@ -136,10 +136,10 @@ void NetworkController::update_state(std::string data, MainActorQueue *actors, P
 	if (string == "Actor") {
 		size_t size;
 		input >> size;
-		if (size != actors->size()) {
+		if (size != actors.size()) {
 			//throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
 		}
-		actors->for_each([&input](std::shared_ptr<MainActor> actor) {
+		actors.for_each([&input](std::shared_ptr<MainActor> actor) {
 			scalar ax, ay, vx, vy, px, py;
 			input >> ax >> ay >> vx >> vy >> px >> py;
 			actor->update_state(vector(ax, ay), vector(vx, vy), vector(px, py));
@@ -148,11 +148,11 @@ void NetworkController::update_state(std::string data, MainActorQueue *actors, P
 		size_t size;
 		input >> size;
 		if (size != 0) {
-			projectiles->clear();
+			projectiles.clear();
 			while (input) {
 				scalar ax, ay, vx, vy, px, py, sx, sy, d, m;
 				input >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
-				projectiles->add(std::make_shared<ShootableObject>(RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d));
+				projectiles.add(std::make_shared<ShootableObject>(RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d));
 			}
 		}
 	}

@@ -32,6 +32,6 @@ namespace NetworkController {
 		send_aim_event(x, y);
 	}
 
-	void update_state(MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous);
-	void update_state(std::string data, MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous);
+	void update_state(MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+	void update_state(std::string data, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
 }
