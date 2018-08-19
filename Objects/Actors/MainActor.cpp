@@ -92,17 +92,17 @@ void MainActor::deactivateLeftWeapon() {
 	if (m_weapon_left_arm) m_weapon_left_arm->deactivate();
 }
 
-ShootableObject* MainActor::shootRightWeapon() {
+std::shared_ptr<ShootableObject> MainActor::shootRightWeapon() {
 	if (m_weapon_right_arm)
 		return m_weapon_right_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
 	return nullptr;
 }
-ShootableObject* MainActor::shootLeftWeapon() {
+std::shared_ptr<ShootableObject> MainActor::shootLeftWeapon() {
 	if (m_weapon_left_arm && m_weapon_right_arm != m_weapon_left_arm)
 		return m_weapon_left_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
 	return nullptr;
 }
-std::vector<ShootableObject*> MainActor::shootingProcess() {
+std::vector<std::shared_ptr<ShootableObject>> MainActor::shootingProcess() {
 	return { shootRightWeapon(), shootLeftWeapon() };
 }
 
@@ -125,7 +125,7 @@ scalar MainActor::mass() const {
 }
 
 MainActor::MainActor(float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info) 
-	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)) {
+	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)), m_energy_storage(nullptr), m_engine(nullptr), m_weapon_left_arm(nullptr), m_weapon_right_arm(nullptr) {
 	m_acceleration = acceleration;
 	m_speed = speed;
 }

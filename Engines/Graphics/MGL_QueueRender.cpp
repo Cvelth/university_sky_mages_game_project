@@ -10,22 +10,21 @@
 
 template <typename Type> 
 inline void sendRenderInfo(std::shared_ptr<Type> go, mgl::VertexArray *va) {
-	if (!go->isInitialized()) {
-		go->getRenderInto()->get()->send(mgl::DataUsage::StaticDraw);
-		go->getRenderInto()->get()->insertVertexArray(va);
-		go->initializationWasSuccessfull();
+	if (!go->getRenderInto()->isInitialized()) {
+		go->getRenderInto()->insertVertexArray(va);
+		go->getRenderInto()->send(mgl::DataUsage::StaticDraw);
 	}
 }
 
 template <typename Type>
-void initializeSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program, MGLWindow *window) {
+void initializeSingleQueueRendering(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program, MGLWindow *window) {
 	queue_program.program = window->linkProgramWithDefaultFragmentShader(
 		mgl::Shader::compileShaderSource(mgl::ShaderType::Vertex,
 			readShader("QueueVertexShader.glsl").c_str()));
 
 	queue_program->use();
 
-	queue->for_each([&queue_program](std::shared_ptr<Type> go) {
+	queue.for_each([&queue_program](std::shared_ptr<Type> go) {
 		sendRenderInfo(go, queue_program->getVertexArray());
 	});
 
@@ -41,22 +40,22 @@ void initializeSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueuePr
 }
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {
-	initializeSingleQueueRendering(m_projectile_queue, m_projectile_queue_program, m_window);
+	initializeSingleQueueRendering(m_projectile_queue.get(), m_projectile_queue_program, m_window);
 	initializeSingleQueueRendering(m_miscellaneous_queue, m_miscellaneous_queue_program, m_window);
 	initializeSingleQueueRendering(m_actor_queue, m_actor_queue_program, m_window);
 }
 
 template <typename Type, typename NumeralType>
-void renderSingleQueue(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
+void renderSingleQueue(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
 	queue_program->use();
-	queue->for_each([&minX, &maxX, &minY, &maxY, queue_program](std::shared_ptr<Type> go) {
+	queue.for_each([&minX, &maxX, &minY, &maxY, queue_program](std::shared_ptr<Type> go) {
 		sendRenderInfo(go, queue_program->getVertexArray());
 		auto position = go->position();
 		if (position[0] >= minX && position[1] >= minY &&
 			position[0] <= maxX && position[1] <= maxY) {
 
 			queue_program->sendUniform(queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
-			go->getRenderInto()->get()->draw();
+			go->getRenderInto()->draw();
 		}
 	});
 }
@@ -66,16 +65,15 @@ void MyGraphicsLibraryEngine::renderQueues() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	renderSingleQueue(m_projectile_queue, m_projectile_queue_program, minX, maxX, minY, maxY);
+	renderSingleQueue(m_projectile_queue.get(), m_projectile_queue_program, minX, maxX, minY, maxY);
 	renderSingleQueue(m_miscellaneous_queue, m_miscellaneous_queue_program, minX, maxX, minY, maxY);
 	renderSingleQueue(m_actor_queue, m_actor_queue_program, minX, maxX, minY, maxY);
 }
 
 template <typename Type>
-void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram &queue_program) {
-	queue->for_each([](std::shared_ptr<Type> go) {
-		go->getRenderInto()->get()->clean();
-		go->reinitialize();
+void cleanSingleQueueRendering(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program) {
+	queue.for_each([](std::shared_ptr<Type> go) {
+		go->getRenderInto()->clean();
 	});
 
 	if (queue_program.translation) delete queue_program.translation;
@@ -85,7 +83,7 @@ void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram
 }
 
 void MyGraphicsLibraryEngine::cleanQueueRendering() {
-	cleanSingleQueueRendering(m_projectile_queue, m_projectile_queue_program);
+	cleanSingleQueueRendering(m_projectile_queue.get(), m_projectile_queue_program);
 	cleanSingleQueueRendering(m_miscellaneous_queue, m_miscellaneous_queue_program);
 	cleanSingleQueueRendering(m_actor_queue, m_actor_queue_program);
 }

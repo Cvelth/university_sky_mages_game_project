@@ -3,7 +3,7 @@
 #include "enet/enet.h"
 
 size_t const client_number = 9;
-size_t const channel_number = 3;
+size_t const channel_number = 5;
 
 ENetHost *client_host;
 ENetHost *server_host;
@@ -33,7 +33,7 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 		char host_name[max_name_length];
 		GameStateController::change_networking_loop_state(true);
 		while (!should_close) {
-			enet_host_service(server_host, &event, 1000);
+			enet_host_service(server_host, &event, 16);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_CONNECT:
 					enet_address_get_host(&event.peer->address, host_name, max_name_length);
@@ -135,9 +135,7 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 
 void Networking::send_to_server(std::string const& data, size_t channel_id, bool important) {
 	enet_peer_send(server_peer, static_cast<uint8_t>(channel_id), enet_packet_create(data.data(), data.size() + 1, important ? ENET_PACKET_FLAG_RELIABLE : 0));
-	enet_host_flush(client_host);
 }
 void Networking::bcast_from_server(std::string const& data, size_t channel_id, bool important) {
 	enet_host_broadcast(server_host, static_cast<uint8_t>(channel_id), enet_packet_create(data.data(), data.size() + 1, important ? ENET_PACKET_FLAG_RELIABLE : 0));
-	enet_host_flush(server_host);
 }

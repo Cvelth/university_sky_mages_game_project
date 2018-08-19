@@ -32,7 +32,7 @@ inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous);
 
 PhysicsEngine *physics_engine = nullptr;
 void server_process(Objects *objects) {
@@ -42,7 +42,7 @@ void server_process(Objects *objects) {
 
 	std::shared_ptr<Map> map;
 	MainActorQueue actors;
-	ProjectileQueue projectiles;
+	DoubleProjectileQueue projectiles;
 	ObjectQueue miscellaneous;
 
 	std::cout << "\rInitializing networking engine...";
@@ -186,10 +186,10 @@ inline void actors_help() {
 }
 inline void actors_add(Objects *objects, MainActorQueue &actors) {
 	std::cout << "\rAdding new actor...";
-	auto actor = new MainActor(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
+	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
 	actor->giveEnergyStorage(objects->get_energy_storage(""));
 	actor->giveFlyEngine(objects->get_fly_engine(""));
-	actor->giveRightWeapon(objects->get_weapon(""));
+	actor->giveLeftWeapon(objects->get_weapon(""));
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";
@@ -251,19 +251,23 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
 	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, std::string const& data) {
+		if (data.size() == 0)
+			throw Exceptions::ConnectionException("Packet without data was received.");
 		auto id = clients[std::make_pair(name, port)];
-		if (data.size() == 3 && data[0] == 'C') {
+		if (data[0] == 'C') {
 			NetworkController::accept_control_event(actors[id], data);
+		} else if (data[0] == 'A') {
+			NetworkController::accept_aim_event(actors[id], data);
 		} else
-			std::cout << "\rUnknown packet with " << data << " was received from " 
-			<< name << ":" << port << "(id - " << id << ").\n: ";
+			std::cout << "\rUnknown packet with " << data << " was received from "
+					  << name << ":" << port << "(id - " << id << ").\n: ";
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }
 #include "Engines\ObjectStorage\Settings.hpp"
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, ProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
-	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
+	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, actors, projectiles, miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
 	engine->initializeCollisionSystem(map);
 	return std::thread(&PhysicsEngine::loop, engine, false);

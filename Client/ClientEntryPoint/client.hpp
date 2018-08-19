@@ -35,18 +35,18 @@ void game_process(Objects *o, size_t &client_index) {
 	controller.startKeyControl(&keys);
 
 	MainActorQueue actors;
-	ProjectileQueue projectiles;
+	DoubleProjectileQueue projectiles;
 	ObjectQueue miscellaneous;
 
 	Window window(o->get_program_version().c_str(),
 				  o->settings()->getUintValue("Screen_Width"),
 				  o->settings()->getUintValue("Screen_Height"),
 				  o->settings()->getBoolValue("Fullscreen_Window"),
-				  &actors, &projectiles, &miscellaneous);
-	window.insertController(&controller);
+				  actors, projectiles, miscellaneous);
+	window.changeController(&controller);
 	window.changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
 
-	PhysicsEngine physics_engine([&window]() { return window.isWindowClosed(); }, &actors, &projectiles, &miscellaneous);
+	PhysicsEngine physics_engine([&window]() { return window.isWindowClosed(); }, actors, projectiles, miscellaneous);
 	physics_engine.changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
 	std::shared_ptr<MainActor> main_actor;
@@ -59,6 +59,8 @@ void game_process(Objects *o, size_t &client_index) {
 		std::getline(s, string);
 		if (string == "Index") {
 			s >> client_index;
+			if (actors.size() != 0)
+				main_actor = actors[client_index];
 		} else if (string == "Map") {
 			auto temp = std::shared_ptr<Map>(MapStorage::string_to_map(data.substr(string.size() + 1)));
 			if (!temp)
@@ -86,8 +88,10 @@ void game_process(Objects *o, size_t &client_index) {
 				main_actor = temp;
 			}
 		} else if (string == "QueueUpdate") {
-			if (client_index != -1 && map && actors.size() != 0)
-				NetworkController::update_state(data, &actors, &projectiles, &miscellaneous);
+			if (client_index != -1 && map && actors.size() != 0) {
+				NetworkController::update_state(data, actors, projectiles.next(), miscellaneous);
+				projectiles.swap();
+			}
 		} else
 			throw Exceptions::NetworkingException(("Unsupported data was received from server: " + data).c_str());
 	};

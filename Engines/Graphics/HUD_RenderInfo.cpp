@@ -26,9 +26,9 @@ HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(e
 	m_energy_bar = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
 									  new mgl::Color(104u, 7u, 77u));
 
-	get()->addPrimitive(outter);
-	get()->addPrimitive(inner);
-	get()->addPrimitive(m_energy_bar);
+	addPrimitive(outter);
+	addPrimitive(inner);
+	addPrimitive(m_energy_bar);
 }
 
 HUD_RenderInfo::~HUD_RenderInfo() {}

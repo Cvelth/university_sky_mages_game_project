@@ -63,7 +63,7 @@ void PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
-void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, ProjectileQueue *projectile_queue) {
+void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue) {
 	for (auto projectile : ma->shootingProcess())
 		if (projectile)
 			projectile_queue->add(projectile);
