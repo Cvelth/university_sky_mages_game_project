@@ -22,6 +22,35 @@ public:
 		return s.str();
 	}
 };
+#include <array>
+template <typename QueueType, size_t queue_number> 
+class MultiQueue {
+private:
+	size_t m_current_queue;
+	std::array<QueueType, queue_number> m_queues;
+protected:
+	inline typename std::enable_if<queue_number >= 2, size_t>::type next_queue() const {
+		if (m_current_queue == queue_number - 1) return 0; else return m_current_queue + 1; 
+	}
+public:
+	MultiQueue() : m_current_queue(0u) {}
+	inline QueueType& operator*() { return m_queues[m_current_queue]; }
+	inline QueueType const& operator*() const { return m_queues[m_current_queue]; }
+	inline QueueType& operator->() { return m_queues[m_current_queue]; }
+	inline QueueType const& operator->() const { return m_queues[m_current_queue]; }
+	inline QueueType& get() { return m_queues[m_current_queue]; }
+	inline QueueType const& get() const { return m_queues[m_current_queue]; }
+
+	inline typename std::enable_if<queue_number >= 2, QueueType&>::type next() {
+		return m_queues[next_queue()];
+	}
+	inline typename std::enable_if<queue_number >= 2, QueueType const&>::type next() const {
+		return m_queues[next_queue()];
+	}
+	inline typename std::enable_if<queue_number >= 2>::type swap() {
+		m_current_queue = next_queue();
+	}
+};
 #include <set>
 template <typename Type>
 class AbstractSet : public AbstractQueueInterface<Type> {
@@ -78,6 +107,11 @@ class MainActor;
 class ObjectQueue : public AbstractSet<IndependentObject> { public: using AbstractSet::AbstractSet; };
 class ProjectileQueue : public AbstractSet<ShootableObject> { public: using AbstractSet::AbstractSet; };
 class MainActorQueue : public AbstractVector<MainActor> { public: using AbstractVector::AbstractVector; };
+
+template <typename QueueType> class DoubleQueue : public MultiQueue<QueueType, 2u> { public: using MultiQueue<QueueType, 2u>::MultiQueue; };
+class DoubleObjectQueue : public DoubleQueue<ObjectQueue> { public: using DoubleQueue<ObjectQueue>::DoubleQueue; };
+class DoubleProjectileQueue : public DoubleQueue<ProjectileQueue> { public: using DoubleQueue<ProjectileQueue>::DoubleQueue; };
+class DoubleActorQueue : public DoubleQueue<MainActorQueue> { public: using DoubleQueue<MainActorQueue>::DoubleQueue; };
 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
