@@ -109,7 +109,7 @@ void Controller::mouseMoveEvent(GLFWwindow *w, double x, double y) {
 			auto temp_y = m_controlledCamera->minY();
 			float tx = float(x) / current_screen_width * (m_controlledCamera->maxX() - temp_x) + temp_x;
 			float ty = float(y) / current_screen_height * (m_controlledCamera->maxY() - temp_y) + temp_y;
-			m_actor->aim(tx, ty);
+			NetworkController::send_aim_event(m_actor, tx, ty);
 		}
 	}
 }

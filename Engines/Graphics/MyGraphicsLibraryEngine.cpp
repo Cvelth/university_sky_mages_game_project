@@ -51,11 +51,11 @@ MyGraphicsLibraryEngine::MyGraphicsLibraryEngine() {
 }
 
 #include "Objects/ObjectState/ObjectQueue.hpp"
-void MyGraphicsLibraryEngine::initializeQueues(MainActorQueue *mq, ProjectileQueue *pq, ObjectQueue *oq) {
+void MyGraphicsLibraryEngine::initializeQueues(MainActorQueue *mq, DoubleProjectileQueue *pq, ObjectQueue *oq) {
 	if (mq)	m_actor_queue = mq;
 	else m_actor_queue = new MainActorQueue();
 	if (pq)	m_projectile_queue = pq;
-	else m_projectile_queue = new ProjectileQueue();
+	else m_projectile_queue = new DoubleProjectileQueue();
 	if (oq)	m_miscellaneous_queue = oq;
 	else m_miscellaneous_queue = new ObjectQueue();
 }

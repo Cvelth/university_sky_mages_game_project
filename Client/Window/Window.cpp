@@ -12,7 +12,7 @@ void Window::clean() {
 }
 
 Window::Window(const char* title, size_t width, size_t height, bool isFullscreen, 
-			   MainActorQueue *main_actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue)
+			   MainActorQueue *main_actor_queue, DoubleProjectileQueue *projectile_queue, ObjectQueue *object_queue)
 		: m_controller(nullptr), m_camera(nullptr), m_update_interval(16666) {
 
 	m_graphics = new MyGraphicsLibraryEngine;

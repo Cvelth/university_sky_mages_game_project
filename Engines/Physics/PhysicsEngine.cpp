@@ -6,7 +6,7 @@ size_t PhysicsEngine::UpdateInterval = 16667ul;
 PhysicsEngine::PhysicsEngine() : m_is_initialized(false) {}
 
 PhysicsEngine::PhysicsEngine(std::function<bool(void)> const& finishFlagAccess, 
-							 MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue) : PhysicsEngine() {
+							 MainActorQueue *actor_queue, DoubleProjectileQueue *projectile_queue, ObjectQueue *object_queue) : PhysicsEngine() {
 	initialize(finishFlagAccess, actor_queue, projectile_queue, object_queue);
 }
 
@@ -23,7 +23,7 @@ void PhysicsEngine::changeUpdateInterval(size_t microseconds) {
 }
 
 void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess, 
-							   MainActorQueue *actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue) {
+							   MainActorQueue *actor_queue, DoubleProjectileQueue *projectile_queue, ObjectQueue *object_queue) {
 	m_finish_flag_access = finishFlagAccess;
 
 	if (actor_queue != nullptr)
@@ -33,7 +33,7 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess,
 	if (projectile_queue != nullptr)
 		m_projectile_queue = projectile_queue;
 	else
-		m_projectile_queue = new ProjectileQueue();
+		m_projectile_queue = new DoubleProjectileQueue();
 	if (object_queue != nullptr)
 		m_object_queue = object_queue;
 	else
@@ -44,16 +44,16 @@ void PhysicsEngine::initialize(std::function<bool()> const& finishFlagAccess,
 void PhysicsEngine::initializeCollisionSystem(std::shared_ptr<Map> map) {
 	m_map = map;
 }
-void PhysicsEngine::addObject(IndependentObject *object) {
+void PhysicsEngine::addObject(std::shared_ptr<IndependentObject> object) {
 	m_object_queue->add(object);
 }
-void PhysicsEngine::removeObject(IndependentObject *object) {
+void PhysicsEngine::removeObject(std::shared_ptr<IndependentObject> object) {
 	m_object_queue->remove(object);
 }
-void PhysicsEngine::addActor(MainActor *actor) {
+void PhysicsEngine::addActor(std::shared_ptr<MainActor> actor) {
 	m_actor_queue->add(actor);
 }
-void PhysicsEngine::removeActor(MainActor *actor) {
+void PhysicsEngine::removeActor(std::shared_ptr<MainActor> actor) {
 	m_actor_queue->remove(actor);
 }
 void PhysicsEngine::clean() {
@@ -79,7 +79,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 				if (GameStateController::mode() == ProgramMode::Server)
 					processWeaponry(go, m_projectile_queue);
 			});
-			m_projectile_queue->for_each([this](std::shared_ptr<ShootableObject> go) {
+			m_projectile_queue->get().for_each([this](std::shared_ptr<ShootableObject> go) {
 				processForces(go);
 				processMovement(go, m_map);
 			});
@@ -89,7 +89,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 			});
 
 			if (GameStateController::mode() == ProgramMode::Server)
-				NetworkController::update_state(m_actor_queue, m_projectile_queue, m_object_queue);
+				NetworkController::update_state(m_actor_queue, &m_projectile_queue->get(), m_object_queue);
 		}
 		std::this_thread::sleep_until(next_tick);
 	}

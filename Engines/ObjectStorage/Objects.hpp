@@ -35,4 +35,4 @@ public:
 //Initialization functions;
 Objects* initialize_object_storage();
 void initialize_render_info();
-MainActor* string_to_main_actor(std::string &data, Objects *o);
+std::shared_ptr<MainActor> string_to_main_actor(std::string &data, Objects *o);

@@ -5,7 +5,7 @@ class ControllerInterface;
 class Camera;
 class IndependentObject;
 class MainActorQueue;
-class ProjectileQueue;
+class DoubleProjectileQueue;
 class ObjectQueue;
 class HUD_RenderInfo;
 
@@ -31,7 +31,7 @@ public:
 	//Constructs new window and engine using initialize function (protected).
 	//Needed to pass window title and dimention sizes.
 	Window(char const *title, size_t width, size_t height, bool isFullscreen,
-		   MainActorQueue *main_actor_queue, ProjectileQueue *projectile_queue, ObjectQueue *object_queue);
+		   MainActorQueue *main_actor_queue, DoubleProjectileQueue *projectile_queue, ObjectQueue *object_queue);
 
 	//Initialiazes window event handling. Redirects all future events to controller.
 	void insertController(ControllerInterface *controller);

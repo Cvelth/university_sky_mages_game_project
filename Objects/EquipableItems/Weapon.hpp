@@ -60,7 +60,7 @@ public:
 		return is_activated && is_reloaded();
 	}
 	bool is_reloaded() const;
-	ShootableObject* shoot(float current_x, float current_y, float destination_x, float destination_y) const;;
+	std::shared_ptr<ShootableObject> shoot(float current_x, float current_y, float destination_x, float destination_y) const;;
 private:
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
