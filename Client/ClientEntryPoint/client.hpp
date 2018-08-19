@@ -42,8 +42,8 @@ void game_process(Objects *o, size_t &client_index) {
 				  o->settings()->getUintValue("Screen_Width"),
 				  o->settings()->getUintValue("Screen_Height"),
 				  o->settings()->getBoolValue("Fullscreen_Window"),
-				  &actors, &projectiles, &miscellaneous);
-	window.insertController(&controller);
+				  actors, projectiles, miscellaneous);
+	window.changeController(&controller);
 	window.changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
 
 	PhysicsEngine physics_engine([&window]() { return window.isWindowClosed(); }, &actors, &projectiles, &miscellaneous);
