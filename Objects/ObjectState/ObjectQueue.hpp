@@ -36,8 +36,8 @@ public:
 	MultiQueue() : m_current_queue(0u) {}
 	inline QueueType& operator*() { return m_queues[m_current_queue]; }
 	inline QueueType const& operator*() const { return m_queues[m_current_queue]; }
-	inline QueueType& operator->() { return m_queues[m_current_queue]; }
-	inline QueueType const& operator->() const { return m_queues[m_current_queue]; }
+	inline QueueType* operator->() { return &m_queues[m_current_queue]; }
+	inline QueueType const* operator->() const { return &m_queues[m_current_queue]; }
 	inline QueueType& get() { return m_queues[m_current_queue]; }
 	inline QueueType const& get() const { return m_queues[m_current_queue]; }
 
