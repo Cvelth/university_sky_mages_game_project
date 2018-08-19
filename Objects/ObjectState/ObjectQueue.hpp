@@ -6,8 +6,8 @@
 template <typename Type>
 class AbstractQueueInterface {
 public:
-	virtual void add(Type* object) abstract;
-	virtual void remove(Type* object) abstract;
+	virtual void add(std::shared_ptr<Type> object) abstract;
+	virtual void remove(std::shared_ptr<Type> object) abstract;
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) abstract;
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const abstract;
 	virtual size_t size() const abstract;
@@ -28,8 +28,8 @@ class AbstractSet : public AbstractQueueInterface<Type> {
 private:
 	std::set<std::shared_ptr<Type>> m_queue;
 public:
-	virtual void add(Type* object) override { m_queue.insert(std::shared_ptr<Type>(object)); }
-	virtual void remove(Type* object) override { m_queue.erase(std::shared_ptr<Type>(object)); }
+	virtual void add(std::shared_ptr<Type> object) override { m_queue.insert(object); }
+	virtual void remove(std::shared_ptr<Type> object) override { m_queue.erase(object); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
@@ -41,8 +41,8 @@ class AbstractList : public AbstractQueueInterface<Type> {
 private:
 	std::list<std::shared_ptr<Type>> m_queue;
 public:
-	virtual void add(Type* object) override { m_queue.push_back(std::shared_ptr<Type>(object)); }
-	virtual void remove(Type* object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), std::shared_ptr<Type>(object))); }
+	virtual void add(std::shared_ptr<Type> object) override { m_queue.push_back(object); }
+	virtual void remove(std::shared_ptr<Type> object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), object)); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
@@ -54,8 +54,8 @@ class AbstractVector : public AbstractQueueInterface<Type> {
 private:
 	std::vector<std::shared_ptr<Type>> m_queue;
 public:
-	virtual void add(Type* object) override { m_queue.push_back(std::shared_ptr<Type>(object)); }
-	virtual void remove(Type* object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), std::shared_ptr<Type>(object))); }
+	virtual void add(std::shared_ptr<Type> object) override { m_queue.push_back(object); }
+	virtual void remove(std::shared_ptr<Type> object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), object)); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
 	virtual size_t size() const override { return m_queue.size(); }
