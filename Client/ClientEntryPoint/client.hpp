@@ -46,7 +46,7 @@ void game_process(Objects *o, size_t &client_index) {
 	window.changeController(&controller);
 	window.changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Graphical_Updates_Per_Second"));
 
-	PhysicsEngine physics_engine([&window]() { return window.isWindowClosed(); }, &actors, &projectiles, &miscellaneous);
+	PhysicsEngine physics_engine([&window]() { return window.isWindowClosed(); }, actors, projectiles, miscellaneous);
 	physics_engine.changeUpdateInterval(1'000'000 / o->settings()->getUintValue("Physical_Updates_Per_Second"));
 
 	std::shared_ptr<MainActor> main_actor;
@@ -89,7 +89,7 @@ void game_process(Objects *o, size_t &client_index) {
 			}
 		} else if (string == "QueueUpdate") {
 			if (client_index != -1 && map && actors.size() != 0) {
-				NetworkController::update_state(data, &actors, &projectiles.next(), &miscellaneous);
+				NetworkController::update_state(data, actors, projectiles.next(), miscellaneous);
 				projectiles.swap();
 			}
 		} else

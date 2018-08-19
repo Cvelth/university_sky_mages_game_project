@@ -267,7 +267,7 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 }
 #include "Engines\ObjectStorage\Settings.hpp"
 inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
-	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, &actors, &projectiles, &miscellaneous);
+	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, actors, projectiles, miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
 	engine->initializeCollisionSystem(map);
 	return std::thread(&PhysicsEngine::loop, engine, false);
