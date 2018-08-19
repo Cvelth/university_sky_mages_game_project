@@ -251,12 +251,16 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
 	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, std::string const& data) {
+		if (data.size() == 0)
+			throw Exceptions::ConnectionException("Packet without data was received.");
 		auto id = clients[std::make_pair(name, port)];
-		if (data.size() == 3 && data[0] == 'C') {
+		if (data[0] == 'C') {
 			NetworkController::accept_control_event(actors[id], data);
+		} else if (data[0] == 'A') {
+			NetworkController::accept_aim_event(actors[id], data);
 		} else
-			std::cout << "\rUnknown packet with " << data << " was received from " 
-			<< name << ":" << port << "(id - " << id << ").\n: ";
+			std::cout << "\rUnknown packet with " << data << " was received from "
+					  << name << ":" << port << "(id - " << id << ").\n: ";
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
