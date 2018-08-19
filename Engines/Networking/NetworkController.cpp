@@ -78,13 +78,30 @@ std::string generate_actor_update(MainActorQueue *queue) {
 	});
 	return "QueueUpdate\nActor\n" + s.str();
 }
+#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
+std::string generate_projectile_update(ProjectileQueue *queue) {
+	std::ostringstream s;
+	s << queue->size() << '\n';
+	queue->for_each([&s](std::shared_ptr<ShootableObject> object) {
+		auto acceleration = object->acceleration();
+		auto speed = object->speed();
+		auto position = object->position();
+		auto size = object->size();
+		s << RenderInfoStorage::getRenderInfo(object->getRenderInto()) << ' '
+			<< object->mass() << ' ' << acceleration.at(0) << ' ' << acceleration.at(1) << ' '
+			<< speed.at(0) << ' ' << speed.at(1) << ' ' << position.at(0) << ' ' << position.at(1) << ' '
+			<< size.at(0) << ' ' << size.at(1) << ' ' << object->damage() << '\n';
+	});
+	return "QueueUpdate\nProjectile\n" + s.str();
+}
 
 void NetworkController::update_state(MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
 	if (GameStateController::mode() != ProgramMode::Server)
 		throw Exceptions::GameStateException("Only server-mode applications can send queue state.");
 
 	Networking::bcast_from_server(generate_actor_update(actors), ActorData, false);
-	//Networking::bcast_from_server(generate_projectile_update(projectiles), ProjectileData, false);
+	Networking::bcast_from_server(generate_projectile_update(projectiles), ProjectileData, false);
 	//Networking::bcast_from_server(generate_miscellaneous_update(miscellaneous), OtherData, false);
 }
 void NetworkController::update_state(std::string data, MainActorQueue *actors, ProjectileQueue *projectiles, ObjectQueue *miscellaneous) {
@@ -105,9 +122,20 @@ void NetworkController::update_state(std::string data, MainActorQueue *actors, P
 			//throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
 		}
 		actors->for_each([&input](std::shared_ptr<MainActor> actor) {
-			scalar ax, ay, sx, sy, px, py;
-			input >> ax >> ay >> sx >> sy >> px >> py;
-			actor->update_state(vector(ax, ay), vector(sx, sy), vector(px, py));
+			scalar ax, ay, vx, vy, px, py;
+			input >> ax >> ay >> vx >> vy >> px >> py;
+			actor->update_state(vector(ax, ay), vector(vx, vy), vector(px, py));
 		});
+	} else if (string == "Projectile") {
+		size_t size;
+		input >> size;
+		if (size != 0) {
+			projectiles->clear();
+			while (input) {
+				scalar ax, ay, vx, vy, px, py, sx, sy, d, m;
+				input >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
+				projectiles->add(std::make_shared<ShootableObject>(RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d));
+			}
+		}
 	}
 }
