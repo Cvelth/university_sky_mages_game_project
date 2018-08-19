@@ -40,7 +40,7 @@ void initializeSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueuePr
 }
 
 void MyGraphicsLibraryEngine::initializeQueueRendering() {
-	initializeSingleQueueRendering(m_projectile_queue, m_projectile_queue_program, m_window);
+	initializeSingleQueueRendering(&m_projectile_queue->get(), m_projectile_queue_program, m_window);
 	initializeSingleQueueRendering(m_miscellaneous_queue, m_miscellaneous_queue_program, m_window);
 	initializeSingleQueueRendering(m_actor_queue, m_actor_queue_program, m_window);
 }
@@ -65,7 +65,7 @@ void MyGraphicsLibraryEngine::renderQueues() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	renderSingleQueue(m_projectile_queue, m_projectile_queue_program, minX, maxX, minY, maxY);
+	renderSingleQueue(&m_projectile_queue->get(), m_projectile_queue_program, minX, maxX, minY, maxY);
 	renderSingleQueue(m_miscellaneous_queue, m_miscellaneous_queue_program, minX, maxX, minY, maxY);
 	renderSingleQueue(m_actor_queue, m_actor_queue_program, minX, maxX, minY, maxY);
 }
@@ -83,7 +83,7 @@ void cleanSingleQueueRendering(AbstractQueueInterface<Type> *queue, QueueProgram
 }
 
 void MyGraphicsLibraryEngine::cleanQueueRendering() {
-	cleanSingleQueueRendering(m_projectile_queue, m_projectile_queue_program);
+	cleanSingleQueueRendering(&m_projectile_queue->get(), m_projectile_queue_program);
 	cleanSingleQueueRendering(m_miscellaneous_queue, m_miscellaneous_queue_program);
 	cleanSingleQueueRendering(m_actor_queue, m_actor_queue_program);
 }
