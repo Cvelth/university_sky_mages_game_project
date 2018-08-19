@@ -23,8 +23,8 @@ protected:
 	float m_aim_y;
 
 protected:
-	ShootableObject* shootRightWeapon();
-	ShootableObject* shootLeftWeapon();
+	std::shared_ptr<ShootableObject> shootRightWeapon();
+	std::shared_ptr<ShootableObject> shootLeftWeapon();
 public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
 			  vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info);
@@ -42,7 +42,7 @@ public:
 	void deactivateRightWeapon();
 	void deactivateLeftWeapon();
 
-	std::vector<ShootableObject*> shootingProcess();
+	std::vector<std::shared_ptr<ShootableObject>> shootingProcess();
 
 	EnergyStorage* energy_storage() const { return m_energy_storage; }
 	FlyEngine* fly_engine() const { return m_engine; }
