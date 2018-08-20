@@ -22,7 +22,6 @@
     <ClInclude Include="EnergyStorage.hpp" />
     <ClInclude Include="FlyEngine.hpp" />
     <ClInclude Include="Shield.hpp" />
-    <ClInclude Include="TimeControl.hpp" />
     <ClInclude Include="Trinket.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>

@@ -11,7 +11,7 @@ std::shared_ptr<RenderInfo> projectileRenderInfo(AmmoProjectileType ammo_type) {
 	default: throw Exceptions::UnsupportedProjectileType("Unsupported projectile type was attempted to be rendered.");
 	}
 }
-#include "TimeControl.hpp"
+#include "Shared/TimeControl.hpp"
 bool Weapon::is_reloaded() const {
 	if (m_current_ammo)
 		return now() > Duration(m_last_shot_time + microseconds(1.e6f / m_firerate)).count();

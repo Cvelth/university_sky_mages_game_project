@@ -1,5 +1,5 @@
 #include "EnergyStorage.hpp"
-#include "TimeControl.hpp"
+#include "Shared/TimeControl.hpp"
 EnergyStorage::EnergyStorage(float capacity) : EquipableItem(), m_maximum_capacity(capacity), m_current_capacity(capacity) {
 	m_energy_loss_time = now();
 }
