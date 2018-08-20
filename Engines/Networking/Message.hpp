@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <memory>
 #include "MessageTypes.hpp"
 class MessageInputStream;
 class MessageOutputStream;
@@ -25,7 +26,9 @@ public:
 	std::basic_string<uint8_t> const* operator->() const { return &m_data; }
 	inline uint8_t channel() const { return uint8_t(m_channel); }
 	inline bool is_important() const { return m_is_important; }
-	MessageType type() const;
 	virtual ~Message() {}
 };
 Message make_connection_message(uint8_t index);
+
+class Map;
+Message make_map_message(std::shared_ptr<Map> map);

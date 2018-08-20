@@ -17,6 +17,11 @@ MessageInputStream& operator>>(MessageInputStream &s, MessageType &mt) {
 	mt = MessageType(temp);
 	return s;
 }
+MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> mt) {
+	//to implement.
+	return s;
+}
+
 
 void MessageOutputStream::add(uint8_t v) {
 	auto size = data->size();
@@ -29,4 +34,8 @@ MessageOutputStream& operator<<(MessageOutputStream &s, uint8_t const& mt) {
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, MessageType const& mt) {
 	return s << uint8_t(mt);
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const mt) {
+	//to implement.
+	return s;
 }

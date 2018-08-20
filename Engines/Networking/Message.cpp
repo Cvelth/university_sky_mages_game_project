@@ -4,6 +4,7 @@ Message make_connection_message(uint8_t index) {
 	Message message(NetworkChannel::ImportantData, true);
 	return make_message(message, MessageType::Connection, index);
 }
-MessageType Message::type() const {
-	return MessageType(m_data[0]);
+Message make_map_message(std::shared_ptr<Map> const map) {
+	Message message(NetworkChannel::ImportantData, true);
+	return make_message(message, MessageType::Map, map);
 }

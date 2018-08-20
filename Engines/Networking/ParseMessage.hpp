@@ -16,11 +16,18 @@ void parse_message(Message const& message, lambda action) {
 	MessageType type;
 	s >> type;
 	switch (type) {
-		case MessageType::Connection:
+		case MessageType::Connection: {
 			uint8_t index;
 			s >> index;
 			action(index);
+		}
 			break;
+		case MessageType::Map: {
+			std::shared_ptr<Map> map;
+			s >> map;
+			action(map);
+			break;
+		}
 		default:
 			throw Exceptions::UnsupportedMessageException("Unsupported message was passed for parsing.");
 	}
