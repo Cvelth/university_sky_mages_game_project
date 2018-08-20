@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <string>
+#include <vector>
 #include <memory>
 #include "MessageTypes.hpp"
 class MessageInputStream;
@@ -11,19 +11,19 @@ class Message {
 	friend MessageInputStream;
 	friend MessageOutputStream;
 protected:
-	std::basic_string<uint8_t> m_data;
+	std::vector<uint8_t> m_data;
 	const NetworkChannel m_channel;
 	const bool m_is_important;
 
-	std::basic_string<uint8_t>* operator->() { return &m_data; }
+	std::vector<uint8_t>* operator->() { return &m_data; }
 public:
 	Message(NetworkChannel channel = NetworkChannel::NoData, bool is_important = false)
 		: m_channel(channel), m_is_important(is_important) {}
 	Message(size_t size, NetworkChannel channel = NetworkChannel::NoData, bool is_important = false)
 		: m_data(size, 0u), m_channel(channel), m_is_important(is_important) {}
-	Message(uint8_t *data, NetworkChannel channel = NetworkChannel::NoData, bool is_important = false)
-		: m_data(data), m_channel(channel), m_is_important(is_important) {}
-	std::basic_string<uint8_t> const* operator->() const { return &m_data; }
+	Message(uint8_t *data, size_t size, NetworkChannel channel = NetworkChannel::NoData, bool is_important = false)
+		: m_data(data, data + size), m_channel(channel), m_is_important(is_important) {}
+	std::vector<uint8_t> const* operator->() const { return &m_data; }
 	inline uint8_t channel() const { return uint8_t(m_channel); }
 	inline bool is_important() const { return m_is_important; }
 	virtual ~Message() {}
