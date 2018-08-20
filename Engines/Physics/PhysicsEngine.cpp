@@ -39,7 +39,8 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 			});
 			m_projectile_queue->for_each([this](std::shared_ptr<ShootableObject> go) {
 				processForces(go);
-				processMovement(go, m_map);
+				if (processMovement(go, m_map))
+					m_projectile_queue->remove(go);
 			});
 			m_object_queue.for_each([this](std::shared_ptr<IndependentObject> go) {
 				processForces(go);
