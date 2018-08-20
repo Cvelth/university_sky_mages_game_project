@@ -6,6 +6,16 @@
 class Message;
 class Block;
 class Map;
+class MainActor;
+class MainActorQueue;
+class Objects;
+
+class ObjectsStatic {
+	static Objects *m_objects;
+public:
+	static void initialize(Objects *objects) { m_objects = objects; }
+	static Objects* get() { return m_objects; }
+};
 
 class MessageInputStream {
 private:
@@ -17,6 +27,7 @@ protected:
 public:
 	MessageInputStream(Message const& data);
 	Message const& message() const { return data; }
+	operator bool() const;
 
 	friend MessageInputStream& operator>>(MessageInputStream &s, uint8_t &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, uint16_t &v);
@@ -27,6 +38,8 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::string &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Block> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, MainActorQueue &v);
 };
 
 class MessageOutputStream {
@@ -47,21 +60,23 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::string const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Block> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActor> const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, MainActorQueue const& v);
 };
 
 template <typename Head>
-inline void _make_message(MessageOutputStream &message, Head head) {
+inline void _make_message(MessageOutputStream &message, Head const& head) {
 	message << head;
 }
 
 template <typename Head, typename... Tail>
-inline void _make_message(MessageOutputStream &message, Head head, Tail ...tail) {
+inline void _make_message(MessageOutputStream &message, Head const& head, Tail const& ...tail) {
 	_make_message(message, head);
 	_make_message(message, tail...);
 }
 
 template <typename Head, typename... Tail>
-inline Message make_message(Message &message, Head head, Tail ...tail) {
+inline Message make_message(Message &message, Head const& head, Tail const& ...tail) {
 	MessageOutputStream stream(message);
 	_make_message(stream, head, tail...);
 	return message;

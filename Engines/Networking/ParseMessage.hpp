@@ -1,6 +1,4 @@
 #pragma once
-#include <functional>
-//#include "MessageTypes.hpp"
 #include "MessageStream.hpp"
 class Message;
 
@@ -11,7 +9,9 @@ template <class... Ts> struct overloaded : Ts... { overloaded(Ts... f) : Ts(f)..
 template <class... Ts> auto overload(Ts... f) { return overloaded<Ts...>(f...); }
 
 template <typename lambda> 
-void parse_message(Message const& message, lambda action) {
+void parse_message(Message const& message, lambda action, Objects *objects) {
+	ObjectsStatic::initialize(objects);
+
 	MessageInputStream s(message);
 	MessageType type;
 	s >> type;
@@ -20,12 +20,18 @@ void parse_message(Message const& message, lambda action) {
 			uint8_t index;
 			s >> index;
 			action(index);
-		}
 			break;
+		}
 		case MessageType::Map: {
 			std::shared_ptr<Map> map;
 			s >> map;
 			action(map);
+			break;
+		}
+		case MessageType::ActorQueue: {
+			MainActorQueue queue;
+			s >> queue;
+			action(queue);
 			break;
 		}
 		default:

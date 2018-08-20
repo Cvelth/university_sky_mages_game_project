@@ -32,3 +32,6 @@ Message make_connection_message(uint8_t index);
 
 class Map;
 Message make_map_message(std::shared_ptr<Map> map);
+
+class MainActorQueue;
+Message make_actor_queue_message(MainActorQueue const& queue);
