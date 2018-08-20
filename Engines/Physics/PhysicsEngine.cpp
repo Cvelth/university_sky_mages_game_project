@@ -24,7 +24,8 @@ void PhysicsEngine::initializeCollisionSystem(std::shared_ptr<Map> map) {
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 #include "Shared/GameStateController.hpp"
-#include "Engines/Networking/NetworkController.hpp"
+#include "Engines/Networking/Networking.hpp"
+#include "Engines/Networking/Message.hpp"
 void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 	GameStateController::change_physics_loop_state(true);
 	while (!m_finish_flag_access()) {
@@ -46,9 +47,11 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 				processForces(go);
 				processMovement(go, m_map);
 			});
-
-			if (GameStateController::mode() == ProgramMode::Server)
-				NetworkController::update_state(m_actor_queue, m_projectile_queue.get(), m_object_queue);
+			
+			if (GameStateController::mode() == ProgramMode::Server) {
+				Networking::bcast_from_server(make_actor_queue_update_message(m_actor_queue));
+				Networking::bcast_from_server(make_projectile_queue_message(*m_projectile_queue));
+			}
 		}
 		std::this_thread::sleep_until(next_tick);
 	}
