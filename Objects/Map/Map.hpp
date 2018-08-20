@@ -45,8 +45,8 @@ public:
 	}
 	inline std::shared_ptr<Block> default_block() const { return m_default_block; }
 
-	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> mt);
-	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const mt);
+	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> &mt);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const& mt);
 };
 
 #include "../../Shared/AbstractException.hpp"
