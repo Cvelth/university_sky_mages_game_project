@@ -34,4 +34,5 @@ class Map;
 Message make_map_message(std::shared_ptr<Map> map);
 
 class MainActorQueue;
-Message make_actor_queue_message(MainActorQueue const& queue);
+Message make_actor_queue_message(MainActorQueue const& queue); 
+Message make_actor_queue_update_message(MainActorQueue const& queue);

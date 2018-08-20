@@ -182,7 +182,6 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> con
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v) {
-	//float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info
 	float x, y;
 	s >> x;
 	auto mass = x;
@@ -225,6 +224,26 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActo
 		<< (v->m_weapon_right_arm ? v->m_weapon_right_arm->name() : "");
 	return s;
 }
+MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v) {
+	scalar ax, ay, vx, vy, px, py, cp;
+	s >> ax >> ay >> vx >> vy >> px >> py >> cp;
+	(*v)->update_state(vector(ax, ay), vector(vx, vy), vector(px, py), cp);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<MainActor> const> const& v) {
+	auto acceleration = (*v)->get_acceleration();
+	auto speed = (*v)->speed();
+	auto position = (*v)->position();
+	s << acceleration.at(0) << acceleration.at(1)
+		<< speed.at(0) << speed.at(1)
+		<< position.at(0) << position.at(1);
+	if ((*v)->energy_storage())
+		s << (*v)->energy_storage()->getCapacityValue();
+	else
+		s << 0.f;
+	return s;
+}
+
 #include "Objects/ObjectState/ObjectQueue.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, MainActorQueue &v) {
 	v.clear();
@@ -241,6 +260,25 @@ MessageOutputStream& operator<<(MessageOutputStream &s, MainActorQueue const& v)
 	s << uint16_t(v.size());
 	v.for_each([&s](std::shared_ptr<MainActor> a) {
 		s << a;
+	});
+	return s;
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, Update<MainActorQueue> &v) {
+	uint16_t size;
+	s >> size;
+	if (size != v->size()) //throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
+
+	v->for_each([&s](std::shared_ptr<MainActor> a) {
+		auto u = update(a);
+		s >> u;
+	});
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue const> const& v) {
+	s << uint16_t(v->size());
+	v->for_each([&s](std::shared_ptr<MainActor> const a) {
+		s << update(a);
 	});
 	return s;
 }

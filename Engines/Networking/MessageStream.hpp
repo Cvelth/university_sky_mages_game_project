@@ -17,6 +17,19 @@ public:
 	static Objects* get() { return m_objects; }
 };
 
+template <typename Type>
+class Update {
+	Type &data;
+public:
+	explicit Update(Type &data) : data(data) {}
+	Type* operator->() { return &data; }
+	Type const* operator->() const { return &data; }
+	Type& operator*() { return data; }
+	Type const& operator*() const { return data; }
+};
+template <typename Type>
+Update<Type> update(Type &data) { return Update<Type>(data); }
+
 class MessageInputStream {
 private:
 	Message const& data;
@@ -39,7 +52,9 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Block> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, MainActorQueue &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, Update<MainActorQueue> &v);
 };
 
 class MessageOutputStream {
@@ -61,7 +76,9 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Block> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActor> const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<MainActor> const> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, MainActorQueue const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue const> const& v);
 };
 
 template <typename Head>

@@ -34,6 +34,11 @@ void parse_message(Message const& message, lambda action, Objects *objects) {
 			action(queue);
 			break;
 		}
+		case MessageType::ActorQueueUpdate: {
+			MainActorQueue queue;
+			s >> action(Update<MainActorQueue>(queue));
+			break;
+		}
 		default:
 			throw Exceptions::UnsupportedMessageException("Unsupported message was passed for parsing.");
 	}

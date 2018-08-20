@@ -12,3 +12,7 @@ Message make_actor_queue_message(MainActorQueue const& queue) {
 	Message message(NetworkChannel::ImportantData, true);
 	return make_message(message, MessageType::ActorQueue, queue);
 }
+Message make_actor_queue_update_message(MainActorQueue const& queue) {
+	Message message(NetworkChannel::ActorData, false);
+	return make_message(message, MessageType::ActorQueueUpdate, update(queue));
+}
