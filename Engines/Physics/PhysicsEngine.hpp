@@ -24,7 +24,7 @@ protected:
 	static vector const calculateDragForce(vector const& speed, vector const& size);
 
 	static void processForces(std::shared_ptr<IndependentObjectState> os);
-	static void processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map);
+	static bool processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map);
 	static void processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue);
 public:
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,
