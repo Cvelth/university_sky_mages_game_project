@@ -17,12 +17,30 @@
     <ClInclude Include="NetworkController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MessageTypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParseMessage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageStream.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Networking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NetworkController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
