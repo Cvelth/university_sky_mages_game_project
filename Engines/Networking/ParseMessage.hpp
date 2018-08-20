@@ -9,7 +9,7 @@ template <class... Ts> struct overloaded : Ts... { overloaded(Ts... f) : Ts(f)..
 template <class... Ts> auto overload(Ts... f) { return overloaded<Ts...>(f...); }
 
 template <typename lambda> 
-void parse_message(Message const& message, lambda action, Objects *objects) {
+void parse_message_from_server(Message const& message, lambda action, Objects *objects) {
 	ObjectsStatic::initialize(objects);
 
 	MessageInputStream s(message);
@@ -43,6 +43,29 @@ void parse_message(Message const& message, lambda action, Objects *objects) {
 			ProjectileQueue queue;
 			s >> queue;
 			action(queue);
+			break;
+		}
+		default:
+			throw Exceptions::UnsupportedMessageException("Unsupported message was passed for parsing.");
+	}
+};
+template <typename lambda>
+void parse_message_from_client(Message const& message, lambda action) {
+	MessageInputStream s(message);
+	MessageType type;
+	s >> type;
+	switch (type) {
+		case MessageType::ControlEvent: {
+			ControlEvent ev;
+			bool dir;
+			s >> ev >> dir;
+			action(ev, dir);
+			break;
+		}
+		case MessageType::AimEvent: {
+			float x, y;
+			s >> x >> y;
+			action(x, y);
 			break;
 		}
 		default:

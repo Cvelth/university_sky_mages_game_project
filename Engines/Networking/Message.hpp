@@ -39,3 +39,7 @@ Message make_actor_queue_update_message(MainActorQueue const& queue);
 
 class ProjectileQueue;
 Message make_projectile_queue_message(ProjectileQueue const& queue);
+
+enum class ControlEvent;
+Message make_control_event_message(ControlEvent const& ev, bool dir);
+Message make_aim_event_message(float x, float y);

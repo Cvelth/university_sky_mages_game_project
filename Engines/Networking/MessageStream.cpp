@@ -68,16 +68,6 @@ MessageOutputStream& operator<<(MessageOutputStream &s, uint64_t const& v) {
 	return s;
 }
 
-MessageInputStream& operator>>(MessageInputStream &s, MessageType &v) {
-	uint8_t temp;
-	s >> temp;
-	v = MessageType(temp);
-	return s;
-}
-MessageOutputStream& operator<<(MessageOutputStream &s, MessageType const& v) {
-	return s << uint8_t(v);
-}
-
 MessageInputStream& operator>>(MessageInputStream &s, float &v) {
 	convert_to_bytes<float> t;
 	for (size_t i = 0; i < sizeof(float); i++)
@@ -91,6 +81,27 @@ MessageOutputStream& operator<<(MessageOutputStream &s, float const& v) {
 	for (size_t i = 0; i < sizeof(float); i++)
 		s << t.b[i];
 	return s;
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, bool &v) {
+	uint8_t temp;
+	s >> temp;
+	v = bool(temp);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, bool const& v) {
+	s << uint8_t(v);
+	return s;
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, MessageType &v) {
+	uint8_t temp;
+	s >> temp;
+	v = MessageType(temp);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, MessageType const& v) {
+	return s << uint8_t(v);
 }
 
 MessageInputStream& operator>>(MessageInputStream &s, std::string &v) {
@@ -321,4 +332,14 @@ MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v
 		s << a;
 	});
 	return s;
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, ControlEvent &v) {
+	uint8_t temp;
+	s >> temp;
+	v = ControlEvent(temp);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, ControlEvent const& v) {
+	return s << uint8_t(v);
 }

@@ -11,6 +11,7 @@ class MainActorQueue;
 class Objects;
 class ShootableObject;
 class ProjectileQueue;
+enum class ControlEvent;
 
 class ObjectsStatic {
 	static Objects *m_objects;
@@ -48,8 +49,9 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, uint16_t &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, uint32_t &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, uint64_t &v);
-	friend MessageInputStream& operator>>(MessageInputStream &s, MessageType &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, float &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, bool &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, MessageType &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::string &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Block> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> &v);
@@ -59,6 +61,7 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, Update<MainActorQueue> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, ProjectileQueue &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, ControlEvent &v);
 };
 
 class MessageOutputStream {
@@ -74,8 +77,9 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, uint16_t const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, uint32_t const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, uint64_t const& v);
-	friend MessageOutputStream& operator<<(MessageOutputStream &s, MessageType const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, float const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, bool const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, MessageType const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::string const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Block> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const& v);
@@ -85,6 +89,7 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue const> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, ControlEvent const& v);
 };
 
 template <typename Head>
