@@ -27,7 +27,7 @@ struct AbstractProgramStruct {
 };
 struct MapProgram : public AbstractProgramStruct {
 	mgl::ShaderVariable *projection;
-	std::list<std::pair<Block*, mgl::InstancingMultiArray*>> translationInstances;
+	std::list<std::pair<std::shared_ptr<Block>, mgl::InstancingMultiArray*>> translationInstances;
 	mgl::ShaderVariable *translation;
 	long long min_x = 0, min_y = 0, max_x = 0, max_y = 0;
 };
