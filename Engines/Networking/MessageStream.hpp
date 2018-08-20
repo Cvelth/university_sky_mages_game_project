@@ -9,6 +9,8 @@ class Map;
 class MainActor;
 class MainActorQueue;
 class Objects;
+class ShootableObject;
+class ProjectileQueue;
 
 class ObjectsStatic {
 	static Objects *m_objects;
@@ -55,6 +57,8 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, MainActorQueue &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, Update<MainActorQueue> &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, ProjectileQueue &v);
 };
 
 class MessageOutputStream {
@@ -79,6 +83,8 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<MainActor> const> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, MainActorQueue const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue const> const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v);
 };
 
 template <typename Head>

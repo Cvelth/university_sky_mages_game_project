@@ -16,3 +16,7 @@ Message make_actor_queue_update_message(MainActorQueue const& queue) {
 	Message message(NetworkChannel::ActorData, false);
 	return make_message(message, MessageType::ActorQueueUpdate, update(queue));
 }
+Message make_projectile_queue_message(ProjectileQueue const& queue) {
+	Message message(NetworkChannel::ProjectileData, true);
+	return make_message(message, MessageType::ProjectileQueueUpdate, queue);
+}

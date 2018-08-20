@@ -224,6 +224,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActo
 		<< (v->m_weapon_right_arm ? v->m_weapon_right_arm->name() : "");
 	return s;
 }
+
 MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v) {
 	scalar ax, ay, vx, vy, px, py, cp;
 	s >> ax >> ay >> vx >> vy >> px >> py >> cp;
@@ -279,6 +280,45 @@ MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue co
 	s << uint16_t(v->size());
 	v->for_each([&s](std::shared_ptr<MainActor> const a) {
 		s << update(a);
+	});
+	return s;
+}
+
+#include "Objects/AbstractObjects/ShootableObject.hpp"
+MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v) {
+	std::string string;
+	float ax, ay, vx, vy, px, py, sx, sy, d, m;
+	s >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
+	v = std::make_shared<ShootableObject>(RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v) {
+	auto acceleration = v->acceleration();
+	auto speed = v->speed();
+	auto position = v->position();
+	auto size = v->size();
+	s << RenderInfoStorage::getRenderInfo(v->getRenderInto())
+		<< v->mass() << acceleration.at(0) << acceleration.at(1)
+		<< speed.at(0) << speed.at(1) << position.at(0) << position.at(1)
+		<< size.at(0) << size.at(1) << v->damage();
+	return s;
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, ProjectileQueue &v) {
+	v.clear();
+	uint16_t size;
+	s >> size;
+	std::shared_ptr<ShootableObject> a;
+	for (uint16_t i = 0; i < size; i++) {
+		s >> a;
+		v.add(a);
+	}
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v) {
+	s << uint16_t(v.size());
+	v.for_each([&s](std::shared_ptr<ShootableObject> a) {
+		s << a;
 	});
 	return s;
 }
