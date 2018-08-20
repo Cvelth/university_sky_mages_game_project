@@ -47,7 +47,8 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 					break;
 				case ENET_EVENT_TYPE_RECEIVE:
 					enet_address_get_host(&event.peer->address, host_name, max_name_length);
-					packet_received(host_name, event.peer->address.port, Message(event.packet->data));
+					packet_received(host_name, event.peer->address.port, Message(event.packet->data, 
+																				 event.packet->dataLength));
 					enet_packet_destroy(event.packet);
 					break;
 				case ENET_EVENT_TYPE_NONE:
@@ -102,7 +103,8 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 					throw Exceptions::ConnectionException(("Disconnected from " + ip).c_str());
 					break;
 				case ENET_EVENT_TYPE_RECEIVE:
-					packet_received(Message(event.packet->data));
+					packet_received(Message(event.packet->data, 
+											event.packet->dataLength));
 					enet_packet_destroy(event.packet);
 					break;
 				case ENET_EVENT_TYPE_NONE:
@@ -117,7 +119,8 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 		while (enet_host_service(client_host, &event, 3000) > 0) {
 			switch (event.type) {
 				case ENET_EVENT_TYPE_RECEIVE:
-					packet_received(Message(event.packet->data));
+					packet_received(Message(event.packet->data, 
+											event.packet->dataLength));
 					enet_packet_destroy(event.packet);
 					break;
 				case ENET_EVENT_TYPE_DISCONNECT:
