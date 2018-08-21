@@ -279,12 +279,11 @@ MessageOutputStream& operator<<(MessageOutputStream &s, MainActorQueue const& v)
 MessageInputStream& operator>>(MessageInputStream &s, Update<MainActorQueue> &v) {
 	uint16_t size;
 	s >> size;
-	if (size != v->size()) //throw Exceptions::ConnectionException("Received MainActorQueue state seems to be corrupted.");
-
-	v->for_each([&s](std::shared_ptr<MainActor> a) {
-		auto u = update(a);
-		s >> u;
-	});
+	if (size != 0 && size == v->size())
+		v->for_each([&s](std::shared_ptr<MainActor> a) {
+			auto u = update(a);
+			s >> u;
+		});
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue const> const& v) {
