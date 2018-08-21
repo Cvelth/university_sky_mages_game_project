@@ -26,6 +26,7 @@ public:
 	std::vector<uint8_t> const* operator->() const { return &m_data; }
 	inline uint8_t channel() const { return uint8_t(m_channel); }
 	inline bool is_important() const { return m_is_important; }
+	inline bool operator!() const { return m_data.size() <= 1; }
 	virtual ~Message() {}
 };
 Message make_connection_message(uint8_t index);
