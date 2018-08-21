@@ -167,10 +167,16 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MessageStream.hpp" />
+    <ClInclude Include="Message.hpp" />
+    <ClInclude Include="ParseMessage.hpp" />
+    <ClInclude Include="MessageTypes.hpp" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="Networking.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MessageStream.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="Networking.cpp" />
   </ItemGroup>

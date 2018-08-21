@@ -21,7 +21,7 @@ vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const
 
 #include "Objects/ObjectState/IndependentObject.hpp"
 void PhysicsEngine::processForces(std::shared_ptr<IndependentObjectState> os) {
-	auto net_force = calculateGravityForce() +calculateDragForce(os->speed(), os->size());
+	auto net_force = calculateGravityForce() + calculateDragForce(os->speed(), os->size());
 	auto acceleration = net_force * os->mass();
 
 	os->accelerate(acceleration);
@@ -31,7 +31,7 @@ void PhysicsEngine::processForces(std::shared_ptr<IndependentObjectState> os) {
 
 #include "Objects/Map/Map.hpp"
 #define speed_test(test, result) (test > 0.f ? result : -result)
-void PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map) {
+bool PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map) {
 	if (map) {
 		auto future_position = os->position() + os->speed() * time_correction;
 		auto half_size = os->size() * 0.5f;
@@ -58,6 +58,7 @@ void PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, 
 		}
 	}
 	os->move(vector(os->speed() * time_correction));
+	return os->speed().isNull();
 }
 
 #include "Objects/Actors/MainActor.hpp"

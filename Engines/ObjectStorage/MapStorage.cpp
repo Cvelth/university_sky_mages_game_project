@@ -1,13 +1,16 @@
 #include "MapStorage.hpp"
-#include "../../Objects/Map/Map.hpp"
 #include "../../Objects/Map/Block.hpp"
+
+#include "../../Objects/Map/Map.hpp"
+class MapSharedPointerEnabler : public Map { public: MapSharedPointerEnabler(size_t width, size_t height, std::shared_ptr<Block> default_block) : Map(width, height, default_block) {} };
+
 void MapStorage::parse_file_type_info(std::string const& line) {
 	if (line != " with a Map")
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 }
 #include <fstream>
 #include "RenderInfoStorage.hpp"
-void MapStorage::save(Map *map, std::string const& filename, std::string const& path) {
+void MapStorage::save(std::shared_ptr<Map> map, std::string const& filename, std::string const& path) {
 	std::ofstream f;
 	f.open(path + filename + MapFileExtention);
 	if (!f)
@@ -17,13 +20,13 @@ void MapStorage::save(Map *map, std::string const& filename, std::string const& 
 		<< map_to_string(map);
 }
 #include <sstream>
-std::pair<size_t, Block*> read_block(std::string const& line) {
+std::pair<size_t, std::shared_ptr<Block>> read_block(std::string const& line) {
 	std::istringstream s(line);
 	size_t id;
 	float temp;
 	std::string render_info;
 	s >> id >> temp >> render_info;
-	return std::make_pair(id, new Block(temp, RenderInfoStorage::getRenderInfo(render_info)));
+	return std::make_pair(id, std::make_shared<Block>(temp, RenderInfoStorage::getRenderInfo(render_info)));
 }
 std::pair<size_t, size_t> read_cell_data(std::string const& line) {
 	std::istringstream s(line);
@@ -34,7 +37,7 @@ std::pair<size_t, size_t> read_cell_data(std::string const& line) {
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 	return std::make_pair(x, y);
 }
-Map* MapStorage::load(std::string const& filename, std::string const& path, bool use) {
+std::shared_ptr<Map> MapStorage::load(std::string const& filename, std::string const& path, bool use) {
 	std::ifstream f;
 	f.open(path + filename + MapFileExtention);
 	if (!f)
@@ -48,7 +51,7 @@ Map* MapStorage::load(std::string const& filename, std::string const& path, bool
 	if (string != "BlockData")
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 
-	std::unordered_map<size_t, Block*> ids;
+	std::unordered_map<size_t, std::shared_ptr<Block>> ids;
 	std::getline(f, string);
 	while (f && string != "DefaultBlock") {
 		ids.insert(read_block(string));
@@ -62,7 +65,7 @@ Map* MapStorage::load(std::string const& filename, std::string const& path, bool
 	auto size = read_cell_data(string);
 
 	size_t temp;
-	Map *map = new Map(size.first, size.second, default_block.second);
+	auto map = std::make_shared<MapSharedPointerEnabler>(size.first, size.second, default_block.second);
 	for (size_t y = 0; y < size.second; y++)
 		for (size_t x = 0; x < size.first; x++) {
 			f >> temp;
@@ -71,11 +74,11 @@ Map* MapStorage::load(std::string const& filename, std::string const& path, bool
 	return map;
 }
 
-std::string MapStorage::map_to_string(Map *map) {
+std::string MapStorage::map_to_string(std::shared_ptr<Map> map) {
 	std::ostringstream s;
 	s << "BlockData\n";
 	size_t current_id = 0;
-	std::unordered_map<Block*, size_t> ids;
+	std::unordered_map<std::shared_ptr<Block>, size_t> ids;
 	for (auto &it : map->get_blocks_data()) {
 		ids.insert(std::make_pair(it, current_id));
 		s << current_id++ << ' ' << it->get() << ' ' << RenderInfoStorage::getRenderInfo(it->renderInfo()) << '\n';
@@ -98,7 +101,7 @@ std::string MapStorage::map_to_string(Map *map) {
 	}
 	return s.str();
 }
-Map* MapStorage::string_to_map(std::string const& data) {
+std::shared_ptr<Map> MapStorage::string_to_map(std::string const& data) {
 	std::istringstream s(data);
 	std::string string;
 
@@ -106,7 +109,7 @@ Map* MapStorage::string_to_map(std::string const& data) {
 	if (string != "BlockData")
 		return nullptr;
 
-	std::unordered_map<size_t, Block*> ids;
+	std::unordered_map<size_t, std::shared_ptr<Block>> ids;
 	std::getline(s, string);
 	while (s && string != "DefaultBlock") {
 		ids.insert(read_block(string));
@@ -120,7 +123,7 @@ Map* MapStorage::string_to_map(std::string const& data) {
 	auto size = read_cell_data(string);
 
 	size_t temp;
-	Map *map = new Map(size.first, size.second, default_block.second);
+	auto map = std::make_shared<MapSharedPointerEnabler>(size.first, size.second, default_block.second);
 	for (size_t y = 0; y < size.second; y++)
 		for (size_t x = 0; x < size.first; x++) {
 			s >> temp;

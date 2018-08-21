@@ -9,7 +9,11 @@ class FlyEngine;
 class Weapon;
 class ShootableObject;
 class Controller;
-class PhysicsEngine;
+class PhysicsEngine; 
+class MessageInputStream;
+class MessageOutputStream;
+template <typename Type> class Update;
+
 class MainActor : public Actor {
 	friend Controller;
 	//friend PhysicsEngine;
@@ -29,7 +33,6 @@ public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
 			  vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info);
 	~MainActor();
-	operator std::string() const;
 
 	void giveEnergyStorage(EnergyStorage *es);
 	void giveFlyEngine(FlyEngine *fe);
@@ -52,5 +55,11 @@ public:
 	virtual scalar mass() const override;
 	virtual vector acceleration(scalar const& time_correct) const override;
 	virtual vector get_acceleration() const;
-	virtual void update_state(vector const& acceleration, vector const& speed, vector const& position);
+	virtual void update_state(vector const& acceleration, vector const& speed, 
+							  vector const& position, float capacity_percent);
+
+	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActor> const& v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<MainActor> const> const& v);
 };

@@ -25,16 +25,25 @@ public:
 	}
 	virtual float getCapacityPercent() {
 		calculate_energy_loss();
-		return float(m_current_capacity) / m_maximum_capacity;
+		return m_current_capacity / m_maximum_capacity;
+	}
+	virtual float getCapacityValue() {
+		calculate_energy_loss();
+		return m_current_capacity;
 	}
 
 	virtual bool use(float const amount) {
+		calculate_energy_loss();
 		m_current_capacity -= amount / m_energy_usage_coefficient;
 		if (m_current_capacity < 0.f) {
 			m_current_capacity = 0.f;
 			return false;
 		} else
 			return true;
+	}
+	virtual void update(float const capacity) {
+		calculate_energy_loss();
+		m_current_capacity = capacity;
 	}
 private:
 	template <typename value_type> 

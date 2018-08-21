@@ -12,15 +12,6 @@ public:
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const abstract;
 	virtual size_t size() const abstract;
 	virtual void clear() abstract;
-
-	virtual std::string to_string() const {
-		std::ostringstream s;
-		s << "Queue\n";
-		for_each([&s](std::shared_ptr<Type> it) {
-			s << std::string(*it);
-		});
-		return s.str();
-	}
 };
 #include <array>
 template <typename QueueType, size_t queue_number> 
@@ -112,6 +103,3 @@ template <typename QueueType> class DoubleQueue : public MultiQueue<QueueType, 2
 class DoubleObjectQueue : public DoubleQueue<ObjectQueue> { public: using DoubleQueue<ObjectQueue>::DoubleQueue; };
 class DoubleProjectileQueue : public DoubleQueue<ProjectileQueue> { public: using DoubleQueue<ProjectileQueue>::DoubleQueue; };
 class DoubleActorQueue : public DoubleQueue<MainActorQueue> { public: using DoubleQueue<MainActorQueue>::DoubleQueue; };
-
-#include "Objects/Actors/MainActor.hpp"
-#include "Objects/AbstractObjects/ShootableObject.hpp"

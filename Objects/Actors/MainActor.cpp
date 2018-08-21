@@ -113,10 +113,12 @@ vector MainActor::acceleration(scalar const& time_correct) const {
 vector MainActor::get_acceleration() const {
 	return m_acceleration + m_engine->get_acceleration();
 }
-void MainActor::update_state(vector const& acceleration, vector const& speed, vector const& position) {
+void MainActor::update_state(vector const& acceleration, vector const& speed, vector const& position, float capacity_percent) {
 	m_engine->update_acceleration(acceleration);
 	m_speed = speed;
 	m_position = position;
+	if (m_energy_storage)
+		m_energy_storage->update(capacity_percent);
 }
 scalar MainActor::mass() const {
 	return m_mass + 
@@ -134,18 +136,4 @@ MainActor::~MainActor() {
 	if (m_engine) delete m_engine;
 	if (m_weapon_left_arm) delete m_weapon_left_arm;
 	if (m_weapon_right_arm) delete m_weapon_right_arm;
-}
-
-#include <sstream>
-#include "../../Engines/ObjectStorage/RenderInfoStorage.hpp"
-MainActor::operator std::string() const {
-	std::ostringstream s;
-	s << "MainActor " << m_mass << ' ' << m_acceleration.at(0) << ' ' << m_acceleration.at(1) << ' '
-		<< m_speed.at(0) << ' ' << m_speed.at(1) << ' ' << m_position.at(0) << ' ' << m_position.at(0) << ' '
-		<< m_size.at(0) << ' ' << m_size.at(1) << ' ' << RenderInfoStorage::getRenderInfo(m_render_info) << ' '
-		<< (m_energy_storage ? m_energy_storage->name() : "NO") << ' '
-		<< (m_engine ? m_engine->name() : "NO") << ' '
-		<< (m_weapon_left_arm ? m_weapon_left_arm->name() : "NO") << ' '
-		<< (m_weapon_right_arm ? m_weapon_right_arm->name() : "NO") << '\n';
-	return s.str();
 }

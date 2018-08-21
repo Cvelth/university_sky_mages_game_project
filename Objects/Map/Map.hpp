@@ -6,18 +6,22 @@ class Camera;
 class RenderInfo;
 class MapGenerator;
 class MapStorage;
+class MessageInputStream;
+class MessageOutputStream;
 
 class Map {
 	friend MapGenerator;
 	friend MapStorage;
 private:
-	std::vector<Block*> m_blocks;
-	std::vector<std::vector<Block*>> m_cells;
-	Block* m_default_block;
+	std::vector<std::shared_ptr<Block>> m_blocks;
+	std::vector<std::vector<std::shared_ptr<Block>>> m_cells;
+	std::shared_ptr<Block> m_default_block;
+
+	class MapSharedPointerEnabler;
 protected:
-	Map(size_t width, size_t height, Block *default_block);
-	void set(Block* block, size_t _width, size_t _height);
-	void addNewBlock(Block *block);
+	Map(size_t width, size_t height, std::shared_ptr<Block> default_block);
+	void set(std::shared_ptr<Block> block, size_t _width, size_t _height);
+	void addNewBlock(std::shared_ptr<Block> block);
 	bool isBorder(size_t w, size_t h) const;
 public:
 	~Map();
@@ -27,19 +31,22 @@ public:
 	inline size_t getSize() const { return width() * height(); }
 
 	bool is_in_borders(size_t w, size_t h) const;
-	inline Block* operator()(size_t w, size_t h) const {
+	inline std::shared_ptr<Block> operator()(size_t w, size_t h) const {
 		return get(w, h);
 	}
-	Block* get(size_t w, size_t h) const;
+	std::shared_ptr<Block> get(size_t w, size_t h) const;
 	float getSpeedMultiplier(size_t w, size_t h) const;
 	std::shared_ptr<RenderInfo> const getRenderInfo(size_t w, size_t h) const;
-	inline std::vector<Block*>& get_blocks_data() {
+	inline std::vector<std::shared_ptr<Block>>& get_blocks_data() {
 		return m_blocks;
 	}
-	inline void changeDefaultBlock(Block *new_default) {
+	inline void changeDefaultBlock(std::shared_ptr<Block> new_default) {
 		m_default_block = new_default;
 	}
-	inline Block* default_block() const { return m_default_block; }
+	inline std::shared_ptr<Block> default_block() const { return m_default_block; }
+
+	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Map> &mt);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> const& mt);
 };
 
 #include "../../Shared/AbstractException.hpp"

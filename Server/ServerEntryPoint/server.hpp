@@ -79,6 +79,7 @@ void server_process(Objects *objects) {
 #include "Engines/ObjectStorage/MapStorage.hpp"
 #include "Objects/Map/MapGenerator.hpp"
 #include "Engines/Networking/Networking.hpp"
+#include "Engines/Networking/Message.hpp"
 inline void map_save(std::shared_ptr<Map> &map, std::istream &input);
 inline void map_generate(std::shared_ptr<Map> &map, std::istream &input);
 inline void map_load(std::shared_ptr<Map> &map, std::istream &input);
@@ -108,9 +109,8 @@ inline void map_save(std::shared_ptr<Map> &map, std::istream &input) {
 	if (input) input >> string;
 	if (map) {
 		MapStorage storage;
-		storage.save(&*map, string, "maps/");
+		storage.save(map, string, "maps/");
 		std::cout << "\rMap was saved.\n";
-		map_broadcast(map);
 	} else
 		std::cout << "Cannot save non-existing map. Try generating or loading one.\n";
 }
@@ -145,7 +145,7 @@ inline void map_load(std::shared_ptr<Map> &map, std::istream &input) {
 inline void map_broadcast(std::shared_ptr<Map> &map) {
 	std::cout << "Broadcasting map...";
 	if (map) {
-		Networking::bcast_from_server("Map\n" + MapStorage::map_to_string(&*map), 0, true);
+		Networking::bcast_from_server(make_map_message(map));
 		physics_engine->initializeCollisionSystem(map);
 		std::cout << "\rMap was broadcasted.\n";
 	} else
@@ -175,7 +175,7 @@ inline void actors_(MainActorQueue &actors, std::istream &input) {
 }
 inline void actors_broadcast(MainActorQueue &actors) {
 	std::cout << "Broadcasting actor queue...";
-	Networking::bcast_from_server("MainActorQueue\n" + actors.to_string(), 1, false);
+	Networking::bcast_from_server(make_actor_queue_message(actors));
 	std::cout << "\rActor queue was broadcasted.\n";
 }
 inline void actors_help() {
@@ -229,17 +229,13 @@ inline void exit_(bool &server_should_close) {
 	server_should_close = true;
 }
 
-#include "Engines\Networking\NetworkController.hpp"
-inline std::string print_id(size_t id) {
-	std::ostringstream s;
-	s << "Index\n" << id;
-	return s.str();
-}
+#include "Engines/Networking/NetworkController.hpp"
+#include "Engines/Networking/ParseMessage.hpp"
 inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
-	auto on_peer_connect = [&map, &actors, objects, &clients](std::string const& name, size_t port, std::function<void(std::string)> send_back) {
+	auto on_peer_connect = [&map, &actors, objects, &clients](std::string const& name, size_t port, std::function<void(Message const&)> send_back) {
 		std::cout << "\rClient " << name << ":" << port << " is attempting to connect.\n";
 		auto id = actors.size();
-		send_back(print_id(id));
+		send_back(make_connection_message(uint8_t(id)));
 		clients.insert(std::make_pair(std::make_pair(name, port), id));
 		actors_add(objects, actors);
 		map_broadcast(map);
@@ -250,17 +246,13 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
 		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
 	};
-	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, std::string const& data) {
-		if (data.size() == 0)
-			throw Exceptions::ConnectionException("Packet without data was received.");
+	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, Message const& data) {
 		auto id = clients[std::make_pair(name, port)];
-		if (data[0] == 'C') {
-			NetworkController::accept_control_event(actors[id], data);
-		} else if (data[0] == 'A') {
-			NetworkController::accept_aim_event(actors[id], data);
-		} else
-			std::cout << "\rUnknown packet with " << data << " was received from "
-					  << name << ":" << port << "(id - " << id << ").\n: ";
+		parse_message_from_client(data, overload([&actors, &id](ControlEvent const& ev, bool dir) {
+			NetworkController::accept_control_event(actors[id], ev, dir);
+		}, [&actors, &id](float x, float y) {
+			NetworkController::accept_aim_event(actors[id], x, y);
+		}));
 	};
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
