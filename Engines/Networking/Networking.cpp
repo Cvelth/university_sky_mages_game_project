@@ -33,7 +33,7 @@ std::thread Networking::initialize_server(bool const& should_close, std::functio
 		char host_name[max_name_length];
 		GameStateController::change_networking_loop_state(true);
 		while (!should_close) {
-			enet_host_service(server_host, &event, 10);
+			enet_host_service(server_host, &event, 3);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_CONNECT:
 					enet_address_get_host(&event.peer->address, host_name, max_name_length);
@@ -97,7 +97,7 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 
 		GameStateController::change_networking_loop_state(true);
 		while (!should_close()) {
-			enet_host_service(client_host, &event, 10);
+			enet_host_service(client_host, &event, 3);
 			switch (event.type) {
 				case ENET_EVENT_TYPE_DISCONNECT:
 					throw Exceptions::ConnectionException(("Disconnected from " + ip).c_str());
@@ -137,8 +137,12 @@ std::thread Networking::initialize_client(std::function<bool()> should_close, st
 }
 
 void Networking::send_to_server(Message const& message) {
+	if (!message)
+		throw Exceptions::ConnectionException("Corrupted message was attempted to be sent.");
 	enet_peer_send(server_peer, message.channel(), enet_packet_create(message->data(), message->size() + 1, message.is_important() ? ENET_PACKET_FLAG_RELIABLE : 0));
 }
 void Networking::bcast_from_server(Message const& message) {
+	if (!message)
+		throw Exceptions::ConnectionException("Corrupted message was attempted to be sent.");
 	enet_host_broadcast(server_host, message.channel(), enet_packet_create(message->data(), message->size() + 1, message.is_important() ? ENET_PACKET_FLAG_RELIABLE : 0));
 }
