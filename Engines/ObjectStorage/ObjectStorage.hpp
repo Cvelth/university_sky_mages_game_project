@@ -4,7 +4,7 @@
 #include "DefaultObjectStorageData.hpp"
 enum class ObjectType {
 	Empty = 0, ClientSettings, ServerSettings,
-	EnergyStorage, FlyEngine, Weapon
+	EnergyStorage, FlyEngine, Weapon, ShieldGenerator
 };
 class Objects;
 class ObjectStorage : protected FileLoader {

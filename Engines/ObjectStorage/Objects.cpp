@@ -39,7 +39,9 @@ EnergyStorage* Objects::get_energy_storage(std::string const& name) const { retu
 FlyEngine* Objects::get_fly_engine(std::string const& name) const { return get_object(name, m_fly_engine); }
 #include "../../Objects/EquipableItems/Weapon.hpp"
 Weapon* Objects::get_weapon(std::string const& name) const { return get_object(name, m_weapon); }
+#include "../../Objects/EquipableItems/Shield.hpp"
+ShieldGenerator* Objects::get_shield_generator(std::string const& name) const { return get_object(name, m_shield_generator); }
 
 size_t Objects::size() const {
-	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size();
+	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size() + m_shield_generator.size();
 }

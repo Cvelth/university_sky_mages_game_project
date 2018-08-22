@@ -21,6 +21,8 @@ ObjectType _switch(std::string const& type) {
 		return ObjectType::FlyEngine;
 	else if (type == "Weapon")
 		return ObjectType::Weapon;
+	else if (type == "ShieldGenerator")
+		return ObjectType::ShieldGenerator;
 	else
 		return ObjectType::Empty;
 }
@@ -48,6 +50,7 @@ void ObjectStorage::parse_line(std::string const& line) {
 #include "../../Objects/EquipableItems/EnergyStorage.hpp"
 #include "../../Objects/EquipableItems/FlyEngine.hpp"
 #include "../../Objects/EquipableItems/Weapon.hpp"
+#include "../../Objects/EquipableItems/Shield.hpp"
 void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 	m_current_object = type;
 	float value;
@@ -62,6 +65,9 @@ void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 		break;
 	case ObjectType::Weapon:
 		m_objects->m_weapon.push_back(std::unique_ptr<Weapon>(new Weapon()));
+		break;
+	case ObjectType::ShieldGenerator:
+		m_objects->m_shield_generator.push_back(std::unique_ptr<ShieldGenerator>(new ShieldGenerator()));
 		break;
 	}
 }
@@ -123,6 +129,10 @@ void ObjectStorage::parse_object_line(std::string const& line) {
 	case ObjectType::Weapon:
 		if (!m_objects->m_weapon.empty())
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_weapon.back()->set_value(name, value); });
+		break;
+	case ObjectType::ShieldGenerator:
+		if (!m_objects->m_shield_generator.empty())
+			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_shield_generator.back()->set_value(name, value); });
 		break;
 	default:
 		throw Exceptions::FileParsingException("Unsupported object type was encountered.");
