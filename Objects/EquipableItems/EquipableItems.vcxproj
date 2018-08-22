@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="EnergyStorage.cpp" />
     <ClCompile Include="FlyEngine.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
