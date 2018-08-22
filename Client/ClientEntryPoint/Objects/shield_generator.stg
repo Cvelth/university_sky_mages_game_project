@@ -1,0 +1,15 @@
+Settings.stg is an ObjectStorage v0.1 file for SkyMages v0.2.2.222_dev with 1 objects
+# Use '#' at the beginning of the string to make a commentary.
+
+Object 1 - ShieldGenerator
+# Structure of a line : "- field_type field-name = field_value"
+
+string name = GenericAntiBulletShieldGenerator
+string description = Generic anti-bullet shield generator, able to stop bullets with good eficiency.
+float mass = 4.0
+
+float anti_energy_efficiency = 0.3
+float anti_projectile_efficiency = 0.7
+float anti_bullet_efficiency = 1.0
+float activation_energy = 10000.0
+float energy_per_second = 2000.0
