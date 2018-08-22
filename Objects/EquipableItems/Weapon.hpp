@@ -60,63 +60,11 @@ public:
 		return is_activated && is_reloaded();
 	}
 	bool is_reloaded() const;
-	std::shared_ptr<ShootableObject> shoot(float current_x, float current_y, float destination_x, float destination_y) const;;
+	std::shared_ptr<ShootableObject> shoot(float current_x, float current_y, float destination_x, float destination_y) const;
 private:
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
 };
-
-template<>
-inline void Weapon::set_value<std::string>(std::string const& name, std::string const& value) {
-	if (name == "name")
-		m_name = value;
-	else if (name == "description")
-		m_description = value;
-	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
-}
-template<>
-inline void Weapon::set_value<unsigned int>(std::string const& name, unsigned int const& value) {
-	if (name == "ammo_type")
-		m_ammo_type = static_cast<AmmoProjectileType>(value);
-	else if (name == "size")
-		m_size = static_cast<WeaponSize>(value);
-	else if (name == "ammo_capacity") {
-		m_ammo_capacity = value;
-		m_current_ammo = value;
-	} else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
-}
-template<>
-inline void Weapon::set_value<bool>(std::string const& name, bool const& value) {
-	if (name == "autofire_support")
-		m_autofire_supported = value;
-	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
-}
-template<>
-inline void Weapon::set_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
-		addMass(value);
-	else if (name == "energy_usage_coefficient")
-		m_energy_usage_coefficient = value;
-	else if (name == "damage")
-		m_damage = value;
-	else if (name == "firerate")
-		m_firerate = value;
-	else if (name == "initial_ammo_speed")
-		m_initial_ammo_speed = value;
-	else if (name == "initial_ammo_mass")
-		m_initial_ammo_mass = value;
-	else if (name == "initial_ammo_size_h")
-		m_initial_ammo_size_h = value;
-	else if (name == "initial_ammo_size_v")
-		m_initial_ammo_size_v = value;
-	else if (name == "reload_cooldown")
-		m_reload_cooldown = value;
-	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
-}
 
 template<typename value_type>
 inline void Weapon::set_value(std::string const& name, value_type const& value) {
