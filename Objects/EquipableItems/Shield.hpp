@@ -29,6 +29,7 @@ public:
 		is_activated = false;
 	}
 	void was_hit(ShootableObject *so);
+	void shield() const;
 private:
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
