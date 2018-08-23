@@ -75,13 +75,15 @@ void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProject
 bool PhysicsEngine::processTargeting(std::shared_ptr<ShootableObject> so, MainActorQueue &actors) {
 	bool ret = false;
 	actors.for_each([&so, &ret, &actors](std::shared_ptr<MainActor> a, size_t i) {
-		if (actors.at(so->shooter_id()) != a) {
-			auto distance = a->position() - so->position();
-			if (fabs(distance.at(0)) < (so->size().at(0) + a->size().at(0)) / 2 && fabs(distance.at(1)) < (so->size().at(1) + a->size().at(1)) / 2) {
-				if (true/*second check is to be implemented here*/) {
-					std::cout << "\rPlayer #" << so->shooter_id() << " has hit player #" << i << " causing him to loose ";
-					a->was_hit(so);
-					ret = true;
+		if (a->is_alive()) {
+			if (actors.at(so->shooter_id()) != a) {
+				auto distance = a->position() - so->position();
+				if (fabs(distance.at(0)) < (so->size().at(0) + a->size().at(0)) / 2 && fabs(distance.at(1)) < (so->size().at(1) + a->size().at(1)) / 2) {
+					if (true/*second check is to be implemented here*/) {
+						std::cout << "\rPlayer #" << so->shooter_id() << " has hit player #" << i << " causing him to loose ";
+						a->was_hit(so);
+						ret = true;
+					}
 				}
 			}
 		}
