@@ -59,22 +59,23 @@ std::list<std::string> split_path(std::string const& path, std::string const& se
 #include <fstream>
 void FileLoader::load(std::string const& path_string, std::string const& file_extention) {
 	for (auto path : split_path(path_string))
-		for (auto file : std::filesystem::recursive_directory_iterator(std::filesystem::current_path().generic_string() + path))
-			if (auto temp = file.path().generic_string(); temp.substr(temp.size() - 4) == file_extention) {
-				std::ifstream f;
-				f.open(temp);
-				if (!f.is_open())
-					throw Exceptions::FileCannotBeOpennedException("Filesystem parsing failure detected");
+		if (std::filesystem::exists(std::filesystem::current_path().generic_string() + path))
+			for (auto file : std::filesystem::directory_iterator(std::filesystem::current_path().generic_string() + path))
+				if (auto temp = file.path().generic_string(); temp.substr(temp.size() - 4) == file_extention) {
+					std::ifstream f;
+					f.open(temp);
+					if (!f.is_open())
+						throw Exceptions::FileCannotBeOpennedException("Filesystem parsing failure detected");
 
-				bool first_line_parsed = false;
-				std::string temp_line;
-				while (std::getline(f, temp_line))
-					if (temp_line.size() > 0u && temp_line.at(0) != '#')
-						if (first_line_parsed)
-							parse_line(temp_line);
-						else {
-							parse_first_line(temp_line, file_extention);
-							first_line_parsed = true;
-						}
-			}
+					bool first_line_parsed = false;
+					std::string temp_line;
+					while (std::getline(f, temp_line))
+						if (temp_line.size() > 0u && temp_line.at(0) != '#')
+							if (first_line_parsed)
+								parse_line(temp_line);
+							else {
+								parse_first_line(temp_line, file_extention);
+								first_line_parsed = true;
+							}
+				}
 }
