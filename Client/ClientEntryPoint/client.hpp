@@ -2,11 +2,11 @@
 #include "Shared/AbstractException.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
-void game_process(Objects *s, size_t &client_index);
+void game_process(std::shared_ptr<Objects> s, size_t &client_index);
 int client_main() {
 	GameStateController::initialize(ProgramMode::Client);
 	size_t client_index = -1;
-	Objects *o = initialize_object_storage();
+	auto o = initialize_object_storage();
 	initialize_render_info();
 	try {
 		game_process(o, client_index);
@@ -15,7 +15,6 @@ int client_main() {
 		e.what();
 		getchar(); // Prevents Program from closing.
 	}
-	delete o;
 	return 0;
 }
 
@@ -31,7 +30,7 @@ int client_main() {
 #include "Engines/Networking/NetworkController.hpp"
 #include "Engines/Networking/ParseMessage.hpp"
 #include "Objects/Actors/MainActor.hpp"
-void game_process(Objects *o, size_t &client_index) {
+void game_process(std::shared_ptr<Objects> o, size_t &client_index) {
 	ControllerInterface controller;
 	auto keys = o->settings()->getKeysValue("Keys_Layout");
 	controller.startKeyControl(&keys);

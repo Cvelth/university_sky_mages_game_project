@@ -2,10 +2,10 @@
 #include "Shared/AbstractException.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
-void server_process(Objects *objects);
+void server_process(std::shared_ptr<Objects> objects);
 int server_main(int argc, char **argv) {
 	GameStateController::initialize(ProgramMode::Server);
-	Objects *objects = initialize_object_storage();
+	auto objects = initialize_object_storage();
 	initialize_render_info();
 	try {
 		server_process(objects);
@@ -13,7 +13,6 @@ int server_main(int argc, char **argv) {
 		e.what();
 		getchar(); // Prevents Program from closing.
 	}
-	delete objects;
 	exit(0);
 }
 
@@ -31,11 +30,11 @@ inline void actors_(MainActorQueue &actors, std::istream &input);
 inline void clients_(Clients &clients, std::istream &input);
 inline void help_();
 inline void exit_(bool &server_should_close);
-inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+inline std::thread initialize_networking(bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous);
 
 PhysicsEngine *physics_engine = nullptr;
-void server_process(Objects *objects) {
+void server_process(std::shared_ptr<Objects> objects) {
 	std::cout << "Starting server...";
 	bool server_should_close = false;
 	Clients clients;
@@ -184,7 +183,7 @@ inline void actors_help() {
 		<< " - [[deprecated]] actors clean - cleans actor data.\n"
 		<< " - actors broadcast - sends actor data to all the clients.\n";
 }
-inline void actors_add(Objects *objects, MainActorQueue &actors) {
+inline void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors) {
 	std::cout << "\rAdding new actor...";
 	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
 	actor->giveEnergyStorage(objects->get_energy_storage(""));
@@ -232,7 +231,7 @@ inline void exit_(bool &server_should_close) {
 
 #include "Engines/Networking/NetworkController.hpp"
 #include "Engines/Networking/ParseMessage.hpp"
-inline std::thread initialize_networking(bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
+inline std::thread initialize_networking(bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients) {
 	auto on_peer_connect = [&map, &actors, objects, &clients](std::string const& name, size_t port, std::function<void(Message const&)> send_back) {
 		std::cout << "\rClient " << name << ":" << port << " is attempting to connect.\n";
 		auto id = actors.size();
@@ -259,7 +258,7 @@ inline std::thread initialize_networking(bool &server_should_close, Objects *obj
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }
 #include "Engines\ObjectStorage\Settings.hpp"
-inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, Objects *objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
+inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, actors, projectiles, miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
 	engine->initializeCollisionSystem(map);
