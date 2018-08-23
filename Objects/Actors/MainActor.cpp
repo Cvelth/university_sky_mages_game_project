@@ -117,12 +117,6 @@ std::vector<std::shared_ptr<ShootableObject>> MainActor::shootingProcess(size_t 
 	if (m_shield) m_shield->shield();
 	return { shootRightWeapon(id), shootLeftWeapon(id) };
 }
-void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
-	if (m_shield)
-		if (!m_shield->was_hit(so)) {
-			//To be implemented.
-		}
-}
 
 vector MainActor::acceleration(scalar const& time_correct) const {
 	return m_acceleration +
@@ -154,4 +148,13 @@ MainActor::~MainActor() {
 	if (m_engine) delete m_engine;
 	if (m_weapon_left_arm) delete m_weapon_left_arm;
 	if (m_weapon_right_arm) delete m_weapon_right_arm;
+}
+
+#include <iostream>
+void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
+	if (m_shield)
+		if (!m_shield->was_hit(so)) {
+			std::cout << "nothing.\n: ";
+			//To be implemented.
+		}
 }

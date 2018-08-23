@@ -14,6 +14,7 @@ float ShieldGenerator::get_efficience_coefficient(ShootableObjectType type) {
 }
 
 #include "../EquipableItems/EnergyStorage.hpp"
+#include <iostream>
 void ShieldGenerator::activate() {
 	if (m_energy_source && m_energy_source->use(m_activation_energy))
 		is_activated = true;
@@ -21,7 +22,9 @@ void ShieldGenerator::activate() {
 bool ShieldGenerator::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (!is_activated || !m_energy_source || m_energy_source->isEmpty())
 		return false;
-	return m_energy_source->use(so->damage() * so->impulse() * get_efficience_coefficient(so->type()) * 9.e+3f);
+	auto damage = so->damage() * so->impulse() * get_efficience_coefficient(so->type()) * 9.e+3f;
+	std::cout << damage << " joules of Energy.\n: ";
+	return m_energy_source->use(damage);
 }
 
 #include "Shared/TimeControl.hpp"
