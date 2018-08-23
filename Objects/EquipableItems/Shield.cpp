@@ -21,7 +21,7 @@ void ShieldGenerator::activate() {
 bool ShieldGenerator::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (!is_activated || !m_energy_source || m_energy_source->isEmpty())
 		return false;
-	return m_energy_source->use(so->damage() * so->impulse() * get_efficience_coefficient(so->type()));
+	return m_energy_source->use(so->damage() * so->impulse() * get_efficience_coefficient(so->type()) * 9.e+3f);
 }
 
 #include "Shared/TimeControl.hpp"
