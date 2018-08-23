@@ -42,23 +42,11 @@ std::string FileLoader::generate_first_line(std::string const& filename, std::st
 	return s.str();
 }
 
-#include <list>
-std::list<std::string> split_path(std::string const& path, std::string const& separator = ";") {
-	std::list<std::string> ret;
-	size_t position, last_position = 0u, length = path.length();
-	while (last_position < length + 1) {
-		position = path.find_first_of(separator, last_position);
-		if (position == std::string::npos) position = length;
-		ret.push_back(std::string{ path.data() + last_position, position - last_position });
-		last_position = position + 1;
-	}
-	return ret;
-}
-
 #include <filesystem>
 #include <fstream>
+#include "Shared/SharedFunctions.hpp"
 void FileLoader::load(std::string const& path_string, std::string const& file_extention) {
-	for (auto path : split_path(path_string))
+	for (auto path : Functions::split_string(path_string))
 		if (std::filesystem::exists(std::filesystem::current_path().generic_string() + path))
 			for (auto file : std::filesystem::directory_iterator(std::filesystem::current_path().generic_string() + path))
 				if (auto temp = file.path().generic_string(); temp.substr(temp.size() - 4) == file_extention) {
