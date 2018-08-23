@@ -1,11 +1,12 @@
-energy_storage.stg is an ObjectStorage v0.1 file for SkyMages v0.2.2.222_dev with 1 objects
+energy_storage.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 1 objects
 # Use '#' at the beginning of the string to make a commentary.
-
-Object 1 - EnergyStorage = 1.e7
 # Structure of a line : "- field_type field-name = field_value"
 
+Object EnergyStorage = 1.e7
 string name = GenericEnergyStorage
 string description = Generic storage, able of storing average amount of energy with pretty good efficience.
 float mass = 15.0
+float chance_to_take_damage = 0.9
+
 float energy_usage_coefficient = 0.95
 float energy_percent_loss_per_second = 0.005

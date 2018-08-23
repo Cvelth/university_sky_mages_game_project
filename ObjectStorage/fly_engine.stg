@@ -1,12 +1,12 @@
-Settings.stg is an ObjectStorage v0.1 file for SkyMages v0.2.2.222_dev with 1 objects
+Fly_Engine.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 1 objects
 # Use '#' at the beginning of the string to make a commentary.
-
-Object 1 - FlyEngine
 # Structure of a line : "- field_type field-name = field_value"
 
+Object FlyEngine
 string name = GenericFlyEngine
 string description = Generic engine, able of of normal flying with good efficience.
 float mass = 30.0
+float chance_to_take_damage = 0.7
 
 float maximum_acceleration = 2100
 float energy_usage_coefficient = 0.4
