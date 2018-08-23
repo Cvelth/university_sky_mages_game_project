@@ -7,6 +7,8 @@ DefineNewException(UnsupportableItemWasGivenException)
 class EnergyStorage;
 class FlyEngine;
 class Weapon;
+class ShieldGenerator;
+
 class ShootableObject;
 class Controller;
 class PhysicsEngine; 
@@ -22,6 +24,7 @@ protected:
 	FlyEngine *m_engine;
 	Weapon *m_weapon_left_arm;
 	Weapon *m_weapon_right_arm;
+	ShieldGenerator *m_shield;
 
 	float m_aim_x;
 	float m_aim_y;
@@ -38,19 +41,24 @@ public:
 	void giveFlyEngine(FlyEngine *fe);
 	void giveRightWeapon(Weapon *w);
 	void giveLeftWeapon(Weapon *w);
+	void giveShieldGenerator(ShieldGenerator *sg);
 
-	void activateRightWeapon();
-	void activateLeftWeapon();
 	void aim(float x, float y);
+	void activateRightWeapon();
 	void deactivateRightWeapon();
+	void activateLeftWeapon();
 	void deactivateLeftWeapon();
+	void activateShieldGenerator();
+	void deactivateShieldGenerator();
 
 	std::vector<std::shared_ptr<ShootableObject>> shootingProcess();
+	void was_hit(ShootableObject *so);
 
-	EnergyStorage* energy_storage() const { return m_energy_storage; }
-	FlyEngine* fly_engine() const { return m_engine; }
-	Weapon* left_weapon() const { return m_weapon_left_arm; }
-	Weapon* right_weapon() const { return m_weapon_right_arm; }
+	inline EnergyStorage* energy_storage() const { return m_energy_storage; }
+	inline FlyEngine* fly_engine() const { return m_engine; }
+	inline Weapon* left_weapon() const { return m_weapon_left_arm; }
+	inline Weapon* right_weapon() const { return m_weapon_right_arm; }
+	inline ShieldGenerator* shield() const { return m_shield; }
 public:
 	virtual scalar mass() const override;
 	virtual vector acceleration(scalar const& time_correct) const override;
