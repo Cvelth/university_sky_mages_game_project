@@ -201,7 +201,7 @@ MainActor::~MainActor() {
 #include <iostream>
 #include <random>
 #include "Objects/EquipableItems/Trinket.hpp"
-bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
+void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (m_shield && !m_shield->was_hit(so)) {
 		std::random_device rd;
 		std::mt19937 g;
@@ -211,14 +211,14 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 
 		if (damage <= 0) {
 			std::cout << "nothing.\n: ";
-			return false;
+			return;
 		}
 		if (m_trinket) {
 			damage -= m_trinket->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_trinket->name() << ".\n: ";
 				delete takeTrinket();
-				return false;
+				return;
 			}
 		}
 		if (m_shield) {
@@ -226,7 +226,7 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			if (damage <= 0) {
 				std::cout << m_shield->name() << ".\n: ";
 				delete takeShieldGenerator();
-				return false;
+				return;
 			}
 		}
 		if (m_weapon_right_arm) {
@@ -234,7 +234,7 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			if (damage <= 0) {
 				std::cout << m_weapon_right_arm->name() << ".\n: ";
 				delete takeRightWeapon();
-				return false;
+				return;
 			}
 		}
 		if (m_weapon_left_arm) {
@@ -242,7 +242,7 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			if (damage <= 0) {
 				std::cout << m_weapon_left_arm->name() << ".\n: ";
 				delete takeLeftWeapon();
-				return false;
+				return;
 			}
 		}
 		if (m_engine) {
@@ -250,7 +250,7 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			if (damage <= 0) {
 				std::cout << m_engine->name() << ".\n: ";
 				delete takeFlyEngine();
-				return false;
+				return;
 			}
 		}
 		if (m_energy_storage) {
@@ -258,11 +258,10 @@ bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			if (damage <= 0) {
 				std::cout << m_energy_storage->name() << ".\n: ";
 				delete takeEnergyStorage();
-				return false;
+				return;
 			}
 		}
 		std::cout << "his life.\n: ";
-		return true;
+		die();
 	}
-	return false;
 }
