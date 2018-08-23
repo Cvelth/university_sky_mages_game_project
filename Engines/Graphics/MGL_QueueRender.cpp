@@ -45,17 +45,19 @@ void MyGraphicsLibraryEngine::initializeQueueRendering() {
 	initializeSingleQueueRendering(m_actor_queue, m_actor_queue_program, m_window);
 }
 
-template <typename Type, typename NumeralType>
-void renderSingleQueue(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY) {
+template <typename Type, typename NumeralType, typename Condition>
+void renderSingleQueue(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program, NumeralType minX, NumeralType maxX, NumeralType minY, NumeralType maxY, Condition condition) {
 	queue_program->use();
-	queue.for_each([&minX, &maxX, &minY, &maxY, queue_program](std::shared_ptr<Type> go) {
-		sendRenderInfo(go, queue_program->getVertexArray());
-		auto position = go->position();
-		if (position[0] >= minX && position[1] >= minY &&
-			position[0] <= maxX && position[1] <= maxY) {
+	queue.for_each([&minX, &maxX, &minY, &maxY, queue_program, &condition](std::shared_ptr<Type> go) {
+		if (condition(go)) {
+			sendRenderInfo(go, queue_program->getVertexArray());
+			auto position = go->position();
+			if (position[0] >= minX && position[1] >= minY &&
+				position[0] <= maxX && position[1] <= maxY) {
 
-			queue_program->sendUniform(queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
-			go->getRenderInto()->draw();
+				queue_program->sendUniform(queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
+				go->getRenderInto()->draw();
+			}
 		}
 	});
 }
@@ -65,9 +67,9 @@ void MyGraphicsLibraryEngine::renderQueues() {
 	auto maxX = m_camera->maxX_i();
 	auto minY = m_camera->minY_i();
 	auto maxY = m_camera->maxY_i();
-	renderSingleQueue(m_projectile_queue.get(), m_projectile_queue_program, minX, maxX, minY, maxY);
-	renderSingleQueue(m_miscellaneous_queue, m_miscellaneous_queue_program, minX, maxX, minY, maxY);
-	renderSingleQueue(m_actor_queue, m_actor_queue_program, minX, maxX, minY, maxY);
+	renderSingleQueue(m_projectile_queue.get(), m_projectile_queue_program, minX, maxX, minY, maxY, [](auto go) -> bool { return true; });
+	renderSingleQueue(m_miscellaneous_queue, m_miscellaneous_queue_program, minX, maxX, minY, maxY, [](auto go) -> bool { return true; });
+	renderSingleQueue(m_actor_queue, m_actor_queue_program, minX, maxX, minY, maxY, [](auto go) -> bool { return go->is_alive(); });
 }
 
 template <typename Type>
