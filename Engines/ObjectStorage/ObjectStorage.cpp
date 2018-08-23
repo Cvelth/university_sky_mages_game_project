@@ -103,7 +103,7 @@ template<class function> void parse_field(std::string const& line, function f) {
 		std::string v;
 		iss >> s >> c;
 		std::getline(iss, v);
-		f(s, v);
+		f(s, v.substr(1));
 	} else if (s == "Keys") {
 		KeyLayout v;
 		iss >> s >> c >> v;
