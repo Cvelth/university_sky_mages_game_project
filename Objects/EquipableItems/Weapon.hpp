@@ -1,23 +1,17 @@
 #pragma once
-#include "Shared/AbstractException.hpp"
 #include "Objects/AbstractObjects/EquipableItem.hpp"
+#include "Objects/AbstractObjects/ShootableObject.hpp"
 
-enum class AmmoProjectileType {
-	Energy = 1, Physical = 2, Bullet = 3
-};
-DefineNewException(UnsupportedProjectileType);
 enum class WeaponSize {
 	Small = 3, One_Arm = 1, One_And_A_Half_Arm = 4, Two_Arm = 2, Big = 5
 };
-DefineNewException(UnsupportedWeaponSize);
 
-class ShootableObject;
 class EnergyStorage;
 class ObjectStorage;
 class Weapon : public EquipableItem {
 	friend ObjectStorage;
 private:
-	AmmoProjectileType m_ammo_type;
+	ShootableObjectType m_ammo_type;
 	WeaponSize m_size;
 protected:
 	float m_damage;
@@ -44,7 +38,7 @@ public:
 	~Weapon() {}
 	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
 
-	inline AmmoProjectileType ammoType() const {
+	inline ShootableObjectType ammoType() const {
 		return m_ammo_type;
 	}
 	inline WeaponSize size() const {
@@ -66,6 +60,9 @@ private:
 	void set_value(std::string const& name, value_type const& value);
 };
 
+#include "Shared/AbstractException.hpp"
+DefineNewException(UnsupportedWeaponSize);
+
 template<>
 inline void Weapon::set_value<std::string>(std::string const& name, std::string const& value) {
 	if (name == "name")
@@ -78,7 +75,7 @@ inline void Weapon::set_value<std::string>(std::string const& name, std::string 
 template<>
 inline void Weapon::set_value<unsigned int>(std::string const& name, unsigned int const& value) {
 	if (name == "ammo_type")
-		m_ammo_type = static_cast<AmmoProjectileType>(value);
+		m_ammo_type = static_cast<ShootableObjectType>(value);
 	else if (name == "size")
 		m_size = static_cast<WeaponSize>(value);
 	else if (name == "ammo_capacity") {
