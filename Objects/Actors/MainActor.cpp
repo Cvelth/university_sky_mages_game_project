@@ -185,7 +185,7 @@ scalar MainActor::mass() const {
 }
 
 MainActor::MainActor(float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info) 
-	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)), m_energy_storage(nullptr), m_engine(nullptr), m_weapon_left_arm(nullptr), m_weapon_right_arm(nullptr), m_shield(nullptr) {
+	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)), m_energy_storage(nullptr), m_engine(nullptr), m_weapon_left_arm(nullptr), m_weapon_right_arm(nullptr), m_shield(nullptr), m_trinket(nullptr) {
 	m_acceleration = acceleration;
 	m_speed = speed;
 }
@@ -202,7 +202,7 @@ MainActor::~MainActor() {
 #include <random>
 #include "Objects/EquipableItems/Trinket.hpp"
 void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
-	if (m_shield && !m_shield->was_hit(so)) {
+	if (!m_shield || !m_shield->was_hit(so)) {
 		std::mt19937 g((std::random_device())());
 		std::uniform_real_distribution<float> d(0.f, 1.f);
 
