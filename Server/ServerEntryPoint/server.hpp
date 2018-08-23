@@ -2,7 +2,7 @@
 #include "Shared/AbstractException.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
-#include "Engines\ObjectStorage\Settings.hpp"
+#include "Engines/ObjectStorage/Settings.hpp"
 void server_process(std::shared_ptr<Objects> objects);
 int server_main(int argc, char **argv) {
 	GameStateController::initialize(ProgramMode::Server);
@@ -24,15 +24,12 @@ int server_main(int argc, char **argv) {
 #include <map>
 #include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Engines/Physics/PhysicsEngine.hpp"
+#include "Shared/SharedFunctions.hpp"
 class Map;
 using Clients = std::map<std::pair<std::string, size_t>, size_t>;
-inline void map_(std::shared_ptr<Map> &map, std::istream &input);
-inline void actors_(MainActorQueue &actors, std::istream &input);
-inline void clients_(Clients &clients, std::istream &input);
-inline void help_();
-inline void exit_(bool &server_should_close);
 inline std::thread initialize_networking(bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients);
 inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous);
+void server_command(bool &server_should_close, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients, std::istream &input);
 
 PhysicsEngine *physics_engine = nullptr;
 void server_process(std::shared_ptr<Objects> objects) {
@@ -51,29 +48,46 @@ void server_process(std::shared_ptr<Objects> objects) {
 	auto physics_thread = initialize_physics(physics_engine, server_should_close, objects, map, actors, projectiles, miscellaneous);
 	std::cout << '\r' << objects->get_program_version() << " server has been started.\n";
 
+	std::cout << "\rRunning initializations commands:\n";
+	for (auto it : Functions::split_string(objects->settings()->getStringValue("Initialization_Commands"), ";")) {
+		std::cout << "Initialization_Command :: " << it << "\n";
+		std::istringstream input(it);
+		server_command(server_should_close, map, actors, clients, input);
+	}
+	
 	while (!server_should_close) {
 		std::cout << ": ";
 		std::string string;
 		std::getline(std::cin, string);
 		std::istringstream input(string);
-		input >> string;
-		if (string == "map")
-			map_(map, input);
-		else if (string == "actors")
-			actors_(actors, input);
-		else if (string == "clients")
-			clients_(clients, input);
-		else if (string == "help")
-			help_();
-		else if (string == "exit")
-			exit_(server_should_close);
-		else
-			std::cout << "Unsupported server command.\nCall \"help\" for list of supported ones.\n";
+		server_command(server_should_close, map, actors, clients, input);
 	}
 
 	std::cout << "Cleaning up...";
 	networking_thread.join();
 	physics_thread.join();
+}
+
+inline void map_(std::shared_ptr<Map> &map, std::istream &input);
+inline void actors_(MainActorQueue &actors, std::istream &input);
+inline void clients_(Clients &clients, std::istream &input);
+inline void help_();
+inline void exit_(bool &server_should_close);
+void server_command(bool &server_should_close, std::shared_ptr<Map> &map, MainActorQueue &actors, Clients &clients, std::istream &input) {
+	std::string string;
+	input >> string;
+	if (string == "map")
+		map_(map, input);
+	else if (string == "actors")
+		actors_(actors, input);
+	else if (string == "clients")
+		clients_(clients, input);
+	else if (string == "help")
+		help_();
+	else if (string == "exit")
+		exit_(server_should_close);
+	else
+		std::cout << "Unsupported server command.\nCall \"help\" for list of supported ones.\n";
 }
 
 #include "Engines/ObjectStorage/MapStorage.hpp"
