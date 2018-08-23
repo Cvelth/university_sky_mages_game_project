@@ -8,6 +8,7 @@ class EnergyStorage;
 class FlyEngine;
 class Weapon;
 class ShieldGenerator;
+class Trinket;
 class MainActor;
 
 class Objects {
@@ -18,6 +19,7 @@ protected:
 	std::list<std::unique_ptr<FlyEngine>> m_fly_engine;
 	std::list<std::unique_ptr<Weapon>> m_weapon;
 	std::list<std::unique_ptr<ShieldGenerator>> m_shield_generator;
+	std::list<std::unique_ptr<Trinket>> m_trinket;
 public:
 	Objects();
 	~Objects();
@@ -31,6 +33,7 @@ public:
 	FlyEngine* get_fly_engine(std::string const& name = "") const;
 	Weapon* get_weapon(std::string const& name = "") const;
 	ShieldGenerator* get_shield_generator(std::string const& name = "") const;
+	Trinket* get_trinket(std::string const& name = "") const;
 
 	size_t size() const;
 };

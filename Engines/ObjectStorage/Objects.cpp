@@ -40,7 +40,9 @@ FlyEngine* Objects::get_fly_engine(std::string const& name) const { return get_o
 Weapon* Objects::get_weapon(std::string const& name) const { return get_object(name, m_weapon); }
 #include "../../Objects/EquipableItems/Shield.hpp"
 ShieldGenerator* Objects::get_shield_generator(std::string const& name) const { return get_object(name, m_shield_generator); }
+#include "../../Objects/EquipableItems/Trinket.hpp"
+Trinket* Objects::get_trinket(std::string const& name) const { return get_object(name, m_trinket); }
 
 size_t Objects::size() const {
-	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size() + m_shield_generator.size();
+	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size() + m_shield_generator.size() + m_trinket.size();
 }
