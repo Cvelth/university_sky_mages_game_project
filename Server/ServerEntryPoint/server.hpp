@@ -190,6 +190,7 @@ inline void actors_add(Objects *objects, MainActorQueue &actors) {
 	actor->giveEnergyStorage(objects->get_energy_storage(""));
 	actor->giveFlyEngine(objects->get_fly_engine(""));
 	actor->giveLeftWeapon(objects->get_weapon(""));
+	actor->giveShieldGenerator(objects->get_shield_generator(""));
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";
