@@ -271,8 +271,9 @@ inline std::thread initialize_networking(bool &server_should_close, std::shared_
 
 		std::cout << ": ";
 	};
-	auto on_peer_disconnect = [&clients](std::string const& name, size_t port) {
+	auto on_peer_disconnect = [&clients, &actors](std::string const& name, size_t port) {
 		std::cout << "\rClient " << name << ":" << port << " (id - " << clients[std::make_pair(name, port)] << ") has been disconnected.\n: ";
+		actors[clients[std::make_pair(name, port)]]->die();
 	};
 	auto on_packet_received = [&clients, &actors](std::string const& name, size_t port, Message const& data) {
 		auto id = clients[std::make_pair(name, port)];
