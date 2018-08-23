@@ -14,12 +14,15 @@ class ProjectileQueue;
 enum class ControlEvent;
 enum class ShootableObjectType;
 
-class ObjectsStatic {
-	static Objects *m_objects;
+template <typename Type>
+class StaticObject {
+	static std::shared_ptr<Type> m_object;
 public:
-	static void initialize(Objects *objects) { m_objects = objects; }
-	static Objects* get() { return m_objects; }
+	static void initialize(std::shared_ptr<Type> object) { m_object = object; }
+	static std::shared_ptr<Type> get() { return m_object; }
 };
+using ObjectsStatic = StaticObject<Objects>;
+using ActorsStatic = StaticObject<MainActorQueue>;
 
 template <typename Type>
 class Update {

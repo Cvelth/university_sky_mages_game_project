@@ -1,5 +1,5 @@
 #include "MessageStream.hpp"
-Objects *ObjectsStatic::m_objects = nullptr;
+std::shared_ptr<Objects> ObjectsStatic::m_object = nullptr;
 #include "Message.hpp"
 MessageInputStream::MessageInputStream(Message const& data) : pos(0), data(data) {}
 MessageOutputStream::MessageOutputStream(Message &data) : data(data) { data->clear(); }
@@ -297,10 +297,11 @@ MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue co
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v) {
 	std::string string;
+	uint8_t id;
 	float ax, ay, vx, vy, px, py, sx, sy, d, m;
 	ShootableObjectType type;
-	s >> type >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
-	v = std::make_shared<ShootableObject>(type, RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
+	s >> type >> id >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
+	v = std::make_shared<ShootableObject>(type, id, RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v) {
@@ -308,7 +309,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Shootabl
 	auto speed = v->speed();
 	auto position = v->position();
 	auto size = v->size();
-	s << v->type() << RenderInfoStorage::getRenderInfo(v->getRenderInto())
+	s << v->type() << uint8_t(v->shooter_id()) << RenderInfoStorage::getRenderInfo(v->getRenderInto())
 		<< v->mass() << acceleration.at(0) << acceleration.at(1)
 		<< speed.at(0) << speed.at(1) << position.at(0) << position.at(1)
 		<< size.at(0) << size.at(1) << v->damage();
