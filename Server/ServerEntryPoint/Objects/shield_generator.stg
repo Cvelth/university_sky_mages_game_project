@@ -9,7 +9,7 @@ string description = Generic anti-bullet shield generator, able to stop bullets 
 float mass = 4.0
 
 float anti_energy_efficiency = 0.2
-float anti_projectile_efficiency = 0.5
-float anti_bullet_efficiency = 0.9
+float anti_projectile_efficiency = 0.4
+float anti_bullet_efficiency = 0.7
 float activation_energy = 2000.0
-float energy_per_second = 500.0
+float energy_per_second = 200.0
