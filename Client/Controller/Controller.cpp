@@ -56,6 +56,8 @@ void Controller::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAct
 					NetworkController::send_control_event(m_actor, ControlEvent::move_right, true);
 				else if (key == *m_keys->anti_gravity)			   
 					NetworkController::send_control_event(m_actor, ControlEvent::anti_gravity);
+				else if (key == *m_keys->shield)
+					NetworkController::send_control_event(m_actor, ControlEvent::shield);
 				else if (key == *m_keys->pause)					   
 					GameStateController::pause();				   
 			} else if (action == mgl::KeyAction::release) {		   
@@ -67,6 +69,13 @@ void Controller::keyEvent(GLFWwindow *w, mgl::Key key, int scancode, mgl::KeyAct
 					NetworkController::send_control_event(m_actor, ControlEvent::move_left, false);
 				else if (key == *m_keys->move_right)			   
 					NetworkController::send_control_event(m_actor, ControlEvent::move_right, false);
+				else if (key == *m_keys->anti_gravity) {
+					if (m_keys->hold_anti_gravity_key)
+						NetworkController::send_control_event(m_actor, ControlEvent::anti_gravity);
+				} else if (key == *m_keys->shield) {
+					if (m_keys->hold_shield_key)
+						NetworkController::send_control_event(m_actor, ControlEvent::shield);
+				}
 			}
 		} else if (GameStateController::state() == GameState::Pause) {
 			//Pause controls.
