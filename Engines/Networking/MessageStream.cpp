@@ -191,8 +191,12 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> con
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
+#include "Objects/EquipableItems/Shield.hpp"
+#include "Objects/EquipableItems/Trinket.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v) {
+	bool is_alive;
+	s >> is_alive;
 	float x, y;
 	s >> x;
 	auto mass = x;
@@ -209,6 +213,8 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor>
 	s >> string;
 	auto render_info = RenderInfoStorage::getRenderInfo(string);
 	v = std::make_shared<MainActor>(mass, acceleration, speed, position, size, render_info);
+	if (!is_alive)
+		v->die();
 
 	s >> string;
 	if (string != "")
@@ -222,37 +228,53 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor>
 	s >> string;
 	if (string != "")
 		v->giveRightWeapon(ObjectsStatic::get()->get_weapon(string));
+	s >> string;
+	if (string != "")
+		v->giveShieldGenerator(ObjectsStatic::get()->get_shield_generator(string));
+	s >> string;
+	if (string != "")
+		v->giveTrinket(ObjectsStatic::get()->get_trinket(string));
 
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActor> const& v) {
-	s << v->m_mass << v->m_acceleration.at(0) << v->m_acceleration.at(1)
+	s << v->m_is_alive << v->m_mass << v->m_acceleration.at(0) << v->m_acceleration.at(1)
 		<< v->m_speed.at(0) << v->m_speed.at(1) << v->m_position.at(0) << v->m_position.at(0)
 		<< v->m_size.at(0) << v->m_size.at(1) << RenderInfoStorage::getRenderInfo(v->m_render_info)
 		<< (v->m_energy_storage ? v->m_energy_storage->name() : "")
 		<< (v->m_engine ? v->m_engine->name() : "")
 		<< (v->m_weapon_left_arm ? v->m_weapon_left_arm->name() : "")
-		<< (v->m_weapon_right_arm ? v->m_weapon_right_arm->name() : "");
+		<< (v->m_weapon_right_arm ? v->m_weapon_right_arm->name() : "")
+		<< (v->m_shield ? v->m_shield->name() : "")
+		<< (v->m_trinket ? v->m_trinket->name() : "");
 	return s;
 }
 
 MessageInputStream& operator>>(MessageInputStream &s, Update<std::shared_ptr<MainActor>> &v) {
-	scalar ax, ay, vx, vy, px, py, cp;
-	s >> ax >> ay >> vx >> vy >> px >> py >> cp;
-	(*v)->update_state(vector(ax, ay), vector(vx, vy), vector(px, py), cp);
+	bool is_alive;
+	s >> is_alive;
+	if (is_alive) {
+		scalar ax, ay, vx, vy, px, py, cp;
+		s >> ax >> ay >> vx >> vy >> px >> py >> cp;
+		(*v)->update_state(vector(ax, ay), vector(vx, vy), vector(px, py), cp);
+	} else
+		(*v)->die();
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<MainActor> const> const& v) {
-	auto acceleration = (*v)->get_acceleration();
-	auto speed = (*v)->speed();
-	auto position = (*v)->position();
-	s << acceleration.at(0) << acceleration.at(1)
-		<< speed.at(0) << speed.at(1)
-		<< position.at(0) << position.at(1);
-	if ((*v)->energy_storage())
-		s << (*v)->energy_storage()->getCapacityValue();
-	else
-		s << 0.f;
+	s << (*v)->is_alive();
+	if ((*v)->is_alive()) {
+		auto acceleration = (*v)->get_acceleration();
+		auto speed = (*v)->speed();
+		auto position = (*v)->position();
+		s << acceleration.at(0) << acceleration.at(1)
+			<< speed.at(0) << speed.at(1)
+			<< position.at(0) << position.at(1);
+		if ((*v)->energy_storage())
+			s << (*v)->energy_storage()->getCapacityValue();
+		else
+			s << 0.f;
+	}
 	return s;
 }
 
