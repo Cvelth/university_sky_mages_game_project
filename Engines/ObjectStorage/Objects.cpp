@@ -4,10 +4,9 @@ Objects::Objects() : m_settings(new Settings()) {}
 Objects::~Objects() { delete m_settings; }
 
 #include "ObjectStorage.hpp"
-Objects* initialize_object_storage() {
-	auto objects = new Objects();
-	auto storage = new ObjectStorage(objects);
-	delete storage;
+std::shared_ptr<Objects> initialize_object_storage() {
+	auto objects = std::make_shared<Objects>();
+	ObjectStorage s(objects);
 	return objects;
 }
 void Objects::set_settings_to_default() {

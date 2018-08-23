@@ -2,7 +2,7 @@
 #include "DefaultObjectStorageData.hpp"
 #include "Objects.hpp"
 
-ObjectStorage::ObjectStorage(Objects *objects, std::string const& path)
+ObjectStorage::ObjectStorage(std::shared_ptr<Objects> objects, std::string const& path)
 	: m_objects(objects), m_current_object(ObjectType::Empty),
 	m_current_object_counter(0), m_current_object_number(0) { load(path); }
 

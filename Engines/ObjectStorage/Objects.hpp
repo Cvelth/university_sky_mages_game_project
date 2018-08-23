@@ -36,5 +36,5 @@ public:
 };
 
 //Initialization functions;
-Objects* initialize_object_storage();
+std::shared_ptr<Objects> initialize_object_storage();
 void initialize_render_info();
