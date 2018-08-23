@@ -52,7 +52,7 @@ public:
 	void deactivateShieldGenerator();
 
 	std::vector<std::shared_ptr<ShootableObject>> shootingProcess();
-	void was_hit(ShootableObject *so);
+	void was_hit(std::shared_ptr<ShootableObject> so);
 
 	inline EnergyStorage* energy_storage() const { return m_energy_storage; }
 	inline FlyEngine* fly_engine() const { return m_engine; }

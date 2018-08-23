@@ -117,10 +117,10 @@ std::vector<std::shared_ptr<ShootableObject>> MainActor::shootingProcess() {
 	if (m_shield) m_shield->shield();
 	return { shootRightWeapon(), shootLeftWeapon() };
 }
-void MainActor::was_hit(ShootableObject *so) {
+void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (m_shield)
 		if (!m_shield->was_hit(so)) {
-			//To implemneted.
+			//To be implemented.
 		}
 }
 

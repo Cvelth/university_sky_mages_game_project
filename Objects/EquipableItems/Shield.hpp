@@ -33,7 +33,7 @@ public:
 		return is_activated;
 	}
 
-	bool was_hit(ShootableObject *so);
+	bool was_hit(std::shared_ptr<ShootableObject> so);
 	void shield() const;
 private:
 	template <typename value_type>
