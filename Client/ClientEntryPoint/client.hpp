@@ -2,12 +2,13 @@
 #include "Shared/AbstractException.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
+#include "Engines/ObjectStorage/Settings.hpp"
 void game_process(std::shared_ptr<Objects> s, size_t &client_index);
 int client_main() {
 	GameStateController::initialize(ProgramMode::Client);
 	size_t client_index = -1;
 	auto o = initialize_object_storage();
-	initialize_render_info();
+	initialize_render_info(o->settings()->getStringValue("Render_Info_Path"));
 	try {
 		game_process(o, client_index);
 	}
@@ -19,7 +20,6 @@ int client_main() {
 }
 
 #include "Client/Controller/ControllerInterface.hpp"
-#include "Engines/ObjectStorage/Settings.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Client/Window/Window.hpp"
 #include "Engines/Physics/PhysicsEngine.hpp"

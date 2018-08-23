@@ -1,10 +1,9 @@
-Settings.stg is an ObjectStorage v0.1 file for SkyMages v0.2.2.222_dev with 2 objects
+Settings.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 1 objects
 # Use '#' at the beginning of the string to make a commentary.
-
-Object 1 - ClientSettings
-
-Object 2 - ServerSettings
 # Structure of a line : "- field_type field-name = field_value"
 
+Object ServerSettings
+
 u_int Physical_Updates_Per_Second = 60
-string Additional_Object_Storage_Path = /ObjectStorage/;/Objects/;/Maps/
+string Object_Storage_Path = /ObjectStorage/;/Objects/;/../../ObjectStorage/
+string Render_Info_Path = /RenderInfo/;/../../RenderInfo/

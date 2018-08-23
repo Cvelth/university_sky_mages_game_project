@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include <list>
+#include <vector>
 class ObjectStorage;
 class Settings;
 class EnergyStorage;
@@ -15,11 +15,11 @@ class Objects {
 	friend ObjectStorage;
 protected:
 	Settings *m_settings;
-	std::list<std::unique_ptr<EnergyStorage>> m_energy_storage;
-	std::list<std::unique_ptr<FlyEngine>> m_fly_engine;
-	std::list<std::unique_ptr<Weapon>> m_weapon;
-	std::list<std::unique_ptr<ShieldGenerator>> m_shield_generator;
-	std::list<std::unique_ptr<Trinket>> m_trinket;
+	std::vector<std::unique_ptr<EnergyStorage>> m_energy_storage;
+	std::vector<std::unique_ptr<FlyEngine>> m_fly_engine;
+	std::vector<std::unique_ptr<Weapon>> m_weapon;
+	std::vector<std::unique_ptr<ShieldGenerator>> m_shield_generator;
+	std::vector<std::unique_ptr<Trinket>> m_trinket;
 public:
 	Objects();
 	~Objects();
@@ -40,4 +40,4 @@ public:
 
 //Initialization functions;
 std::shared_ptr<Objects> initialize_object_storage();
-void initialize_render_info();
+void initialize_render_info(std::string const& path = "/");

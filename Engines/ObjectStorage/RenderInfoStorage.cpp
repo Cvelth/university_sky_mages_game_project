@@ -4,9 +4,9 @@ std::unordered_map<std::string, std::shared_ptr<RenderInfo>> RenderInfoStorage::
 std::unordered_map<std::string, RenderInfoStorage::Palette> RenderInfoStorage::m_palettes;
 bool RenderInfoStorage::wasRenderInfoLoaded;
 
-void initialize_render_info() {
+void initialize_render_info(std::string const& path) {
 	RenderInfoStorage render_info_storage;
-	render_info_storage.load();
+	render_info_storage.load(path);
 }
 void RenderInfoStorage::clean() {
 	wasRenderInfoLoaded = false;

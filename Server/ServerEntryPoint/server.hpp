@@ -2,11 +2,12 @@
 #include "Shared/AbstractException.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
+#include "Engines\ObjectStorage\Settings.hpp"
 void server_process(std::shared_ptr<Objects> objects);
 int server_main(int argc, char **argv) {
 	GameStateController::initialize(ProgramMode::Server);
 	auto objects = initialize_object_storage();
-	initialize_render_info();
+	initialize_render_info(objects->settings()->getStringValue("Render_Info_Path"));
 	try {
 		server_process(objects);
 	} catch (std::exception &e) {
@@ -183,14 +184,40 @@ inline void actors_help() {
 		<< " - [[deprecated]] actors clean - cleans actor data.\n"
 		<< " - actors broadcast - sends actor data to all the clients.\n";
 }
+#include "Objects/EquipableItems/EnergyStorage.hpp"
+#include "Objects/EquipableItems/FlyEngine.hpp"
+#include "Objects/EquipableItems/Shield.hpp"
+#include "Objects/EquipableItems/Trinket.hpp"
+#include "Objects/EquipableItems/Weapon.hpp"
 inline void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors) {
 	std::cout << "\rAdding new actor...";
 	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
-	actor->giveEnergyStorage(objects->get_energy_storage(""));
-	actor->giveFlyEngine(objects->get_fly_engine(""));
-	actor->giveLeftWeapon(objects->get_weapon(""));
-	actor->giveShieldGenerator(objects->get_shield_generator(""));
-	actor->giveTrinket(objects->get_trinket(""));
+
+	auto energy_storage = objects->get_energy_storage("");
+	actor->giveEnergyStorage(energy_storage);
+
+	auto fly_engine = objects->get_fly_engine("");
+	actor->giveFlyEngine(fly_engine);
+
+	auto left_weapon = objects->get_weapon("");
+	actor->giveLeftWeapon(left_weapon);
+
+	auto right_weapon = objects->get_weapon("");
+	actor->giveRightWeapon(right_weapon);
+
+	auto shield = objects->get_shield_generator("");
+	actor->giveShieldGenerator(shield);
+
+	auto trinket = objects->get_trinket("");
+	actor->giveTrinket(trinket);
+
+	std::cout << "\rActor was given:   \n\t"
+		<< energy_storage->name() << ",\n\t" << fly_engine->name() << ",\n\t" << left_weapon->name() << ",\n\t"
+		<< right_weapon->name() << ",\n\t" << shield->name() << " and\n\t";
+	if (trinket)
+		std::cout << trinket->name() << ".\n";
+	else
+		std::cout << "no trinket.\n";
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";
@@ -258,7 +285,6 @@ inline std::thread initialize_networking(bool &server_should_close, std::shared_
 
 	return Networking::initialize_server(server_should_close, on_peer_connect, on_peer_disconnect, on_packet_received);
 }
-#include "Engines\ObjectStorage\Settings.hpp"
 inline std::thread initialize_physics(PhysicsEngine *&engine, bool &server_should_close, std::shared_ptr<Objects> objects, std::shared_ptr<Map> &map, MainActorQueue &actors, DoubleProjectileQueue &projectiles, ObjectQueue &miscellaneous) {
 	engine = new PhysicsEngine([&server_should_close](void) { return server_should_close; }, actors, projectiles, miscellaneous);
 	engine->changeUpdateInterval(1'000'000 / objects->settings()->getUintValue("Physical_Updates_Per_Second"));
