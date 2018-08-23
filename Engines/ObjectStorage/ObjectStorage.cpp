@@ -36,10 +36,8 @@ void ObjectStorage::parse_line(std::string const& line) {
 	std::string string;
 	s >> string;
 	if (string == "Object") {
-		char placeholder;
-		size_t number;
-		s >> number >> placeholder >> string;
-		if (number == ++m_current_object_counter && number <= m_current_object_number)
+		s >> string;
+		if (++m_current_object_counter <= m_current_object_number)
 			initialize_object(_switch(string), s);
 		else
 			throw Exceptions::FileParsingException("File seems to be corrupted");
