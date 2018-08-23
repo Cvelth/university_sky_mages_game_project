@@ -80,7 +80,9 @@ inline void FlyEngine::set_value<float>(std::string const& name, float const& va
 	if (name == "mass") {
 		EquipableItem::addMass(value);
 		DependedAcceleratableObjectState::addMass(value);
-	} else if (name == "energy_usage_coefficient")
+	} else if (name == "chance_to_take_damage")
+		m_chance_to_take_damage = value; 
+	else if (name == "energy_usage_coefficient")
 		m_energy_usage_coefficient = value;
 	else if (name == "maximum_acceleration")
 		m_maximum_acceleration = value;

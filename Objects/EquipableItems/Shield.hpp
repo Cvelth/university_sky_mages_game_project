@@ -53,6 +53,8 @@ template<>
 inline void ShieldGenerator::set_value<float>(std::string const& name, float const& value) {
 	if (name == "mass")
 		addMass(value);
+	else if (name == "chance_to_take_damage")
+		m_chance_to_take_damage = value;
 	else if (name == "anti_energy_efficiency") {
 		if (value <= 0.f || value >= 1.f)
 			throw Exceptions::UnsupportedValueException(("Bad value of " + name + " was passed.").c_str());
