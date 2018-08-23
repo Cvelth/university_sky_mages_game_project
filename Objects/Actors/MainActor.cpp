@@ -201,13 +201,11 @@ MainActor::~MainActor() {
 #include <iostream>
 #include <random>
 #include "Objects/EquipableItems/Trinket.hpp"
+static std::mt19937 g((std::random_device())());
+static std::uniform_real_distribution<float> d(0.f, 1.f);
 void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (!m_shield || !m_shield->was_hit(so)) {
-		std::mt19937 g((std::random_device())());
-		std::uniform_real_distribution<float> d(0.f, 1.f);
-
 		float damage = d(g);
-
 		if (damage <= 0) {
 			std::cout << "nothing.\n: ";
 			return;

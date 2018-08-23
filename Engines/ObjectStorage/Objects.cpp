@@ -25,13 +25,13 @@ std::string Objects::get_program_version() {
 }
 
 #include <random>
+static std::mt19937 g((std::random_device())());
 template <typename T>
 T* get_object(std::string const& name, std::vector<std::unique_ptr<T>> const& list, bool can_be_empty = false) {
 	if (name != "")
 		if (auto ret = std::find_if(list.begin(), list.end(), [&name](std::unique_ptr<T> const& it) { return name == it->name(); }); ret != list.end())
 			return new T(**ret);
 
-	std::mt19937 g((std::random_device())());
 	std::uniform_int_distribution<size_t> d(0, can_be_empty ? list.size() : list.size() - 1);
 
 	auto index = d(g);
