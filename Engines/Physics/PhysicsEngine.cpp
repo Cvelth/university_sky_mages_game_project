@@ -42,6 +42,9 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 				processForces(go);
 				if (processMovement(go, m_map))
 					m_projectile_queue->remove(go);
+				if (GameStateController::mode() == ProgramMode::Server) 
+					if (processTargeting(go, m_actor_queue))
+						m_projectile_queue->remove(go);
 			});
 			m_object_queue.for_each([this](std::shared_ptr<IndependentObject> go) {
 				processForces(go);
