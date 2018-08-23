@@ -3,6 +3,7 @@
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Objects/EquipableItems/Shield.hpp"
+#include "Objects/EquipableItems/Trinket.hpp"
 
 void MainActor::giveEnergyStorage(EnergyStorage *es) {
 	m_energy_storage = es;
@@ -79,6 +80,48 @@ void MainActor::giveShieldGenerator(ShieldGenerator *sg) {
 	m_shield = sg;
 	if (m_shield) m_shield->connect_to_energy_source(m_energy_storage);
 }
+void MainActor::giveTrinket(Trinket *t) {
+	m_trinket = t;
+}
+
+EnergyStorage* MainActor::takeEnergyStorage() {
+	if (m_engine) m_engine->connect_to_energy_source(nullptr);
+	if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(nullptr);
+	if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(nullptr);
+	if (m_shield) m_shield->connect_to_energy_source(nullptr);
+	auto ret = m_energy_storage;
+	m_energy_storage = nullptr;
+	return ret;
+}
+FlyEngine* MainActor::takeFlyEngine() {
+	if (m_engine) m_engine->connect_to_energy_source(nullptr);
+	auto ret = m_engine;
+	m_engine = nullptr;
+	return ret;
+}
+Weapon* MainActor::takeRightWeapon() {
+	m_weapon_right_arm->connect_to_energy_source(nullptr);
+	auto ret = m_weapon_right_arm;
+	m_weapon_right_arm = nullptr;
+	return ret;
+}
+Weapon* MainActor::takeLeftWeapon() {
+	m_weapon_left_arm->connect_to_energy_source(nullptr);
+	auto ret = m_weapon_left_arm;
+	m_weapon_left_arm = nullptr;
+	return ret;
+}
+ShieldGenerator* MainActor::takeShieldGenerator() {
+	m_shield->connect_to_energy_source(nullptr);
+	auto ret = m_shield;
+	m_shield = nullptr;
+	return ret;
+}
+Trinket* MainActor::takeTrinket() {
+	auto ret = m_trinket;
+	m_trinket = nullptr;
+	return ret;
+}
 
 void MainActor::aim(float x, float y) {
 	m_aim_x = x;
@@ -123,7 +166,10 @@ vector MainActor::acceleration(scalar const& time_correct) const {
 		(m_engine ? m_engine->acceleration(mass(), time_correct) : vector(0.f, 0.f));
 }
 vector MainActor::get_acceleration() const {
-	return m_acceleration + m_engine->get_acceleration();
+	if (m_engine)
+		return m_acceleration + m_engine->get_acceleration();
+	else
+		return m_acceleration;
 }
 void MainActor::update_state(vector const& acceleration, vector const& speed, vector const& position, float capacity_percent) {
 	m_engine->update_acceleration(acceleration);
@@ -148,13 +194,75 @@ MainActor::~MainActor() {
 	if (m_engine) delete m_engine;
 	if (m_weapon_left_arm) delete m_weapon_left_arm;
 	if (m_weapon_right_arm) delete m_weapon_right_arm;
+	if (m_shield) delete m_shield;
+	if (m_trinket) delete m_trinket;
 }
 
 #include <iostream>
-void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
-	if (m_shield)
-		if (!m_shield->was_hit(so)) {
+#include <random>
+#include "Objects/EquipableItems/Trinket.hpp"
+bool MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
+	if (m_shield && !m_shield->was_hit(so)) {
+		std::random_device rd;
+		std::mt19937 g;
+		std::uniform_real_distribution<float> d(0.f, 1.f);
+
+		float damage = d(g);
+
+		if (damage <= 0) {
 			std::cout << "nothing.\n: ";
-			//To be implemented.
+			return false;
 		}
+		if (m_trinket) {
+			damage -= m_trinket->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_trinket->name() << ".\n: ";
+				delete takeTrinket();
+				return false;
+			}
+		}
+		if (m_shield) {
+			damage -= m_shield->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_shield->name() << ".\n: ";
+				delete takeShieldGenerator();
+				return false;
+			}
+		}
+		if (m_weapon_right_arm) {
+			damage -= m_weapon_right_arm->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_weapon_right_arm->name() << ".\n: ";
+				delete takeRightWeapon();
+				return false;
+			}
+		}
+		if (m_weapon_left_arm) {
+			damage -= m_weapon_left_arm->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_weapon_left_arm->name() << ".\n: ";
+				delete takeLeftWeapon();
+				return false;
+			}
+		}
+		if (m_engine) {
+			damage -= m_engine->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_engine->name() << ".\n: ";
+				delete takeFlyEngine();
+				return false;
+			}
+		}
+		if (m_energy_storage) {
+			damage -= m_energy_storage->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << m_energy_storage->name() << ".\n: ";
+				delete takeEnergyStorage();
+				return false;
+			}
+		}
+		std::cout << "his life.\n: ";
+		return true;
+	}
+	return false;
 }
