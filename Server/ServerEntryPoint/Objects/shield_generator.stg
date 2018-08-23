@@ -8,8 +8,8 @@ string name = GenericAntiBulletShieldGenerator
 string description = Generic anti-bullet shield generator, able to stop bullets with good eficiency.
 float mass = 4.0
 
-float anti_energy_efficiency = 0.3
-float anti_projectile_efficiency = 0.7
-float anti_bullet_efficiency = 1.0
-float activation_energy = 10000.0
-float energy_per_second = 2000.0
+float anti_energy_efficiency = 0.2
+float anti_projectile_efficiency = 0.5
+float anti_bullet_efficiency = 0.9
+float activation_energy = 2000.0
+float energy_per_second = 500.0
