@@ -41,6 +41,12 @@ public:
 	inline typename std::enable_if<queue_number >= 2>::type swap() {
 		m_current_queue = next_queue();
 	}
+
+	inline typename std::enable_if<queue_number >= 2>::type clone() {
+		auto next = next_queue();
+		m_queues[next].clear();
+		m_queues[next] = get();
+	}
 };
 #include <set>
 template <typename Type>
