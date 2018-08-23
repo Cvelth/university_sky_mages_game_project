@@ -12,6 +12,7 @@ class Objects;
 class ShootableObject;
 class ProjectileQueue;
 enum class ControlEvent;
+enum class ShootableObjectType;
 
 class ObjectsStatic {
 	static Objects *m_objects;
@@ -62,6 +63,7 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, ProjectileQueue &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, ControlEvent &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, ShootableObjectType &v);
 };
 
 class MessageOutputStream {
@@ -90,6 +92,7 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, ControlEvent const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, ShootableObjectType const& v);
 };
 
 template <typename Head>

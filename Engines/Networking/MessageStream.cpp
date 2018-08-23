@@ -298,8 +298,9 @@ MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue co
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v) {
 	std::string string;
 	float ax, ay, vx, vy, px, py, sx, sy, d, m;
-	s >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
-	v = std::make_shared<ShootableObject>(RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
+	ShootableObjectType type;
+	s >> type >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
+	v = std::make_shared<ShootableObject>(type, RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v) {
@@ -307,7 +308,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Shootabl
 	auto speed = v->speed();
 	auto position = v->position();
 	auto size = v->size();
-	s << RenderInfoStorage::getRenderInfo(v->getRenderInto())
+	s << v->type() << RenderInfoStorage::getRenderInfo(v->getRenderInto())
 		<< v->mass() << acceleration.at(0) << acceleration.at(1)
 		<< speed.at(0) << speed.at(1) << position.at(0) << position.at(1)
 		<< size.at(0) << size.at(1) << v->damage();
@@ -340,5 +341,15 @@ MessageInputStream& operator>>(MessageInputStream &s, ControlEvent &v) {
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, ControlEvent const& v) {
+	return s << uint8_t(v);
+}
+
+MessageInputStream& operator>>(MessageInputStream &s, ShootableObjectType &v) {
+	uint8_t temp;
+	s >> temp;
+	v = ShootableObjectType(temp);
+	return s;
+}
+MessageOutputStream& operator<<(MessageOutputStream &s, ShootableObjectType const& v) {
 	return s << uint8_t(v);
 }
