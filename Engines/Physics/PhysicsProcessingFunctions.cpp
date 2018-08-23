@@ -64,8 +64,8 @@ bool PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Objects/ObjectState/ObjectQueue.hpp"
-void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue) {
-	for (auto projectile : ma->shootingProcess())
+void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue, size_t id) {
+	for (auto projectile : ma->shootingProcess(id))
 		if (projectile)
 			projectile_queue->add(projectile);
 }
@@ -73,12 +73,14 @@ void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProject
 #include "Objects/AbstractObjects/ShootableObject.hpp"
 bool PhysicsEngine::processTargeting(std::shared_ptr<ShootableObject> so, MainActorQueue &actors) {
 	bool ret = false;
-	actors.for_each([&so, &ret](std::shared_ptr<MainActor> a) {
-		auto distance = a->position() - so->position();
-		if (fabs(distance.at(0)) < (so->size().at(0) + a->size().at(0)) / 2 && fabs(distance.at(1)) < (so->size().at(1) + a->size().at(1)) / 2) {
-			if (true/*second check is to be implemented here*/) {
-				a->was_hit(so);
-				ret = true;
+	actors.for_each([&so, &ret, &actors](std::shared_ptr<MainActor> a) {
+		if (actors.at(so->shooter_id()) != a) {
+			auto distance = a->position() - so->position();
+			if (fabs(distance.at(0)) < (so->size().at(0) + a->size().at(0)) / 2 && fabs(distance.at(1)) < (so->size().at(1) + a->size().at(1)) / 2) {
+				if (true/*second check is to be implemented here*/) {
+					a->was_hit(so);
+					ret = true;
+				}
 			}
 		}
 	});
