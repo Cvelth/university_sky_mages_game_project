@@ -190,6 +190,7 @@ inline void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors)
 	actor->giveFlyEngine(objects->get_fly_engine(""));
 	actor->giveLeftWeapon(objects->get_weapon(""));
 	actor->giveShieldGenerator(objects->get_shield_generator(""));
+	actor->giveTrinket(objects->get_trinket(""));
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";
