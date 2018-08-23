@@ -1,13 +1,14 @@
 #pragma once
 #include "Objects/AbstractObjects/EquipableItem.hpp"
 #include "Objects/AbstractObjects/ShootableObject.hpp"
+class EnergyStorage;
+class ObjectStorage;
+class MainActor;
 
 enum class WeaponSize {
 	Small = 3, One_Arm = 1, One_And_A_Half_Arm = 4, Two_Arm = 2, Big = 5
 };
 
-class EnergyStorage;
-class ObjectStorage;
 class Weapon : public EquipableItem {
 	friend ObjectStorage;
 private:
@@ -54,7 +55,7 @@ public:
 		return is_activated && is_reloaded();
 	}
 	bool is_reloaded() const;
-	std::shared_ptr<ShootableObject> shoot(float current_x, float current_y, float destination_x, float destination_y) const;
+	std::shared_ptr<ShootableObject> shoot(size_t shooter_id, float current_x, float current_y, float destination_x, float destination_y) const;
 private:
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);

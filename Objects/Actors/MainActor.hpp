@@ -30,8 +30,8 @@ protected:
 	float m_aim_y;
 
 protected:
-	std::shared_ptr<ShootableObject> shootRightWeapon();
-	std::shared_ptr<ShootableObject> shootLeftWeapon();
+	std::shared_ptr<ShootableObject> shootRightWeapon(size_t id);
+	std::shared_ptr<ShootableObject> shootLeftWeapon(size_t id);
 public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
 			  vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info);
@@ -51,7 +51,7 @@ public:
 	void activateShieldGenerator();
 	void deactivateShieldGenerator();
 
-	std::vector<std::shared_ptr<ShootableObject>> shootingProcess();
+	std::vector<std::shared_ptr<ShootableObject>> shootingProcess(size_t id);
 	void was_hit(std::shared_ptr<ShootableObject> so);
 
 	inline EnergyStorage* energy_storage() const { return m_energy_storage; }

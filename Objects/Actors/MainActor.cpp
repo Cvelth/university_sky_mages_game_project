@@ -103,19 +103,19 @@ void MainActor::deactivateShieldGenerator() {
 	if (m_shield) m_shield->deactivate();
 }
 
-std::shared_ptr<ShootableObject> MainActor::shootRightWeapon() {
+std::shared_ptr<ShootableObject> MainActor::shootRightWeapon(size_t id) {
 	if (m_weapon_right_arm)
-		return m_weapon_right_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
+		return m_weapon_right_arm->shoot(id, m_position[0], m_position[1], m_aim_x, m_aim_y);
 	return nullptr;
 }
-std::shared_ptr<ShootableObject> MainActor::shootLeftWeapon() {
+std::shared_ptr<ShootableObject> MainActor::shootLeftWeapon(size_t id) {
 	if (m_weapon_left_arm && m_weapon_right_arm != m_weapon_left_arm)
-		return m_weapon_left_arm->shoot(m_position[0], m_position[1], m_aim_x, m_aim_y);
+		return m_weapon_left_arm->shoot(id, m_position[0], m_position[1], m_aim_x, m_aim_y);
 	return nullptr;
 }
-std::vector<std::shared_ptr<ShootableObject>> MainActor::shootingProcess() {
+std::vector<std::shared_ptr<ShootableObject>> MainActor::shootingProcess(size_t id) {
 	if (m_shield) m_shield->shield();
-	return { shootRightWeapon(), shootLeftWeapon() };
+	return { shootRightWeapon(id), shootLeftWeapon(id) };
 }
 void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 	if (m_shield)
