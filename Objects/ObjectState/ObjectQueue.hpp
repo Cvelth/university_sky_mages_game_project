@@ -78,6 +78,8 @@ public:
 	virtual void remove(std::shared_ptr<Type> object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), object)); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>, size_t)> &lambda) { size_t i = 0u; for (auto &it : m_queue) lambda(it, i++); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>, size_t)> &lambda) const { size_t i = 0u; for (auto &it : m_queue) lambda(it, i++); }
 	virtual size_t size() const override { return m_queue.size(); }
 	virtual void clear() override { m_queue.clear(); }
 
