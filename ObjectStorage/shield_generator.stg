@@ -10,9 +10,9 @@ float chance_to_take_damage = 0.4
 
 float anti_energy_efficiency = 0.2
 float anti_projectile_efficiency = 0.4
-float anti_bullet_efficiency = 0.6
-float activation_energy = 2000.0
-float energy_per_second = 200.0
+float anti_bullet_efficiency = 0.8
+float activation_energy = 100000.0
+float energy_per_second = 100000.0
 
 
 Object ShieldGenerator
@@ -22,10 +22,10 @@ float mass = 6.0
 float chance_to_take_damage = 0.4
 
 float anti_energy_efficiency = 0.2
-float anti_projectile_efficiency = 0.6
+float anti_projectile_efficiency = 0.8
 float anti_bullet_efficiency = 0.4
-float activation_energy = 2000.0
-float energy_per_second = 200.0
+float activation_energy = 100000.0
+float energy_per_second = 100000.0
 
 
 Object ShieldGenerator
@@ -34,8 +34,8 @@ string description = Generic anti-energy shield generator, able to stop energy-d
 float mass = 6.0
 float chance_to_take_damage = 0.4
 
-float anti_energy_efficiency = 0.9
-float anti_projectile_efficiency = 0.1
-float anti_bullet_efficiency = 0.1
-float activation_energy = 2000.0
-float energy_per_second = 200.0
+float anti_energy_efficiency = 0.999
+float anti_projectile_efficiency = 0.2
+float anti_bullet_efficiency = 0.2
+float activation_energy = 100000.0
+float energy_per_second = 100000.0
