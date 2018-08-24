@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects/ObjectState/DependentObject.hpp"
+#include "Objects/Objects/DependentObjectState.hpp"
 
 class DependedAcceleratableObjectState : public DependentObjectState {
 protected:

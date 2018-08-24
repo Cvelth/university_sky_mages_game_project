@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "Objects/ObjectState/IndependentObject.hpp"
+#include "Objects/Objects/IndependentObjectState.hpp"
 class PhysicsEngine;
 
 class IndependentObject : public IndependentObjectState {

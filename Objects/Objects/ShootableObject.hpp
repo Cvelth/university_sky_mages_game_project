@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects/AbstractObjects/IndependentObject.hpp"
+#include "Objects/Objects/IndependentObject.hpp"
 
 enum class ShootableObjectType {
 	Energy = 1, Physical = 2, Bullet = 3
