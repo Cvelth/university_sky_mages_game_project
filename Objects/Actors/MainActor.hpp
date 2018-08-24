@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Objects/AbstractObjects/ActorObject.hpp"
+#include "Objects/Actors/Actor.hpp"
 #include "Shared/AbstractException.hpp"
 DefineNewException(UnsupportableItemWasGivenException)
 
