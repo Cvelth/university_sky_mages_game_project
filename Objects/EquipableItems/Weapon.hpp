@@ -23,6 +23,7 @@ protected:
 	float m_initial_ammo_mass;
 	float m_initial_ammo_size_h;
 	float m_initial_ammo_size_v;
+	std::string m_ammo_render_info;
 
 	size_t m_ammo_capacity;
 	float m_reload_cooldown;
@@ -70,6 +71,8 @@ inline void Weapon::set_value<std::string>(std::string const& name, std::string 
 		m_name = value;
 	else if (name == "description")
 		m_description = value;
+	else if (name == "ammo_render_info")
+		m_ammo_render_info = value;
 	else
 		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }

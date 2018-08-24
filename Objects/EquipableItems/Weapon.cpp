@@ -3,14 +3,6 @@
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
-std::shared_ptr<RenderInfo> projectileRenderInfo(ShootableObjectType ammo_type) {
-	switch (ammo_type) {
-	case ShootableObjectType::Bullet: return RenderInfoStorage::getRenderInfo("AbstractBulletProjectile");
-	case ShootableObjectType::Physical: return RenderInfoStorage::getRenderInfo("AbstractPhysicalProjectile");
-	case ShootableObjectType::Energy: return RenderInfoStorage::getRenderInfo("AbstractEnergyProjectile");
-	default: throw Exceptions::UnsupportedProjectileType("Unsupported projectile type was attempted to be rendered.");
-	}
-}
 #include "Shared/TimeControl.hpp"
 bool Weapon::is_reloaded() const {
 	if (m_current_ammo)
@@ -29,7 +21,7 @@ std::shared_ptr<ShootableObject> Weapon::shoot(size_t shooter_id, float current_
 		m_last_shot_time = now();
 		if (!m_autofire_supported)
 			is_activated = false;
-		return std::make_shared<ShootableObject>(m_ammo_type, shooter_id, m_damage, projectileRenderInfo(m_ammo_type),
+		return std::make_shared<ShootableObject>(m_ammo_type, shooter_id, m_damage, RenderInfoStorage::getRenderInfo(m_ammo_render_info),
 			m_initial_ammo_mass, m_initial_ammo_size_h, m_initial_ammo_size_v,
 			current_x, current_y, destination_x, destination_y, m_initial_ammo_speed);
 	} else
