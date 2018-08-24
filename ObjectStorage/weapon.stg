@@ -3,7 +3,7 @@ Weapon.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 3 obje
 # Structure of a line : "- field_type field-name = field_value"
 
 Object Weapon
-string name = GenericSemiautomaticBulletWeapon
+string name = Semiautomatic Gun
 string description = Generic semiautomatic bullet weapon, able to fire average amount of bullets with good eficiency.
 float mass = 7.0
 float chance_to_take_damage = 0.4
@@ -27,8 +27,8 @@ float energy_usage_coefficient = 0.09
 
 
 Object Weapon
-string name = GenericAutomaticBulletWeapon
-string description = Generic automatic bullet weapon, able to fire a lot of bullets.
+string name = Automatic Gun
+string description = Generic automatic bullet weapon, able to fire a lot of bullets with poor efficiency.
 float mass = 13.0
 float chance_to_take_damage = 0.6
 
@@ -47,11 +47,11 @@ float initial_ammo_size_v = 0.005
 u_int ammo_capacity = 30
 float reload_cooldown = 0.9
 
-float energy_usage_coefficient = 0.09
+float energy_usage_coefficient = 0.10
 
 
 Object Weapon
-string name = GenericManualBulletWeapon
+string name = Non-automatic Gun
 string description = Generic manual bullet weapon, able to fire low amount of bullets with incredible efficiency.
 float mass = 4.0
 float chance_to_take_damage = 0.2
@@ -71,4 +71,4 @@ float initial_ammo_size_v = 0.005
 u_int ammo_capacity = 7
 float reload_cooldown = 0.3
 
-float energy_usage_coefficient = 0.09
+float energy_usage_coefficient = 0.08
