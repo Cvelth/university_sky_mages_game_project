@@ -4,6 +4,14 @@ EnergyStorage::EnergyStorage(float capacity) : EquipableItem(), m_maximum_capaci
 	m_energy_loss_time = now();
 }
 
+EnergyStorage::EnergyStorage(EnergyStorage const & other)
+					: EquipableItem(other), m_maximum_capacity(other.m_maximum_capacity),
+					m_current_capacity(other.m_maximum_capacity),
+					m_energy_usage_coefficient(other.m_energy_usage_coefficient),
+					m_energy_percent_loss_per_second(other.m_energy_percent_loss_per_second) {
+	m_energy_loss_time = now();
+}
+
 #include <cmath>
 void EnergyStorage::calculate_energy_loss() {
 	auto time = now();

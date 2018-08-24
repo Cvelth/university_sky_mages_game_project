@@ -15,6 +15,7 @@ protected:
 	void calculate_energy_loss();
 	EnergyStorage(float capacity);
 public:
+	EnergyStorage(EnergyStorage const& other);
 	~EnergyStorage() {}
 
 	[[deprecated]] virtual void make_empty() {
