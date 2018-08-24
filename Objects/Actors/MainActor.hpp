@@ -36,7 +36,7 @@ protected:
 	std::shared_ptr<ShootableObject> shootLeftWeapon(size_t id);
 public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
-			  vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info);
+			  vector const& position, vector const& size, std::string const& render_info);
 	~MainActor();
 
 	void giveEnergyStorage(EnergyStorage *es);
