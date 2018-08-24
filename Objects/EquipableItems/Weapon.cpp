@@ -1,5 +1,5 @@
 #include "Weapon.hpp"
-#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 #include "Objects/EquipableItems/EnergyStorage.hpp"
 #include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 

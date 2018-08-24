@@ -1,5 +1,5 @@
 #include "PhysicsEngine.hpp"
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 
 size_t PhysicsEngine::UpdateInterval = 16667ul;
 
@@ -20,9 +20,9 @@ void PhysicsEngine::initializeCollisionSystem(std::shared_ptr<Map> map) {
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include "Objects/AbstractObjects/IndependentObject.hpp"
+#include "Objects/Objects/IndependentObject.hpp"
 #include "Objects/Actors/MainActor.hpp"
-#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 #include "Shared/GameStateController.hpp"
 #include "Engines/Networking/Networking.hpp"
 #include "Engines/Networking/Message.hpp"

@@ -1,6 +1,6 @@
 #pragma once
-#include "Objects/AbstractObjects/EquipableItem.hpp"
-#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/EquipableItem.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 
 class EnergyStorage;
 class ObjectStorage;

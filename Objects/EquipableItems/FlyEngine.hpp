@@ -1,6 +1,6 @@
 #pragma once
-#include "Objects/AbstractObjects/EquipableItem.hpp"
-#include "Objects/ObjectState/DependedAcceleratableObject.hpp"
+#include "Objects/Objects/EquipableItem.hpp"
+#include "Objects/Objects/DependedAcceleratableObjectState.hpp"
 #define invert_if(inverted, value) (inverted ? +value : -value)
 
 class EnergyStorage;
