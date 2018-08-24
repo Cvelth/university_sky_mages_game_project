@@ -127,11 +127,11 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<Block> &v)
 	float f; 
 	std::string r;
 	s >> f >> r;
-	v = std::make_shared<Block>(f, RenderInfoStorage::getRenderInfo(r));
+	v = std::make_shared<Block>(f, r);
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Block> const& v) {
-	s << v->get() << RenderInfoStorage::getRenderInfo(v->renderInfo());
+	s << v->get() << v->renderInfo();
 	return s;
 }
 
@@ -211,8 +211,7 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor>
 
 	std::string string;
 	s >> string;
-	auto render_info = RenderInfoStorage::getRenderInfo(string);
-	v = std::make_shared<MainActor>(mass, acceleration, speed, position, size, render_info);
+	v = std::make_shared<MainActor>(mass, acceleration, speed, position, size, string);
 	if (!is_alive)
 		v->die();
 
@@ -240,7 +239,7 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor>
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActor> const& v) {
 	s << v->m_is_alive << v->m_mass << v->m_acceleration.at(0) << v->m_acceleration.at(1)
 		<< v->m_speed.at(0) << v->m_speed.at(1) << v->m_position.at(0) << v->m_position.at(0)
-		<< v->m_size.at(0) << v->m_size.at(1) << RenderInfoStorage::getRenderInfo(v->m_render_info)
+		<< v->m_size.at(0) << v->m_size.at(1) << v->m_render_info
 		<< (v->m_energy_storage ? v->m_energy_storage->name() : "")
 		<< (v->m_engine ? v->m_engine->name() : "")
 		<< (v->m_weapon_left_arm ? v->m_weapon_left_arm->name() : "")
@@ -323,7 +322,7 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableO
 	float ax, ay, vx, vy, px, py, sx, sy, d, m;
 	ShootableObjectType type;
 	s >> type >> id >> string >> m >> ax >> ay >> vx >> vy >> px >> py >> sx >> sy >> d;
-	v = std::make_shared<ShootableObject>(type, id, RenderInfoStorage::getRenderInfo(string), m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
+	v = std::make_shared<ShootableObject>(type, id, string, m, vector(ax, ay), vector(vx, vy), vector(px, py), vector(sx, sy), d);
 	return s;
 }
 MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v) {
@@ -331,7 +330,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Shootabl
 	auto speed = v->speed();
 	auto position = v->position();
 	auto size = v->size();
-	s << v->type() << uint8_t(v->shooter_id()) << RenderInfoStorage::getRenderInfo(v->getRenderInto())
+	s << v->type() << uint8_t(v->shooter_id()) << v->getRenderInfo()
 		<< v->mass() << acceleration.at(0) << acceleration.at(1)
 		<< speed.at(0) << speed.at(1) << position.at(0) << position.at(1)
 		<< size.at(0) << size.at(1) << v->damage();
