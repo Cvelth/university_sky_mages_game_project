@@ -3,7 +3,7 @@ Trinket.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 1 obj
 # Structure of a line : "- field_type field-name = field_value"
 
 Object Trinket
-string name = LuckyTalisman
+string name = Lucky Talisman
 string description = Does nothing. Has small chance to save your life.
 float mass = 0.35
 float chance_to_take_damage = 0.15
