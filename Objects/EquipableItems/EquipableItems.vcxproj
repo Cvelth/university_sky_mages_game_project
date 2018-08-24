@@ -31,17 +31,6 @@
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
-      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AbstractObjects\AbstractObjects.vcxproj">
-      <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ObjectState\ObjectState.vcxproj">
-      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{DFDDC18D-7CDB-4842-94B5-5F7332AC95EC}</ProjectGuid>

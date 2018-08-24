@@ -157,6 +157,9 @@
     <ProjectReference Include="..\..\Engines\Physics\Physics.vcxproj">
       <Project>{1a6b1b96-89c0-46a7-a6bf-3d43298d7e26}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
+      <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Objects\EquipableItems\EquipableItems.vcxproj">
       <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
     </ProjectReference>

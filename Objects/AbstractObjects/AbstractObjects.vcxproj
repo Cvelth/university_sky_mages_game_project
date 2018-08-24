@@ -120,11 +120,6 @@
     <ClInclude Include="IndependentObject.hpp" />
     <ClInclude Include="ShootableObject.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ObjectState\ObjectState.vcxproj">
-      <Project>{73c2c7ed-90fe-44d1-9402-1056a1624f18}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -180,14 +180,6 @@
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="Networking.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
-      <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Shared.vcxproj">
-      <Project>{e8a62825-babb-48af-8c6f-c57c08bd594d}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
