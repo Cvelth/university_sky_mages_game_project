@@ -1,7 +1,7 @@
 #include "server.hpp"
 #include <thread>
 #include <iostream>
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 #include "Objects/Actors/MainActor.hpp"
 
 #include "Engines/Networking/Message.hpp"

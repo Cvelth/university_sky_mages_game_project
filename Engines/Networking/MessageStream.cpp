@@ -277,7 +277,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, Update<std::shared_ptr<M
 	return s;
 }
 
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, MainActorQueue &v) {
 	v.clear();
 	uint16_t size;
@@ -315,7 +315,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, Update<MainActorQueue co
 	return s;
 }
 
-#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v) {
 	std::string string;
 	uint8_t id;

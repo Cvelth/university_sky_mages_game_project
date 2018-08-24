@@ -20,7 +20,7 @@ int client_main() {
 }
 
 #include "Client/Controller/ControllerInterface.hpp"
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 #include "Client/Window/Window.hpp"
 #include "Engines/Physics/PhysicsEngine.hpp"
 #include "Engines/ObjectStorage/MapStorage.hpp"

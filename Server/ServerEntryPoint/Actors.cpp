@@ -25,7 +25,7 @@ void actors_(MainActorQueue &actors, std::istream &input) {
 #include "Engines/ObjectStorage/Objects.hpp"
 #include "Engines/ObjectStorage/Settings.hpp"
 
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 #include "Objects/Actors/MainActor.hpp"
 
 #include "Objects/EquipableItems/EnergyStorage.hpp"
