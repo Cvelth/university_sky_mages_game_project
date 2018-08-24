@@ -51,7 +51,7 @@ public:
 		accelerate_h(invert_if(!inverted, acceleration));
 	}
 	void activate_anti_gravity(float expected_mass) {
-		if (m_anti_gravity_expected_mass != 0.f)
+		if (m_anti_gravity_expected_mass == 0.f)
 			m_anti_gravity_expected_mass = expected_mass;
 		else
 			m_anti_gravity_expected_mass = 0.f;
