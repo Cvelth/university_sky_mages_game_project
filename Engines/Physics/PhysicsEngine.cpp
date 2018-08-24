@@ -32,13 +32,12 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
 		if (GameStateController::state() == GameState::Normal) {
-			size_t id = 0;
-			m_actor_queue.for_each([this, &id](std::shared_ptr<MainActor> go) {
+			m_actor_queue.for_each([this](std::shared_ptr<MainActor> go, size_t id) {
 				if (go->is_alive()) {
 					processForces(go);
 					processMovement(go, m_map);
 					if (GameStateController::mode() == ProgramMode::Server)
-						processWeaponry(go, m_projectile_queue, id++);
+						processWeaponry(go, m_projectile_queue, id);
 				}
 			});
 			if (GameStateController::mode() == ProgramMode::Server)
