@@ -26,7 +26,7 @@ std::pair<size_t, std::shared_ptr<Block>> read_block(std::string const& line) {
 	float temp;
 	std::string render_info;
 	s >> id >> temp >> render_info;
-	return std::make_pair(id, std::make_shared<Block>(temp, RenderInfoStorage::getRenderInfo(render_info)));
+	return std::make_pair(id, std::make_shared<Block>(temp, render_info));
 }
 std::pair<size_t, size_t> read_cell_data(std::string const& line) {
 	std::istringstream s(line);
@@ -81,17 +81,17 @@ std::string MapStorage::map_to_string(std::shared_ptr<Map> map) {
 	std::unordered_map<std::shared_ptr<Block>, size_t> ids;
 	for (auto &it : map->get_blocks_data()) {
 		ids.insert(std::make_pair(it, current_id));
-		s << current_id++ << ' ' << it->get() << ' ' << RenderInfoStorage::getRenderInfo(it->renderInfo()) << '\n';
+		s << current_id++ << ' ' << it->get() << ' ' << it->renderInfo() << '\n';
 	}
 
 	auto temp = std::find(map->get_blocks_data().begin(), map->get_blocks_data().end(), map->default_block());
 	if (temp == map->get_blocks_data().end()) {
 		ids.insert(std::make_pair(map->default_block(), current_id));
 		s << "DefaultBlock\n" << current_id++ << ' ' << map->default_block()->get() << ' '
-			<< RenderInfoStorage::getRenderInfo(map->default_block()->renderInfo()) << '\n';
+			<< map->default_block()->renderInfo() << '\n';
 	} else
 		s << "DefaultBlock\n" << ids[*temp] << ' ' << (*temp)->get() << ' '
-		<< RenderInfoStorage::getRenderInfo((*temp)->renderInfo()) << '\n';
+		<< (*temp)->renderInfo() << '\n';
 
 	s << "CellData " << map->width() << ' ' << map->height() << "\n";
 	for (size_t y = 0; y < map->height(); y++) {
