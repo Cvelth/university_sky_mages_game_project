@@ -7,12 +7,13 @@
 #include "Objects/Actors/MainActor.hpp"
 #include "Client/Controller/Camera.hpp"
 #include "Engines/Graphics/RenderInfo.hpp"
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
 template <typename Type> 
 inline void sendRenderInfo(std::shared_ptr<Type> go, mgl::VertexArray *va) {
-	if (!go->getRenderInto()->isInitialized()) {
-		go->getRenderInto()->insertVertexArray(va);
-		go->getRenderInto()->send(mgl::DataUsage::StaticDraw);
+	if (auto render_info = RenderInfoStorage::getRenderInfo(go->getRenderInfo()); !render_info->isInitialized()) {
+		render_info->insertVertexArray(va);
+		render_info->send(mgl::DataUsage::StaticDraw);
 	}
 }
 
@@ -56,7 +57,7 @@ void renderSingleQueue(AbstractQueueInterface<Type> &queue, QueueProgram &queue_
 				position[0] <= maxX && position[1] <= maxY) {
 
 				queue_program->sendUniform(queue_program.translation, mgl::math::vectorH(position[0], position[1], 0.f, 0.f));
-				go->getRenderInto()->draw();
+				RenderInfoStorage::getRenderInfo(go->getRenderInfo())->draw();
 			}
 		}
 	});
@@ -75,7 +76,7 @@ void MyGraphicsLibraryEngine::renderQueues() {
 template <typename Type>
 void cleanSingleQueueRendering(AbstractQueueInterface<Type> &queue, QueueProgram &queue_program) {
 	queue.for_each([](std::shared_ptr<Type> go) {
-		go->getRenderInto()->clean();
+		RenderInfoStorage::getRenderInfo(go->getRenderInfo())->clean();
 	});
 
 	if (queue_program.translation) delete queue_program.translation;
