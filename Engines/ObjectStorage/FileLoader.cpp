@@ -66,4 +66,5 @@ void FileLoader::load(std::string const& path_string, std::string const& file_ex
 								first_line_parsed = true;
 							}
 				}
+	finalize_parsing();
 }

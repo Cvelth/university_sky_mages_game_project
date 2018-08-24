@@ -96,6 +96,10 @@ void RenderInfoStorage::parse_line(std::string const& line) {
 		throw Exceptions::FileParsingException("File seems to be corrupted");
 }
 
+void RenderInfoStorage::finalize_parsing() {
+	finalize_object(empty_mode);
+}
+
 #include "../MyGraphicsLibrary/mgl/Math/Vector.hpp"
 #include "../MyGraphicsLibrary/mgl/SharedHeaders/Color.hpp"
 RenderInfoStorage::RenderInfoStorage() : m_current_mode(0u), m_current_color(std::make_shared<mgl::Color>(0.f, 0.f, 0.f)), 

@@ -30,6 +30,8 @@ protected:
 protected:
 	virtual void parse_file_type_info(std::string const& line) override;
 	virtual void parse_line(std::string const& line) override;
+	virtual void finalize_parsing() override;
+
 	virtual bool parse_special_line(std::string const& line);
 	virtual void parse_object_line(std::string const& line) { return parse_object_line(line, 0u); }
 	virtual void parse_object_line(std::string const& line, size_t index);
