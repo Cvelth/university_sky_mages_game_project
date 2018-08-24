@@ -46,7 +46,6 @@ public:
 	RenderInfoStorage();
 	static std::shared_ptr<RenderInfo> getRenderInfo(std::string const& obj);
 	static std::shared_ptr<RenderInfo> getRenderInfo(std::string const& obj, size_t index);
-	static std::string getRenderInfo(std::shared_ptr<RenderInfo> inf);
 	static Palette& getPalette(std::string const& obj);
 	static std::string getPalette(Palette& inf);
 	void load(std::string const& path = "/") { FileLoader::load(path, RenderInfoFileExtention); wasRenderInfoLoaded = true; }

@@ -18,13 +18,8 @@ void RenderInfoStorage::parse_file_type_info(std::string const& line) {
 
 	m_current_render_info.clear();
 }
-#include <sstream>
+#include "Shared/SharedFunctions.hpp"
 enum Mode { empty_mode = 0u, object_mode = 1u, palette_mode = 2u, object_array_mode = 4u, palette_object_array_mode = 8u };
-std::string name(std::string name, size_t index) {
-	std::ostringstream s;
-	s << name << '[' << index << ']';
-	return s.str();
-}
 void RenderInfoStorage::finalize_object(size_t mode) {
 	switch (m_current_mode) {
 		case object_mode:
@@ -36,11 +31,11 @@ void RenderInfoStorage::finalize_object(size_t mode) {
 			break;
 		case object_array_mode:
 			if (!m_current_render_info.empty())
-				m_data.insert(std::make_pair(name(m_current_name, m_current_index++), m_current_render_info.front()));
+				m_data.insert(std::make_pair(Functions::string_indexation(m_current_name, m_current_index++), m_current_render_info.front()));
 			break;
 		case palette_object_array_mode:
 			for (size_t i = 0; i < m_current_render_info.size(); i++)
-				m_data.insert(std::make_pair(name(m_current_name, i), m_current_render_info.at(i)));
+				m_data.insert(std::make_pair(Functions::string_indexation(m_current_name, i), m_current_render_info.at(i)));
 		case empty_mode:
 			break;
 		default:
@@ -110,18 +105,7 @@ std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& 
 	else throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
 }
 std::shared_ptr<RenderInfo> RenderInfoStorage::getRenderInfo(std::string const& obj, size_t index) {
-	std::ostringstream s;
-	s << obj << '[' << index << ']';
-	return getRenderInfo(s.str());
-}
-std::string RenderInfoStorage::getRenderInfo(std::shared_ptr<RenderInfo> inf) {
-	auto res = std::find_if(m_data.begin(), m_data.end(), [inf](std::pair<std::string, std::shared_ptr<RenderInfo>> it) {
-		return it.second == inf;
-	});
-	if (res != m_data.end())
-		return res->first;
-	else
-		throw Exceptions::RenderInfoException("Unloaded RenderInfo was requested.");
+	return getRenderInfo(Functions::string_indexation(obj, index));
 }
 RenderInfoStorage::Palette& RenderInfoStorage::getPalette(std::string const& obj) {
 	if (auto temp = m_palettes.find(obj); temp != m_palettes.end())
