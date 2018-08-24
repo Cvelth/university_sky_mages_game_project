@@ -21,7 +21,7 @@ std::shared_ptr<ShootableObject> Weapon::shoot(size_t shooter_id, float current_
 		m_last_shot_time = now();
 		if (!m_autofire_supported)
 			is_activated = false;
-		return std::make_shared<ShootableObject>(m_ammo_type, shooter_id, m_damage, RenderInfoStorage::getRenderInfo(m_ammo_render_info),
+		return std::make_shared<ShootableObject>(m_ammo_type, shooter_id, m_damage, m_ammo_render_info,
 			m_initial_ammo_mass, m_initial_ammo_size_h, m_initial_ammo_size_v,
 			current_x, current_y, destination_x, destination_y, m_initial_ammo_speed);
 	} else
