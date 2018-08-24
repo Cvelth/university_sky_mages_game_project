@@ -21,9 +21,9 @@ void actors_(MainActorQueue &actors, std::istream &input) {
 		std::cout << "Unsupported actors-related server command.\nCall \"actors help\" for list of supported ones.\n";
 }
 
+#include "Shared/SharedFunctions.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
 #include "Engines/ObjectStorage/Settings.hpp"
-#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
 #include "Objects/ObjectState/ObjectQueue.hpp"
 #include "Objects/Actors/MainActor.hpp"
@@ -36,7 +36,7 @@ void actors_(MainActorQueue &actors, std::istream &input) {
 
 void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors) {
 	std::cout << "\rAdding new actor...";
-	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, RenderInfoStorage::getRenderInfo("MainActor", actors.size()));
+	auto actor = std::make_shared<MainActor>(60.f, mgl::math::vector{0.f,0.f}, mgl::math::vector{0.f,0.f}, mgl::math::vector{30.f,50.f}, mgl::math::vector{2.f, 4.f}, Functions::string_indexation("MainActor", actors.size()));
 
 	auto energy_storage = objects->get_energy_storage("");
 	actor->giveEnergyStorage(energy_storage);
