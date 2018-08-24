@@ -148,9 +148,6 @@
     <ClInclude Include="server.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engines\Graphics\Graphics.vcxproj">
-      <Project>{386feae8-9910-4816-b846-06633983f3b2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engines\Networking\Networking.vcxproj">
       <Project>{649f0549-6ac3-4993-bc9c-ceb9fdda61ce}</Project>
     </ProjectReference>
