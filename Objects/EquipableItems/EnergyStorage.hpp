@@ -55,55 +55,46 @@ private:
 };
 
 inline bool EnergyStorage::clear_value(std::string const& name) {
-	if (name == "name") {
+	if (name == "name")
 		m_name = "";
-		return true;
-	} else if (name == "description") {
+	else if (name == "description")
 		m_description = "";
-		return true;
-	} else if (name == "mass") {
+	else if (name == "mass")
 		mulMass(0.0);
-		return true;
-	} else if (name == "chance_to_take_damage") {
+	else if (name == "chance_to_take_damage")
 		m_chance_to_take_damage = 0.f;
-		return true;
-	} else if (name == "energy_usage_coefficient") {
+	else if (name == "energy_usage_coefficient")
 		m_energy_usage_coefficient = 0.f;
-		return true;
-	} else if (name == "energy_percent_loss_per_second") {
+	else if (name == "energy_percent_loss_per_second")
 		m_energy_percent_loss_per_second = 0.f;
-		return true;
-	}
-	return false;
+	else
+		return false;
+	return true;
 }
 
 template<>
 inline bool EnergyStorage::upgrade_value<std::string>(std::string const& name, std::string const& value) {
-	if (name == "name") {
+	if (name == "name")
 		m_name += value;
-		return true;
-	} else if (name == "description") {
+	else if (name == "description")
 		m_description += value;
-		return true;
-	}
-	return false;
+	else
+		return false;
+	return true;
 }
 template<>
 inline bool EnergyStorage::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass") {
+	if (name == "mass")
 		addMass(value);
-		return true;
-	} else if (name == "chance_to_take_damage") {
+	else if (name == "chance_to_take_damage")
 		m_chance_to_take_damage += value;
-		return true;
-	} else if (name == "energy_usage_coefficient") {
+	else if (name == "energy_usage_coefficient")
 		m_energy_usage_coefficient += value;
-		return true;
-	} else if (name == "energy_percent_loss_per_second") {
+	else if (name == "energy_percent_loss_per_second")
 		m_energy_percent_loss_per_second += value;
-		return true;
-	}
-	return false;
+	else
+		return false;
+	return true;
 }
 template<typename value_type>
 inline bool EnergyStorage::upgrade_value(std::string const& name, value_type const& value) {
