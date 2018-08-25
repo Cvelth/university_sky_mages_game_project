@@ -62,43 +62,83 @@ public:
 	virtual vector get_acceleration() const;
 	virtual void update_acceleration(vector const& acceleration);
 private:
+	bool clear_value(std::string const& name);
+	template <typename value_type>
+	bool upgrade_value(std::string const& name, value_type const& value);
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
 };
 
-template<>
-inline void FlyEngine::set_value<std::string>(std::string const& name, std::string const& value) {
+inline bool FlyEngine::clear_value(std::string const& name) {
 	if (name == "name")
-		m_name = value;
+		m_name = "";
 	else if (name == "description")
-		m_description = value;
+		m_description = "";
+	else if (name == "mass") {
+		EquipableItem::mulMass(0.f);
+		DependedAcceleratableObjectState::mulMass(0.f);
+	} else if (name == "chance_to_take_damage")
+		m_chance_to_take_damage = 0.f;
+	else if (name == "energy_usage_coefficient")
+		m_energy_usage_coefficient = 0.f;
+	else if (name == "maximum_acceleration")
+		m_maximum_acceleration = 0.f;
+	else if (name == "up_acceleration_percent")
+		m_up_acceleration_percent = 0.f;
+	else if (name == "down_acceleration_percent")
+		m_down_acceleration_percent = 0.f;
+	else if (name == "left_acceleration_percent")
+		m_left_acceleration_percent = 0.f;
+	else if (name == "right_acceleration_percent")
+		m_right_acceleration_percent = 0.f;
 	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+		return false;
+	return true;
+}
+
+template<>
+inline bool FlyEngine::upgrade_value<std::string>(std::string const& name, std::string const& value) {
+	if (name == "name")
+		m_name += value;
+	else if (name == "description")
+		m_description += value;
+	else
+		return false;
+	return true;
 }
 template<>
-inline void FlyEngine::set_value<float>(std::string const& name, float const& value) {
+inline bool FlyEngine::upgrade_value<float>(std::string const& name, float const& value) {
 	if (name == "mass") {
 		EquipableItem::addMass(value);
 		DependedAcceleratableObjectState::addMass(value);
 	} else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage = value; 
+		m_chance_to_take_damage += value; 
 	else if (name == "energy_usage_coefficient")
-		m_energy_usage_coefficient = value;
+		m_energy_usage_coefficient += value;
 	else if (name == "maximum_acceleration")
-		m_maximum_acceleration = value;
+		m_maximum_acceleration += value;
 	else if (name == "up_acceleration_percent")
-		m_up_acceleration_percent = value;
+		m_up_acceleration_percent += value;
 	else if (name == "down_acceleration_percent")
-		m_down_acceleration_percent = value;
+		m_down_acceleration_percent += value;
 	else if (name == "left_acceleration_percent")
-		m_left_acceleration_percent = value;
+		m_left_acceleration_percent += value;
 	else if (name == "right_acceleration_percent")
-		m_right_acceleration_percent = value;
+		m_right_acceleration_percent += value;
 	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+		return false;
+	return true;
+}
+
+template<typename value_type>
+inline bool FlyEngine::upgrade_value(std::string const& name, value_type const& value) {
+	return false;
 }
 
 template<typename value_type>
 inline void FlyEngine::set_value(std::string const& name, value_type const& value) {
-	static_assert("Unsupported value type");
+	bool clear_flag = clear_value(name);
+	bool set_flag = upgrade_value(name, value);
+	if (!(clear_flag && set_flag))
+		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }
