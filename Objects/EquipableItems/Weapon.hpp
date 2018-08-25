@@ -68,13 +68,7 @@ private:
 
 template<>
 inline bool Weapon::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
-		mulMass(value);
-	else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage *= value;
-	else if (name == "energy_usage_coefficient")
-		m_energy_usage_coefficient *= value;
-	else if (name == "damage")
+	if (name == "damage")
 		m_damage *= value;
 	else if (name == "firerate")
 		m_firerate *= value;

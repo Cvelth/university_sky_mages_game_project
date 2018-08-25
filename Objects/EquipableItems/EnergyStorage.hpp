@@ -57,13 +57,7 @@ private:
 
 template<>
 inline bool EnergyStorage::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
-		mulMass(value);
-	else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage *= value;
-	else if (name == "energy_usage_coefficient")
-		m_energy_usage_coefficient *= value;
-	else if (name == "energy_percent_loss_per_second")
+	if (name == "energy_percent_loss_per_second")
 		m_energy_percent_loss_per_second *= value;
 	else
 		return false;

@@ -72,14 +72,7 @@ private:
 
 template<>
 inline bool FlyEngine::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass") {
-		EquipableItem::mulMass(value);
-		DependedAcceleratableObjectState::mulMass(value);
-	} else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage *= value;
-	else if (name == "energy_usage_coefficient")
-		m_energy_usage_coefficient *= value;
-	else if (name == "maximum_acceleration")
+	if (name == "maximum_acceleration")
 		m_maximum_acceleration *= value;
 	else if (name == "up_acceleration_percent")
 		m_up_acceleration_percent *= value;

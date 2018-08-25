@@ -19,13 +19,7 @@ private:
 
 template<>
 inline bool Trinket::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
-		mulMass(value);
-	else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage *= value;
-	else
-		return false;
-	return true;
+	return false;
 }
 template<typename value_type>
 inline bool Trinket::upgrade_value(std::string const& name, value_type const& value) {

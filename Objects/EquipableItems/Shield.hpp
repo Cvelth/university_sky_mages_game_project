@@ -46,11 +46,7 @@ private:
 
 template<>
 inline bool ShieldGenerator::upgrade_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
-		mulMass(value);
-	else if (name == "chance_to_take_damage")
-		m_chance_to_take_damage *= value;
-	else if (name == "anti_energy_efficiency")
+	if (name == "anti_energy_efficiency")
 		m_anti_energy_efficiency *= value;
 	else if (name == "anti_projectile_efficiency")
 		m_anti_projectile_efficiency *= value;
