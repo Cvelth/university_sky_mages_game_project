@@ -29,11 +29,11 @@ public:
 
 	static std::string get_program_version();
 
-	EnergyStorage* get_energy_storage(std::string const& name = "") const;
-	FlyEngine* get_fly_engine(std::string const& name = "") const;
-	Weapon* get_weapon(std::string const& name = "") const;
-	ShieldGenerator* get_shield_generator(std::string const& name = "") const;
-	Trinket* get_trinket(std::string const& name = "") const;
+	std::shared_ptr<EnergyStorage> get_energy_storage(std::string const& name = "") const;
+	std::shared_ptr<FlyEngine> get_fly_engine(std::string const& name = "") const;
+	std::shared_ptr<Weapon> get_weapon(std::string const& name = "") const;
+	std::shared_ptr<ShieldGenerator> get_shield_generator(std::string const& name = "") const;
+	std::shared_ptr<Trinket> get_trinket(std::string const& name = "") const;
 
 	size_t size() const;
 };
