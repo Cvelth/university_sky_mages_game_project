@@ -16,7 +16,7 @@ protected:
 	float m_left_acceleration_percent;
 	float m_right_acceleration_percent;
 
-	EnergyStorage* m_energy_source;
+	std::shared_ptr<EnergyStorage> m_energy_source;
 	mutable float m_anti_gravity_expected_mass; //0.f for turned off.
 protected:
 	float const calculate_acceleration_up() const;
@@ -28,7 +28,7 @@ protected:
 public:
 	~FlyEngine() {}
 
-	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
+	void connect_to_energy_source(std::shared_ptr<EnergyStorage> source) { m_energy_source = source; }
 
 	using EquipableItem::mass;
 	using EquipableItem::addMass;

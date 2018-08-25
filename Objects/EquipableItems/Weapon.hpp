@@ -29,7 +29,7 @@ protected:
 	float m_reload_cooldown;
 
 	float m_energy_usage_coefficient;
-	EnergyStorage* m_energy_source;
+	std::shared_ptr<EnergyStorage> m_energy_source;
 
 	mutable size_t m_current_ammo;
 	mutable unsigned long long m_last_shot_time;
@@ -38,7 +38,7 @@ protected:
 	Weapon() : EquipableItem() {}
 public:
 	~Weapon() {}
-	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
+	void connect_to_energy_source(std::shared_ptr<EnergyStorage> source) { m_energy_source = source; }
 
 	inline ShootableObjectType ammoType() const {
 		return m_ammo_type;

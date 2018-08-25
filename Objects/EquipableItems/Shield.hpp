@@ -13,7 +13,7 @@ private:
 
 	float m_activation_energy;
 	float m_energy_per_second;
-	EnergyStorage *m_energy_source;
+	std::shared_ptr<EnergyStorage> m_energy_source;
 
 	mutable bool is_activated;
 	mutable unsigned long long m_energy_usage_time;
@@ -23,7 +23,7 @@ protected:
 	float get_efficience_coefficient(ShootableObjectType type);
 public:
 	~ShieldGenerator() {}
-	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
+	void connect_to_energy_source(std::shared_ptr<EnergyStorage> source) { m_energy_source = source; }
 
 	void activate();
 	inline void deactivate() const {
