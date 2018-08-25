@@ -251,6 +251,14 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			std::cout << "nothing.\n: ";
 			return;
 		}
+		for (auto upgrade : m_upgrades) {
+			damage -= upgrade->chance_to_take_damage();
+			if (damage <= 0) {
+				std::cout << upgrade->name() << ".\n";
+				takeUpgrade(upgrade);
+				return;
+			}
+		}
 		if (m_trinket) {
 			damage -= m_trinket->chance_to_take_damage();
 			if (damage <= 0) {
