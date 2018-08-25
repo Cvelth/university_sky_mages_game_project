@@ -25,6 +25,8 @@ ObjectType _switch(std::string const& type) {
 		return ObjectType::ShieldGenerator;
 	else if (type == "Trinket")
 		return ObjectType::Trinket;
+	else if (type == "Upgrade")
+		return ObjectType::Upgrade;
 	else
 		return ObjectType::Empty;
 }
@@ -52,6 +54,7 @@ void ObjectStorage::parse_line(std::string const& line) {
 #include "../../Objects/EquipableItems/Weapon.hpp"
 #include "../../Objects/EquipableItems/Shield.hpp"
 #include "../../Objects/EquipableItems/Trinket.hpp"
+#include "../../Objects/EquipableItems/Upgrade.hpp"
 void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 	m_current_object = type;
 	float value;
@@ -72,6 +75,9 @@ void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 		break;
 	case ObjectType::Trinket:
 		m_objects->m_trinket.push_back(std::unique_ptr<Trinket>(new Trinket()));
+		break;
+	case ObjectType::Upgrade:
+		m_objects->m_upgrade.push_back(std::unique_ptr<Upgrade>(new Upgrade()));
 		break;
 	}
 }
@@ -142,6 +148,10 @@ void ObjectStorage::parse_object_line(std::string const& line) {
 	case ObjectType::Trinket:
 		if (!m_objects->m_trinket.empty())
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_trinket.back()->set_value(name, value); });
+		break;
+	case ObjectType::Upgrade:
+		if (!m_objects->m_upgrade.empty())
+			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_upgrade.back()->set_value(name, value); });
 		break;
 	default:
 		throw Exceptions::FileParsingException("Unsupported object type was encountered.");

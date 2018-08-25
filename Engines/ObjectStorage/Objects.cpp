@@ -51,6 +51,8 @@ std::shared_ptr<Weapon> Objects::get_weapon(std::string const& name) const { ret
 std::shared_ptr<ShieldGenerator> Objects::get_shield_generator(std::string const& name) const { return get_object(name, m_shield_generator, false); }
 #include "../../Objects/EquipableItems/Trinket.hpp"
 std::shared_ptr<Trinket> Objects::get_trinket(std::string const& name) const { return get_object(name, m_trinket, true); }
+#include "../../Objects/EquipableItems/Upgrade.hpp"
+std::shared_ptr<Upgrade> Objects::get_upgrade(std::string const& name) const { return get_object(name, m_upgrade, true); }
 
 size_t Objects::size() const {
 	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size() + m_shield_generator.size() + m_trinket.size();

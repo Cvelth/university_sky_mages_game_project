@@ -9,6 +9,7 @@ class FlyEngine;
 class Weapon;
 class ShieldGenerator;
 class Trinket;
+class Upgrade;
 class MainActor;
 
 class Objects {
@@ -20,6 +21,7 @@ protected:
 	std::vector<std::unique_ptr<Weapon>> m_weapon;
 	std::vector<std::unique_ptr<ShieldGenerator>> m_shield_generator;
 	std::vector<std::unique_ptr<Trinket>> m_trinket;
+	std::vector<std::unique_ptr<Upgrade>> m_upgrade;
 public:
 	Objects();
 	~Objects();
@@ -34,6 +36,7 @@ public:
 	std::shared_ptr<Weapon> get_weapon(std::string const& name = "") const;
 	std::shared_ptr<ShieldGenerator> get_shield_generator(std::string const& name = "") const;
 	std::shared_ptr<Trinket> get_trinket(std::string const& name = "") const;
+	std::shared_ptr<Upgrade> get_upgrade(std::string const& name = "") const;
 
 	size_t size() const;
 };
