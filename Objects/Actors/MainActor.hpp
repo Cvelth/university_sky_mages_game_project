@@ -1,4 +1,5 @@
 #pragma once
+#include <set>
 #include <vector>
 #include "Objects/Actors/Actor.hpp"
 #include "Shared/AbstractException.hpp"
@@ -9,6 +10,7 @@ class FlyEngine;
 class Weapon;
 class ShieldGenerator;
 class Trinket;
+class Upgrade;
 
 class ShootableObject;
 class Controller;
@@ -27,6 +29,7 @@ protected:
 	std::shared_ptr<Weapon> m_weapon_right_arm;
 	std::shared_ptr<ShieldGenerator> m_shield;
 	std::shared_ptr<Trinket> m_trinket;
+	std::set<std::shared_ptr<Upgrade>> m_upgrades;
 
 	float m_aim_x;
 	float m_aim_y;
@@ -34,6 +37,9 @@ protected:
 protected:
 	std::shared_ptr<ShootableObject> shootRightWeapon(size_t id);
 	std::shared_ptr<ShootableObject> shootLeftWeapon(size_t id);
+
+	void activate_upgrade(std::shared_ptr<Upgrade> u);
+	void deactivate_upgrade(std::shared_ptr<Upgrade> u);
 public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
 			  vector const& position, vector const& size, std::string const& render_info);
@@ -45,12 +51,14 @@ public:
 	void giveLeftWeapon(std::shared_ptr<Weapon> w);
 	void giveShieldGenerator(std::shared_ptr<ShieldGenerator> sg);
 	void giveTrinket(std::shared_ptr<Trinket> t);
+	void giveUpgrade(std::shared_ptr<Upgrade> u);
 	std::shared_ptr<EnergyStorage> takeEnergyStorage();
 	std::shared_ptr<FlyEngine> takeFlyEngine();
 	std::shared_ptr<Weapon> takeRightWeapon();
 	std::shared_ptr<Weapon> takeLeftWeapon();
 	std::shared_ptr<ShieldGenerator> takeShieldGenerator();
 	std::shared_ptr<Trinket> takeTrinket();
+	std::shared_ptr<Upgrade> takeUpgrade(std::shared_ptr<Upgrade> u = nullptr);
 
 	void aim(float x, float y);
 	void activateRightWeapon();

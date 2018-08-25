@@ -83,6 +83,10 @@ void MainActor::giveShieldGenerator(std::shared_ptr<ShieldGenerator> sg) {
 void MainActor::giveTrinket(std::shared_ptr<Trinket> t) {
 	m_trinket = t;
 }
+void MainActor::giveUpgrade(std::shared_ptr<Upgrade> u) {
+	m_upgrades.insert(u);
+	activate_upgrade(u);
+}
 
 std::shared_ptr<EnergyStorage> MainActor::takeEnergyStorage() {
 	if (m_engine) m_engine->connect_to_energy_source(nullptr);
@@ -121,6 +125,23 @@ std::shared_ptr<Trinket> MainActor::takeTrinket() {
 	auto ret = m_trinket;
 	m_trinket = nullptr;
 	return ret;
+}
+std::shared_ptr<Upgrade> MainActor::takeUpgrade(std::shared_ptr<Upgrade> u) {
+	if (u == nullptr) {
+		if (!m_upgrades.empty()) {
+			auto temp = *m_upgrades.begin();
+			deactivate_upgrade(u);
+			m_upgrades.erase(u);
+			return u;
+		}
+	} else {
+		if (m_upgrades.find(u) != m_upgrades.end()) {
+			deactivate_upgrade(u);
+			m_upgrades.erase(u);
+			return u;
+		}
+	}
+	return nullptr;
 }
 
 void MainActor::aim(float x, float y) {
@@ -188,6 +209,34 @@ MainActor::MainActor(float mass, vector const& acceleration, vector const& speed
 	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)), m_energy_storage(nullptr), m_engine(nullptr), m_weapon_left_arm(nullptr), m_weapon_right_arm(nullptr), m_shield(nullptr), m_trinket(nullptr) {
 	m_acceleration = acceleration;
 	m_speed = speed;
+}
+
+#include "Objects/EquipableItems/Upgrade.hpp"
+void MainActor::activate_upgrade(std::shared_ptr<Upgrade> u) {
+	for (auto it : u->get()) {
+		if (!(m_energy_storage->upgrade_value(it.first, it.second) ||
+			  m_engine->upgrade_value(it.first, it.second) ||
+			  m_weapon_left_arm->upgrade_value(it.first, it.second) ||
+			  m_weapon_right_arm->upgrade_value(it.first, it.second) ||
+			  m_shield->upgrade_value(it.first, it.second) ||
+			  m_trinket->upgrade_value(it.first, it.second)))
+		{
+			throw Exceptions::UnsupportedValueException(("Unsupported value was met at " + u->name()).c_str());
+		}
+	}
+}
+void MainActor::deactivate_upgrade(std::shared_ptr<Upgrade> u) {
+	for (auto it : u->get()) {
+		if (!(m_energy_storage->upgrade_value(it.first, 1.f / it.second) ||
+			  m_engine->upgrade_value(it.first, 1.f / it.second) ||
+			  m_weapon_left_arm->upgrade_value(it.first, 1.f / it.second) ||
+			  m_weapon_right_arm->upgrade_value(it.first, 1.f / it.second) ||
+			  m_shield->upgrade_value(it.first, 1.f / it.second) ||
+			  m_trinket->upgrade_value(it.first, 1.f / it.second))) 
+		{
+			throw Exceptions::UnsupportedValueException(("Unsupported value was met at " + u->name()).c_str());
+		}
+	}
 }
 
 #include <iostream>
