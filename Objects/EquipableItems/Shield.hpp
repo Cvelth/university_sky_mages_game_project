@@ -74,7 +74,8 @@ inline bool ShieldGenerator::upgrade_value<std::string>(std::string const& name,
 	else if (name == "description")
 		m_description += value;
 	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+		return false;
+	return true;
 }
 template<>
 inline bool ShieldGenerator::upgrade_value<float>(std::string const& name, float const& value) {
@@ -93,7 +94,8 @@ inline bool ShieldGenerator::upgrade_value<float>(std::string const& name, float
 	else if (name == "energy_per_second")
 		m_energy_per_second += value;
 	else
-		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
+		return false;
+	return true;
 }
 template<typename value_type>
 inline bool ShieldGenerator::upgrade_value(std::string const& name, value_type const& value) {
