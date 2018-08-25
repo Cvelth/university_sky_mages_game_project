@@ -23,6 +23,7 @@
     <ClInclude Include="FlyEngine.hpp" />
     <ClInclude Include="Shield.hpp" />
     <ClInclude Include="Trinket.hpp" />
+    <ClInclude Include="Upgrade.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
