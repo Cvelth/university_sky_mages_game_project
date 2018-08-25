@@ -193,6 +193,7 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<Map> con
 #include "Objects/EquipableItems/Weapon.hpp"
 #include "Objects/EquipableItems/Shield.hpp"
 #include "Objects/EquipableItems/Trinket.hpp"
+#include "Objects/EquipableItems/Upgrade.hpp"
 #include "Engines/ObjectStorage/Objects.hpp"
 MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor> &v) {
 	bool is_alive;
@@ -233,6 +234,11 @@ MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<MainActor>
 	s >> string;
 	if (string != "")
 		v->giveTrinket(ObjectsStatic::get()->get_trinket(string));
+	s >> string;
+	while (string != "") {
+		v->giveUpgrade(ObjectsStatic::get()->get_upgrade(string));
+		s >> string;
+	}
 
 	return s;
 }
@@ -246,6 +252,9 @@ MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<MainActo
 		<< (v->m_weapon_right_arm ? v->m_weapon_right_arm->name() : "")
 		<< (v->m_shield ? v->m_shield->name() : "")
 		<< (v->m_trinket ? v->m_trinket->name() : "");
+	for (auto it : v->m_upgrades)
+		s << it->name();
+	s << uint8_t(0);
 	return s;
 }
 
