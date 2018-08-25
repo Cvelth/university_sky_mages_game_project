@@ -21,12 +21,12 @@ class MainActor : public Actor {
 	friend Controller;
 	//friend PhysicsEngine;
 protected:
-	EnergyStorage *m_energy_storage;
-	FlyEngine *m_engine;
-	Weapon *m_weapon_left_arm;
-	Weapon *m_weapon_right_arm;
-	ShieldGenerator *m_shield;
-	Trinket *m_trinket;
+	std::shared_ptr<EnergyStorage> m_energy_storage;
+	std::shared_ptr<FlyEngine> m_engine;
+	std::shared_ptr<Weapon> m_weapon_left_arm;
+	std::shared_ptr<Weapon> m_weapon_right_arm;
+	std::shared_ptr<ShieldGenerator> m_shield;
+	std::shared_ptr<Trinket> m_trinket;
 
 	float m_aim_x;
 	float m_aim_y;
@@ -37,20 +37,20 @@ protected:
 public:
 	MainActor(float mass, vector const& acceleration, vector const& speed,
 			  vector const& position, vector const& size, std::string const& render_info);
-	~MainActor();
+	~MainActor() {}
 
-	void giveEnergyStorage(EnergyStorage *es);
-	void giveFlyEngine(FlyEngine *fe);
-	void giveRightWeapon(Weapon *w);
-	void giveLeftWeapon(Weapon *w);
-	void giveShieldGenerator(ShieldGenerator *sg);
-	void giveTrinket(Trinket *t);
-	EnergyStorage* takeEnergyStorage();
-	FlyEngine* takeFlyEngine();
-	Weapon* takeRightWeapon();
-	Weapon* takeLeftWeapon();
-	ShieldGenerator* takeShieldGenerator();
-	Trinket* takeTrinket();
+	void giveEnergyStorage(std::shared_ptr<EnergyStorage> es);
+	void giveFlyEngine(std::shared_ptr<FlyEngine> fe);
+	void giveRightWeapon(std::shared_ptr<Weapon> w);
+	void giveLeftWeapon(std::shared_ptr<Weapon> w);
+	void giveShieldGenerator(std::shared_ptr<ShieldGenerator> sg);
+	void giveTrinket(std::shared_ptr<Trinket> t);
+	std::shared_ptr<EnergyStorage> takeEnergyStorage();
+	std::shared_ptr<FlyEngine> takeFlyEngine();
+	std::shared_ptr<Weapon> takeRightWeapon();
+	std::shared_ptr<Weapon> takeLeftWeapon();
+	std::shared_ptr<ShieldGenerator> takeShieldGenerator();
+	std::shared_ptr<Trinket> takeTrinket();
 
 	void aim(float x, float y);
 	void activateRightWeapon();
@@ -63,12 +63,12 @@ public:
 	std::vector<std::shared_ptr<ShootableObject>> shootingProcess(size_t id);
 	void was_hit(std::shared_ptr<ShootableObject> so);
 
-	inline EnergyStorage* energy_storage() const { return m_energy_storage; }
-	inline FlyEngine* fly_engine() const { return m_engine; }
-	inline Weapon* left_weapon() const { return m_weapon_left_arm; }
-	inline Weapon* right_weapon() const { return m_weapon_right_arm; }
-	inline ShieldGenerator* shield() const { return m_shield; }
-	inline Trinket* trinket() const { return m_trinket; }
+	inline std::shared_ptr<EnergyStorage> energy_storage() const { return m_energy_storage; }
+	inline std::shared_ptr<FlyEngine> fly_engine() const { return m_engine; }
+	inline std::shared_ptr<Weapon> left_weapon() const { return m_weapon_left_arm; }
+	inline std::shared_ptr<Weapon> right_weapon() const { return m_weapon_right_arm; }
+	inline std::shared_ptr<ShieldGenerator> shield() const { return m_shield; }
+	inline std::shared_ptr<Trinket> trinket() const { return m_trinket; }
 public:
 	virtual scalar mass() const override;
 	virtual vector acceleration(scalar const& time_correct) const override;

@@ -5,19 +5,19 @@
 #include "Objects/EquipableItems/Shield.hpp"
 #include "Objects/EquipableItems/Trinket.hpp"
 
-void MainActor::giveEnergyStorage(EnergyStorage *es) {
+void MainActor::giveEnergyStorage(std::shared_ptr<EnergyStorage> es) {
 	m_energy_storage = es;
 	if (m_engine) m_engine->connect_to_energy_source(m_energy_storage);
 	if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(m_energy_storage);
 	if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(m_energy_storage);
 	if (m_shield) m_shield->connect_to_energy_source(m_energy_storage);
 }
-void MainActor::giveFlyEngine(FlyEngine *fe) {
+void MainActor::giveFlyEngine(std::shared_ptr<FlyEngine> fe) {
 	if (m_engine) m_engine->connect_to_energy_source(nullptr);
 	m_engine = fe;
 	if (m_engine) m_engine->connect_to_energy_source(m_energy_storage);
 }
-void MainActor::giveRightWeapon(Weapon *w) {
+void MainActor::giveRightWeapon(std::shared_ptr<Weapon> w) {
 	switch (w->size()) {
 		case WeaponSize::One_Arm:
 		case WeaponSize::One_And_A_Half_Arm:
@@ -46,7 +46,7 @@ void MainActor::giveRightWeapon(Weapon *w) {
 			throw Exceptions::UnsupportableItemWasGivenException("This weapon cannot be equiped.");
 	}
 }
-void MainActor::giveLeftWeapon(Weapon *w) {
+void MainActor::giveLeftWeapon(std::shared_ptr<Weapon> w) {
 	switch (w->size()) {
 		case WeaponSize::One_Arm:
 		case WeaponSize::One_And_A_Half_Arm:
@@ -75,16 +75,16 @@ void MainActor::giveLeftWeapon(Weapon *w) {
 			throw Exceptions::UnsupportableItemWasGivenException("This weapon cannot be equiped.");
 	}
 }
-void MainActor::giveShieldGenerator(ShieldGenerator *sg) {
+void MainActor::giveShieldGenerator(std::shared_ptr<ShieldGenerator> sg) {
 	if (m_shield) m_shield->connect_to_energy_source(nullptr);
 	m_shield = sg;
 	if (m_shield) m_shield->connect_to_energy_source(m_energy_storage);
 }
-void MainActor::giveTrinket(Trinket *t) {
+void MainActor::giveTrinket(std::shared_ptr<Trinket> t) {
 	m_trinket = t;
 }
 
-EnergyStorage* MainActor::takeEnergyStorage() {
+std::shared_ptr<EnergyStorage> MainActor::takeEnergyStorage() {
 	if (m_engine) m_engine->connect_to_energy_source(nullptr);
 	if (m_weapon_left_arm) m_weapon_left_arm->connect_to_energy_source(nullptr);
 	if (m_weapon_right_arm) m_weapon_right_arm->connect_to_energy_source(nullptr);
@@ -93,31 +93,31 @@ EnergyStorage* MainActor::takeEnergyStorage() {
 	m_energy_storage = nullptr;
 	return ret;
 }
-FlyEngine* MainActor::takeFlyEngine() {
+std::shared_ptr<FlyEngine> MainActor::takeFlyEngine() {
 	if (m_engine) m_engine->connect_to_energy_source(nullptr);
 	auto ret = m_engine;
 	m_engine = nullptr;
 	return ret;
 }
-Weapon* MainActor::takeRightWeapon() {
+std::shared_ptr<Weapon> MainActor::takeRightWeapon() {
 	m_weapon_right_arm->connect_to_energy_source(nullptr);
 	auto ret = m_weapon_right_arm;
 	m_weapon_right_arm = nullptr;
 	return ret;
 }
-Weapon* MainActor::takeLeftWeapon() {
+std::shared_ptr<Weapon> MainActor::takeLeftWeapon() {
 	m_weapon_left_arm->connect_to_energy_source(nullptr);
 	auto ret = m_weapon_left_arm;
 	m_weapon_left_arm = nullptr;
 	return ret;
 }
-ShieldGenerator* MainActor::takeShieldGenerator() {
+std::shared_ptr<ShieldGenerator> MainActor::takeShieldGenerator() {
 	m_shield->connect_to_energy_source(nullptr);
 	auto ret = m_shield;
 	m_shield = nullptr;
 	return ret;
 }
-Trinket* MainActor::takeTrinket() {
+std::shared_ptr<Trinket> MainActor::takeTrinket() {
 	auto ret = m_trinket;
 	m_trinket = nullptr;
 	return ret;
@@ -189,14 +189,6 @@ MainActor::MainActor(float mass, vector const& acceleration, vector const& speed
 	m_acceleration = acceleration;
 	m_speed = speed;
 }
-MainActor::~MainActor() {
-	if (m_energy_storage) delete m_energy_storage;
-	if (m_engine) delete m_engine;
-	if (m_weapon_left_arm) delete m_weapon_left_arm;
-	if (m_weapon_right_arm) delete m_weapon_right_arm;
-	if (m_shield) delete m_shield;
-	if (m_trinket) delete m_trinket;
-}
 
 #include <iostream>
 #include <random>
@@ -214,7 +206,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_trinket->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_trinket->name() << ".\n: ";
-				delete takeTrinket();
+				takeTrinket();
 				return;
 			}
 		}
@@ -222,7 +214,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_shield->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_shield->name() << ".\n: ";
-				delete takeShieldGenerator();
+				takeShieldGenerator();
 				return;
 			}
 		}
@@ -230,7 +222,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_weapon_right_arm->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_weapon_right_arm->name() << ".\n: ";
-				delete takeRightWeapon();
+				takeRightWeapon();
 				return;
 			}
 		}
@@ -238,7 +230,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_weapon_left_arm->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_weapon_left_arm->name() << ".\n: ";
-				delete takeLeftWeapon();
+				takeLeftWeapon();
 				return;
 			}
 		}
@@ -246,7 +238,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_engine->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_engine->name() << ".\n: ";
-				delete takeFlyEngine();
+				takeFlyEngine();
 				return;
 			}
 		}
@@ -254,7 +246,7 @@ void MainActor::was_hit(std::shared_ptr<ShootableObject> so) {
 			damage -= m_energy_storage->chance_to_take_damage();
 			if (damage <= 0) {
 				std::cout << m_energy_storage->name() << ".\n: ";
-				delete takeEnergyStorage();
+				takeEnergyStorage();
 				return;
 			}
 		}
