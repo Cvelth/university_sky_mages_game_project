@@ -2,7 +2,7 @@
 #include "Objects/Objects/IndependentObject.hpp"
 
 enum class ShootableObjectType {
-	None = 0, Energy = 1, Physical = 2, Bullet = 3
+	Energy = 1, Physical = 2, Bullet = 3
 };
 class ShootableObject : public IndependentObject {
 	friend PhysicsEngine;
