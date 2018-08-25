@@ -2,8 +2,10 @@
 #include "Objects/Objects/EquipableItem.hpp"
 
 class ObjectStorage;
+class MainActor;
 class EnergyStorage : public EquipableItem {
 	friend ObjectStorage;
+	friend MainActor;
 protected:
 	float const m_maximum_capacity;
 	float m_current_capacity;

@@ -4,8 +4,10 @@
 
 class EnergyStorage;
 class ObjectStorage;
+class MainActor;
 class ShieldGenerator : public EquipableItem {
 	friend ObjectStorage;
+	friend MainActor;
 private:
 	float m_anti_energy_efficiency;
 	float m_anti_projectile_efficiency;

@@ -11,6 +11,7 @@ enum class WeaponSize {
 
 class Weapon : public EquipableItem {
 	friend ObjectStorage;
+	friend MainActor;
 private:
 	ShootableObjectType m_ammo_type;
 	WeaponSize m_size;

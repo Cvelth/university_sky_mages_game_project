@@ -5,8 +5,10 @@
 
 class EnergyStorage;
 class ObjectStorage;
+class MainActor;
 class FlyEngine : public EquipableItem, public DependedAcceleratableObjectState {
 	friend ObjectStorage;
+	friend MainActor;
 protected:
 	float m_maximum_acceleration;
 	float m_energy_usage_coefficient;

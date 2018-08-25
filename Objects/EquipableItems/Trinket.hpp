@@ -2,8 +2,10 @@
 #include "Objects/Objects/EquipableItem.hpp"
 
 class ObjectStorage;
+class MainActor;
 class Trinket : public EquipableItem {
 	friend ObjectStorage;
+	friend MainActor;
 protected:
 	Trinket() : EquipableItem() {}
 public:
