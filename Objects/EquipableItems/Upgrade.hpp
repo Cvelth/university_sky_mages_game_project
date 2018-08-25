@@ -18,12 +18,26 @@ private:
 	void set_value(std::string const& name, value_type const& value);
 };
 
-template <>
-inline void Upgrade::set_value<float>(std::string const& name, float const& value) {
-	m_values.insert(std::make_pair(name, value));
+template<>
+inline void Upgrade::set_value<std::string>(std::string const& name, std::string const& value) {
+	if (name == "name")
+		m_name = value;
+	else if (name == "description")
+		m_description = value;
+	else
+		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }
-
-template <typename value_type>
+template<>
+inline void Upgrade::set_value<float>(std::string const& name, float const& value) {
+	if (name == "mass") {
+		mulMass(0.f);
+		addMass(value);
+	} else if (name == "chance_to_take_damage")
+		m_chance_to_take_damage = value;
+	else
+		m_values.insert(std::make_pair(name, value));
+}
+template<typename value_type>
 inline void Upgrade::set_value(std::string const& name, value_type const& value) {
-	static_assert(true, "Only float-value upgrades are now supported.");
+	throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }
