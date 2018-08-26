@@ -1,0 +1,47 @@
+Fly_Engine.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 3 objects
+# Use '#' at the beginning of the string to make a commentary.
+# Structure of a line : "- field_type field-name = field_value"
+
+Object FlyEngine
+string name = Average Fly Engine
+string description = Generic engine, capable of normal flying with good efficience.
+float mass = 30.0
+float chance_to_take_damage = 0.7
+
+float maximum_acceleration = 4200
+float energy_usage_coefficient = 0.4
+
+float up_acceleration_percent = 0.5
+float down_acceleration_percent = 0.1
+float left_acceleration_percent = 0.25
+float right_acceleration_percent = 0.25
+
+
+Object FlyEngine
+string name = Rocket-type Fly Engine
+string description = Generic engine with increased upward acceleration, weights more, has increased chance to take damage.
+float mass = 37.0
+float chance_to_take_damage = 0.9
+
+float maximum_acceleration = 4200
+float energy_usage_coefficient = 0.4
+
+float up_acceleration_percent = 1.0
+float down_acceleration_percent = 0.01
+float left_acceleration_percent = 0.15
+float right_acceleration_percent = 0.15
+
+
+Object FlyEngine
+string name = Board-type Fly Engine
+string description = Generic engine with increased horizontal acceleration, weights less, has decreased chance to take damage.
+float mass = 24.0
+float chance_to_take_damage = 0.4
+
+float maximum_acceleration = 4200
+float energy_usage_coefficient = 0.4
+
+float up_acceleration_percent = 0.35
+float down_acceleration_percent = 0.1
+float left_acceleration_percent = 0.75
+float right_acceleration_percent = 0.75

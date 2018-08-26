@@ -1,0 +1,41 @@
+Shield_Generator.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 3 objects
+# Use '#' at the beginning of the string to make a commentary.
+# Structure of a line : "- field_type field-name = field_value"
+
+Object ShieldGenerator
+string name = Anti-Bullet Shield Generator
+string description = Generic anti-bullet shield generator, able to stop bullets with good eficiency.
+float mass = 6.0
+float chance_to_take_damage = 0.4
+
+float anti_energy_efficiency = 0.2
+float anti_projectile_efficiency = 0.4
+float anti_bullet_efficiency = 0.8
+float activation_energy = 100000.0
+float energy_per_second = 100000.0
+
+
+Object ShieldGenerator
+string name = Anti-Projectile Shield Generator
+string description = Generic anti-projectile shield generator, able to stop projectiles with good eficiency.
+float mass = 6.0
+float chance_to_take_damage = 0.4
+
+float anti_energy_efficiency = 0.2
+float anti_projectile_efficiency = 0.8
+float anti_bullet_efficiency = 0.4
+float activation_energy = 100000.0
+float energy_per_second = 100000.0
+
+
+Object ShieldGenerator
+string name = Anti-Energy Shield Generator
+string description = Generic anti-energy shield generator, able to stop energy-damage with good eficiency.
+float mass = 6.0
+float chance_to_take_damage = 0.4
+
+float anti_energy_efficiency = 0.999
+float anti_projectile_efficiency = 0.2
+float anti_bullet_efficiency = 0.2
+float activation_energy = 100000.0
+float energy_per_second = 100000.0

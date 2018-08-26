@@ -32,6 +32,9 @@
     <ClInclude Include="TimeControl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SharedFunctions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractException.cpp">

@@ -2,7 +2,7 @@
 #include "DefaultObjectStorageData.hpp"
 #include "Objects.hpp"
 
-ObjectStorage::ObjectStorage(Objects *objects, std::string const& path)
+ObjectStorage::ObjectStorage(std::shared_ptr<Objects> objects, std::string const& path)
 	: m_objects(objects), m_current_object(ObjectType::Empty),
 	m_current_object_counter(0), m_current_object_number(0) { load(path); }
 
@@ -21,6 +21,10 @@ ObjectType _switch(std::string const& type) {
 		return ObjectType::FlyEngine;
 	else if (type == "Weapon")
 		return ObjectType::Weapon;
+	else if (type == "ShieldGenerator")
+		return ObjectType::ShieldGenerator;
+	else if (type == "Trinket")
+		return ObjectType::Trinket;
 	else
 		return ObjectType::Empty;
 }
@@ -32,10 +36,8 @@ void ObjectStorage::parse_line(std::string const& line) {
 	std::string string;
 	s >> string;
 	if (string == "Object") {
-		char placeholder;
-		size_t number;
-		s >> number >> placeholder >> string;
-		if (number == ++m_current_object_counter && number <= m_current_object_number)
+		s >> string;
+		if (++m_current_object_counter <= m_current_object_number)
 			initialize_object(_switch(string), s);
 		else
 			throw Exceptions::FileParsingException("File seems to be corrupted");
@@ -48,6 +50,8 @@ void ObjectStorage::parse_line(std::string const& line) {
 #include "../../Objects/EquipableItems/EnergyStorage.hpp"
 #include "../../Objects/EquipableItems/FlyEngine.hpp"
 #include "../../Objects/EquipableItems/Weapon.hpp"
+#include "../../Objects/EquipableItems/Shield.hpp"
+#include "../../Objects/EquipableItems/Trinket.hpp"
 void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 	m_current_object = type;
 	float value;
@@ -62,6 +66,12 @@ void ObjectStorage::initialize_object(ObjectType type, std::istream &s) {
 		break;
 	case ObjectType::Weapon:
 		m_objects->m_weapon.push_back(std::unique_ptr<Weapon>(new Weapon()));
+		break;
+	case ObjectType::ShieldGenerator:
+		m_objects->m_shield_generator.push_back(std::unique_ptr<ShieldGenerator>(new ShieldGenerator()));
+		break;
+	case ObjectType::Trinket:
+		m_objects->m_trinket.push_back(std::unique_ptr<Trinket>(new Trinket()));
 		break;
 	}
 }
@@ -91,8 +101,9 @@ template<class function> void parse_field(std::string const& line, function f) {
 		f(s, v);
 	} else if (s == "string") {
 		std::string v;
-		iss >> s >> c >> v;
-		f(s, v);
+		iss >> s >> c;
+		std::getline(iss, v);
+		f(s, v.substr(1));
 	} else if (s == "Keys") {
 		KeyLayout v;
 		iss >> s >> c >> v;
@@ -123,6 +134,14 @@ void ObjectStorage::parse_object_line(std::string const& line) {
 	case ObjectType::Weapon:
 		if (!m_objects->m_weapon.empty())
 			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_weapon.back()->set_value(name, value); });
+		break;
+	case ObjectType::ShieldGenerator:
+		if (!m_objects->m_shield_generator.empty())
+			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_shield_generator.back()->set_value(name, value); });
+		break;
+	case ObjectType::Trinket:
+		if (!m_objects->m_trinket.empty())
+			parse_field(line, [this](std::string const& name, auto value) { m_objects->m_trinket.back()->set_value(name, value); });
 		break;
 	default:
 		throw Exceptions::FileParsingException("Unsupported object type was encountered.");

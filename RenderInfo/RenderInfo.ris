@@ -4,6 +4,11 @@ RenderInfo.ris is an ObjectStorage v0.1 file for SkyMages v0.2.3.249_dev with Re
 Palette Background
 Color 0.6, 0.85, 0.9
 
+Palette EnergyBar
+Color 0.99 1.00 0.78
+Color 0.71 0.48 0.65
+Color 0.41 0.03 0.30
+
 Palette MainActorPalette
 Color 1.0, 0.0, 0.0
 Color 0.0, 1.0, 0.0
@@ -58,16 +63,32 @@ Rectangle 1.0, zero_in_top_left, filled
 # Color 0.9, 0.0, 0.0
 # Ellipse 2.0, 60, zero_in_center, filled
 
-Object AbstractBulletProjectile
+Object Bullet
+Color 0.7, 0.4, 0.0
 Scale 0.1, 0.1, 0.1, 1.0
 Ellipse 1.0, 60, zero_in_center, filled
 
-Object AbstractPhysicalProjectile
-Color 0.4, 0.0, 0.0
-Scale 0.1, 0.1, 0.1, 1.0
+Object LargeBullet
+Color 0.7, 0.4, 0.0
+Scale 0.15, 0.15, 0.15, 1.0
 Ellipse 1.0, 60, zero_in_center, filled
 
-Object AbstractEnergyProjectile
-Color 0.9, 0.6, 0.6
-Scale 0.1, 0.1, 0.1, 1.0
+# Object Projectile
+# Color 0.4, 0.0, 0.0
+# Scale 0.1, 0.1, 0.1, 1.0
+# Ellipse 1.0, 60, zero_in_center, filled
+
+Object EnergySphere
+Color 0.41 0.03 0.30
+Scale 1.0, 1.0, 1.0, 1.0
 Ellipse 1.0, 60, zero_in_center, filled
+
+Object LargeEnergySphere
+Color 0.71 0.48 0.65
+Scale 4.0, 4.0, 4.0, 1.0
+Ellipse 1.0, 60, zero_in_center, filled
+
+Object EnergySquare
+Color 0.41 0.03 0.30
+Scale 1.0, 1.0, 1.0, 1.0
+Rectangle 2.0, zero_in_center, filled

@@ -4,7 +4,7 @@ class MainActor;
 class MainActorQueue;
 class ProjectileQueue;
 class ObjectQueue;
-enum class ControlEvent { move_up = 1, move_down = 2, move_left = 3, move_right = 4, anti_gravity = 5, left_weapon = 6, right_weapon = 7 };
+enum class ControlEvent { move_up = 1, move_down = 2, move_left = 3, move_right = 4, anti_gravity = 5, left_weapon = 6, right_weapon = 7, shield = 8 };
 namespace NetworkController {
 
 	void send_control_event(ControlEvent ev, bool direction = false);

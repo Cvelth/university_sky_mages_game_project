@@ -9,7 +9,7 @@ template <class... Ts> struct overloaded : Ts... { overloaded(Ts... f) : Ts(f)..
 template <class... Ts> auto overload(Ts... f) { return overloaded<Ts...>(f...); }
 
 template <typename lambda> 
-void parse_message_from_server(Message const& message, lambda action, Objects *objects) {
+void parse_message_from_server(Message const& message, lambda action, std::shared_ptr<Objects> objects) {
 	ObjectsStatic::initialize(objects);
 
 	MessageInputStream s(message);

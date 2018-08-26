@@ -12,13 +12,17 @@ class Objects;
 class ShootableObject;
 class ProjectileQueue;
 enum class ControlEvent;
+enum class ShootableObjectType;
 
-class ObjectsStatic {
-	static Objects *m_objects;
+template <typename Type>
+class StaticObject {
+	static std::shared_ptr<Type> m_object;
 public:
-	static void initialize(Objects *objects) { m_objects = objects; }
-	static Objects* get() { return m_objects; }
+	static void initialize(std::shared_ptr<Type> object) { m_object = object; }
+	static std::shared_ptr<Type> get() { return m_object; }
 };
+using ObjectsStatic = StaticObject<Objects>;
+using ActorsStatic = StaticObject<MainActorQueue>;
 
 template <typename Type>
 class Update {
@@ -62,6 +66,7 @@ public:
 	friend MessageInputStream& operator>>(MessageInputStream &s, std::shared_ptr<ShootableObject> &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, ProjectileQueue &v);
 	friend MessageInputStream& operator>>(MessageInputStream &s, ControlEvent &v);
+	friend MessageInputStream& operator>>(MessageInputStream &s, ShootableObjectType &v);
 };
 
 class MessageOutputStream {
@@ -90,6 +95,7 @@ public:
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, std::shared_ptr<ShootableObject> const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, ProjectileQueue const& v);
 	friend MessageOutputStream& operator<<(MessageOutputStream &s, ControlEvent const& v);
+	friend MessageOutputStream& operator<<(MessageOutputStream &s, ShootableObjectType const& v);
 };
 
 template <typename Head>

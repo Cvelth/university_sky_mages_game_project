@@ -1,0 +1,152 @@
+Weapon.stg is an ObjectStorage v0.1 file for SkyMages v0.3.3.403_dev with 6 objects
+# Use '#' at the beginning of the string to make a commentary.
+# Structure of a line : "- field_type field-name = field_value"
+
+Object Weapon
+string name = Semiautomatic Gun
+string description = Generic semiautomatic bullet weapon, able to fire average amount of bullets with good eficiency.
+float mass = 7.0
+float chance_to_take_damage = 0.4
+
+u_int ammo_type = 3
+u_int size = 1
+
+float damage = 8.0
+float firerate = 120.0
+boolean autofire_support = true
+
+float initial_ammo_speed = 70.0
+float initial_ammo_mass = 0.1
+float initial_ammo_size_h = 0.1
+float initial_ammo_size_v = 0.1
+string ammo_render_info = Bullet
+
+u_int ammo_capacity = 12
+float reload_cooldown = 0.9
+
+float energy_usage_coefficient = 0.09
+
+
+Object Weapon
+string name = Automatic Gun
+string description = Generic automatic bullet weapon, able to fire a lot of bullets with poor efficiency.
+float mass = 13.0
+float chance_to_take_damage = 0.6
+
+u_int ammo_type = 3
+u_int size = 1
+
+float damage = 2.4
+float firerate = 80.0
+boolean autofire_support = true
+
+float initial_ammo_speed = 120.0
+float initial_ammo_mass = 0.1
+float initial_ammo_size_h = 0.1
+float initial_ammo_size_v = 0.1
+string ammo_render_info = Bullet
+
+u_int ammo_capacity = 30
+float reload_cooldown = 1.3
+
+float energy_usage_coefficient = 0.10
+
+
+Object Weapon
+string name = Non-automatic Gun
+string description = Generic manual bullet weapon, able to fire low amount of bullets with incredible efficiency.
+float mass = 4.0
+float chance_to_take_damage = 0.2
+
+u_int ammo_type = 3
+u_int size = 1
+
+float damage = 57.0
+float firerate = 200.0
+boolean autofire_support = false
+
+float initial_ammo_speed = 210.0
+float initial_ammo_mass = 0.1
+float initial_ammo_size_h = 0.15
+float initial_ammo_size_v = 0.15
+string ammo_render_info = LargeBullet
+
+u_int ammo_capacity = 7
+float reload_cooldown = 0.6
+
+float energy_usage_coefficient = 0.08
+
+
+Object Weapon
+string name = Energy-Sphere Gun
+string description = Generic energy weapon, able to fire big energy spheres. Very big and heavy.
+float mass = 14.0
+float chance_to_take_damage = 0.9
+
+u_int ammo_type = 1
+u_int size = 1
+
+float damage = 4e+3
+float firerate = 200.0
+boolean autofire_support = false
+
+float initial_ammo_speed = 16.0
+float initial_ammo_mass = 1e-2
+float initial_ammo_size_h = 1
+float initial_ammo_size_v = 1
+string ammo_render_info = EnergySphere
+
+u_int ammo_capacity = 5
+float reload_cooldown = 1.7
+
+float energy_usage_coefficient = 1e-4
+
+
+Object Weapon
+string name = Energy-Square Gun
+string description = Generic energy weapon, able to fire big energy spheres. Very big and heavy.
+float mass = 19.0
+float chance_to_take_damage = 0.9
+
+u_int ammo_type = 1
+u_int size = 1
+
+float damage = 5e+3
+float firerate = 200.0
+boolean autofire_support = false
+
+float initial_ammo_speed = 12.0
+float initial_ammo_mass = 1e-2
+float initial_ammo_size_h = 2
+float initial_ammo_size_v = 1
+string ammo_render_info = EnergySquare
+
+u_int ammo_capacity = 3
+float reload_cooldown = 2.1
+
+float energy_usage_coefficient = 1e-4
+
+
+Object Weapon
+string name = Large-Energy-Sphere Gun
+string description = Generic energy weapon, able to fire big energy spheres. Very big and heavy.
+float mass = 37.0
+float chance_to_take_damage = 0.9
+
+u_int ammo_type = 1
+u_int size = 1
+
+float damage = 8e+4
+float firerate = 200.0
+boolean autofire_support = false
+
+float initial_ammo_speed = 2.0
+float initial_ammo_mass = 1e-2
+float initial_ammo_size_h = 4
+float initial_ammo_size_v = 4
+string ammo_render_info = LargeEnergySphere
+
+u_int ammo_capacity = 1
+float reload_cooldown = 2.9
+
+float energy_usage_coefficient = 1e-5

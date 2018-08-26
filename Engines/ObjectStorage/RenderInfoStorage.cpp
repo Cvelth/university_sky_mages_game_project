@@ -4,9 +4,9 @@ std::unordered_map<std::string, std::shared_ptr<RenderInfo>> RenderInfoStorage::
 std::unordered_map<std::string, RenderInfoStorage::Palette> RenderInfoStorage::m_palettes;
 bool RenderInfoStorage::wasRenderInfoLoaded;
 
-void initialize_render_info() {
+void initialize_render_info(std::string const& path) {
 	RenderInfoStorage render_info_storage;
-	render_info_storage.load();
+	render_info_storage.load(path);
 }
 void RenderInfoStorage::clean() {
 	wasRenderInfoLoaded = false;
@@ -94,6 +94,10 @@ void RenderInfoStorage::parse_line(std::string const& line) {
 			m_current_render_info.push_back(std::make_shared<RenderInfo>());
 	} else if (!parse_special_line(line))
 		throw Exceptions::FileParsingException("File seems to be corrupted");
+}
+
+void RenderInfoStorage::finalize_parsing() {
+	finalize_object(empty_mode);
 }
 
 #include "../MyGraphicsLibrary/mgl/Math/Vector.hpp"

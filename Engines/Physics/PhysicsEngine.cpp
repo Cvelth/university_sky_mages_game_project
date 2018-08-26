@@ -32,17 +32,26 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 		auto next_tick = std::chrono::steady_clock::now() + std::chrono::microseconds(UpdateInterval);
 
 		if (GameStateController::state() == GameState::Normal) {
-			m_actor_queue.for_each([this](std::shared_ptr<MainActor> go) {
-				processForces(go);
-				processMovement(go, m_map);
-				if (GameStateController::mode() == ProgramMode::Server)
-					processWeaponry(go, m_projectile_queue);
+			m_actor_queue.for_each([this](std::shared_ptr<MainActor> go, size_t id) {
+				if (go->is_alive()) {
+					processForces(go);
+					processMovement(go, m_map);
+					if (GameStateController::mode() == ProgramMode::Server)
+						processWeaponry(go, m_projectile_queue, id);
+				}
 			});
+			if (GameStateController::mode() == ProgramMode::Server)
+				m_projectile_queue.clone();
 			m_projectile_queue->for_each([this](std::shared_ptr<ShootableObject> go) {
 				processForces(go);
-				if (processMovement(go, m_map))
-					m_projectile_queue->remove(go);
+				if (processMovement(go, m_map) && GameStateController::mode() == ProgramMode::Server)
+					m_projectile_queue.next().remove(go);
+				if (GameStateController::mode() == ProgramMode::Server) 
+					if (processTargeting(go, m_actor_queue))
+						m_projectile_queue.next().remove(go);
 			});
+			if (GameStateController::mode() == ProgramMode::Server)
+				m_projectile_queue.swap();
 			m_object_queue.for_each([this](std::shared_ptr<IndependentObject> go) {
 				processForces(go);
 				processMovement(go, m_map);

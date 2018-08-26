@@ -8,6 +8,7 @@ class DoubleProjectileQueue;
 class IndependentObjectState;
 class MainActor;
 class Map;
+class ShootableObject;
 
 class PhysicsEngine {
 private:
@@ -25,7 +26,8 @@ protected:
 
 	static void processForces(std::shared_ptr<IndependentObjectState> os);
 	static bool processMovement(std::shared_ptr<IndependentObjectState> os, std::shared_ptr<Map> map);
-	static void processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue);
+	static void processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue, size_t id);
+	static bool processTargeting(std::shared_ptr<ShootableObject> so, MainActorQueue &actors);
 public:
 	PhysicsEngine(std::function<bool(void)> const& finishFlagAccess,
 		MainActorQueue &actor_queue, DoubleProjectileQueue &projectile_queue, ObjectQueue &object_queue);

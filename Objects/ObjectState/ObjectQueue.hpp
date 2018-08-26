@@ -41,6 +41,12 @@ public:
 	inline typename std::enable_if<queue_number >= 2>::type swap() {
 		m_current_queue = next_queue();
 	}
+
+	inline typename std::enable_if<queue_number >= 2>::type clone() {
+		auto next = next_queue();
+		m_queues[next].clear();
+		m_queues[next] = get();
+	}
 };
 #include <set>
 template <typename Type>
@@ -78,6 +84,8 @@ public:
 	virtual void remove(std::shared_ptr<Type> object) override { m_queue.erase(std::find(m_queue.begin(), m_queue.end(), object)); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) override { for (auto &it : m_queue) lambda(it); }
 	virtual void for_each(const std::function<void(std::shared_ptr<Type>)> &lambda) const override { for (auto &it : m_queue) lambda(it); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>, size_t)> &lambda) { size_t i = 0u; for (auto &it : m_queue) lambda(it, i++); }
+	virtual void for_each(const std::function<void(std::shared_ptr<Type>, size_t)> &lambda) const { size_t i = 0u; for (auto &it : m_queue) lambda(it, i++); }
 	virtual size_t size() const override { return m_queue.size(); }
 	virtual void clear() override { m_queue.clear(); }
 

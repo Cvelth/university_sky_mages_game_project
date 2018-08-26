@@ -137,6 +137,7 @@
     <ClInclude Include="PhysicsConstants.hpp" />
     <ClInclude Include="ProgramData.hpp" />
     <ClInclude Include="TimeControl.hpp" />
+    <ClInclude Include="SharedFunctions.hpp" />
     <ClInclude Include="vector.hpp" />
   </ItemGroup>
   <ItemGroup>

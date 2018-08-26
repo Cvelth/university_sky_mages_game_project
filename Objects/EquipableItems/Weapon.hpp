@@ -1,23 +1,18 @@
 #pragma once
-#include "Shared/AbstractException.hpp"
 #include "Objects/AbstractObjects/EquipableItem.hpp"
+#include "Objects/AbstractObjects/ShootableObject.hpp"
+class EnergyStorage;
+class ObjectStorage;
+class MainActor;
 
-enum class AmmoProjectileType {
-	Energy = 1, Physical = 2, Bullet = 3
-};
-DefineNewException(UnsupportedProjectileType);
 enum class WeaponSize {
 	Small = 3, One_Arm = 1, One_And_A_Half_Arm = 4, Two_Arm = 2, Big = 5
 };
-DefineNewException(UnsupportedWeaponSize);
 
-class ShootableObject;
-class EnergyStorage;
-class ObjectStorage;
 class Weapon : public EquipableItem {
 	friend ObjectStorage;
 private:
-	AmmoProjectileType m_ammo_type;
+	ShootableObjectType m_ammo_type;
 	WeaponSize m_size;
 protected:
 	float m_damage;
@@ -28,6 +23,7 @@ protected:
 	float m_initial_ammo_mass;
 	float m_initial_ammo_size_h;
 	float m_initial_ammo_size_v;
+	std::string m_ammo_render_info;
 
 	size_t m_ammo_capacity;
 	float m_reload_cooldown;
@@ -44,7 +40,7 @@ public:
 	~Weapon() {}
 	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
 
-	inline AmmoProjectileType ammoType() const {
+	inline ShootableObjectType ammoType() const {
 		return m_ammo_type;
 	}
 	inline WeaponSize size() const {
@@ -60,11 +56,14 @@ public:
 		return is_activated && is_reloaded();
 	}
 	bool is_reloaded() const;
-	std::shared_ptr<ShootableObject> shoot(float current_x, float current_y, float destination_x, float destination_y) const;;
+	std::shared_ptr<ShootableObject> shoot(size_t shooter_id, float current_x, float current_y, float destination_x, float destination_y) const;
 private:
 	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
 };
+
+#include "Shared/AbstractException.hpp"
+DefineNewException(UnsupportedWeaponSize);
 
 template<>
 inline void Weapon::set_value<std::string>(std::string const& name, std::string const& value) {
@@ -72,13 +71,15 @@ inline void Weapon::set_value<std::string>(std::string const& name, std::string 
 		m_name = value;
 	else if (name == "description")
 		m_description = value;
+	else if (name == "ammo_render_info")
+		m_ammo_render_info = value;
 	else
 		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }
 template<>
 inline void Weapon::set_value<unsigned int>(std::string const& name, unsigned int const& value) {
 	if (name == "ammo_type")
-		m_ammo_type = static_cast<AmmoProjectileType>(value);
+		m_ammo_type = static_cast<ShootableObjectType>(value);
 	else if (name == "size")
 		m_size = static_cast<WeaponSize>(value);
 	else if (name == "ammo_capacity") {
@@ -98,6 +99,8 @@ template<>
 inline void Weapon::set_value<float>(std::string const& name, float const& value) {
 	if (name == "mass")
 		addMass(value);
+	else if (name == "chance_to_take_damage")
+		m_chance_to_take_damage = value;
 	else if (name == "energy_usage_coefficient")
 		m_energy_usage_coefficient = value;
 	else if (name == "damage")
@@ -117,7 +120,6 @@ inline void Weapon::set_value<float>(std::string const& name, float const& value
 	else
 		throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }
-
 template<typename value_type>
 inline void Weapon::set_value(std::string const& name, value_type const& value) {
 	static_assert("Unsupported value type");
