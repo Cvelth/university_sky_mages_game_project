@@ -120,14 +120,6 @@
   <ItemGroup>
     <ClInclude Include="MainActor.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AbstractObjects\AbstractObjects.vcxproj">
-      <Project>{17253703-7209-43b3-863b-0a8fe5d524eb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\EquipableItems\EquipableItems.vcxproj">
-      <Project>{dfddc18d-7cdb-4842-94b5-5f7332ac95ec}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

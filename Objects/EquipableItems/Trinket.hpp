@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects/AbstractObjects/EquipableItem.hpp"
+#include "Objects/Objects/EquipableItem.hpp"
 
 class ObjectStorage;
 class Trinket : public EquipableItem {

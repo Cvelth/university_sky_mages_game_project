@@ -1,5 +1,5 @@
 #include "Shield.hpp"
-#include "../AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 float ShieldGenerator::get_efficience_coefficient(ShootableObjectType type) {
 	switch (type) {
 		case ShootableObjectType::Energy:
@@ -13,7 +13,7 @@ float ShieldGenerator::get_efficience_coefficient(ShootableObjectType type) {
 	}
 }
 
-#include "../EquipableItems/EnergyStorage.hpp"
+#include "Objects/EquipableItems/EnergyStorage.hpp"
 #include <iostream>
 void ShieldGenerator::activate() {
 	if (m_energy_source && m_energy_source->use(m_activation_energy))

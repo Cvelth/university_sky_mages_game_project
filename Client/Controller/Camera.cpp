@@ -1,5 +1,5 @@
 #include "Camera.hpp"
-#include "Objects/AbstractObjects/ActorObject.hpp"
+#include "Objects/Actors/Actor.hpp"
 #include "Objects/Map/Map.hpp"
 #include "Shared/vector.hpp"
 

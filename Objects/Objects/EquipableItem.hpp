@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Objects/ObjectState/DependentObject.hpp"
+#include "Objects/Objects/DependentObjectState.hpp"
 class EquipableItem : public DependentObjectState {
 protected:
 	std::string m_name;

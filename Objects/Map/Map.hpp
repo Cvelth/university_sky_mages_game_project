@@ -3,7 +3,6 @@
 #include <memory>
 class Block;
 class Camera;
-class RenderInfo;
 class MapGenerator;
 class MapStorage;
 class MessageInputStream;
@@ -36,7 +35,7 @@ public:
 	}
 	std::shared_ptr<Block> get(size_t w, size_t h) const;
 	float getSpeedMultiplier(size_t w, size_t h) const;
-	std::shared_ptr<RenderInfo> const getRenderInfo(size_t w, size_t h) const;
+	std::string const& getRenderInfo(size_t w, size_t h) const;
 	inline std::vector<std::shared_ptr<Block>>& get_blocks_data() {
 		return m_blocks;
 	}

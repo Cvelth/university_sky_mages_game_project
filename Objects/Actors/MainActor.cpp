@@ -184,7 +184,7 @@ scalar MainActor::mass() const {
 		(m_energy_storage ? m_energy_storage->mass() : 0.f);
 }
 
-MainActor::MainActor(float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::shared_ptr<RenderInfo> render_info) 
+MainActor::MainActor(float mass, vector const& acceleration, vector const& speed, vector const& position, vector const& size, std::string const& render_info)
 	: Actor(render_info, mass, size.at(0), size.at(1), position.at(0), position.at(1)), m_energy_storage(nullptr), m_engine(nullptr), m_weapon_left_arm(nullptr), m_weapon_right_arm(nullptr), m_shield(nullptr), m_trinket(nullptr) {
 	m_acceleration = acceleration;
 	m_speed = speed;

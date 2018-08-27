@@ -6,5 +6,4 @@ Object ServerSettings
 
 u_int Physical_Updates_Per_Second = 60
 string Object_Storage_Path = /ObjectStorage/;/Objects/;/../../ObjectStorage/
-string Render_Info_Path = /RenderInfo/;/../../RenderInfo/
 string Initialization_Commands = map generate;map save

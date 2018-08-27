@@ -141,11 +141,6 @@
     <ClCompile Include="RenderInfoStorage.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Objects\Actors\Actors.vcxproj">
-      <Project>{08ebffe9-3fbc-4778-b56f-ec6212be743e}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

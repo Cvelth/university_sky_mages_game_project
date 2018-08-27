@@ -115,7 +115,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapGenerator.cpp" />
   </ItemGroup>

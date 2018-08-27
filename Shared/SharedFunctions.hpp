@@ -1,6 +1,7 @@
 #pragma once
+#include <list>
+#include <sstream>
 namespace Functions {
-	#include <list>
 	inline std::list<std::string> split_string(std::string const& string, std::string const& separator = ";") {
 		std::list<std::string> ret;
 		size_t position, last_position = 0u, length = string.length();
@@ -11,5 +12,11 @@ namespace Functions {
 			last_position = position + 1;
 		}
 		return ret;
+	}
+
+	inline std::string string_indexation(std::string const& string, size_t index) {
+		std::ostringstream s;
+		s << string << '[' << index << ']';
+		return s.str();
 	}
 }
