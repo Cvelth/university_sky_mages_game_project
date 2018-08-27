@@ -4,8 +4,10 @@
 
 class EnergyStorage;
 class ObjectStorage;
+class MainActor;
 class ShieldGenerator : public EquipableItem {
 	friend ObjectStorage;
+	friend MainActor;
 private:
 	float m_anti_energy_efficiency;
 	float m_anti_projectile_efficiency;
@@ -13,7 +15,7 @@ private:
 
 	float m_activation_energy;
 	float m_energy_per_second;
-	EnergyStorage *m_energy_source;
+	std::shared_ptr<EnergyStorage> m_energy_source;
 
 	mutable bool is_activated;
 	mutable unsigned long long m_energy_usage_time;
@@ -23,7 +25,7 @@ protected:
 	float get_efficience_coefficient(ShootableObjectType type);
 public:
 	~ShieldGenerator() {}
-	void connect_to_energy_source(EnergyStorage *source) { m_energy_source = source; }
+	void connect_to_energy_source(std::shared_ptr<EnergyStorage> source) { m_energy_source = source; }
 
 	void activate();
 	inline void deactivate() const {
@@ -37,8 +39,31 @@ public:
 	void shield() const;
 private:
 	template <typename value_type>
+	bool upgrade_value(std::string const& name, value_type const& value);
+	template <typename value_type>
 	void set_value(std::string const& name, value_type const& value);
 };
+
+template<>
+inline bool ShieldGenerator::upgrade_value<float>(std::string const& name, float const& value) {
+	if (name == "anti_energy_efficiency")
+		m_anti_energy_efficiency *= value;
+	else if (name == "anti_projectile_efficiency")
+		m_anti_projectile_efficiency *= value;
+	else if (name == "anti_bullet_efficiency")
+		m_anti_bullet_efficiency *= value;
+	else if (name == "activation_energy")
+		m_activation_energy *= value;
+	else if (name == "energy_per_second")
+		m_energy_per_second *= value;
+	else
+		return false;
+	return true;
+}
+template<typename value_type>
+inline bool ShieldGenerator::upgrade_value(std::string const& name, value_type const& value) {
+	return false;
+}
 
 template<>
 inline void ShieldGenerator::set_value<std::string>(std::string const& name, std::string const& value) {
@@ -51,23 +76,18 @@ inline void ShieldGenerator::set_value<std::string>(std::string const& name, std
 }
 template<>
 inline void ShieldGenerator::set_value<float>(std::string const& name, float const& value) {
-	if (name == "mass")
+	if (name == "mass") {
+		mulMass(0.f);
 		addMass(value);
-	else if (name == "chance_to_take_damage")
+	} else if (name == "chance_to_take_damage")
 		m_chance_to_take_damage = value;
-	else if (name == "anti_energy_efficiency") {
-		if (value <= 0.f || value >= 1.f)
-			throw Exceptions::UnsupportedValueException(("Bad value of " + name + " was passed.").c_str());
+	else if (name == "anti_energy_efficiency")
 		m_anti_energy_efficiency = value;
-	} else if (name == "anti_projectile_efficiency") {
-		if (value <= 0.f || value >= 1.f)
-			throw Exceptions::UnsupportedValueException(("Bad value of " + name + " was passed.").c_str());
+	else if (name == "anti_projectile_efficiency")
 		m_anti_projectile_efficiency = value;
-	} else if (name == "anti_bullet_efficiency") {
-		if (value <= 0.f || value >= 1.f)
-			throw Exceptions::UnsupportedValueException(("Bad value of " + name + " was passed.").c_str());
+	else if (name == "anti_bullet_efficiency")
 		m_anti_bullet_efficiency = value;
-	} else if (name == "activation_energy")
+	else if (name == "activation_energy")
 		m_activation_energy = value;
 	else if (name == "energy_per_second")
 		m_energy_per_second = value;
@@ -76,5 +96,5 @@ inline void ShieldGenerator::set_value<float>(std::string const& name, float con
 }
 template<typename value_type>
 inline void ShieldGenerator::set_value(std::string const& name, value_type const& value) {
-	static_assert("Unsupported value type");
+	throw Exceptions::UnsupportedValueException("Unsupported value was passed");
 }

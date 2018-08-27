@@ -27,10 +27,10 @@ std::string Objects::get_program_version() {
 #include <random>
 static std::mt19937 g((std::random_device())());
 template <typename T>
-T* get_object(std::string const& name, std::vector<std::unique_ptr<T>> const& list, bool can_be_empty = false) {
+std::shared_ptr<T> get_object(std::string const& name, std::vector<std::unique_ptr<T>> const& list, bool can_be_empty = false) {
 	if (name != "")
 		if (auto ret = std::find_if(list.begin(), list.end(), [&name](std::unique_ptr<T> const& it) { return name == it->name(); }); ret != list.end())
-			return new T(**ret);
+			return std::make_unique<T>(**ret);
 
 	std::uniform_int_distribution<size_t> d(0, can_be_empty ? list.size() : list.size() - 1);
 
@@ -38,19 +38,21 @@ T* get_object(std::string const& name, std::vector<std::unique_ptr<T>> const& li
 	if (index == list.size())
 		return nullptr;
 	else
-		return new T(*list.at(index));
+		return std::make_unique<T>(*list.at(index));
 
 }
 #include "../../Objects/EquipableItems/EnergyStorage.hpp"
-EnergyStorage* Objects::get_energy_storage(std::string const& name) const { return get_object(name, m_energy_storage, false); }
+std::shared_ptr<EnergyStorage> Objects::get_energy_storage(std::string const& name) const { return get_object(name, m_energy_storage, false); }
 #include "../../Objects/EquipableItems/FlyEngine.hpp"
-FlyEngine* Objects::get_fly_engine(std::string const& name) const { return get_object(name, m_fly_engine, false); }
+std::shared_ptr<FlyEngine> Objects::get_fly_engine(std::string const& name) const { return get_object(name, m_fly_engine, false); }
 #include "../../Objects/EquipableItems/Weapon.hpp"
-Weapon* Objects::get_weapon(std::string const& name) const { return get_object(name, m_weapon, false); }
+std::shared_ptr<Weapon> Objects::get_weapon(std::string const& name) const { return get_object(name, m_weapon, false); }
 #include "../../Objects/EquipableItems/Shield.hpp"
-ShieldGenerator* Objects::get_shield_generator(std::string const& name) const { return get_object(name, m_shield_generator, false); }
+std::shared_ptr<ShieldGenerator> Objects::get_shield_generator(std::string const& name) const { return get_object(name, m_shield_generator, false); }
 #include "../../Objects/EquipableItems/Trinket.hpp"
-Trinket* Objects::get_trinket(std::string const& name) const { return get_object(name, m_trinket, true); }
+std::shared_ptr<Trinket> Objects::get_trinket(std::string const& name) const { return get_object(name, m_trinket, true); }
+#include "../../Objects/EquipableItems/Upgrade.hpp"
+std::shared_ptr<Upgrade> Objects::get_upgrade(std::string const& name) const { return get_object(name, m_upgrade, true); }
 
 size_t Objects::size() const {
 	return m_settings->size() + m_energy_storage.size() + m_fly_engine.size() + m_weapon.size() + m_shield_generator.size() + m_trinket.size();

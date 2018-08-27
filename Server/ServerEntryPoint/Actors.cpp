@@ -32,6 +32,7 @@ void actors_(MainActorQueue &actors, std::istream &input) {
 #include "Objects/EquipableItems/FlyEngine.hpp"
 #include "Objects/EquipableItems/Shield.hpp"
 #include "Objects/EquipableItems/Trinket.hpp"
+#include "Objects/EquipableItems/Upgrade.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
 
 void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors) {
@@ -56,13 +57,20 @@ void actors_add(std::shared_ptr<Objects> objects, MainActorQueue &actors) {
 	auto trinket = objects->get_trinket("");
 	actor->giveTrinket(trinket);
 
+	auto upgrade = objects->get_upgrade("");
+	actor->giveUpgrade(upgrade);
+
 	std::cout << "\rActor was given:   \n   "
 		<< energy_storage->name() << ",\n   " << fly_engine->name() << ",\n   " << left_weapon->name() << ",\n   "
 		<< right_weapon->name() << ",\n   " << shield->name() << ",\n   ";
 	if (trinket)
-		std::cout << trinket->name() << ".\n";
+		std::cout << trinket->name() << ",\n   ";
 	else
-		std::cout << "no trinket.\n";
+		std::cout << "no trinket,\n   ";
+	if (upgrade)
+		std::cout << upgrade->name() << ".\n";
+	else
+		std::cout << "no upgrade.\n";
 
 	actors.add(actor);
 	std::cout << "\rActor was generated.\n";

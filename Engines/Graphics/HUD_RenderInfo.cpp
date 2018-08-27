@@ -3,10 +3,11 @@
 #include "../MyGraphicsLibrary/MGL/Primitive/Primitive.hpp"
 #include "../MyGraphicsLibrary/MGL/SharedHeaders/Color.hpp"
 #include "../MyGraphicsLibrary/MGL/Math/Vector.hpp"
+#include "Engines/ObjectStorage/RenderInfoStorage.hpp"
 
-HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(energy_source) {
+HUD_RenderInfo::HUD_RenderInfo(std::shared_ptr<EnergyStorage> energy_source) : m_energy_source(energy_source) {
 	mgl::Primitive *outter = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-								new mgl::Color(253u, 255u, 200u));
+												&*RenderInfoStorage::getPalette("EnergyBar").at(0));
 	outter->initialize_data_edit();
 	outter->insert(mgl::math::vector(0.975f, 0.01f));
 	outter->insert(mgl::math::vector(0.995f, 0.01f));
@@ -15,7 +16,7 @@ HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(e
 	outter->stop_data_edit();
 
 	mgl::Primitive *inner = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-							   new mgl::Color(182u, 123u, 166u));
+											   &*RenderInfoStorage::getPalette("EnergyBar").at(1));
 	inner->initialize_data_edit();
 	inner->insert(mgl::math::vector(0.978f, 0.015f));
 	inner->insert(mgl::math::vector(0.992f, 0.015f));
@@ -24,7 +25,7 @@ HUD_RenderInfo::HUD_RenderInfo(EnergyStorage *energy_source) : m_energy_source(e
 	inner->stop_data_edit();
 
 	m_energy_bar = new mgl::Primitive(mgl::VertexConnectionType::TriangleStrip,
-									  new mgl::Color(104u, 7u, 77u));
+									  &*RenderInfoStorage::getPalette("EnergyBar").at(2));
 
 	addPrimitive(outter);
 	addPrimitive(inner);

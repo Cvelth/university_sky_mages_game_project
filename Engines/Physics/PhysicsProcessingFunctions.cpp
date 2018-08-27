@@ -19,7 +19,7 @@ vector const PhysicsEngine::calculateDragForce(vector const& speed, vector const
 				  calculateDimentionalDragForce(speed[1], size[0] * size[0]));
 }
 
-#include "Objects/ObjectState/IndependentObject.hpp"
+#include "Objects/Objects/IndependentObject.hpp"
 void PhysicsEngine::processForces(std::shared_ptr<IndependentObjectState> os) {
 	auto net_force = calculateGravityForce() + calculateDragForce(os->speed(), os->size());
 	auto acceleration = net_force * os->mass();
@@ -63,14 +63,14 @@ bool PhysicsEngine::processMovement(std::shared_ptr<IndependentObjectState> os, 
 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/Weapon.hpp"
-#include "Objects/ObjectState/ObjectQueue.hpp"
+#include "Objects/Objects/ObjectQueue.hpp"
 void PhysicsEngine::processWeaponry(std::shared_ptr<MainActor> ma, DoubleProjectileQueue &projectile_queue, size_t id) {
 	for (auto projectile : ma->shootingProcess(id))
 		if (projectile)
 			projectile_queue->add(projectile);
 }
 
-#include "Objects/AbstractObjects/ShootableObject.hpp"
+#include "Objects/Objects/ShootableObject.hpp"
 #include <iostream>
 bool PhysicsEngine::processTargeting(std::shared_ptr<ShootableObject> so, MainActorQueue &actors) {
 	bool ret = false;
