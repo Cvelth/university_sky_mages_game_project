@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>SkyMages_server_v0.4.1.489_dev</TargetName>
+    <TargetName>SkyMages_server_v0.4.2.520_dev</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>SkyMages_server_v0.4.1.489_dev</TargetName>
+    <TargetName>SkyMages_server_v0.4.2.520_dev</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>SkyMages_server_v0.4.1.489_dev</TargetName>
+    <TargetName>SkyMages_server_v0.4.2.520_dev</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>SkyMages_server_v0.4.1.489_dev</TargetName>
+    <TargetName>SkyMages_server_v0.4.2.520_dev</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,7 +138,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors.cpp" />
+    <ClCompile Include="Clients.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="server_process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="server.hpp" />
