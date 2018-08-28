@@ -78,7 +78,7 @@ void game_process(std::shared_ptr<Objects> o, size_t &client_index) {
 				actors = _actors;
 				if (client_index != -1) {
 					auto temp = actors.at(client_index);
-					if (hud) hud->change_energy_source(temp->energy_storage());
+					if (hud) hud->changeCenterFigure(temp);
 					if (camera) camera->changeCenterFigure(temp);
 					main_actor = temp;
 				}
@@ -104,7 +104,7 @@ void game_process(std::shared_ptr<Objects> o, size_t &client_index) {
 
 	controller.setMainActor(main_actor);
 
-	hud = std::make_shared<HUD_RenderInfo>(main_actor->energy_storage());
+	hud = std::make_shared<HUD_RenderInfo>(main_actor);
 	window.insertHUDRenderInfo(&*hud);
 
 	std::thread physics_thread(&PhysicsEngine::loop, physics_engine, false);
