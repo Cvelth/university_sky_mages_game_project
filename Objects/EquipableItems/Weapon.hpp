@@ -59,6 +59,8 @@ public:
 	bool is_reloaded() const;
 	std::shared_ptr<ShootableObject> shoot(size_t shooter_id, float current_x, float current_y, float destination_x, float destination_y) const;
 
+	float get_ammo_value() const;
+
 private:
 	template <typename value_type>
 	bool upgrade_value(std::string const& name, value_type const& value);

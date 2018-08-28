@@ -27,3 +27,11 @@ std::shared_ptr<ShootableObject> Weapon::shoot(size_t shooter_id, float current_
 	} else
 		return nullptr;
 }
+float Weapon::get_ammo_value() const {
+	is_reloaded();
+
+	if (m_current_ammo)
+		return float(m_current_ammo) / m_ammo_capacity;
+	else
+		return 1.f - float(Duration(m_last_shot_time + microseconds(1.e6f * m_reload_cooldown)).count() - now()) / 1.e6f / m_reload_cooldown;
+}
