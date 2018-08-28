@@ -84,8 +84,10 @@ void MainActor::giveTrinket(std::shared_ptr<Trinket> t) {
 	m_trinket = t;
 }
 void MainActor::giveUpgrade(std::shared_ptr<Upgrade> u) {
-	m_upgrades.insert(u);
-	activate_upgrade(u);
+	if (u) {
+		m_upgrades.insert(u);
+		activate_upgrade(u);
+	}
 }
 
 std::shared_ptr<EnergyStorage> MainActor::takeEnergyStorage() {
