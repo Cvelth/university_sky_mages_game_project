@@ -36,7 +36,7 @@ void PhysicsEngine::loop(bool destroy_engine_after_exit) {
 				if (go->is_alive()) {
 					processForces(go);
 					processMovement(go, m_map);
-					if (GameStateController::mode() == ProgramMode::Server)
+					//if (GameStateController::mode() == ProgramMode::Server)
 						processWeaponry(go, m_projectile_queue, id);
 				}
 			});
