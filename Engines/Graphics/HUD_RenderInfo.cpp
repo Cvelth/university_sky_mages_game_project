@@ -50,6 +50,46 @@ void HUD_RenderInfo::initialize_weapon_bars() {
 														   &*RenderInfoStorage::getPalette("EnergyBar").at(2)));
 	}
 }
+void HUD_RenderInfo::initialize_anti_gravity_indicator() {
+	addPrimitive(make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+								RenderInfoStorage::getPalette("EnergyBar").at(0),
+								mgl::math::vector(0.93f, 0.010f),
+								mgl::math::vector(0.93f, 0.050f),
+								mgl::math::vector(0.97f, 0.010f),
+								mgl::math::vector(0.97f, 0.050f)));
+	m_anti_gravity_indicator[0] = make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+												 RenderInfoStorage::getPalette("EnergyBar").at(1),
+												 mgl::math::vector(0.933f, 0.013f),
+												 mgl::math::vector(0.933f, 0.047f),
+												 mgl::math::vector(0.967f, 0.013f),
+												 mgl::math::vector(0.967f, 0.047f));
+	m_anti_gravity_indicator[1] = make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+												 RenderInfoStorage::getPalette("EnergyBar").at(2),
+												 mgl::math::vector(0.933f, 0.013f),
+												 mgl::math::vector(0.933f, 0.047f),
+												 mgl::math::vector(0.967f, 0.013f),
+												 mgl::math::vector(0.967f, 0.047f));
+}
+void HUD_RenderInfo::initialize_shield_indicator() {
+	addPrimitive(make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+								RenderInfoStorage::getPalette("EnergyBar").at(0),
+								mgl::math::vector(0.885f, 0.010f),
+								mgl::math::vector(0.885f, 0.050f),
+								mgl::math::vector(0.925f, 0.010f),
+								mgl::math::vector(0.925f, 0.050f)));
+	m_shield_indicator[0] = make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+										   RenderInfoStorage::getPalette("EnergyBar").at(1),
+										   mgl::math::vector(0.888f, 0.013f),
+										   mgl::math::vector(0.888f, 0.047f),
+										   mgl::math::vector(0.923f, 0.013f),
+										   mgl::math::vector(0.923f, 0.047f));
+	m_shield_indicator[1] = make_rectangle(mgl::VertexConnectionType::TriangleStrip,
+										   RenderInfoStorage::getPalette("EnergyBar").at(2),
+										   mgl::math::vector(0.888f, 0.013f),
+										   mgl::math::vector(0.888f, 0.047f),
+										   mgl::math::vector(0.923f, 0.013f),
+										   mgl::math::vector(0.923f, 0.047f));
+}
 
 #include "Objects/Actors/MainActor.hpp"
 #include "Objects/EquipableItems/EnergyStorage.hpp"
@@ -104,4 +144,47 @@ void HUD_RenderInfo::recalculate_ammo_values() {
 
 		}
 	}
+}
+
+HUD_RenderInfo::~HUD_RenderInfo() {
+	//delete m_anti_gravity_indicator[0];
+	//delete m_anti_gravity_indicator[1];
+	//delete m_shield_indicator[0];
+	//delete m_shield_indicator[1];
+}
+
+#include "Objects/EquipableItems/FlyEngine.hpp"
+#include "Objects/EquipableItems/Shield.hpp"
+void HUD_RenderInfo::insertVertexArray(mgl::VertexArray *vao) {
+	RenderInfo::insertVertexArray(vao);
+	m_anti_gravity_indicator[0]->insertVertexArray(vao);
+	m_anti_gravity_indicator[1]->insertVertexArray(vao);
+	m_shield_indicator[0]->insertVertexArray(vao);
+	m_shield_indicator[1]->insertVertexArray(vao);
+}
+void HUD_RenderInfo::send(mgl::DataUsage const& u) {
+	RenderInfo::send(u);
+	m_anti_gravity_indicator[0]->send(mgl::DataUsage::StaticDraw);
+	m_anti_gravity_indicator[1]->send(mgl::DataUsage::StaticDraw);
+	m_shield_indicator[0]->send(mgl::DataUsage::StaticDraw);
+	m_shield_indicator[1]->send(mgl::DataUsage::StaticDraw);
+}
+void HUD_RenderInfo::draw() {
+	RenderInfo::draw();
+	if (m_actor && m_actor->fly_engine() && m_actor->fly_engine()->is_anti_gravity_active())
+		m_anti_gravity_indicator[1]->draw();
+	else
+		m_anti_gravity_indicator[0]->draw();
+
+	if (m_actor && m_actor->shield() && m_actor->shield()->is_active())
+		m_shield_indicator[1]->draw();
+	else
+		m_shield_indicator[0]->draw();
+}
+void HUD_RenderInfo::clean() {
+	RenderInfo::clean();
+	m_anti_gravity_indicator[0]->clean();
+	m_anti_gravity_indicator[1]->clean();
+	m_shield_indicator[0]->clean();
+	m_shield_indicator[1]->clean();
 }
