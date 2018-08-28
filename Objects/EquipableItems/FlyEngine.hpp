@@ -63,6 +63,8 @@ public:
 	virtual vector acceleration(scalar const& mass, scalar const& time_correct) const;
 	virtual vector get_acceleration() const;
 	virtual void update_acceleration(vector const& acceleration);
+
+	bool is_anti_gravity_active() const { return m_anti_gravity_expected_mass != 0.f; }
 private:
 	template <typename value_type>
 	bool upgrade_value(std::string const& name, value_type const& value);
